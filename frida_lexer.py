@@ -105,6 +105,8 @@ t_ignore ' \t'
 
 #Funciones para tokens que necesitan funcionalidad extra
 
+#TODO checar si faltan funciones
+
 # token id revisa que no este en palabras reservadas
 # si si esta regresa el valor del token reservado
 def t_ID(t):
