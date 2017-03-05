@@ -1,0 +1,4 @@
+program myLittleDuck2017 :
+	{
+		test = 0;
+	}
