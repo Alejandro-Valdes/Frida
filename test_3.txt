@@ -1,0 +1,30 @@
+// Errores de semántica, pero léxico y sintaxis correcta
+programa pruebaFrida
+	rutina triangulo : pruebaRegresaFigura() {
+		variable entero iPunto1 = 12;
+		variable entero iPunto2 = 12;
+
+		variable triangulo trianguloRegreso = nuevo triangulo(iPunto1, iPunto2, 10, 10, 15, 15, "#FFF");
+
+		regresa trianguloRegreso;
+	}
+
+	lienzo {
+		variable entero eSize; 
+
+		eSize = leer();
+
+		variable circulo arrCirculo[eSize] = { nuevo circulo(15, 15, 15, "#545454"), nuevo circulo(45, 45, 45, "#585858") }
+
+		variable circulo miCirculo = nuevo circulo(10, 10, 10, "#E4E4E4");
+
+		arrCirculo[2] = miCirculo;
+
+		variable entero iIterador = 5;
+
+		si (iIterador < eSize) {
+			mientras (iIterador < eSize) {
+				arrCirculo[iIterador] = nuevo circulo(15, 15, 5, "#FFF");
+			}
+		}
+	}

@@ -1,0 +1,50 @@
+programa pruebaFrida2
+	variable cadena cPrueba = "";
+
+	rutina entero : rutinaRegresaEntero(entero : iParam, decimal dParam) {
+		variable bool bBandera = verdadero;
+
+		mientras (bBandera) {
+			si (iParam == 10) {
+				bBandera = falso;
+			}
+			sino_pero (iParam < dParam) {
+				iParam = dParam;
+				bBandera = falso;
+			}
+		}
+
+		regresa iParam;
+	}
+
+	rutina decimal : rutinaRegresaDecimal(decimal : dParam) {
+		variable decimal dCalculo = 20.5;
+
+		dParam = dCalculo * 15 + 10 / (45 * 52);
+
+		regresa dParam;
+	}
+
+	lienzo {
+		variable pincel miPincel = nuevo pincel(15, 20, "rojo");
+
+		miPincel.color("#FFF");
+		miPincel.pinta(12, 45);
+
+		miPincel.grafica("x^2+15", 10);
+
+		variable cuadrado miCuadrado = nuevo cuadrado(45, 45, 5, "#000");
+
+		miCuadrado.avanza(52);
+
+		variable circulo miCirculo = nuevo circulo(54, 21, 2, "#F15A45");
+
+		miCirculo.crece(2);
+		miCirculo.elimina();
+		miCirculo.grosor(12);
+
+		variable triangulo miTriangulo = nuevo triangulo(15, 15, 12, 12, 13, 13, "#E5E5E5");
+
+		triangulo.relleno("#565656");
+		triangulo.gira(90);
+	}

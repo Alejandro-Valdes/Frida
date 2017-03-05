@@ -1,0 +1,1280 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> PROGRAMA ID COLON programa2
+Rule 2     programa2 -> vars
+Rule 3     programa2 -> bloque
+Rule 4     vars -> VAR vars2
+Rule 5     vars2 -> ID vars3
+Rule 6     vars3 -> COMA vars2
+Rule 7     vars3 -> COLON tipo SEMICOLON vars2
+Rule 8     vars3 -> COLON tipo SEMICOLON
+Rule 9     vars3 -> COLON tipo SEMICOLON bloque
+Rule 10    vars3 -> vars2
+Rule 11    tipo -> TYPEINT
+Rule 12    tipo -> TYPEFLOAT
+Rule 13    bloque -> LBRACE bloque2
+Rule 14    bloque2 -> estatuto bloque2
+Rule 15    bloque2 -> RBRACE
+Rule 16    estatuto -> asignacion
+Rule 17    estatuto -> condicion
+Rule 18    estatuto -> escritura
+Rule 19    asignacion -> ID ASIGN expresion SEMICOLON
+Rule 20    condicion -> IF LPARENTHESIS expresion RPARENTHESIS bloque condicion2
+Rule 21    condicion2 -> SEMICOLON
+Rule 22    condicion2 -> ELSE bloque SEMICOLON
+Rule 23    escritura -> PRINT LPARENTHESIS escritura2
+Rule 24    escritura2 -> expresion escritura3
+Rule 25    escritura3 -> POINT escritura2
+Rule 26    escritura3 -> RPARENTHESIS SEMICOLON
+Rule 27    expresion -> exp
+Rule 28    expresion -> exp expresion2
+Rule 29    expresion2 -> GTHAN expresion
+Rule 30    expresion2 -> LTHAN expresion
+Rule 31    expresion2 -> NOTEQUAL expresion
+Rule 32    exp -> termino
+Rule 33    exp -> termino exp2
+Rule 34    exp2 -> PLUS exp
+Rule 35    exp2 -> MINUS exp
+Rule 36    termino -> factor
+Rule 37    termino -> factor termino2
+Rule 38    termino2 -> TIMES termino
+Rule 39    termino2 -> DIVIDE termino
+Rule 40    factor -> LPARENTHESIS expresion RPARENTHESIS
+Rule 41    factor -> varcte
+Rule 42    factor -> PLUS varcte
+Rule 43    factor -> MINUS varcte
+Rule 44    varcte -> ID
+Rule 45    varcte -> INT
+Rule 46    varcte -> FLOAT
+Rule 47    varcte -> STRING
+
+Terminals, with rules where they appear
+
+ASIGN                : 19
+COLON                : 1 7 8 9
+COMA                 : 6
+DIVIDE               : 39
+ELSE                 : 22
+FLOAT                : 46
+GTHAN                : 29
+ID                   : 1 5 19 44
+IF                   : 20
+INT                  : 45
+LBRACE               : 13
+LPARENTHESIS         : 20 23 40
+LTHAN                : 30
+MINUS                : 35 43
+NOTEQUAL             : 31
+PLUS                 : 34 42
+POINT                : 25
+PRINT                : 23
+PROGRAMA             : 1
+RBRACE               : 15
+RPARENTHESIS         : 20 26 40
+SEMICOLON            : 7 8 9 19 21 22 26
+STRING               : 47
+TIMES                : 38
+TYPEFLOAT            : 12
+TYPEINT              : 11
+VAR                  : 4
+error                : 
+
+Nonterminals, with rules where they appear
+
+asignacion           : 16
+bloque               : 3 9 20 22
+bloque2              : 13 14
+condicion            : 17
+condicion2           : 20
+escritura            : 18
+escritura2           : 23 25
+escritura3           : 24
+estatuto             : 14
+exp                  : 27 28 34 35
+exp2                 : 33
+expresion            : 19 20 24 29 30 31 40
+expresion2           : 28
+factor               : 36 37
+programa             : 0
+programa2            : 1
+termino              : 32 33 38 39
+termino2             : 37
+tipo                 : 7 8 9
+varcte               : 41 42 43
+vars                 : 2
+vars2                : 4 6 7 10
+vars3                : 5
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . PROGRAMA ID COLON programa2
+
+    PROGRAMA        shift and go to state 2
+
+    programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> PROGRAMA . ID COLON programa2
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) programa -> PROGRAMA ID . COLON programa2
+
+    COLON           shift and go to state 4
+
+
+state 4
+
+    (1) programa -> PROGRAMA ID COLON . programa2
+    (2) programa2 -> . vars
+    (3) programa2 -> . bloque
+    (4) vars -> . VAR vars2
+    (13) bloque -> . LBRACE bloque2
+
+    VAR             shift and go to state 8
+    LBRACE          shift and go to state 5
+
+    bloque                         shift and go to state 9
+    programa2                      shift and go to state 7
+    vars                           shift and go to state 6
+
+state 5
+
+    (13) bloque -> LBRACE . bloque2
+    (14) bloque2 -> . estatuto bloque2
+    (15) bloque2 -> . RBRACE
+    (16) estatuto -> . asignacion
+    (17) estatuto -> . condicion
+    (18) estatuto -> . escritura
+    (19) asignacion -> . ID ASIGN expresion SEMICOLON
+    (20) condicion -> . IF LPARENTHESIS expresion RPARENTHESIS bloque condicion2
+    (23) escritura -> . PRINT LPARENTHESIS escritura2
+
+    RBRACE          shift and go to state 11
+    ID              shift and go to state 17
+    IF              shift and go to state 16
+    PRINT           shift and go to state 15
+
+    bloque2                        shift and go to state 10
+    asignacion                     shift and go to state 12
+    estatuto                       shift and go to state 13
+    condicion                      shift and go to state 14
+    escritura                      shift and go to state 18
+
+state 6
+
+    (2) programa2 -> vars .
+
+    $end            reduce using rule 2 (programa2 -> vars .)
+
+
+state 7
+
+    (1) programa -> PROGRAMA ID COLON programa2 .
+
+    $end            reduce using rule 1 (programa -> PROGRAMA ID COLON programa2 .)
+
+
+state 8
+
+    (4) vars -> VAR . vars2
+    (5) vars2 -> . ID vars3
+
+    ID              shift and go to state 20
+
+    vars2                          shift and go to state 19
+
+state 9
+
+    (3) programa2 -> bloque .
+
+    $end            reduce using rule 3 (programa2 -> bloque .)
+
+
+state 10
+
+    (13) bloque -> LBRACE bloque2 .
+
+    SEMICOLON       reduce using rule 13 (bloque -> LBRACE bloque2 .)
+    ELSE            reduce using rule 13 (bloque -> LBRACE bloque2 .)
+    $end            reduce using rule 13 (bloque -> LBRACE bloque2 .)
+
+
+state 11
+
+    (15) bloque2 -> RBRACE .
+
+    $end            reduce using rule 15 (bloque2 -> RBRACE .)
+    SEMICOLON       reduce using rule 15 (bloque2 -> RBRACE .)
+    ELSE            reduce using rule 15 (bloque2 -> RBRACE .)
+
+
+state 12
+
+    (16) estatuto -> asignacion .
+
+    RBRACE          reduce using rule 16 (estatuto -> asignacion .)
+    ID              reduce using rule 16 (estatuto -> asignacion .)
+    IF              reduce using rule 16 (estatuto -> asignacion .)
+    PRINT           reduce using rule 16 (estatuto -> asignacion .)
+
+
+state 13
+
+    (14) bloque2 -> estatuto . bloque2
+    (14) bloque2 -> . estatuto bloque2
+    (15) bloque2 -> . RBRACE
+    (16) estatuto -> . asignacion
+    (17) estatuto -> . condicion
+    (18) estatuto -> . escritura
+    (19) asignacion -> . ID ASIGN expresion SEMICOLON
+    (20) condicion -> . IF LPARENTHESIS expresion RPARENTHESIS bloque condicion2
+    (23) escritura -> . PRINT LPARENTHESIS escritura2
+
+    RBRACE          shift and go to state 11
+    ID              shift and go to state 17
+    IF              shift and go to state 16
+    PRINT           shift and go to state 15
+
+    bloque2                        shift and go to state 21
+    asignacion                     shift and go to state 12
+    estatuto                       shift and go to state 13
+    condicion                      shift and go to state 14
+    escritura                      shift and go to state 18
+
+state 14
+
+    (17) estatuto -> condicion .
+
+    RBRACE          reduce using rule 17 (estatuto -> condicion .)
+    ID              reduce using rule 17 (estatuto -> condicion .)
+    IF              reduce using rule 17 (estatuto -> condicion .)
+    PRINT           reduce using rule 17 (estatuto -> condicion .)
+
+
+state 15
+
+    (23) escritura -> PRINT . LPARENTHESIS escritura2
+
+    LPARENTHESIS    shift and go to state 22
+
+
+state 16
+
+    (20) condicion -> IF . LPARENTHESIS expresion RPARENTHESIS bloque condicion2
+
+    LPARENTHESIS    shift and go to state 23
+
+
+state 17
+
+    (19) asignacion -> ID . ASIGN expresion SEMICOLON
+
+    ASIGN           shift and go to state 24
+
+
+state 18
+
+    (18) estatuto -> escritura .
+
+    RBRACE          reduce using rule 18 (estatuto -> escritura .)
+    ID              reduce using rule 18 (estatuto -> escritura .)
+    IF              reduce using rule 18 (estatuto -> escritura .)
+    PRINT           reduce using rule 18 (estatuto -> escritura .)
+
+
+state 19
+
+    (4) vars -> VAR vars2 .
+
+    $end            reduce using rule 4 (vars -> VAR vars2 .)
+
+
+state 20
+
+    (5) vars2 -> ID . vars3
+    (6) vars3 -> . COMA vars2
+    (7) vars3 -> . COLON tipo SEMICOLON vars2
+    (8) vars3 -> . COLON tipo SEMICOLON
+    (9) vars3 -> . COLON tipo SEMICOLON bloque
+    (10) vars3 -> . vars2
+    (5) vars2 -> . ID vars3
+
+    COMA            shift and go to state 28
+    COLON           shift and go to state 27
+    ID              shift and go to state 20
+
+    vars3                          shift and go to state 25
+    vars2                          shift and go to state 26
+
+state 21
+
+    (14) bloque2 -> estatuto bloque2 .
+
+    $end            reduce using rule 14 (bloque2 -> estatuto bloque2 .)
+    SEMICOLON       reduce using rule 14 (bloque2 -> estatuto bloque2 .)
+    ELSE            reduce using rule 14 (bloque2 -> estatuto bloque2 .)
+
+
+state 22
+
+    (23) escritura -> PRINT LPARENTHESIS . escritura2
+    (24) escritura2 -> . expresion escritura3
+    (27) expresion -> . exp
+    (28) expresion -> . exp expresion2
+    (32) exp -> . termino
+    (33) exp -> . termino exp2
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    expresion                      shift and go to state 29
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 36
+    exp                            shift and go to state 37
+    factor                         shift and go to state 38
+    escritura2                     shift and go to state 39
+
+state 23
+
+    (20) condicion -> IF LPARENTHESIS . expresion RPARENTHESIS bloque condicion2
+    (27) expresion -> . exp
+    (28) expresion -> . exp expresion2
+    (32) exp -> . termino
+    (33) exp -> . termino exp2
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    expresion                      shift and go to state 42
+    termino                        shift and go to state 36
+    exp                            shift and go to state 37
+    factor                         shift and go to state 38
+    varcte                         shift and go to state 41
+
+state 24
+
+    (19) asignacion -> ID ASIGN . expresion SEMICOLON
+    (27) expresion -> . exp
+    (28) expresion -> . exp expresion2
+    (32) exp -> . termino
+    (33) exp -> . termino exp2
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    expresion                      shift and go to state 43
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 36
+    exp                            shift and go to state 37
+    factor                         shift and go to state 38
+
+state 25
+
+    (5) vars2 -> ID vars3 .
+
+    $end            reduce using rule 5 (vars2 -> ID vars3 .)
+
+
+state 26
+
+    (10) vars3 -> vars2 .
+
+    $end            reduce using rule 10 (vars3 -> vars2 .)
+
+
+state 27
+
+    (7) vars3 -> COLON . tipo SEMICOLON vars2
+    (8) vars3 -> COLON . tipo SEMICOLON
+    (9) vars3 -> COLON . tipo SEMICOLON bloque
+    (11) tipo -> . TYPEINT
+    (12) tipo -> . TYPEFLOAT
+
+    TYPEINT         shift and go to state 45
+    TYPEFLOAT       shift and go to state 46
+
+    tipo                           shift and go to state 44
+
+state 28
+
+    (6) vars3 -> COMA . vars2
+    (5) vars2 -> . ID vars3
+
+    ID              shift and go to state 20
+
+    vars2                          shift and go to state 47
+
+state 29
+
+    (24) escritura2 -> expresion . escritura3
+    (25) escritura3 -> . POINT escritura2
+    (26) escritura3 -> . RPARENTHESIS SEMICOLON
+
+    POINT           shift and go to state 48
+    RPARENTHESIS    shift and go to state 49
+
+    escritura3                     shift and go to state 50
+
+state 30
+
+    (45) varcte -> INT .
+
+    TIMES           reduce using rule 45 (varcte -> INT .)
+    DIVIDE          reduce using rule 45 (varcte -> INT .)
+    PLUS            reduce using rule 45 (varcte -> INT .)
+    MINUS           reduce using rule 45 (varcte -> INT .)
+    GTHAN           reduce using rule 45 (varcte -> INT .)
+    LTHAN           reduce using rule 45 (varcte -> INT .)
+    NOTEQUAL        reduce using rule 45 (varcte -> INT .)
+    RPARENTHESIS    reduce using rule 45 (varcte -> INT .)
+    POINT           reduce using rule 45 (varcte -> INT .)
+    SEMICOLON       reduce using rule 45 (varcte -> INT .)
+
+
+state 31
+
+    (46) varcte -> FLOAT .
+
+    TIMES           reduce using rule 46 (varcte -> FLOAT .)
+    DIVIDE          reduce using rule 46 (varcte -> FLOAT .)
+    PLUS            reduce using rule 46 (varcte -> FLOAT .)
+    MINUS           reduce using rule 46 (varcte -> FLOAT .)
+    GTHAN           reduce using rule 46 (varcte -> FLOAT .)
+    LTHAN           reduce using rule 46 (varcte -> FLOAT .)
+    NOTEQUAL        reduce using rule 46 (varcte -> FLOAT .)
+    RPARENTHESIS    reduce using rule 46 (varcte -> FLOAT .)
+    POINT           reduce using rule 46 (varcte -> FLOAT .)
+    SEMICOLON       reduce using rule 46 (varcte -> FLOAT .)
+
+
+state 32
+
+    (40) factor -> LPARENTHESIS . expresion RPARENTHESIS
+    (27) expresion -> . exp
+    (28) expresion -> . exp expresion2
+    (32) exp -> . termino
+    (33) exp -> . termino exp2
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    expresion                      shift and go to state 51
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 36
+    exp                            shift and go to state 37
+    factor                         shift and go to state 38
+
+state 33
+
+    (44) varcte -> ID .
+
+    TIMES           reduce using rule 44 (varcte -> ID .)
+    DIVIDE          reduce using rule 44 (varcte -> ID .)
+    PLUS            reduce using rule 44 (varcte -> ID .)
+    MINUS           reduce using rule 44 (varcte -> ID .)
+    GTHAN           reduce using rule 44 (varcte -> ID .)
+    LTHAN           reduce using rule 44 (varcte -> ID .)
+    NOTEQUAL        reduce using rule 44 (varcte -> ID .)
+    RPARENTHESIS    reduce using rule 44 (varcte -> ID .)
+    POINT           reduce using rule 44 (varcte -> ID .)
+    SEMICOLON       reduce using rule 44 (varcte -> ID .)
+
+
+state 34
+
+    (47) varcte -> STRING .
+
+    TIMES           reduce using rule 47 (varcte -> STRING .)
+    DIVIDE          reduce using rule 47 (varcte -> STRING .)
+    PLUS            reduce using rule 47 (varcte -> STRING .)
+    MINUS           reduce using rule 47 (varcte -> STRING .)
+    GTHAN           reduce using rule 47 (varcte -> STRING .)
+    LTHAN           reduce using rule 47 (varcte -> STRING .)
+    NOTEQUAL        reduce using rule 47 (varcte -> STRING .)
+    RPARENTHESIS    reduce using rule 47 (varcte -> STRING .)
+    POINT           reduce using rule 47 (varcte -> STRING .)
+    SEMICOLON       reduce using rule 47 (varcte -> STRING .)
+
+
+state 35
+
+    (42) factor -> PLUS . varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    varcte                         shift and go to state 52
+
+state 36
+
+    (32) exp -> termino .
+    (33) exp -> termino . exp2
+    (34) exp2 -> . PLUS exp
+    (35) exp2 -> . MINUS exp
+
+    GTHAN           reduce using rule 32 (exp -> termino .)
+    LTHAN           reduce using rule 32 (exp -> termino .)
+    NOTEQUAL        reduce using rule 32 (exp -> termino .)
+    POINT           reduce using rule 32 (exp -> termino .)
+    RPARENTHESIS    reduce using rule 32 (exp -> termino .)
+    SEMICOLON       reduce using rule 32 (exp -> termino .)
+    PLUS            shift and go to state 54
+    MINUS           shift and go to state 55
+
+    exp2                           shift and go to state 53
+
+state 37
+
+    (27) expresion -> exp .
+    (28) expresion -> exp . expresion2
+    (29) expresion2 -> . GTHAN expresion
+    (30) expresion2 -> . LTHAN expresion
+    (31) expresion2 -> . NOTEQUAL expresion
+
+    RPARENTHESIS    reduce using rule 27 (expresion -> exp .)
+    POINT           reduce using rule 27 (expresion -> exp .)
+    SEMICOLON       reduce using rule 27 (expresion -> exp .)
+    GTHAN           shift and go to state 58
+    LTHAN           shift and go to state 59
+    NOTEQUAL        shift and go to state 56
+
+    expresion2                     shift and go to state 57
+
+state 38
+
+    (36) termino -> factor .
+    (37) termino -> factor . termino2
+    (38) termino2 -> . TIMES termino
+    (39) termino2 -> . DIVIDE termino
+
+    PLUS            reduce using rule 36 (termino -> factor .)
+    MINUS           reduce using rule 36 (termino -> factor .)
+    GTHAN           reduce using rule 36 (termino -> factor .)
+    LTHAN           reduce using rule 36 (termino -> factor .)
+    NOTEQUAL        reduce using rule 36 (termino -> factor .)
+    POINT           reduce using rule 36 (termino -> factor .)
+    RPARENTHESIS    reduce using rule 36 (termino -> factor .)
+    SEMICOLON       reduce using rule 36 (termino -> factor .)
+    TIMES           shift and go to state 61
+    DIVIDE          shift and go to state 60
+
+    termino2                       shift and go to state 62
+
+state 39
+
+    (23) escritura -> PRINT LPARENTHESIS escritura2 .
+
+    RBRACE          reduce using rule 23 (escritura -> PRINT LPARENTHESIS escritura2 .)
+    ID              reduce using rule 23 (escritura -> PRINT LPARENTHESIS escritura2 .)
+    IF              reduce using rule 23 (escritura -> PRINT LPARENTHESIS escritura2 .)
+    PRINT           reduce using rule 23 (escritura -> PRINT LPARENTHESIS escritura2 .)
+
+
+state 40
+
+    (43) factor -> MINUS . varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    varcte                         shift and go to state 63
+
+state 41
+
+    (41) factor -> varcte .
+
+    TIMES           reduce using rule 41 (factor -> varcte .)
+    DIVIDE          reduce using rule 41 (factor -> varcte .)
+    PLUS            reduce using rule 41 (factor -> varcte .)
+    MINUS           reduce using rule 41 (factor -> varcte .)
+    GTHAN           reduce using rule 41 (factor -> varcte .)
+    LTHAN           reduce using rule 41 (factor -> varcte .)
+    NOTEQUAL        reduce using rule 41 (factor -> varcte .)
+    POINT           reduce using rule 41 (factor -> varcte .)
+    RPARENTHESIS    reduce using rule 41 (factor -> varcte .)
+    SEMICOLON       reduce using rule 41 (factor -> varcte .)
+
+
+state 42
+
+    (20) condicion -> IF LPARENTHESIS expresion . RPARENTHESIS bloque condicion2
+
+    RPARENTHESIS    shift and go to state 64
+
+
+state 43
+
+    (19) asignacion -> ID ASIGN expresion . SEMICOLON
+
+    SEMICOLON       shift and go to state 65
+
+
+state 44
+
+    (7) vars3 -> COLON tipo . SEMICOLON vars2
+    (8) vars3 -> COLON tipo . SEMICOLON
+    (9) vars3 -> COLON tipo . SEMICOLON bloque
+
+    SEMICOLON       shift and go to state 66
+
+
+state 45
+
+    (11) tipo -> TYPEINT .
+
+    SEMICOLON       reduce using rule 11 (tipo -> TYPEINT .)
+
+
+state 46
+
+    (12) tipo -> TYPEFLOAT .
+
+    SEMICOLON       reduce using rule 12 (tipo -> TYPEFLOAT .)
+
+
+state 47
+
+    (6) vars3 -> COMA vars2 .
+
+    $end            reduce using rule 6 (vars3 -> COMA vars2 .)
+
+
+state 48
+
+    (25) escritura3 -> POINT . escritura2
+    (24) escritura2 -> . expresion escritura3
+    (27) expresion -> . exp
+    (28) expresion -> . exp expresion2
+    (32) exp -> . termino
+    (33) exp -> . termino exp2
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    expresion                      shift and go to state 29
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 36
+    exp                            shift and go to state 37
+    factor                         shift and go to state 38
+    escritura2                     shift and go to state 67
+
+state 49
+
+    (26) escritura3 -> RPARENTHESIS . SEMICOLON
+
+    SEMICOLON       shift and go to state 68
+
+
+state 50
+
+    (24) escritura2 -> expresion escritura3 .
+
+    RBRACE          reduce using rule 24 (escritura2 -> expresion escritura3 .)
+    ID              reduce using rule 24 (escritura2 -> expresion escritura3 .)
+    IF              reduce using rule 24 (escritura2 -> expresion escritura3 .)
+    PRINT           reduce using rule 24 (escritura2 -> expresion escritura3 .)
+
+
+state 51
+
+    (40) factor -> LPARENTHESIS expresion . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 69
+
+
+state 52
+
+    (42) factor -> PLUS varcte .
+
+    TIMES           reduce using rule 42 (factor -> PLUS varcte .)
+    DIVIDE          reduce using rule 42 (factor -> PLUS varcte .)
+    PLUS            reduce using rule 42 (factor -> PLUS varcte .)
+    MINUS           reduce using rule 42 (factor -> PLUS varcte .)
+    GTHAN           reduce using rule 42 (factor -> PLUS varcte .)
+    LTHAN           reduce using rule 42 (factor -> PLUS varcte .)
+    NOTEQUAL        reduce using rule 42 (factor -> PLUS varcte .)
+    POINT           reduce using rule 42 (factor -> PLUS varcte .)
+    RPARENTHESIS    reduce using rule 42 (factor -> PLUS varcte .)
+    SEMICOLON       reduce using rule 42 (factor -> PLUS varcte .)
+
+
+state 53
+
+    (33) exp -> termino exp2 .
+
+    GTHAN           reduce using rule 33 (exp -> termino exp2 .)
+    LTHAN           reduce using rule 33 (exp -> termino exp2 .)
+    NOTEQUAL        reduce using rule 33 (exp -> termino exp2 .)
+    POINT           reduce using rule 33 (exp -> termino exp2 .)
+    RPARENTHESIS    reduce using rule 33 (exp -> termino exp2 .)
+    SEMICOLON       reduce using rule 33 (exp -> termino exp2 .)
+
+
+state 54
+
+    (34) exp2 -> PLUS . exp
+    (32) exp -> . termino
+    (33) exp -> . termino exp2
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 36
+    exp                            shift and go to state 70
+    factor                         shift and go to state 38
+
+state 55
+
+    (35) exp2 -> MINUS . exp
+    (32) exp -> . termino
+    (33) exp -> . termino exp2
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 36
+    exp                            shift and go to state 71
+    factor                         shift and go to state 38
+
+state 56
+
+    (31) expresion2 -> NOTEQUAL . expresion
+    (27) expresion -> . exp
+    (28) expresion -> . exp expresion2
+    (32) exp -> . termino
+    (33) exp -> . termino exp2
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    expresion                      shift and go to state 72
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 36
+    exp                            shift and go to state 37
+    factor                         shift and go to state 38
+
+state 57
+
+    (28) expresion -> exp expresion2 .
+
+    RPARENTHESIS    reduce using rule 28 (expresion -> exp expresion2 .)
+    POINT           reduce using rule 28 (expresion -> exp expresion2 .)
+    SEMICOLON       reduce using rule 28 (expresion -> exp expresion2 .)
+
+
+state 58
+
+    (29) expresion2 -> GTHAN . expresion
+    (27) expresion -> . exp
+    (28) expresion -> . exp expresion2
+    (32) exp -> . termino
+    (33) exp -> . termino exp2
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    expresion                      shift and go to state 73
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 36
+    exp                            shift and go to state 37
+    factor                         shift and go to state 38
+
+state 59
+
+    (30) expresion2 -> LTHAN . expresion
+    (27) expresion -> . exp
+    (28) expresion -> . exp expresion2
+    (32) exp -> . termino
+    (33) exp -> . termino exp2
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    expresion                      shift and go to state 74
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 36
+    exp                            shift and go to state 37
+    factor                         shift and go to state 38
+
+state 60
+
+    (39) termino2 -> DIVIDE . termino
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 75
+    factor                         shift and go to state 38
+
+state 61
+
+    (38) termino2 -> TIMES . termino
+    (36) termino -> . factor
+    (37) termino -> . factor termino2
+    (40) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (41) factor -> . varcte
+    (42) factor -> . PLUS varcte
+    (43) factor -> . MINUS varcte
+    (44) varcte -> . ID
+    (45) varcte -> . INT
+    (46) varcte -> . FLOAT
+    (47) varcte -> . STRING
+
+    LPARENTHESIS    shift and go to state 32
+    PLUS            shift and go to state 35
+    MINUS           shift and go to state 40
+    ID              shift and go to state 33
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    STRING          shift and go to state 34
+
+    varcte                         shift and go to state 41
+    termino                        shift and go to state 76
+    factor                         shift and go to state 38
+
+state 62
+
+    (37) termino -> factor termino2 .
+
+    PLUS            reduce using rule 37 (termino -> factor termino2 .)
+    MINUS           reduce using rule 37 (termino -> factor termino2 .)
+    GTHAN           reduce using rule 37 (termino -> factor termino2 .)
+    LTHAN           reduce using rule 37 (termino -> factor termino2 .)
+    NOTEQUAL        reduce using rule 37 (termino -> factor termino2 .)
+    POINT           reduce using rule 37 (termino -> factor termino2 .)
+    RPARENTHESIS    reduce using rule 37 (termino -> factor termino2 .)
+    SEMICOLON       reduce using rule 37 (termino -> factor termino2 .)
+
+
+state 63
+
+    (43) factor -> MINUS varcte .
+
+    TIMES           reduce using rule 43 (factor -> MINUS varcte .)
+    DIVIDE          reduce using rule 43 (factor -> MINUS varcte .)
+    PLUS            reduce using rule 43 (factor -> MINUS varcte .)
+    MINUS           reduce using rule 43 (factor -> MINUS varcte .)
+    GTHAN           reduce using rule 43 (factor -> MINUS varcte .)
+    LTHAN           reduce using rule 43 (factor -> MINUS varcte .)
+    NOTEQUAL        reduce using rule 43 (factor -> MINUS varcte .)
+    POINT           reduce using rule 43 (factor -> MINUS varcte .)
+    RPARENTHESIS    reduce using rule 43 (factor -> MINUS varcte .)
+    SEMICOLON       reduce using rule 43 (factor -> MINUS varcte .)
+
+
+state 64
+
+    (20) condicion -> IF LPARENTHESIS expresion RPARENTHESIS . bloque condicion2
+    (13) bloque -> . LBRACE bloque2
+
+    LBRACE          shift and go to state 5
+
+    bloque                         shift and go to state 77
+
+state 65
+
+    (19) asignacion -> ID ASIGN expresion SEMICOLON .
+
+    RBRACE          reduce using rule 19 (asignacion -> ID ASIGN expresion SEMICOLON .)
+    ID              reduce using rule 19 (asignacion -> ID ASIGN expresion SEMICOLON .)
+    IF              reduce using rule 19 (asignacion -> ID ASIGN expresion SEMICOLON .)
+    PRINT           reduce using rule 19 (asignacion -> ID ASIGN expresion SEMICOLON .)
+
+
+state 66
+
+    (7) vars3 -> COLON tipo SEMICOLON . vars2
+    (8) vars3 -> COLON tipo SEMICOLON .
+    (9) vars3 -> COLON tipo SEMICOLON . bloque
+    (5) vars2 -> . ID vars3
+    (13) bloque -> . LBRACE bloque2
+
+    $end            reduce using rule 8 (vars3 -> COLON tipo SEMICOLON .)
+    ID              shift and go to state 20
+    LBRACE          shift and go to state 5
+
+    vars2                          shift and go to state 78
+    bloque                         shift and go to state 79
+
+state 67
+
+    (25) escritura3 -> POINT escritura2 .
+
+    RBRACE          reduce using rule 25 (escritura3 -> POINT escritura2 .)
+    ID              reduce using rule 25 (escritura3 -> POINT escritura2 .)
+    IF              reduce using rule 25 (escritura3 -> POINT escritura2 .)
+    PRINT           reduce using rule 25 (escritura3 -> POINT escritura2 .)
+
+
+state 68
+
+    (26) escritura3 -> RPARENTHESIS SEMICOLON .
+
+    RBRACE          reduce using rule 26 (escritura3 -> RPARENTHESIS SEMICOLON .)
+    ID              reduce using rule 26 (escritura3 -> RPARENTHESIS SEMICOLON .)
+    IF              reduce using rule 26 (escritura3 -> RPARENTHESIS SEMICOLON .)
+    PRINT           reduce using rule 26 (escritura3 -> RPARENTHESIS SEMICOLON .)
+
+
+state 69
+
+    (40) factor -> LPARENTHESIS expresion RPARENTHESIS .
+
+    TIMES           reduce using rule 40 (factor -> LPARENTHESIS expresion RPARENTHESIS .)
+    DIVIDE          reduce using rule 40 (factor -> LPARENTHESIS expresion RPARENTHESIS .)
+    PLUS            reduce using rule 40 (factor -> LPARENTHESIS expresion RPARENTHESIS .)
+    MINUS           reduce using rule 40 (factor -> LPARENTHESIS expresion RPARENTHESIS .)
+    GTHAN           reduce using rule 40 (factor -> LPARENTHESIS expresion RPARENTHESIS .)
+    LTHAN           reduce using rule 40 (factor -> LPARENTHESIS expresion RPARENTHESIS .)
+    NOTEQUAL        reduce using rule 40 (factor -> LPARENTHESIS expresion RPARENTHESIS .)
+    POINT           reduce using rule 40 (factor -> LPARENTHESIS expresion RPARENTHESIS .)
+    RPARENTHESIS    reduce using rule 40 (factor -> LPARENTHESIS expresion RPARENTHESIS .)
+    SEMICOLON       reduce using rule 40 (factor -> LPARENTHESIS expresion RPARENTHESIS .)
+
+
+state 70
+
+    (34) exp2 -> PLUS exp .
+
+    GTHAN           reduce using rule 34 (exp2 -> PLUS exp .)
+    LTHAN           reduce using rule 34 (exp2 -> PLUS exp .)
+    NOTEQUAL        reduce using rule 34 (exp2 -> PLUS exp .)
+    POINT           reduce using rule 34 (exp2 -> PLUS exp .)
+    RPARENTHESIS    reduce using rule 34 (exp2 -> PLUS exp .)
+    SEMICOLON       reduce using rule 34 (exp2 -> PLUS exp .)
+
+
+state 71
+
+    (35) exp2 -> MINUS exp .
+
+    GTHAN           reduce using rule 35 (exp2 -> MINUS exp .)
+    LTHAN           reduce using rule 35 (exp2 -> MINUS exp .)
+    NOTEQUAL        reduce using rule 35 (exp2 -> MINUS exp .)
+    POINT           reduce using rule 35 (exp2 -> MINUS exp .)
+    RPARENTHESIS    reduce using rule 35 (exp2 -> MINUS exp .)
+    SEMICOLON       reduce using rule 35 (exp2 -> MINUS exp .)
+
+
+state 72
+
+    (31) expresion2 -> NOTEQUAL expresion .
+
+    POINT           reduce using rule 31 (expresion2 -> NOTEQUAL expresion .)
+    RPARENTHESIS    reduce using rule 31 (expresion2 -> NOTEQUAL expresion .)
+    SEMICOLON       reduce using rule 31 (expresion2 -> NOTEQUAL expresion .)
+
+
+state 73
+
+    (29) expresion2 -> GTHAN expresion .
+
+    POINT           reduce using rule 29 (expresion2 -> GTHAN expresion .)
+    RPARENTHESIS    reduce using rule 29 (expresion2 -> GTHAN expresion .)
+    SEMICOLON       reduce using rule 29 (expresion2 -> GTHAN expresion .)
+
+
+state 74
+
+    (30) expresion2 -> LTHAN expresion .
+
+    POINT           reduce using rule 30 (expresion2 -> LTHAN expresion .)
+    RPARENTHESIS    reduce using rule 30 (expresion2 -> LTHAN expresion .)
+    SEMICOLON       reduce using rule 30 (expresion2 -> LTHAN expresion .)
+
+
+state 75
+
+    (39) termino2 -> DIVIDE termino .
+
+    PLUS            reduce using rule 39 (termino2 -> DIVIDE termino .)
+    MINUS           reduce using rule 39 (termino2 -> DIVIDE termino .)
+    GTHAN           reduce using rule 39 (termino2 -> DIVIDE termino .)
+    LTHAN           reduce using rule 39 (termino2 -> DIVIDE termino .)
+    NOTEQUAL        reduce using rule 39 (termino2 -> DIVIDE termino .)
+    POINT           reduce using rule 39 (termino2 -> DIVIDE termino .)
+    RPARENTHESIS    reduce using rule 39 (termino2 -> DIVIDE termino .)
+    SEMICOLON       reduce using rule 39 (termino2 -> DIVIDE termino .)
+
+
+state 76
+
+    (38) termino2 -> TIMES termino .
+
+    PLUS            reduce using rule 38 (termino2 -> TIMES termino .)
+    MINUS           reduce using rule 38 (termino2 -> TIMES termino .)
+    GTHAN           reduce using rule 38 (termino2 -> TIMES termino .)
+    LTHAN           reduce using rule 38 (termino2 -> TIMES termino .)
+    NOTEQUAL        reduce using rule 38 (termino2 -> TIMES termino .)
+    POINT           reduce using rule 38 (termino2 -> TIMES termino .)
+    RPARENTHESIS    reduce using rule 38 (termino2 -> TIMES termino .)
+    SEMICOLON       reduce using rule 38 (termino2 -> TIMES termino .)
+
+
+state 77
+
+    (20) condicion -> IF LPARENTHESIS expresion RPARENTHESIS bloque . condicion2
+    (21) condicion2 -> . SEMICOLON
+    (22) condicion2 -> . ELSE bloque SEMICOLON
+
+    SEMICOLON       shift and go to state 80
+    ELSE            shift and go to state 81
+
+    condicion2                     shift and go to state 82
+
+state 78
+
+    (7) vars3 -> COLON tipo SEMICOLON vars2 .
+
+    $end            reduce using rule 7 (vars3 -> COLON tipo SEMICOLON vars2 .)
+
+
+state 79
+
+    (9) vars3 -> COLON tipo SEMICOLON bloque .
+
+    $end            reduce using rule 9 (vars3 -> COLON tipo SEMICOLON bloque .)
+
+
+state 80
+
+    (21) condicion2 -> SEMICOLON .
+
+    RBRACE          reduce using rule 21 (condicion2 -> SEMICOLON .)
+    ID              reduce using rule 21 (condicion2 -> SEMICOLON .)
+    IF              reduce using rule 21 (condicion2 -> SEMICOLON .)
+    PRINT           reduce using rule 21 (condicion2 -> SEMICOLON .)
+
+
+state 81
+
+    (22) condicion2 -> ELSE . bloque SEMICOLON
+    (13) bloque -> . LBRACE bloque2
+
+    LBRACE          shift and go to state 5
+
+    bloque                         shift and go to state 83
+
+state 82
+
+    (20) condicion -> IF LPARENTHESIS expresion RPARENTHESIS bloque condicion2 .
+
+    RBRACE          reduce using rule 20 (condicion -> IF LPARENTHESIS expresion RPARENTHESIS bloque condicion2 .)
+    ID              reduce using rule 20 (condicion -> IF LPARENTHESIS expresion RPARENTHESIS bloque condicion2 .)
+    IF              reduce using rule 20 (condicion -> IF LPARENTHESIS expresion RPARENTHESIS bloque condicion2 .)
+    PRINT           reduce using rule 20 (condicion -> IF LPARENTHESIS expresion RPARENTHESIS bloque condicion2 .)
+
+
+state 83
+
+    (22) condicion2 -> ELSE bloque . SEMICOLON
+
+    SEMICOLON       shift and go to state 84
+
+
+state 84
+
+    (22) condicion2 -> ELSE bloque SEMICOLON .
+
+    RBRACE          reduce using rule 22 (condicion2 -> ELSE bloque SEMICOLON .)
+    ID              reduce using rule 22 (condicion2 -> ELSE bloque SEMICOLON .)
+    IF              reduce using rule 22 (condicion2 -> ELSE bloque SEMICOLON .)
+    PRINT           reduce using rule 22 (condicion2 -> ELSE bloque SEMICOLON .)
+

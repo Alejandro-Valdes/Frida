@@ -1,0 +1,35 @@
+programa pruebaFrida 
+	variable entero iTest, iTestV;
+	variable bool bTest, bTestV;
+	variable decimal dArrayTest[10]; 
+	
+	rutina void : pruebaRutina() {
+		variable cadena cPrueba = "cte_cadena";
+
+		tTest = 10 * 20 + 3 - 20 / 1;
+		dArrayTest[] = { 1, 5, 10 }
+
+		si (2>0) {
+			si (0!=0) {
+				imprimir("diez");
+			}
+			sino {
+				imprimir(100);
+			}
+		}
+		sino {
+			si (20<100) {
+				iTest = 0;
+				imprimir(iTest);
+			}
+		}
+	}
+	
+	lienzo {
+		variable entero iIterador = 0;
+
+		mientras (iIterador < 10) {
+			imprimir(iIterador);
+			iIterador = iIterador + 1;
+		}
+	}
