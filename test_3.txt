@@ -10,12 +10,14 @@ programa pruebaFrida
 
 	lienzo {
 		variable entero eSize; 
-		
+
+		variable circulo arrCirculo[eSize] = { nuevo circulo(15, 15, 15, "#545454"), nuevo circulo(45, 45, 45,"#585858") };
+
+		variable circulo miCirculo = nuevo circulo(10, 10, 10, "#E4E4E4");
+
 		/*
 			variable circulo arrCirculo[eSize] = nuevo circulo(15, 15, 15, "#545454"), nuevo circulo(45, 45, 45,"#585858") }
 		*/
-
-		variable circulo miCirculo = nuevo circulo(10, 10, 10, "#E4E4E4");
 
 		arrCirculo[2] = miCirculo;
 

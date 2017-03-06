@@ -120,11 +120,11 @@ def p_ini_fgra(p):
 # Inicitalizacion de arreglos de figuras
 
 def p_ini_fgra_v(p):
-	'''ini_fgra_v : COMA logica ini_fgras_v_loop
+	'''ini_fgra_v : ASIGN LBRACE fgra_nva ini_fgras_v_loop RBRACE
 		| empty'''
 
 def p_ini_fgras_v_loop(p):
-	'''ini_fgras_v_loop : COMA logica ini_fgras_v_loop
+	'''ini_fgras_v_loop : COMA fgra_nva ini_fgras_v_loop
 		| empty'''
 
 def p_fgra_nva(p):
