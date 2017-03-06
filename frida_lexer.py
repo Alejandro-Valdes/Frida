@@ -30,7 +30,7 @@ tokens = [
    	'MOD',
    	'EXPONENTIAL',
    	'INT',
-   	'DOUBLE',
+   	'FLOAT',
    	'BOOL',
    	'STRING',
    	'COMMENT',
@@ -42,7 +42,7 @@ tokens = [
 
 #lista con las palabras reservadas para Frida
 
-reserved = [
+reserved = {
 	'programa' : 'PROGRAMA',
 	'variable' : 'VAR',
 	'lienzo' : 'MAIN',
@@ -58,7 +58,7 @@ reserved = [
 	'imprimir' : 'PRINT',
 	'leer' : 'READ',
 	'entero' : 'TYPEINT',
-	'decimal' : 'TYPEDOUBLE',
+	'decimal' : 'TYPEFLOAT',
 	'bool' : 'TYPEBOOL',
 	'cadena' : 'TYPESTRING',
 	'pincel' : 'PINCEL',
@@ -67,10 +67,10 @@ reserved = [
 	'circulo' : 'CIRC',
 	'triangulo' : 'TRIANG',
 	'nuevo' : 'NUEVO'
-]
+}
 
 #la lista de valores de las palabras reservadas se agregan a la lista de tokens.
-tokens += reservadas.values()
+tokens += reserved.values()
 
 #Expresiones regulares simples,
 #no necesitan operaciones adicionales.
@@ -99,15 +99,14 @@ t_DIVIDE = r'\/'
 t_MOD = r'\%'
 t_EXPONENTIAL = r'\^'
 t_INT = r'[\+,-]?\d+'
-t_DOUBLE = r'(\+|-)?[0-9]+(.[0-9]+)?'
+t_FLOAT = r'(\+|-)?[0-9]+(.[0-9]+)?'
 t_BOOL = r'verdadero|falso'
-t_STRING = r'([^\"\n\r]*)'
-t_COMMENT = r'\/\*(\*(?!\/)|[^*])*\*\/',
+t_STRING = r'(\'.*\' | \".*\")'
+t_COMMENT = r'\/\*(\*(?!\/)|[^*])*\*\/'
 t_CTECOLOR = r'rojo|azul|verde|amarillo|rosa'
-t_CTEHEXCOLOR = r'#([0-9a-fA-F]{6} | [0-9a-fA-F]{3})'
+t_CTEHEXCOLOR = r'\#([0-9a-fA-F]{6} | [0-9a-fA-F]{3})'
 t_CTEFUNCION = r'(([x]|[0-9]+(.[0-9]+)?))+([+\-*/^]([xX]|([0-9]+(.[0-9]+)?)+))+'
-
-t_ignore '[ \t]'
+t_ignore = ' \t'
 
 #Funciones para tokens que necesitan funcionalidad extra
 
