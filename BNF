@@ -21,7 +21,7 @@ tipo_opt_prim_2 : ini_prim | LBRACKET logica RBRACKET tipo_opt_prim_3 | empty
 tipo_opt_prim_3 : ini_prim_v | empty
 
 tipo_opt_fig : figura ID tipo_opt_fig_2
-tipo_opt_prim_loop : COMA tipo_opt_prim | empty
+tipo_opt_fig_loop : COMA tipo_opt_prim | empty
 tipo_opt_fig_2 : ini_fgra | LBRACKET logica RBRACKET tipo_opt_fig_3 | empty tipo_opt_fig_3 : ini_fgra_v | empty
 
 // ini_prim
