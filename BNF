@@ -115,9 +115,10 @@ estatuto_lienzo : vars
 								| llamada
 
 // asignacion
-asignacion : ID asignacion_opt ASIGN asignacion_opt_2
+asignacion : ID asignacion_opt ASIGN asignacion_opt_2 COLON
 asignacion_opt : LBRACKET logica RBRACKET 
 								| empty
+asignacion_opt_2 : logica | lectura | fgra_nva 
 
 // condicion
 condicion : IF condicion_loop condicion_opt
