@@ -67,7 +67,7 @@ reserved = {
 	'circulo' : 'CIRC',
 	'triangulo' : 'TRIANG',
 	'nuevo' : 'NUEVO',
-	'void' : 'VOID'
+	'void' : 'VOID',
 	'regresa' : 'RETURN',
 	'avanza' : 'MOVEA',
 	'gira' : 'ROTATE',

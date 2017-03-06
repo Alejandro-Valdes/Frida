@@ -2,37 +2,30 @@ Created by PLY version 3.9 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    NOTEQUAL
-    ELIF
     CTECOLOR
-    RETURN
     DO
-    READ
-    ELSE
-    GETHAN
     TRIANG
-    PRINT
-    LETHAN
+    CUAD
     NULL
-    MINUS
     RECT
-    DIVIDE
     COMMENT
     POINT
+    COLOR
+    MOVEA
+    GROW
     NUEVO
     CTEFUNCION
-    PLUS
+    FILL
     CTEHEXCOLOR
     EXPONENTIAL
-    MAIN
-    TIMES
-    LTHAN
-    IF
-    AND
-    GTHAN
+    GRAPH
+    DISPLACE
+    ROTATE
+    PAINT
+    REMOVE
     CIRC
-    CUAD
-    OR
+    THICK
+    MAIN
     MOD
 
 Grammar
@@ -43,177 +36,293 @@ Rule 2     vars_opt -> vars
 Rule 3     vars_opt -> empty
 Rule 4     rutinas_loop -> rutinas_loop rutinas
 Rule 5     rutinas_loop -> empty
-Rule 6     vars -> VAR tipo COLON vars_loop
-Rule 7     vars_loop -> vars
-Rule 8     vars_loop -> empty
-Rule 9     rutinas -> RUTINA rutina_opt SEMICOLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop_2
-Rule 10    rutina_opt -> primitivo
-Rule 11    rutina_opt -> figura
-Rule 12    rutina_opt -> VOID
-Rule 13    rutinas_loop_2 -> rutinas
-Rule 14    rutinas_loop_2 -> empty
-Rule 15    tipo -> tipo-opt SEMICOLON
-Rule 16    tipo-opt -> tipo-opt-prim
-Rule 17    tipo-opt -> tipo-opt-fig
-Rule 18    tipo_opt_prim -> primitivo ID tipo-opt-prim-2 tipo-opt-prim-loop
-Rule 19    topo_opt_prin_loop -> COMA tipo-opt-prim
-Rule 20    topo_opt_prin_loop -> emtpy
-Rule 21    tipo_opt_prim_2 -> ini_prim
-Rule 22    tipo_opt_prim_2 -> LBRACKET logica RBRACKET tipo-opt-prim-3
-Rule 23    tipo_opt_prim_2 -> empty
-Rule 24    tipo_opt_prim_3 -> ini_prim_v
-Rule 25    tipo_opt_prim_3 -> empty
-Rule 26    tipo_opt_fig -> figura ID tipo_opt_fig_2
-Rule 27    tipo_opt_fig_loop -> COMA tipo_opt_fig
-Rule 28    tipo_opt_fig_loop -> empty
-Rule 29    tipo_opt_fig_2 -> ini_fgra
-Rule 30    tipo_opt_fig_2 -> LBRACKET logica RBRACKET tipo_opt_fig_3
-Rule 31    tipo_opt_fig_2 -> empty
-Rule 32    tipo_opt_fig_3 -> ini_fgra_v
-Rule 33    tipo_opt_fig_3 -> empty
-Rule 34    ini_prim -> ASIGN logica
-Rule 35    ini_prim_v -> ASIGN LBRACE logica ini_prim_v_loop RBRACE
-Rule 36    ini_prim_v-loop -> COMA logica ini_prim_v_loop
-Rule 37    ini_prim_v-loop -> empty
-Rule 38    ini_fgra -> ASIGN fgra_nva
-Rule 39    ini_fgra_v -> COMA logica init_fgras_v_loop
-Rule 40    ini_fgra_v -> emtpy
-Rule 41    fgra_nva -> nuevo fgra_atr
-Rule 42    fgra_nva -> empty
-Rule 43    fgra_atr -> pincel LPARENTHESIS fgra_atr_end
-Rule 44    fgra_atr -> cuadrado LPARENTHESIS exp COMA fgra_atr_end
-Rule 45    fgra_atr -> circulo LPARENTHESIS exp COMA fgra_atr_end
-Rule 46    fgra_atr -> rectangulo LPARENTHESIS exp COMA exp COMA fgra_atr_end
-Rule 47    fgra_atr -> triangulo LPARENTHESIS exp COMA exp COMA exp COMA exp COMA fgra_atr_end
-Rule 48    fgra_atr_end -> exp COMA exp COMA color RPARENTHESIS
-Rule 49    primitivo -> TYPEINT
-Rule 50    primitivo -> TYPEDOUBLE
-Rule 51    primitivo -> TYPEBOOL
-Rule 52    primitivo -> TYPESTRING
-Rule 53    figura -> PINCEL
-Rule 54    figura -> CUADRDO
-Rule 55    figura -> RECTANGULO
-Rule 56    figura -> CIRCULO
-Rule 57    figura -> TRIANGULO
-Rule 58    cte -> STRING
-Rule 59    cte -> INT
-Rule 60    cte -> DOUBLE
-Rule 61    cte -> BOOL
-Rule 62    empty -> <empty>
+Rule 6     empty -> <empty>
+Rule 7     vars -> VAR tipo COLON vars_loop
+Rule 8     vars_loop -> vars
+Rule 9     vars_loop -> empty
+Rule 10    rutinas -> RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop_2
+Rule 11    rutina_opt -> primitivo
+Rule 12    rutina_opt -> figura
+Rule 13    rutina_opt -> VOID
+Rule 14    rutinas_loop_2 -> rutinas
+Rule 15    rutinas_loop_2 -> empty
+Rule 16    tipo -> tipo_opt SEMICOLON
+Rule 17    tipo_opt -> tipo_opt_prim
+Rule 18    tipo_opt -> tipo_opt_fig
+Rule 19    tipo_opt_prim -> primitivo ID tipo_opt_prim_2 tipo_opt_prim_loop
+Rule 20    tipo_opt_prim_loop -> COMA tipo_opt_prim
+Rule 21    tipo_opt_prim_loop -> empty
+Rule 22    tipo_opt_prim_2 -> ini_prim
+Rule 23    tipo_opt_prim_2 -> LBRACKET logica RBRACKET tipo_opt_prim_3
+Rule 24    tipo_opt_prim_2 -> empty
+Rule 25    tipo_opt_prim_3 -> ini_prim_v
+Rule 26    tipo_opt_prim_3 -> empty
+Rule 27    tipo_opt_fig -> figura ID tipo_opt_fig_2
+Rule 28    tipo_opt_fig_loop -> COMA tipo_opt_fig
+Rule 29    tipo_opt_fig_loop -> empty
+Rule 30    tipo_opt_fig_2 -> ini_fgra
+Rule 31    tipo_opt_fig_2 -> LBRACKET logica RBRACKET tipo_opt_fig_3
+Rule 32    tipo_opt_fig_2 -> empty
+Rule 33    tipo_opt_fig_3 -> ini_fgra_v
+Rule 34    tipo_opt_fig_3 -> empty
+Rule 35    ini_prim -> ASIGN logica
+Rule 36    ini_prim_v -> ASIGN LBRACE logica ini_prim_v_loop RBRACE
+Rule 37    ini_prim_v_loop -> COMA logica ini_prim_v_loop
+Rule 38    ini_prim_v_loop -> empty
+Rule 39    ini_fgra -> ASIGN fgra_nva
+Rule 40    ini_fgra_v -> COMA logica init_fgras_v_loop
+Rule 41    ini_fgra_v -> empty
+Rule 42    fgra_nva -> nuevo fgra_atr
+Rule 43    fgra_nva -> empty
+Rule 44    fgra_atr -> pincel LPARENTHESIS fgra_atr_end
+Rule 45    fgra_atr -> cuadrado LPARENTHESIS exp COMA fgra_atr_end
+Rule 46    fgra_atr -> circulo LPARENTHESIS exp COMA fgra_atr_end
+Rule 47    fgra_atr -> rectangulo LPARENTHESIS exp COMA exp COMA fgra_atr_end
+Rule 48    fgra_atr -> triangulo LPARENTHESIS exp COMA exp COMA exp COMA exp COMA fgra_atr_end
+Rule 49    fgra_atr_end -> exp COMA exp COMA color RPARENTHESIS
+Rule 50    primitivo -> TYPEINT
+Rule 51    primitivo -> TYPEDOUBLE
+Rule 52    primitivo -> TYPEBOOL
+Rule 53    primitivo -> TYPESTRING
+Rule 54    figura -> PINCEL
+Rule 55    figura -> CUADRDO
+Rule 56    figura -> RECTANGULO
+Rule 57    figura -> CIRCULO
+Rule 58    figura -> TRIANGULO
+Rule 59    cte -> STRING
+Rule 60    cte -> INT
+Rule 61    cte -> DOUBLE
+Rule 62    cte -> BOOL
+Rule 63    parametros -> tipo COLON ID parametros_loop
+Rule 64    parametros_loop -> COMA parametros
+Rule 65    parametros_loop -> empty
+Rule 66    lienzo -> LIENZO bloque_lienzo
+Rule 67    bloque -> LBRACE bloque_loop RBRACE
+Rule 68    bloque_loop -> estatuto bloque_loop
+Rule 69    bloque_loop -> empty
+Rule 70    bloque_rutina -> LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE
+Rule 71    bloque_rutina_opt -> vars
+Rule 72    bloque_rutina_opt -> empty
+Rule 73    bloque_rutina_loop -> estatuto bloque_rutina_loop
+Rule 74    bloque_rutina_loop -> empty
+Rule 75    bloque_rutina_opt_2 -> RETURN logica
+Rule 76    bloque_rutina_opt_2 -> empty
+Rule 77    bloque_lienzo -> LBRACE bloque_lienzo_loop RBRACE
+Rule 78    bloque_lienzo_loop -> estatuto_lienzo bloque_lienzo_loop
+Rule 79    bloque_lienzo_loop -> empty
+Rule 80    estatuto -> asignacion
+Rule 81    estatuto -> condicion
+Rule 82    estatuto -> ciclo
+Rule 83    estatuto -> impresion
+Rule 84    estatuto -> lectura
+Rule 85    estatuto -> accion
+Rule 86    estatuto -> llamada
+Rule 87    estatuto_lienzo -> vars
+Rule 88    estatuto_lienzo -> asignacion
+Rule 89    estatuto_lienzo -> condicion
+Rule 90    estatuto_lienzo -> ciclo
+Rule 91    estatuto_lienzo -> impresion
+Rule 92    estatuto_lienzo -> lectura
+Rule 93    estatuto_lienzo -> accion
+Rule 94    estatuto_lienzo -> llamada
+Rule 95    asignacion -> ID asignacion_opt ASIGN asignacion_opt_2
+Rule 96    asignacion_opt -> LBRACKET logica RBRACKET
+Rule 97    asignacion_opt -> empty
+Rule 98    condicion -> IF condicion_loop condicion_opt
+Rule 99    condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt
+Rule 100   condicion_loop_opt -> ELIF condicion_loop
+Rule 101   condicion_loop_opt -> empty
+Rule 102   condicion_opt -> ELSE bloque
+Rule 103   condicion_opt -> empty
+Rule 104   ciclo -> WHILE LPARENTHESIS logica RPARENTHESIS bloque
+Rule 105   impresion -> PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON
+Rule 106   lectura -> READ LPARENTHESIS RPARENTHSIS SEMICOLON
+Rule 107   llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON
+Rule 108   llamada_loop -> COMA exp llamada_loop
+Rule 109   llamada_loop -> empty
+Rule 110   logica -> expresion logica_loop
+Rule 111   logica_loop -> AND logica
+Rule 112   logica_loop -> OR logica
+Rule 113   logica_loop -> empty
+Rule 114   expresion -> exp expresion_opt
+Rule 115   expresion_opt -> expresion_opt_opt exp
+Rule 116   expresion_opt -> empty
+Rule 117   expresion_opt_opt -> GTHAN
+Rule 118   expresion_opt_opt -> GETHAN
+Rule 119   expresion_opt_opt -> ASIGN ASIGN
+Rule 120   expresion_opt_opt -> NOTEQUAL
+Rule 121   expresion_opt_opt -> LTHAN
+Rule 122   expresion_opt_opt -> LETHAN
+Rule 123   exp -> termino exp_loop
+Rule 124   exp_loop -> PLUS exp
+Rule 125   exp_loop -> MINUS exp
+Rule 126   exp_loop -> empty
+Rule 127   termino -> factor termino_loop
+Rule 128   termino_loop -> TIMES termino
+Rule 129   termino_loop -> DIVIDE termino
+Rule 130   termino_loop -> empty
+Rule 131   factor -> LPARENTHESIS expresion RPARENTHESIS
+Rule 132   factor -> factor_opt factor_opt_2
+Rule 133   factor_opt -> PLUS
+Rule 134   factor_opt -> MINUS
+Rule 135   factor_opt -> empty
+Rule 136   factor_opt_2 -> cte
+Rule 137   factor_opt_2 -> idllamada
 
 Terminals, with rules where they appear
 
-AND                  : 
-ASIGN                : 34 35 38
-BOOL                 : 61
+AND                  : 111
+ASIGN                : 35 36 39 95 119 119
+BOOL                 : 62
 CIRC                 : 
-COLON                : 6
-COMA                 : 19 27 36 39 44 45 46 46 47 47 47 47 48 48
+COLON                : 7 10 63 107
+COLOR                : 
+COMA                 : 20 28 37 40 45 46 47 47 48 48 48 48 49 49 64 108
 COMMENT              : 
 CTECOLOR             : 
 CTEFUNCION           : 
 CTEHEXCOLOR          : 
 CUAD                 : 
-DIVIDE               : 
+DISPLACE             : 
+DIVIDE               : 129
 DO                   : 
-DOUBLE               : 60
-ELIF                 : 
-ELSE                 : 
+DOUBLE               : 61
+ELIF                 : 100
+ELSE                 : 102
 EXPONENTIAL          : 
-GETHAN               : 
-GTHAN                : 
-ID                   : 1 9 18 26
-IF                   : 
-INT                  : 59
-LBRACE               : 35
-LBRACKET             : 22 30
-LETHAN               : 
-LPARENTHESIS         : 9 43 44 45 46 47
-LTHAN                : 
+FILL                 : 
+GETHAN               : 118
+GRAPH                : 
+GROW                 : 
+GTHAN                : 117
+ID                   : 1 10 19 27 63 95 107
+IF                   : 98
+INT                  : 60
+LBRACE               : 36 67 70 77
+LBRACKET             : 23 31 96
+LETHAN               : 122
+LPARENTHESIS         : 10 44 45 46 47 48 99 104 105 106 107 131
+LTHAN                : 121
 MAIN                 : 
-MINUS                : 
+MINUS                : 125 134
 MOD                  : 
-NOTEQUAL             : 
+MOVEA                : 
+NOTEQUAL             : 120
 NUEVO                : 
 NULL                 : 
-OR                   : 
-PINCEL               : 53
-PLUS                 : 
+OR                   : 112
+PAINT                : 
+PINCEL               : 54
+PLUS                 : 124 133
 POINT                : 
-PRINT                : 
+PRINT                : 105
 PROGRAMA             : 1
-RBRACE               : 35
-RBRACKET             : 22 30
-READ                 : 
+RBRACE               : 36 67 70 77
+RBRACKET             : 23 31 96
+READ                 : 106
 RECT                 : 
-RETURN               : 
-RPARENTHESIS         : 9 48
-RUTINA               : 9
-SEMICOLON            : 9 15
-STRING               : 58
-TIMES                : 
+REMOVE               : 
+RETURN               : 75
+ROTATE               : 
+RPARENTHESIS         : 10 49 99 104 105 107 131
+RUTINA               : 10
+SEMICOLON            : 16 105 106
+STRING               : 59
+THICK                : 
+TIMES                : 128
 TRIANG               : 
-TYPEBOOL             : 51
-TYPEDOUBLE           : 50
-TYPEINT              : 49
-TYPESTRING           : 52
-VAR                  : 6
-VOID                 : 12
+TYPEBOOL             : 52
+TYPEDOUBLE           : 51
+TYPEINT              : 50
+TYPESTRING           : 53
+VAR                  : 7
+VOID                 : 13
 error                : 
 
 Nonterminals, with rules where they appear
 
-CIRCULO              : 56
-CUADRDO              : 54
-RECTANGULO           : 55
-TRIANGULO            : 57
-bloque_rutina        : 9
-circulo              : 45
-color                : 48
-cte                  : 
-cuadrado             : 44
-empty                : 3 5 8 14 23 25 28 31 33 37 42
-emtpy                : 20 40
-exp                  : 44 45 46 46 47 47 47 47 48 48
-fgra_atr             : 41
-fgra_atr_end         : 43 44 45 46 47
-fgra_nva             : 38
-figura               : 11 26
-ini_fgra             : 29
-ini_fgra_v           : 32
-ini_prim             : 21
-ini_prim_v           : 24
-ini_prim_v-loop      : 
-ini_prim_v_loop      : 35 36
-init_fgras_v_loop    : 39
-logica               : 22 30 34 35 36 39
-nuevo                : 41
-parametros           : 9
-pincel               : 43
-primitivo            : 10 18
+CIRCULO              : 57
+CUADRDO              : 55
+LIENZO               : 66
+RECTANGULO           : 56
+RPARENTHSIS          : 106
+TRIANGULO            : 58
+WHILE                : 104
+accion               : 85 93
+asignacion           : 80 88
+asignacion_opt       : 95
+asignacion_opt_2     : 95
+bloque               : 99 102 104
+bloque_lienzo        : 66
+bloque_lienzo_loop   : 77 78
+bloque_loop          : 67 68
+bloque_rutina        : 10
+bloque_rutina_loop   : 70 73
+bloque_rutina_opt    : 70
+bloque_rutina_opt_2  : 70
+ciclo                : 82 90
+circulo              : 46
+color                : 49
+condicion            : 81 89
+condicion_loop       : 98 100
+condicion_loop_opt   : 99
+condicion_opt        : 98
+cte                  : 136
+cuadrado             : 45
+empty                : 3 5 9 15 21 24 26 29 32 34 38 41 43 65 69 72 74 76 79 97 101 103 109 113 116 126 130 135
+estatuto             : 68 73
+estatuto_lienzo      : 78
+exp                  : 45 46 47 47 48 48 48 48 49 49 107 108 114 115 124 125
+exp_loop             : 123
+expresion            : 110 131
+expresion_opt        : 114
+expresion_opt_opt    : 115
+factor               : 127
+factor_opt           : 132
+factor_opt_2         : 132
+fgra_atr             : 42
+fgra_atr_end         : 44 45 46 47 48
+fgra_nva             : 39
+figura               : 12 27
+idllamada            : 137
+impresion            : 83 91
+ini_fgra             : 30
+ini_fgra_v           : 33
+ini_prim             : 22
+ini_prim_v           : 25
+ini_prim_v_loop      : 36 37
+init_fgras_v_loop    : 40
+lectura              : 84 92
+lienzo               : 
+llamada              : 86 94
+llamada_loop         : 107 108
+logica               : 23 31 35 36 37 40 75 96 99 104 105 111 112
+logica_loop          : 110
+nuevo                : 42
+parametros           : 10 64
+parametros_loop      : 63
+pincel               : 44
+primitivo            : 11 19
 programa             : 0
-rectangulo           : 46
-rutina_opt           : 9
-rutinas              : 4 13
+rectangulo           : 47
+rutina_opt           : 10
+rutinas              : 4 14
 rutinas_loop         : 4
-rutinas_loop_2       : 9
-tipo                 : 6
-tipo-opt             : 15
-tipo-opt-fig         : 17
-tipo-opt-prim        : 16 19
-tipo-opt-prim-2      : 18
-tipo-opt-prim-3      : 22
-tipo-opt-prim-loop   : 18
-tipo_opt_fig         : 27
-tipo_opt_fig_2       : 26
-tipo_opt_fig_3       : 30
+rutinas_loop_2       : 10
+termino              : 123 128 129
+termino_loop         : 127
+tipo                 : 7 63
+tipo_opt             : 16
+tipo_opt_fig         : 18 28
+tipo_opt_fig_2       : 27
+tipo_opt_fig_3       : 31
 tipo_opt_fig_loop    : 
-tipo_opt_prim        : 
-tipo_opt_prim_2      : 
-tipo_opt_prim_3      : 
-topo_opt_prin_loop   : 
-triangulo            : 47
-vars                 : 2 7
-vars_loop            : 6
+tipo_opt_prim        : 17 20
+tipo_opt_prim_2      : 19
+tipo_opt_prim_3      : 23
+tipo_opt_prim_loop   : 19
+triangulo            : 48
+vars                 : 2 8 71 87
+vars_loop            : 7
 vars_opt             : 1
 

@@ -26,6 +26,10 @@ def p_rutinas_loop(p):
 	'''rutinas_loop : rutinas_loop rutinas 
 		| empty '''
 
+def p_empty(p):
+    'empty :'
+    pass
+
 # Vars
 
 def p_vars(p):
@@ -39,7 +43,7 @@ def p_vars_loop(p):
 # Rutinas
 
 def p_rutinas(p):
-	'rutinas : RUTINA rutina_opt SEMICOLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop_2'
+	'rutinas : RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop_2'
 
 def p_rutina_opt(p):
 	'''rutina_opt : primitivo 
@@ -53,24 +57,24 @@ def p_rutinas_loop_2(p):
 # Tipo
 
 def p_tipo(p):
-	'tipo : tipo-opt SEMICOLON'
+	'tipo : tipo_opt SEMICOLON'
 
 def p_tipo_opt(p):
-	'''tipo-opt : tipo-opt-prim 
-		| tipo-opt-fig'''
+	'''tipo_opt : tipo_opt_prim 
+		| tipo_opt_fig'''
 
 # Tipo Prim
 
 def p_tipo_opt_prim(p):
-	'tipo_opt_prim : primitivo ID tipo-opt-prim-2 tipo-opt-prim-loop'
+	'tipo_opt_prim : primitivo ID tipo_opt_prim_2 tipo_opt_prim_loop'
 
 def p_tipo_opt_prim_loop(p):
-	'''topo_opt_prin_loop : COMA tipo-opt-prim
-		| emtpy'''
+	'''tipo_opt_prim_loop : COMA tipo_opt_prim
+		| empty'''
 
 def p_tipo_opt_prim_2(p):
 	'''tipo_opt_prim_2 : ini_prim 
-		| LBRACKET logica RBRACKET tipo-opt-prim-3
+		| LBRACKET logica RBRACKET tipo_opt_prim_3
 		| empty'''
 
 def p_tipo_opt_prim_3(p):
@@ -106,7 +110,7 @@ def p_ini_prim_v(p):
 	'ini_prim_v : ASIGN LBRACE logica ini_prim_v_loop RBRACE'
 
 def p_ini_prim_v_loop(p):
-	'''ini_prim_v-loop : COMA logica ini_prim_v_loop 
+	'''ini_prim_v_loop : COMA logica ini_prim_v_loop 
 		| empty'''
 
 # Inicializacion de figuras
@@ -117,8 +121,12 @@ def p_ini_fgra(p):
 # Inicitalizacion de arreglos de figuras
 
 def p_ini_fgra_v(p):
-	'''ini_fgra_v : COMA logica init_fgras_v_loop
-		| emtpy'''
+	'''ini_fgra_v : COMA logica ini_fgras_v_loop
+		| empty'''
+
+def p_ini_fgras_v_loop(p):
+	'''ini_fgras_v_loop : COMA logica ni_fgras_v_loop
+		| empty'''
 
 def p_fgra_nva(p):
 	'''fgra_nva : nuevo fgra_atr
@@ -181,7 +189,7 @@ def p_bloque_loop(p):
 # Bloque rutina
 
 def p_bloque_rutina(p):
-	'LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE'
+	'bloque_rutina : LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE'
 
 def p_bloque_rutina_opt(p):
 	'''bloque_rutina_opt : vars 
@@ -252,12 +260,145 @@ def p_condicion_opt(p):
 def p_ciclo(p):
 	'ciclo : WHILE LPARENTHESIS logica RPARENTHESIS bloque'
 
+# IMPRESION
+def p_impresion(p):
+	'impresion : PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON'
+
+# LECTURA
+def p_lectura(p):
+	'lectura : READ LPARENTHESIS RPARENTHSIS SEMICOLON'
+
+# LLAMADA
+
+def p_llamada(p):
+	'llamada : ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON'
+
+def p_llamada_loop(p):
+	'''llamada_loop : COMA exp llamada_loop 
+		| empty'''
+
+# logica
+
+def p_logica(p):
+	'logica : expresion logica_loop'
+
+def p_logica_loop(p):
+	'''logica_loop : AND logica
+		| OR logica
+		| empty'''
+
+# expresion
+
+def p_expresion(p):
+	'expresion : exp expresion_opt'
+
+def p_expresion_opt(p):
+	'''expresion_opt : expresion_opt_opt exp 
+		| empty'''
+
+def p_expresion_opt_opt(p):
+	'''expresion_opt_opt : GTHAN 
+		| GETHAN 
+		| ASIGN ASIGN 
+		| NOTEQUAL 
+		| LTHAN 
+		| LETHAN'''
+
+# EXP
+
+def p_exp(p):
+	'exp : termino exp_loop'
+
+def p_exp_loop(p):
+	'''exp_loop : PLUS exp
+		| MINUS exp
+		| empty'''
+
+# Termino
+def p_termino(p):
+	'termino : factor termino_loop'
+
+def p_termino_loop(p):
+	'''termino_loop : TIMES termino 
+		| DIVIDE termino 
+		| empty'''
+
+# Factor
+
+def p_factor(p):
+	'''factor : LPARENTHESIS expresion RPARENTHESIS 
+		| factor_opt factor_opt_2'''
+
+def p_factor_opt(p):
+	'''factor_opt : PLUS 
+		| MINUS 
+		| empty'''
+
+def p_factor_opt_2(p):
+	'''factor_opt_2 : cte 
+		| idllamada'''
+
+# idLlamada
+def p_idllamada(p):
+	'idllamada : ID idllamada_opt'
+
+def p_idllamada_opt(p):
+	'''idllamada_opt : LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS 
+		| LBRACKET expresion RBRACKET 
+		| empty'''
+
+def p_idllamada_opt_loop(p):
+	'''idllamada_opt_loop : COMA exp idllamada_opt_loop 
+		| empty'''
+
+# accion
+def p_accion(p):
+	'accion : ID POINT accion_opt COLON'
+def p_accion_opt(p):
+	'''accion_opt : accion_figura 
+		| accion_pincel'''
+
+# accion figura
+def p_accion_figura(p):
+	'accion_figura : accion_figura_opt LPARENTHESIS'
+
+def p_accion_figura_opt(p):
+	'''accion_figura_opt : accion_figura_opt_2 
+		| accion_figura_opt_3'''
+
+def p_accion_figura_opt_2(p):
+	'''accion_figura_opt_2 : MOVEA accion_figura_opt_2_end 
+		| ROTATE accion_figura_opt_2_end 
+		| GROW accion_figura_opt_2_end 
+		| THICK accion_figura_opt_2_end'''
+
+def p_accion_figura_opt_2_end(p):
+	'accion_figura_opt_2_end : RPARENTHESIS expresion'
+
+def p_accion_figura_opt_3(p):
+	'''accion_figura_opt_3 : REMOVE LPARENTHESIS 
+		| FILL LPARENTHESIS color'''
+
+# Accion pincel
+
+def p_accion_pincel(p):
+	'accion_pincel : accion_pincel_opt RPARENTHESIS'
+
+def p_accion_pincel_opt(p):
+	'''accion_pincel_opt : COLOR LPARENTHESIS color 
+		| DISPLACE accion_pincel_opt_end 
+		| PAINT accion_pincel_opt_end 
+		| GRAPH LPARENTHESIS CTEFUNCION COMA exp'''
+
+def p_accion_pincel_opt_end(p):
+	'accion_pincel_opt_end : LPARENTHESIS expresion COMA expresion'
+
+# Color
+def p_color(p):
+	'''color : CTECOLOR
+		| CTEHEXCOLOR'''
 
 
-
-def p_empty(p):
-    'empty :'
-    pass
 
 # Error rule se tiene que agregar
 # Nos indica el error y el numero de linea donde esta
