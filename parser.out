@@ -1,0 +1,219 @@
+Created by PLY version 3.9 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    NOTEQUAL
+    ELIF
+    CTECOLOR
+    RETURN
+    DO
+    READ
+    ELSE
+    GETHAN
+    TRIANG
+    PRINT
+    LETHAN
+    NULL
+    MINUS
+    RECT
+    DIVIDE
+    COMMENT
+    POINT
+    NUEVO
+    CTEFUNCION
+    PLUS
+    CTEHEXCOLOR
+    EXPONENTIAL
+    MAIN
+    TIMES
+    LTHAN
+    IF
+    AND
+    GTHAN
+    CIRC
+    CUAD
+    OR
+    MOD
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> PROGRAMA ID vars_opt
+Rule 2     vars_opt -> vars
+Rule 3     vars_opt -> empty
+Rule 4     rutinas_loop -> rutinas_loop rutinas
+Rule 5     rutinas_loop -> empty
+Rule 6     vars -> VAR tipo COLON vars_loop
+Rule 7     vars_loop -> vars
+Rule 8     vars_loop -> empty
+Rule 9     rutinas -> RUTINA rutina_opt SEMICOLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop_2
+Rule 10    rutina_opt -> primitivo
+Rule 11    rutina_opt -> figura
+Rule 12    rutina_opt -> VOID
+Rule 13    rutinas_loop_2 -> rutinas
+Rule 14    rutinas_loop_2 -> empty
+Rule 15    tipo -> tipo-opt SEMICOLON
+Rule 16    tipo-opt -> tipo-opt-prim
+Rule 17    tipo-opt -> tipo-opt-fig
+Rule 18    tipo_opt_prim -> primitivo ID tipo-opt-prim-2 tipo-opt-prim-loop
+Rule 19    topo_opt_prin_loop -> COMA tipo-opt-prim
+Rule 20    topo_opt_prin_loop -> emtpy
+Rule 21    tipo_opt_prim_2 -> ini_prim
+Rule 22    tipo_opt_prim_2 -> LBRACKET logica RBRACKET tipo-opt-prim-3
+Rule 23    tipo_opt_prim_2 -> empty
+Rule 24    tipo_opt_prim_3 -> ini_prim_v
+Rule 25    tipo_opt_prim_3 -> empty
+Rule 26    tipo_opt_fig -> figura ID tipo_opt_fig_2
+Rule 27    tipo_opt_fig_loop -> COMA tipo_opt_fig
+Rule 28    tipo_opt_fig_loop -> empty
+Rule 29    tipo_opt_fig_2 -> ini_fgra
+Rule 30    tipo_opt_fig_2 -> LBRACKET logica RBRACKET tipo_opt_fig_3
+Rule 31    tipo_opt_fig_2 -> empty
+Rule 32    tipo_opt_fig_3 -> ini_fgra_v
+Rule 33    tipo_opt_fig_3 -> empty
+Rule 34    ini_prim -> ASIGN logica
+Rule 35    ini_prim_v -> ASIGN LBRACE logica ini_prim_v_loop RBRACE
+Rule 36    ini_prim_v-loop -> COMA logica ini_prim_v_loop
+Rule 37    ini_prim_v-loop -> empty
+Rule 38    ini_fgra -> ASIGN fgra_nva
+Rule 39    ini_fgra_v -> COMA logica init_fgras_v_loop
+Rule 40    ini_fgra_v -> emtpy
+Rule 41    fgra_nva -> nuevo fgra_atr
+Rule 42    fgra_nva -> empty
+Rule 43    fgra_atr -> pincel LPARENTHESIS fgra_atr_end
+Rule 44    fgra_atr -> cuadrado LPARENTHESIS exp COMA fgra_atr_end
+Rule 45    fgra_atr -> circulo LPARENTHESIS exp COMA fgra_atr_end
+Rule 46    fgra_atr -> rectangulo LPARENTHESIS exp COMA exp COMA fgra_atr_end
+Rule 47    fgra_atr -> triangulo LPARENTHESIS exp COMA exp COMA exp COMA exp COMA fgra_atr_end
+Rule 48    fgra_atr_end -> exp COMA exp COMA color RPARENTHESIS
+Rule 49    primitivo -> TYPEINT
+Rule 50    primitivo -> TYPEDOUBLE
+Rule 51    primitivo -> TYPEBOOL
+Rule 52    primitivo -> TYPESTRING
+Rule 53    figura -> PINCEL
+Rule 54    figura -> CUADRDO
+Rule 55    figura -> RECTANGULO
+Rule 56    figura -> CIRCULO
+Rule 57    figura -> TRIANGULO
+Rule 58    cte -> STRING
+Rule 59    cte -> INT
+Rule 60    cte -> DOUBLE
+Rule 61    cte -> BOOL
+Rule 62    empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 
+ASIGN                : 34 35 38
+BOOL                 : 61
+CIRC                 : 
+COLON                : 6
+COMA                 : 19 27 36 39 44 45 46 46 47 47 47 47 48 48
+COMMENT              : 
+CTECOLOR             : 
+CTEFUNCION           : 
+CTEHEXCOLOR          : 
+CUAD                 : 
+DIVIDE               : 
+DO                   : 
+DOUBLE               : 60
+ELIF                 : 
+ELSE                 : 
+EXPONENTIAL          : 
+GETHAN               : 
+GTHAN                : 
+ID                   : 1 9 18 26
+IF                   : 
+INT                  : 59
+LBRACE               : 35
+LBRACKET             : 22 30
+LETHAN               : 
+LPARENTHESIS         : 9 43 44 45 46 47
+LTHAN                : 
+MAIN                 : 
+MINUS                : 
+MOD                  : 
+NOTEQUAL             : 
+NUEVO                : 
+NULL                 : 
+OR                   : 
+PINCEL               : 53
+PLUS                 : 
+POINT                : 
+PRINT                : 
+PROGRAMA             : 1
+RBRACE               : 35
+RBRACKET             : 22 30
+READ                 : 
+RECT                 : 
+RETURN               : 
+RPARENTHESIS         : 9 48
+RUTINA               : 9
+SEMICOLON            : 9 15
+STRING               : 58
+TIMES                : 
+TRIANG               : 
+TYPEBOOL             : 51
+TYPEDOUBLE           : 50
+TYPEINT              : 49
+TYPESTRING           : 52
+VAR                  : 6
+VOID                 : 12
+error                : 
+
+Nonterminals, with rules where they appear
+
+CIRCULO              : 56
+CUADRDO              : 54
+RECTANGULO           : 55
+TRIANGULO            : 57
+bloque_rutina        : 9
+circulo              : 45
+color                : 48
+cte                  : 
+cuadrado             : 44
+empty                : 3 5 8 14 23 25 28 31 33 37 42
+emtpy                : 20 40
+exp                  : 44 45 46 46 47 47 47 47 48 48
+fgra_atr             : 41
+fgra_atr_end         : 43 44 45 46 47
+fgra_nva             : 38
+figura               : 11 26
+ini_fgra             : 29
+ini_fgra_v           : 32
+ini_prim             : 21
+ini_prim_v           : 24
+ini_prim_v-loop      : 
+ini_prim_v_loop      : 35 36
+init_fgras_v_loop    : 39
+logica               : 22 30 34 35 36 39
+nuevo                : 41
+parametros           : 9
+pincel               : 43
+primitivo            : 10 18
+programa             : 0
+rectangulo           : 46
+rutina_opt           : 9
+rutinas              : 4 13
+rutinas_loop         : 4
+rutinas_loop_2       : 9
+tipo                 : 6
+tipo-opt             : 15
+tipo-opt-fig         : 17
+tipo-opt-prim        : 16 19
+tipo-opt-prim-2      : 18
+tipo-opt-prim-3      : 22
+tipo-opt-prim-loop   : 18
+tipo_opt_fig         : 27
+tipo_opt_fig_2       : 26
+tipo_opt_fig_3       : 30
+tipo_opt_fig_loop    : 
+tipo_opt_prim        : 
+tipo_opt_prim_2      : 
+tipo_opt_prim_3      : 
+topo_opt_prin_loop   : 
+triangulo            : 47
+vars                 : 2 7
+vars_loop            : 6
+vars_opt             : 1
+

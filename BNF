@@ -1,42 +1,42 @@
 // programa
-programa : PROGRAMA ID vars-opt rutinas-loop lienzo
-vars-opt : vars | empty
-rutinas-loop : rutinas-loop rutinas | empty
+programa : PROGRAMA ID vars_opt rutinas_loop lienzo
+vars_opt : vars | empty
+rutinas_loop : rutinas_loop rutinas | empty
 
 // vars
-vars : VARIABLE tipo COLON vars-loop
-vars-loop : vars | empty
+vars : VARIABLE tipo COLON vars_loop
+vars_loop : vars | empty
 
 // rutinas
-rutinas : RUTINA rutina-opt SEMICOLON ID LPARENTHESIS parametros RPARENTHESIS bloque-rutina rutinas-loop
-rutina-opt : primitivo | figura | VOID
-rutinas-loop : rutinas | empty
+rutinas : RUTINA rutina_opt SEMICOLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop
+rutina_opt : primitivo | figura | VOID
+rutinas_loop : rutinas | empty
 
 // tipo
-tipo : tipo-opt SEMICOLON
-tipo-opt : tipo-opt-prim | tipo-opt-fig
-tipo-opt-prim : primitivo ID tipo-opt-prim-2 tipo-opt-prim-loop
-tipo-opt-prim-loop : COMA tipo-opt-prim | empty
-tipo-opt-prim-2 : ini_prim | LBRACKET logica RBRACKET tipo-opt-prim-3 | empty
-tipo-opt-prim-3 : ini_prim_v | empty
+tipo : tipo_opt SEMICOLON
+tipo_opt : tipo_opt_prim | tipo_opt_fig
+tipo_opt_prim : primitivo ID tipo_opt_prim_2 tipo_opt_prim_loop
+tipo_opt_prim_loop : COMA tipo_opt_prim | empty
+tipo_opt_prim_2 : ini_prim | LBRACKET logica RBRACKET tipo_opt_prim_3 | empty
+tipo_opt_prim_3 : ini_prim_v | empty
 
-tipo-opt-fig : figura ID tipo-opt-fig-2
-tipo-opt-prim-loop : COMA tipo-opt-prim | empty
-tipo-opt-fig-2 : ini_fgra | LBRACKET logica RBRACKET tipo-opt-fig-3 | empty tipo-opt-fig-3 : ini_fgra_v | empty
+tipo_opt_fig : figura ID tipo_opt_fig_2
+tipo_opt_fig_loop : COMA tipo_opt_prim | empty
+tipo_opt_fig_2 : ini_fgra | LBRACKET logica RBRACKET tipo_opt_fig_3 | empty tipo_opt_fig_3 : ini_fgra_v | empty
 
 // ini_prim
 ini_prim : ASIGN logica
 
 // ini_prim_v
-ini_prim_v : ASIGN LBRACE logica ini_prim_v-loop RBRACE
-ini_prim_v-loop : , logica ini_prim_v-loop | empty
+ini_prim_v : ASIGN LBRACE logica ini_prim_v_loop RBRACE
+ini_prim_v_loop : , logica ini_prim_v_loop | empty
 
 // ini_fgra
 ini_fgra : ASIGN fgra_nva
 
 // ini_fgra_v
-ini_fgra_v : ASIGN LBRACE ini_fgra_v-loop RBRACE
-ini_fgras_v-loop : , logica ini_fgras_v-loop | empty
+ini_fgra_v : ASIGN LBRACE ini_fgra_v_loop RBRACE
+ini_fgras_v_loop : , logica ini_fgras_v_loop | empty
 
 // fgra_nva 
 fgra_nva : nuevo fgra_atr | ID
@@ -50,13 +50,137 @@ fgra_atr : pincel LPARENTHESIS fgra_atr_end
 fgra_atr_end : exp COMA exp COMA color RPARENTHESIS
 
 // primitivo 
-primitivo : TYPEINT | TYPEDOUBLE | TYPEBOOL | TYPESTRING
+primitivo : TYPEINT 
+					| TYPEFLOAT 
+					| TYPEBOOL 
+					| TYPESTRING
 
 // figura 
-figura : PINCEL | CUAD | RECT | CIRC | TRIANG
+figura : PINCEL 
+				| CUAD 
+				| RECT 
+				| CIRC 
+				| TRIANG
 
 // cte
-cte : STRING | INT | DOUBLE | BOOL
+cte : STRING 
+			| INT 
+			| DOUBLE 
+			| BOOL
 
 // parametros
-parametros : 
+parametros : tipo SEMICOLON ID parametros_loop
+parametros_loop : COMA parametros 
+									| empty
+
+// lienzo
+lienzo : LIENZO bloque_lienzo
+
+// bloque
+bloque : LBRACE bloque_loop RBRACE
+bloque_loop : estatuto bloque_loop 
+						| empty
+
+// bloque_rutina
+bloque_rutina : LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE
+bloque_rutina_opt : vars 
+									| empty
+bloque_rutina_loop : estatuto bloque_rutina_loop 
+										| empty
+bloque_rutina_opt_2 : RETURN logica 
+										| empty
+
+// bloque_lienzo
+bloque_lienzo : LBRACE bloque_lienzo_loop RBRACE
+bloque_lienzo_loop : estatuto_lienzo bloque_lienzo_loop 
+										| empty
+
+// estatuto
+estatuto : asignacion 
+					| condicion 
+					| ciclo 
+					| impresion 
+					| lectura 
+					| accion 
+					| llamada
+
+//estatuto_lienzo
+estatuto_lienzo : vars 
+								| asignacion 
+								| condicion 
+								| ciclo 
+								| impresion 
+								| lectura 
+								| accion 
+								| llamada
+
+// asignacion
+asignacion : ID asignacion_opt ASIGN asignacion_opt_2
+asignacion_opt : LBRACKET logica RBRACKET 
+								| empty
+
+// condicion
+condicion : IF condicion_loop condicion_opt
+condicion_loop : LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt
+condicion_loop_opt : ELIF condicion_loop | empty
+condicion_opt : ELSE bloque | empty
+
+// ciclo
+ciclo : WHILE LPARENTHESIS logica RPARENTHESIs bloque
+
+// impresion 
+impresion : PRINT LPARENTHESIS logica RPARENTHESIS COLON
+
+// lectura
+lectura : READ LPARENTHESIS RPARENTHESIS COLON
+
+// llamada
+llamada : ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON
+llamada_loop : COMA exp llamada_loop | empty
+
+// logica
+logica : expresion logica_loop
+logica_loop : AND logica | OR logica | empty
+
+// expresion
+expresion : exp expresion_opt
+expresion_opt : expresion_opt_opt exp | empty
+expresion_opt_opt : GTHAN | GETHAN | ASIGN ASIGN | NOTEQUAL | LTHAN | LETHAN
+
+// exp
+exp : termino exp_loop
+exp_loop : PLUS exp | MINUS exp | empty
+
+// termino
+termino : factor termino_loop
+termino_loop : TIMES termino | DIVIDE termino | empty
+
+// factor 
+factor : LPARENTHESIS expresion RPARENTHESIS | factor_opt factor_opt_2
+factor_opt : PLUS | MINUS | empty
+factor_opt_2 : cte | idllamada
+
+// idllamada
+idllamada : ID idllamada_opt 
+idllamada_opt : LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS | LBRACKET expresion RBRACKET | empty
+idllamada_opt_loop : COMA exp idllamada_opt_loop | empty
+
+// accion
+accion : ID POINT accion_opt COLON
+accion_opt : accion_figura | accion_pincel
+
+// accion_figura
+accion_figura : accion_figura_opt RPARENTHESIS 
+accion_figura_opt : accion_figura_opt_2 | accion_figura_opt_3
+accion_figura_opt_2 : MOVEA accion_figura_opt_2_end | ROTATE accion_figura_opt_2_end | GROW accion_figura_opt_2_end | THICK accion_figura_opt_2_end
+accion_figura_opt_2_end : LPARENTHESIS expresion
+accion_figura_opt_3 : REMOVE LPARENTHESIS | FILL LPARENTHESIS color
+
+// accion_pincel 
+accion_pincel : accion_pincel_opt RPARENTHESIS
+accion_pincel_opt : COLOR LPARENTHESIS color | DISPLACE accion_pincel_opt_end | PAINT accion_pincel_opt_end | GRAPH LPARENTHESIS CTEFUNCION COMA exp 
+accion_pincel_opt_end : LPARENTHESIS expresion COMA expresion
+
+// color 
+color : CTECOLOR | CTEHEXCOLOR
+
