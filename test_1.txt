@@ -1,15 +1,19 @@
 programa pruebaFrida 
-	variable entero iTest, iTestV;
-	variable bool bTest, bTestV;
-	variable decimal dArrayTest[10]; 
+	variable entero iTest = 3, iVTest;
+	variable bool fFalso;
+	variable entero dArrayTest[3] = { 1, 5, 10 };
+
+	rutina entero : suma(entero x1, entero x2){
+		regresa x1 + x2;
+	}
 	
 	rutina void : pruebaRutina() {
 		variable cadena cPrueba = "cte_cadena";
 
-		tTest = 10 * 20 + 3 - 20 / 1;
-		dArrayTest[] = { 1, 5, 10 }
+		tTest = 10 * 20 + suma() - 20 / 1;
+		dArrayTest[3] = iTest;
 
-		si (2>0) {
+		si (2>0 y 5 != 3) {
 			si (0!=0) {
 				imprimir("diez");
 			}

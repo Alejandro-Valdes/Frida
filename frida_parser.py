@@ -14,17 +14,13 @@ from frida_lexer import tokens
 
 # Programa
 def p_programa(p):
-	'programa : PROGRAMA ID vars_opt rutinas_loop lienzo'
+	'programa : PROGRAMA ID vars_opt rutinas lienzo'
 	#Este mensaje solo se imprime si es valido el archivo
 	print('Valid Frida file')
 
 def p_vars_opt(p):
 	'''vars_opt : vars 
 		| empty'''
-
-def p_rutinas_loop(p):
-	'''rutinas_loop : rutinas_loop rutinas 
-		| empty '''
 
 def p_empty(p):
     'empty :'
@@ -33,7 +29,7 @@ def p_empty(p):
 # Vars
 
 def p_vars(p):
-	'vars : VAR tipo COLON vars_loop'
+	'vars : VAR tipo SEMICOLON vars_loop'
 
 def p_vars_loop(p):
 	'''vars_loop : vars
@@ -43,21 +39,21 @@ def p_vars_loop(p):
 # Rutinas
 
 def p_rutinas(p):
-	'rutinas : RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop_2'
+	'rutinas : RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop'
 
 def p_rutina_opt(p):
 	'''rutina_opt : primitivo 
 		| figura 
 		| VOID'''
 
-def p_rutinas_loop_2(p):
-	'''rutinas_loop_2 : rutinas
+def p_rutinas_loop(p):
+	'''rutinas_loop : rutinas
 		| empty '''
 
 # Tipo
 
 def p_tipo(p):
-	'tipo : tipo_opt SEMICOLON'
+	'tipo : tipo_opt'
 
 def p_tipo_opt(p):
 	'''tipo_opt : tipo_opt_prim 
@@ -66,10 +62,13 @@ def p_tipo_opt(p):
 # Tipo Prim
 
 def p_tipo_opt_prim(p):
-	'tipo_opt_prim : primitivo ID tipo_opt_prim_2 tipo_opt_prim_loop'
+	'tipo_opt_prim : primitivo tipo_opt_prim_loop'
 
 def p_tipo_opt_prim_loop(p):
-	'''tipo_opt_prim_loop : COMA tipo_opt_prim
+	'tipo_opt_prim_loop : ID tipo_opt_prim_2 tipo_opt_prim_loop_2'
+
+def p_tipo_opt_prim_loop_2(p):
+	'''tipo_opt_prim_loop_2 : COMA tipo_opt_prim_loop
 		| empty'''
 
 def p_tipo_opt_prim_2(p):
@@ -166,11 +165,25 @@ def p_cte(p):
 # parametros
 
 def p_parametros(p):
-	'parametros : tipo COLON ID parametros_loop'
+	'''parametros : param_list parametros_loop
+		| empty'''
 
 def p_parametros_loop(p):
 	'''parametros_loop : COMA parametros
 		| empty'''
+
+def p_param_list(p):
+	'''param_list : tipo_param ID param_list_loop
+		| empty '''
+
+def p_param_list_loop(p):
+	'''param_list_loop : COMA param_list
+		| empty'''
+
+def p_tipo_param(p):
+	'''tipo_param : primitivo 
+		| figura''' 
+
 
 # lienzo
 
@@ -200,7 +213,7 @@ def p_bloque_rutina_loop(p):
 		| empty'''
 
 def p_bloque_rutina_opt_2(p):
-	'''bloque_rutina_opt_2 : RETURN logica
+	'''bloque_rutina_opt_2 : RETURN logica SEMICOLON
 		| empty'''
 
 # Bloque lienzo
@@ -221,7 +234,8 @@ def p_estatuto(p):
 		| impresion 
 		| lectura 
 		| accion 
-		| llamada'''
+		| llamada
+		| comentario'''
 
 def p_estatuto_lienzo(p):
 	'''estatuto_lienzo : vars 
@@ -231,12 +245,14 @@ def p_estatuto_lienzo(p):
 		| impresion 
 		| lectura 
 		| accion 
-		| llamada'''
+		| llamada
+		| comentario'''
 
-# ASIGNACION TODO opt_2?
+def p_comentario(p):
+	'comentario : COMMENT'
 
 def p_asignacion(p):
-	'asignacion : ID asignacion_opt ASIGN asignacion_opt_2'
+	'asignacion : ID asignacion_opt ASIGN asignacion_opt_2 SEMICOLON'
 
 def p_asignacion_opt(p):
 	'''asignacion_opt : LBRACKET logica RBRACKET
@@ -352,6 +368,7 @@ def p_idllamada(p):
 
 def p_idllamada_opt(p):
 	'''idllamada_opt : LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS 
+		| LPARENTHESIS idllamada_opt_loop RPARENTHESIS	
 		| LBRACKET expresion RBRACKET 
 		| empty'''
 
@@ -361,14 +378,15 @@ def p_idllamada_opt_loop(p):
 
 # accion
 def p_accion(p):
-	'accion : ID POINT accion_opt COLON'
+	'accion : ID POINT accion_opt SEMICOLON'
+
 def p_accion_opt(p):
 	'''accion_opt : accion_figura 
 		| accion_pincel'''
 
 # accion figura
 def p_accion_figura(p):
-	'accion_figura : accion_figura_opt LPARENTHESIS'
+	'accion_figura : accion_figura_opt RPARENTHESIS'
 
 def p_accion_figura_opt(p):
 	'''accion_figura_opt : accion_figura_opt_2 
@@ -381,7 +399,7 @@ def p_accion_figura_opt_2(p):
 		| THICK accion_figura_opt_2_end'''
 
 def p_accion_figura_opt_2_end(p):
-	'accion_figura_opt_2_end : RPARENTHESIS expresion'
+	'accion_figura_opt_2_end : LPARENTHESIS expresion '
 
 def p_accion_figura_opt_3(p):
 	'''accion_figura_opt_3 : REMOVE LPARENTHESIS 
@@ -429,15 +447,15 @@ def readFile(file):
 
 print('\nArchivos Falla:\n')
 
-#readFile("test_fail_1.txt")
-#readFile("test_fail_2.txt")
-#readFile("test_fail_3.txt")
+readFile("test_fail_1.txt")
+readFile("test_fail_2.txt")
+readFile("test_fail_3.txt")
 
-#print('\n#####################')
+print('\n#####################')
 
-#print('\nArchivos Exito:\n')
+print('\nArchivos Exito:\n')
 readFile("test_1.txt")
-#readFile("test_2.txt")
-#readFile("test_3.txt")
+readFile("test_2.txt")
+readFile("test_3.txt")
 print('\n')
 

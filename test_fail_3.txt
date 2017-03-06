@@ -1,4 +1,3 @@
-// Errores de semántica, pero léxico y sintaxis correcta
 programa pruebaFrida
 	rutina triangulo : pruebaRegresaFigura() {
 		variable entero iPunto1 = 12;
