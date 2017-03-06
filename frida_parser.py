@@ -14,7 +14,7 @@ from frida_lexer import tokens
 
 # Programa
 def p_programa(p):
-	'programa : PROGRAMA ID vars_opt'
+	'programa : PROGRAMA ID vars_opt rutinas_loop lienzo'
 	#Este mensaje solo se imprime si es valido el archivo
 	print('Valid Frida file')
 
@@ -125,19 +125,19 @@ def p_ini_fgra_v(p):
 		| empty'''
 
 def p_ini_fgras_v_loop(p):
-	'''ini_fgras_v_loop : COMA logica ni_fgras_v_loop
+	'''ini_fgras_v_loop : COMA logica ini_fgras_v_loop
 		| empty'''
 
 def p_fgra_nva(p):
-	'''fgra_nva : nuevo fgra_atr
+	'''fgra_nva : NUEVO fgra_atr
 		| empty'''
 
 def p_fgra_atr(p):
-	'''fgra_atr : pincel LPARENTHESIS fgra_atr_end 
-		| cuadrado LPARENTHESIS exp COMA fgra_atr_end 
-		| circulo LPARENTHESIS exp COMA fgra_atr_end
-		| rectangulo LPARENTHESIS exp COMA exp COMA fgra_atr_end
-		| triangulo LPARENTHESIS exp COMA exp COMA exp COMA exp COMA fgra_atr_end'''
+	'''fgra_atr : PINCEL LPARENTHESIS fgra_atr_end 
+		| CUAD LPARENTHESIS exp COMA fgra_atr_end 
+		| CIRC LPARENTHESIS exp COMA fgra_atr_end
+		| RECT LPARENTHESIS exp COMA exp COMA fgra_atr_end
+		| TRIANG LPARENTHESIS exp COMA exp COMA exp COMA exp COMA fgra_atr_end'''
 
 def p_fgra_atr_end(p):
 	'fgra_atr_end : exp COMA exp COMA color RPARENTHESIS'
@@ -152,10 +152,10 @@ def p_primitivo(p):
 
 def p_figura(p):
 	'''figura : PINCEL
-		| CUADRDO
-		| RECTANGULO
-		| CIRCULO
-		| TRIANGULO'''
+		| CUAD
+		| RECT
+		| CIRC
+		| TRIANG'''
 
 def p_cte(p):
 	'''cte : STRING 
@@ -175,7 +175,7 @@ def p_parametros_loop(p):
 # lienzo
 
 def p_lienzo(p):
-	'lienzo : LIENZO bloque_lienzo'
+	'lienzo : MAIN bloque_lienzo'
 
 # Bloque
 
@@ -235,22 +235,30 @@ def p_estatuto_lienzo(p):
 
 # ASIGNACION TODO opt_2?
 
-def p_asigncaion(p):
+def p_asignacion(p):
 	'asignacion : ID asignacion_opt ASIGN asignacion_opt_2'
 
 def p_asignacion_opt(p):
 	'''asignacion_opt : LBRACKET logica RBRACKET
 		| empty'''
 
+def p_asignacion_opt_2(p):
+	'''asignacion_opt_2 : logica 
+		| lectura 
+		| fgra_nva '''
+
 # CONDICION
 
 def p_condicion(p):
 	'condicion : IF condicion_loop condicion_opt'
+
 def p_condicion_loop(p):
 	'condicion_loop : LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt'
+
 def p_condicion_loop_opt(p):
 	'''condicion_loop_opt : ELIF condicion_loop 
 		| empty'''
+
 def p_condicion_opt(p):
 	'''condicion_opt : ELSE bloque 
 		| empty'''
@@ -266,7 +274,7 @@ def p_impresion(p):
 
 # LECTURA
 def p_lectura(p):
-	'lectura : READ LPARENTHESIS RPARENTHSIS SEMICOLON'
+	'lectura : READ LPARENTHESIS RPARENTHESIS SEMICOLON'
 
 # LLAMADA
 

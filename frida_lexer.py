@@ -51,7 +51,7 @@ reserved = {
 	'sino_pero' : 'ELIF',
 	'y' : 'AND',
 	'o' : 'OR',
-	'hacer' : 'DO',
+	'mientras' : 'WHILE',
 	'rutina' : 'RUTINA',
 	'nulo' : 'NULL',
 	'regresa' : 'RETURN',
