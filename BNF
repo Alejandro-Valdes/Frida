@@ -1,0 +1,26 @@
+// programa
+programa : PROGRAMA ID vars-opt rutinas-loop lienzo
+vars-opt : vars | empty
+rutinas-loop : rutinas-loop rutinas | empty
+
+// vars
+vars : VARIABLE tipo COLON vars-loop
+vars-loop : vars | empty
+
+// rutinas
+rutinas : RUTINA rutina-opt SEMICOLON ID LPARENTHESIS parametros RPARENTHESIS bloque-rutina rutinas-loop
+rutina-opt : primitivo | figura | VOID
+rutinas-loop : rutinas | empty
+
+// tipo
+tipo : tipo-opt SEMICOLON
+tipo-opt : tipo-opt-prim | tipo-opt-fig
+tipo-opt-prim : primitivo ID tipo-opt-prim-2 tipo-opt-prim-loop
+tipo-opt-prim-loop : COMA tipo-opt-prim | empty
+tipo-opt-fig : figura ID tipo-opt-fig-2
+tipo-opt-fig-2 : ini_fgra | LBRACKET logica RBRACKET tipo-opt-fig-3 tipo-opt-fig-loop : 
+tipo-opt-fig-3 : ini_prim_v | empty
+
+tipo-opt-prim-2 : ini_prim | LBRACKET logica RBRACKET tipo-opt-prim-3 | empty
+tipo-opt-prim-3 : ini_prim_v | empty
+
