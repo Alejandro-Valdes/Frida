@@ -3,14 +3,14 @@ programa pruebaFrida
 	variable bool fFalso;
 	variable entero dArrayTest[3] = { 1, 5, 10 };
 
-	rutina entero : suma(entero x1, entero x2){
+	rutina entero : suma(entero : x1, entero : x2){
 		regresa x1 + x2;
 	}
 	
 	rutina void : pruebaRutina() {
 		variable cadena cPrueba = "cte_cadena";
 
-		tTest = 10 * 20 + suma() - 20 / 1;
+		tTest = 10 * (20 + suma(3, 4) - 20) / 1;
 		dArrayTest[3] = iTest;
 
 		si (2>0 y 5 != 3) {

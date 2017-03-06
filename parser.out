@@ -76,7 +76,7 @@ Rule 64    parametros -> param_list parametros_loop
 Rule 65    parametros -> empty
 Rule 66    parametros_loop -> COMA parametros
 Rule 67    parametros_loop -> empty
-Rule 68    param_list -> tipo_param ID param_list_loop
+Rule 68    param_list -> tipo_param COLON ID param_list_loop
 Rule 69    param_list -> empty
 Rule 70    param_list_loop -> COMA param_list
 Rule 71    param_list_loop -> empty
@@ -195,7 +195,7 @@ AND                  : 125
 ASIGN                : 34 35 38 106 133 133
 BOOL                 : 63
 CIRC                 : 47 58
-COLON                : 8 121
+COLON                : 8 68 121
 COLOR                : 173
 COMA                 : 19 27 36 39 41 46 47 48 48 49 49 49 49 50 50 66 70 122 157 176 177
 COMMENT              : 105
@@ -510,8 +510,8 @@ state 13
 
     (54) primitivo -> TYPESTRING .
 
-    ID              reduce using rule 54 (primitivo -> TYPESTRING .)
     COLON           reduce using rule 54 (primitivo -> TYPESTRING .)
+    ID              reduce using rule 54 (primitivo -> TYPESTRING .)
 
 
 state 14
@@ -525,8 +525,8 @@ state 15
 
     (55) figura -> PINCEL .
 
-    ID              reduce using rule 55 (figura -> PINCEL .)
     COLON           reduce using rule 55 (figura -> PINCEL .)
+    ID              reduce using rule 55 (figura -> PINCEL .)
 
 
 state 16
@@ -540,16 +540,16 @@ state 17
 
     (52) primitivo -> TYPEDOUBLE .
 
-    ID              reduce using rule 52 (primitivo -> TYPEDOUBLE .)
     COLON           reduce using rule 52 (primitivo -> TYPEDOUBLE .)
+    ID              reduce using rule 52 (primitivo -> TYPEDOUBLE .)
 
 
 state 18
 
     (53) primitivo -> TYPEBOOL .
 
-    ID              reduce using rule 53 (primitivo -> TYPEBOOL .)
     COLON           reduce using rule 53 (primitivo -> TYPEBOOL .)
+    ID              reduce using rule 53 (primitivo -> TYPEBOOL .)
 
 
 state 19
@@ -565,40 +565,40 @@ state 20
 
     (59) figura -> TRIANG .
 
-    ID              reduce using rule 59 (figura -> TRIANG .)
     COLON           reduce using rule 59 (figura -> TRIANG .)
+    ID              reduce using rule 59 (figura -> TRIANG .)
 
 
 state 21
 
     (51) primitivo -> TYPEINT .
 
-    ID              reduce using rule 51 (primitivo -> TYPEINT .)
     COLON           reduce using rule 51 (primitivo -> TYPEINT .)
+    ID              reduce using rule 51 (primitivo -> TYPEINT .)
 
 
 state 22
 
     (58) figura -> CIRC .
 
-    ID              reduce using rule 58 (figura -> CIRC .)
     COLON           reduce using rule 58 (figura -> CIRC .)
+    ID              reduce using rule 58 (figura -> CIRC .)
 
 
 state 23
 
     (57) figura -> RECT .
 
-    ID              reduce using rule 57 (figura -> RECT .)
     COLON           reduce using rule 57 (figura -> RECT .)
+    ID              reduce using rule 57 (figura -> RECT .)
 
 
 state 24
 
     (56) figura -> CUAD .
 
-    ID              reduce using rule 56 (figura -> CUAD .)
     COLON           reduce using rule 56 (figura -> CUAD .)
+    ID              reduce using rule 56 (figura -> CUAD .)
 
 
 state 25
@@ -802,8 +802,8 @@ state 39
     READ            reduce using rule 5 (vars -> VAR tipo SEMICOLON vars_loop .)
     COMMENT         reduce using rule 5 (vars -> VAR tipo SEMICOLON vars_loop .)
     RBRACE          reduce using rule 5 (vars -> VAR tipo SEMICOLON vars_loop .)
-    RUTINA          reduce using rule 5 (vars -> VAR tipo SEMICOLON vars_loop .)
     RETURN          reduce using rule 5 (vars -> VAR tipo SEMICOLON vars_loop .)
+    RUTINA          reduce using rule 5 (vars -> VAR tipo SEMICOLON vars_loop .)
 
 
 state 40
@@ -1750,7 +1750,7 @@ state 100
     (8) rutinas -> RUTINA rutina_opt COLON ID LPARENTHESIS . parametros RPARENTHESIS bloque_rutina rutinas_loop
     (64) parametros -> . param_list parametros_loop
     (65) parametros -> . empty
-    (68) param_list -> . tipo_param ID param_list_loop
+    (68) param_list -> . tipo_param COLON ID param_list_loop
     (69) param_list -> . empty
     (4) empty -> .
     (72) tipo_param -> . primitivo
@@ -1863,9 +1863,9 @@ state 108
 
     RBRACKET        reduce using rule 124 (logica -> expresion logica_loop .)
     COMA            reduce using rule 124 (logica -> expresion logica_loop .)
-    RBRACE          reduce using rule 124 (logica -> expresion logica_loop .)
-    RPARENTHESIS    reduce using rule 124 (logica -> expresion logica_loop .)
     SEMICOLON       reduce using rule 124 (logica -> expresion logica_loop .)
+    RPARENTHESIS    reduce using rule 124 (logica -> expresion logica_loop .)
+    RBRACE          reduce using rule 124 (logica -> expresion logica_loop .)
 
 
 state 109
@@ -2510,8 +2510,8 @@ state 145
     PRINT           reduce using rule 112 (condicion -> IF condicion_loop condicion_opt .)
     READ            reduce using rule 112 (condicion -> IF condicion_loop condicion_opt .)
     COMMENT         reduce using rule 112 (condicion -> IF condicion_loop condicion_opt .)
-    RBRACE          reduce using rule 112 (condicion -> IF condicion_loop condicion_opt .)
     RETURN          reduce using rule 112 (condicion -> IF condicion_loop condicion_opt .)
+    RBRACE          reduce using rule 112 (condicion -> IF condicion_loop condicion_opt .)
     VAR             reduce using rule 112 (condicion -> IF condicion_loop condicion_opt .)
 
 
@@ -2728,7 +2728,7 @@ state 167
 
     (73) tipo_param -> figura .
 
-    ID              reduce using rule 73 (tipo_param -> figura .)
+    COLON           reduce using rule 73 (tipo_param -> figura .)
 
 
 state 168
@@ -2748,14 +2748,14 @@ state 169
 
     (72) tipo_param -> primitivo .
 
-    ID              reduce using rule 72 (tipo_param -> primitivo .)
+    COLON           reduce using rule 72 (tipo_param -> primitivo .)
 
 
 state 170
 
-    (68) param_list -> tipo_param . ID param_list_loop
+    (68) param_list -> tipo_param . COLON ID param_list_loop
 
-    ID              shift and go to state 232
+    COLON           shift and go to state 232
 
 
 state 171
@@ -3619,7 +3619,7 @@ state 229
     (66) parametros_loop -> COMA . parametros
     (64) parametros -> . param_list parametros_loop
     (65) parametros -> . empty
-    (68) param_list -> . tipo_param ID param_list_loop
+    (68) param_list -> . tipo_param COLON ID param_list_loop
     (69) param_list -> . empty
     (4) empty -> .
     (72) tipo_param -> . primitivo
@@ -3669,41 +3669,32 @@ state 231
 
 state 232
 
-    (68) param_list -> tipo_param ID . param_list_loop
-    (70) param_list_loop -> . COMA param_list
-    (71) param_list_loop -> . empty
-    (4) empty -> .
+    (68) param_list -> tipo_param COLON . ID param_list_loop
 
-  ! shift/reduce conflict for COMA resolved as shift
-    COMA            shift and go to state 272
-    RPARENTHESIS    reduce using rule 4 (empty -> .)
+    ID              shift and go to state 272
 
-  ! COMA            [ reduce using rule 4 (empty -> .) ]
-
-    param_list_loop                shift and go to state 273
-    empty                          shift and go to state 274
 
 state 233
 
     (8) rutinas -> RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS . bloque_rutina rutinas_loop
     (78) bloque_rutina -> . LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE
 
-    LBRACE          shift and go to state 276
+    LBRACE          shift and go to state 274
 
-    bloque_rutina                  shift and go to state 275
+    bloque_rutina                  shift and go to state 273
 
 state 234
 
     (49) fgra_atr -> TRIANG LPARENTHESIS exp . COMA exp COMA exp COMA exp COMA fgra_atr_end
 
-    COMA            shift and go to state 277
+    COMA            shift and go to state 275
 
 
 state 235
 
     (50) fgra_atr_end -> exp . COMA exp COMA color RPARENTHESIS
 
-    COMA            shift and go to state 278
+    COMA            shift and go to state 276
 
 
 state 236
@@ -3717,21 +3708,21 @@ state 237
 
     (47) fgra_atr -> CIRC LPARENTHESIS exp . COMA fgra_atr_end
 
-    COMA            shift and go to state 279
+    COMA            shift and go to state 277
 
 
 state 238
 
     (48) fgra_atr -> RECT LPARENTHESIS exp . COMA exp COMA fgra_atr_end
 
-    COMA            shift and go to state 280
+    COMA            shift and go to state 278
 
 
 state 239
 
     (46) fgra_atr -> CUAD LPARENTHESIS exp . COMA fgra_atr_end
 
-    COMA            shift and go to state 281
+    COMA            shift and go to state 279
 
 
 state 240
@@ -3741,11 +3732,11 @@ state 240
     (42) ini_fgras_v_loop -> . empty
     (4) empty -> .
 
-    COMA            shift and go to state 282
+    COMA            shift and go to state 280
     SEMICOLON       reduce using rule 4 (empty -> .)
 
-    ini_fgras_v_loop               shift and go to state 283
-    empty                          shift and go to state 284
+    ini_fgras_v_loop               shift and go to state 281
+    empty                          shift and go to state 282
 
 state 241
 
@@ -3757,8 +3748,8 @@ state 241
     COMA            shift and go to state 242
     RPARENTHESIS    reduce using rule 4 (empty -> .)
 
-    idllamada_opt_loop             shift and go to state 285
-    empty                          shift and go to state 286
+    idllamada_opt_loop             shift and go to state 283
+    empty                          shift and go to state 284
 
 state 242
 
@@ -3783,7 +3774,7 @@ state 242
 
     factor_opt                     shift and go to state 82
     termino                        shift and go to state 78
-    exp                            shift and go to state 287
+    exp                            shift and go to state 285
     factor                         shift and go to state 80
     empty                          shift and go to state 76
 
@@ -3791,7 +3782,7 @@ state 243
 
     (154) idllamada_opt -> LPARENTHESIS idllamada_opt_loop . RPARENTHESIS
 
-    RPARENTHESIS    shift and go to state 288
+    RPARENTHESIS    shift and go to state 286
 
 
 state 244
@@ -3811,7 +3802,7 @@ state 245
 
     (155) idllamada_opt -> LBRACKET expresion . RBRACKET
 
-    RBRACKET        shift and go to state 289
+    RBRACKET        shift and go to state 287
 
 
 state 246
@@ -3838,7 +3829,7 @@ state 246
     ID              reduce using rule 4 (empty -> .)
 
     expresion                      shift and go to state 73
-    logica                         shift and go to state 290
+    logica                         shift and go to state 288
     empty                          shift and go to state 76
     termino                        shift and go to state 78
     exp                            shift and go to state 79
@@ -3871,8 +3862,8 @@ state 248
     READ            reduce using rule 119 (impresion -> PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON .)
     COMMENT         reduce using rule 119 (impresion -> PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON .)
     RBRACE          reduce using rule 119 (impresion -> PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON .)
-    RETURN          reduce using rule 119 (impresion -> PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON .)
     VAR             reduce using rule 119 (impresion -> PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON .)
+    RETURN          reduce using rule 119 (impresion -> PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON .)
 
 
 state 249
@@ -3882,7 +3873,7 @@ state 249
     (115) condicion_loop_opt -> . empty
     (4) empty -> .
 
-    ELIF            shift and go to state 291
+    ELIF            shift and go to state 289
     ELSE            reduce using rule 4 (empty -> .)
     VAR             reduce using rule 4 (empty -> .)
     ID              reduce using rule 4 (empty -> .)
@@ -3894,8 +3885,8 @@ state 249
     RBRACE          reduce using rule 4 (empty -> .)
     RETURN          reduce using rule 4 (empty -> .)
 
-    condicion_loop_opt             shift and go to state 292
-    empty                          shift and go to state 293
+    condicion_loop_opt             shift and go to state 290
+    empty                          shift and go to state 291
 
 state 250
 
@@ -3963,7 +3954,7 @@ state 252
     comentario                     shift and go to state 250
     llamada                        shift and go to state 253
     condicion                      shift and go to state 254
-    bloque_loop                    shift and go to state 294
+    bloque_loop                    shift and go to state 292
     lectura                        shift and go to state 255
     empty                          shift and go to state 256
     accion                         shift and go to state 258
@@ -4021,7 +4012,7 @@ state 257
 
     (75) bloque -> LBRACE bloque_loop . RBRACE
 
-    RBRACE          shift and go to state 295
+    RBRACE          shift and go to state 293
 
 
 state 258
@@ -4120,21 +4111,21 @@ state 267
 
     (176) accion_pincel_opt -> GRAPH LPARENTHESIS CTEFUNCION . COMA exp
 
-    COMA            shift and go to state 296
+    COMA            shift and go to state 294
 
 
 state 268
 
     (177) accion_pincel_opt_end -> LPARENTHESIS expresion . COMA expresion
 
-    COMA            shift and go to state 297
+    COMA            shift and go to state 295
 
 
 state 269
 
     (121) llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS . COLON
 
-    COLON           shift and go to state 298
+    COLON           shift and go to state 296
 
 
 state 270
@@ -4147,7 +4138,7 @@ state 270
     COMA            shift and go to state 226
     RPARENTHESIS    reduce using rule 4 (empty -> .)
 
-    llamada_loop                   shift and go to state 299
+    llamada_loop                   shift and go to state 297
     empty                          shift and go to state 227
 
 state 271
@@ -4159,8 +4150,474 @@ state 271
 
 state 272
 
+    (68) param_list -> tipo_param COLON ID . param_list_loop
+    (70) param_list_loop -> . COMA param_list
+    (71) param_list_loop -> . empty
+    (4) empty -> .
+
+  ! shift/reduce conflict for COMA resolved as shift
+    COMA            shift and go to state 298
+    RPARENTHESIS    reduce using rule 4 (empty -> .)
+
+  ! COMA            [ reduce using rule 4 (empty -> .) ]
+
+    param_list_loop                shift and go to state 299
+    empty                          shift and go to state 300
+
+state 273
+
+    (8) rutinas -> RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina . rutinas_loop
+    (12) rutinas_loop -> . rutinas
+    (13) rutinas_loop -> . empty
+    (8) rutinas -> . RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop
+    (4) empty -> .
+
+    RUTINA          shift and go to state 9
+    MAIN            reduce using rule 4 (empty -> .)
+
+    rutinas_loop                   shift and go to state 301
+    rutinas                        shift and go to state 302
+    empty                          shift and go to state 303
+
+state 274
+
+    (78) bloque_rutina -> LBRACE . bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE
+    (79) bloque_rutina_opt -> . vars
+    (80) bloque_rutina_opt -> . empty
+    (5) vars -> . VAR tipo SEMICOLON vars_loop
+    (4) empty -> .
+
+    VAR             shift and go to state 6
+    ID              reduce using rule 4 (empty -> .)
+    IF              reduce using rule 4 (empty -> .)
+    WHILE           reduce using rule 4 (empty -> .)
+    PRINT           reduce using rule 4 (empty -> .)
+    READ            reduce using rule 4 (empty -> .)
+    COMMENT         reduce using rule 4 (empty -> .)
+    RETURN          reduce using rule 4 (empty -> .)
+    RBRACE          reduce using rule 4 (empty -> .)
+
+    bloque_rutina_opt              shift and go to state 304
+    vars                           shift and go to state 305
+    empty                          shift and go to state 306
+
+state 275
+
+    (49) fgra_atr -> TRIANG LPARENTHESIS exp COMA . exp COMA exp COMA exp COMA fgra_atr_end
+    (137) exp -> . termino exp_loop
+    (141) termino -> . factor termino_loop
+    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (146) factor -> . factor_opt factor_opt_2
+    (147) factor_opt -> . PLUS
+    (148) factor_opt -> . MINUS
+    (149) factor_opt -> . empty
+    (4) empty -> .
+
+    LPARENTHESIS    shift and go to state 74
+    PLUS            shift and go to state 77
+    MINUS           shift and go to state 81
+    STRING          reduce using rule 4 (empty -> .)
+    INT             reduce using rule 4 (empty -> .)
+    DOUBLE          reduce using rule 4 (empty -> .)
+    BOOL            reduce using rule 4 (empty -> .)
+    ID              reduce using rule 4 (empty -> .)
+
+    factor_opt                     shift and go to state 82
+    termino                        shift and go to state 78
+    exp                            shift and go to state 307
+    factor                         shift and go to state 80
+    empty                          shift and go to state 76
+
+state 276
+
+    (50) fgra_atr_end -> exp COMA . exp COMA color RPARENTHESIS
+    (137) exp -> . termino exp_loop
+    (141) termino -> . factor termino_loop
+    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (146) factor -> . factor_opt factor_opt_2
+    (147) factor_opt -> . PLUS
+    (148) factor_opt -> . MINUS
+    (149) factor_opt -> . empty
+    (4) empty -> .
+
+    LPARENTHESIS    shift and go to state 74
+    PLUS            shift and go to state 77
+    MINUS           shift and go to state 81
+    STRING          reduce using rule 4 (empty -> .)
+    INT             reduce using rule 4 (empty -> .)
+    DOUBLE          reduce using rule 4 (empty -> .)
+    BOOL            reduce using rule 4 (empty -> .)
+    ID              reduce using rule 4 (empty -> .)
+
+    factor_opt                     shift and go to state 82
+    termino                        shift and go to state 78
+    exp                            shift and go to state 308
+    factor                         shift and go to state 80
+    empty                          shift and go to state 76
+
+state 277
+
+    (47) fgra_atr -> CIRC LPARENTHESIS exp COMA . fgra_atr_end
+    (50) fgra_atr_end -> . exp COMA exp COMA color RPARENTHESIS
+    (137) exp -> . termino exp_loop
+    (141) termino -> . factor termino_loop
+    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (146) factor -> . factor_opt factor_opt_2
+    (147) factor_opt -> . PLUS
+    (148) factor_opt -> . MINUS
+    (149) factor_opt -> . empty
+    (4) empty -> .
+
+    LPARENTHESIS    shift and go to state 74
+    PLUS            shift and go to state 77
+    MINUS           shift and go to state 81
+    STRING          reduce using rule 4 (empty -> .)
+    INT             reduce using rule 4 (empty -> .)
+    DOUBLE          reduce using rule 4 (empty -> .)
+    BOOL            reduce using rule 4 (empty -> .)
+    ID              reduce using rule 4 (empty -> .)
+
+    factor_opt                     shift and go to state 82
+    termino                        shift and go to state 78
+    exp                            shift and go to state 235
+    factor                         shift and go to state 80
+    fgra_atr_end                   shift and go to state 309
+    empty                          shift and go to state 76
+
+state 278
+
+    (48) fgra_atr -> RECT LPARENTHESIS exp COMA . exp COMA fgra_atr_end
+    (137) exp -> . termino exp_loop
+    (141) termino -> . factor termino_loop
+    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (146) factor -> . factor_opt factor_opt_2
+    (147) factor_opt -> . PLUS
+    (148) factor_opt -> . MINUS
+    (149) factor_opt -> . empty
+    (4) empty -> .
+
+    LPARENTHESIS    shift and go to state 74
+    PLUS            shift and go to state 77
+    MINUS           shift and go to state 81
+    STRING          reduce using rule 4 (empty -> .)
+    INT             reduce using rule 4 (empty -> .)
+    DOUBLE          reduce using rule 4 (empty -> .)
+    BOOL            reduce using rule 4 (empty -> .)
+    ID              reduce using rule 4 (empty -> .)
+
+    factor_opt                     shift and go to state 82
+    termino                        shift and go to state 78
+    exp                            shift and go to state 310
+    factor                         shift and go to state 80
+    empty                          shift and go to state 76
+
+state 279
+
+    (46) fgra_atr -> CUAD LPARENTHESIS exp COMA . fgra_atr_end
+    (50) fgra_atr_end -> . exp COMA exp COMA color RPARENTHESIS
+    (137) exp -> . termino exp_loop
+    (141) termino -> . factor termino_loop
+    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (146) factor -> . factor_opt factor_opt_2
+    (147) factor_opt -> . PLUS
+    (148) factor_opt -> . MINUS
+    (149) factor_opt -> . empty
+    (4) empty -> .
+
+    LPARENTHESIS    shift and go to state 74
+    PLUS            shift and go to state 77
+    MINUS           shift and go to state 81
+    STRING          reduce using rule 4 (empty -> .)
+    INT             reduce using rule 4 (empty -> .)
+    DOUBLE          reduce using rule 4 (empty -> .)
+    BOOL            reduce using rule 4 (empty -> .)
+    ID              reduce using rule 4 (empty -> .)
+
+    factor_opt                     shift and go to state 82
+    termino                        shift and go to state 78
+    exp                            shift and go to state 235
+    factor                         shift and go to state 80
+    fgra_atr_end                   shift and go to state 311
+    empty                          shift and go to state 76
+
+state 280
+
+    (41) ini_fgras_v_loop -> COMA . logica ini_fgras_v_loop
+    (124) logica -> . expresion logica_loop
+    (128) expresion -> . exp expresion_opt
+    (137) exp -> . termino exp_loop
+    (141) termino -> . factor termino_loop
+    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (146) factor -> . factor_opt factor_opt_2
+    (147) factor_opt -> . PLUS
+    (148) factor_opt -> . MINUS
+    (149) factor_opt -> . empty
+    (4) empty -> .
+
+    LPARENTHESIS    shift and go to state 74
+    PLUS            shift and go to state 77
+    MINUS           shift and go to state 81
+    STRING          reduce using rule 4 (empty -> .)
+    INT             reduce using rule 4 (empty -> .)
+    DOUBLE          reduce using rule 4 (empty -> .)
+    BOOL            reduce using rule 4 (empty -> .)
+    ID              reduce using rule 4 (empty -> .)
+
+    expresion                      shift and go to state 73
+    factor                         shift and go to state 80
+    logica                         shift and go to state 312
+    empty                          shift and go to state 76
+    termino                        shift and go to state 78
+    exp                            shift and go to state 79
+    factor_opt                     shift and go to state 82
+
+state 281
+
+    (39) ini_fgra_v -> COMA logica ini_fgras_v_loop .
+
+    SEMICOLON       reduce using rule 39 (ini_fgra_v -> COMA logica ini_fgras_v_loop .)
+
+
+state 282
+
+    (42) ini_fgras_v_loop -> empty .
+
+    SEMICOLON       reduce using rule 42 (ini_fgras_v_loop -> empty .)
+
+
+state 283
+
+    (153) idllamada_opt -> LPARENTHESIS exp idllamada_opt_loop . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 313
+
+
+state 284
+
+    (158) idllamada_opt_loop -> empty .
+
+    RPARENTHESIS    reduce using rule 158 (idllamada_opt_loop -> empty .)
+
+
+state 285
+
+    (157) idllamada_opt_loop -> COMA exp . idllamada_opt_loop
+    (157) idllamada_opt_loop -> . COMA exp idllamada_opt_loop
+    (158) idllamada_opt_loop -> . empty
+    (4) empty -> .
+
+    COMA            shift and go to state 242
+    RPARENTHESIS    reduce using rule 4 (empty -> .)
+
+    idllamada_opt_loop             shift and go to state 314
+    empty                          shift and go to state 284
+
+state 286
+
+    (154) idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .
+
+    TIMES           reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    DIVIDE          reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    PLUS            reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    MINUS           reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    GTHAN           reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    GETHAN          reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    ASIGN           reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    NOTEQUAL        reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    LTHAN           reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    LETHAN          reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    AND             reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    OR              reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    RBRACKET        reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    COMA            reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    SEMICOLON       reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    RPARENTHESIS    reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+    RBRACE          reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
+
+
+state 287
+
+    (155) idllamada_opt -> LBRACKET expresion RBRACKET .
+
+    TIMES           reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    DIVIDE          reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    PLUS            reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    MINUS           reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    GTHAN           reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    GETHAN          reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    ASIGN           reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    NOTEQUAL        reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    LTHAN           reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    LETHAN          reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    AND             reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    OR              reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    RBRACKET        reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    COMA            reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    SEMICOLON       reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    RPARENTHESIS    reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+    RBRACE          reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
+
+
+state 288
+
+    (35) ini_prim_v -> ASIGN LBRACE logica . ini_prim_v_loop RBRACE
+    (36) ini_prim_v_loop -> . COMA logica ini_prim_v_loop
+    (37) ini_prim_v_loop -> . empty
+    (4) empty -> .
+
+    COMA            shift and go to state 316
+    RBRACE          reduce using rule 4 (empty -> .)
+
+    ini_prim_v_loop                shift and go to state 315
+    empty                          shift and go to state 317
+
+state 289
+
+    (114) condicion_loop_opt -> ELIF . condicion_loop
+    (113) condicion_loop -> . LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt
+
+    LPARENTHESIS    shift and go to state 92
+
+    condicion_loop                 shift and go to state 318
+
+state 290
+
+    (113) condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .
+
+    ELSE            reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
+    VAR             reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
+    ID              reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
+    IF              reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
+    WHILE           reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
+    PRINT           reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
+    READ            reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
+    COMMENT         reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
+    RBRACE          reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
+    RETURN          reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
+
+
+state 291
+
+    (115) condicion_loop_opt -> empty .
+
+    ELSE            reduce using rule 115 (condicion_loop_opt -> empty .)
+    VAR             reduce using rule 115 (condicion_loop_opt -> empty .)
+    ID              reduce using rule 115 (condicion_loop_opt -> empty .)
+    IF              reduce using rule 115 (condicion_loop_opt -> empty .)
+    WHILE           reduce using rule 115 (condicion_loop_opt -> empty .)
+    PRINT           reduce using rule 115 (condicion_loop_opt -> empty .)
+    READ            reduce using rule 115 (condicion_loop_opt -> empty .)
+    COMMENT         reduce using rule 115 (condicion_loop_opt -> empty .)
+    RBRACE          reduce using rule 115 (condicion_loop_opt -> empty .)
+    RETURN          reduce using rule 115 (condicion_loop_opt -> empty .)
+
+
+state 292
+
+    (76) bloque_loop -> estatuto bloque_loop .
+
+    RBRACE          reduce using rule 76 (bloque_loop -> estatuto bloque_loop .)
+
+
+state 293
+
+    (75) bloque -> LBRACE bloque_loop RBRACE .
+
+    VAR             reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
+    ID              reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
+    IF              reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
+    WHILE           reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
+    PRINT           reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
+    READ            reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
+    COMMENT         reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
+    RBRACE          reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
+    RETURN          reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
+    ELIF            reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
+    ELSE            reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
+
+
+state 294
+
+    (176) accion_pincel_opt -> GRAPH LPARENTHESIS CTEFUNCION COMA . exp
+    (137) exp -> . termino exp_loop
+    (141) termino -> . factor termino_loop
+    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (146) factor -> . factor_opt factor_opt_2
+    (147) factor_opt -> . PLUS
+    (148) factor_opt -> . MINUS
+    (149) factor_opt -> . empty
+    (4) empty -> .
+
+    LPARENTHESIS    shift and go to state 74
+    PLUS            shift and go to state 77
+    MINUS           shift and go to state 81
+    STRING          reduce using rule 4 (empty -> .)
+    INT             reduce using rule 4 (empty -> .)
+    DOUBLE          reduce using rule 4 (empty -> .)
+    BOOL            reduce using rule 4 (empty -> .)
+    ID              reduce using rule 4 (empty -> .)
+
+    factor_opt                     shift and go to state 82
+    termino                        shift and go to state 78
+    exp                            shift and go to state 319
+    factor                         shift and go to state 80
+    empty                          shift and go to state 76
+
+state 295
+
+    (177) accion_pincel_opt_end -> LPARENTHESIS expresion COMA . expresion
+    (128) expresion -> . exp expresion_opt
+    (137) exp -> . termino exp_loop
+    (141) termino -> . factor termino_loop
+    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (146) factor -> . factor_opt factor_opt_2
+    (147) factor_opt -> . PLUS
+    (148) factor_opt -> . MINUS
+    (149) factor_opt -> . empty
+    (4) empty -> .
+
+    LPARENTHESIS    shift and go to state 74
+    PLUS            shift and go to state 77
+    MINUS           shift and go to state 81
+    STRING          reduce using rule 4 (empty -> .)
+    INT             reduce using rule 4 (empty -> .)
+    DOUBLE          reduce using rule 4 (empty -> .)
+    BOOL            reduce using rule 4 (empty -> .)
+    ID              reduce using rule 4 (empty -> .)
+
+    expresion                      shift and go to state 320
+    empty                          shift and go to state 76
+    termino                        shift and go to state 78
+    exp                            shift and go to state 79
+    factor                         shift and go to state 80
+    factor_opt                     shift and go to state 82
+
+state 296
+
+    (121) llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .
+
+    ID              reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
+    IF              reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
+    WHILE           reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
+    PRINT           reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
+    READ            reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
+    COMMENT         reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
+    RETURN          reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
+    RBRACE          reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
+    VAR             reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
+
+
+state 297
+
+    (122) llamada_loop -> COMA exp llamada_loop .
+
+    RPARENTHESIS    reduce using rule 122 (llamada_loop -> COMA exp llamada_loop .)
+
+
+state 298
+
     (70) param_list_loop -> COMA . param_list
-    (68) param_list -> . tipo_param ID param_list_loop
+    (68) param_list -> . tipo_param COLON ID param_list_loop
     (69) param_list -> . empty
     (72) tipo_param -> . primitivo
     (73) tipo_param -> . figura
@@ -4188,20 +4645,20 @@ state 272
     TRIANG          shift and go to state 20
 
     figura                         shift and go to state 167
-    param_list                     shift and go to state 300
+    param_list                     shift and go to state 321
     primitivo                      shift and go to state 169
     tipo_param                     shift and go to state 170
-    empty                          shift and go to state 301
+    empty                          shift and go to state 322
 
-state 273
+state 299
 
-    (68) param_list -> tipo_param ID param_list_loop .
+    (68) param_list -> tipo_param COLON ID param_list_loop .
 
-    COMA            reduce using rule 68 (param_list -> tipo_param ID param_list_loop .)
-    RPARENTHESIS    reduce using rule 68 (param_list -> tipo_param ID param_list_loop .)
+    COMA            reduce using rule 68 (param_list -> tipo_param COLON ID param_list_loop .)
+    RPARENTHESIS    reduce using rule 68 (param_list -> tipo_param COLON ID param_list_loop .)
 
 
-state 274
+state 300
 
     (71) param_list_loop -> empty .
 
@@ -4209,494 +4666,28 @@ state 274
     RPARENTHESIS    reduce using rule 71 (param_list_loop -> empty .)
 
 
-state 275
-
-    (8) rutinas -> RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina . rutinas_loop
-    (12) rutinas_loop -> . rutinas
-    (13) rutinas_loop -> . empty
-    (8) rutinas -> . RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop
-    (4) empty -> .
-
-    RUTINA          shift and go to state 9
-    MAIN            reduce using rule 4 (empty -> .)
-
-    rutinas_loop                   shift and go to state 302
-    rutinas                        shift and go to state 303
-    empty                          shift and go to state 304
-
-state 276
-
-    (78) bloque_rutina -> LBRACE . bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE
-    (79) bloque_rutina_opt -> . vars
-    (80) bloque_rutina_opt -> . empty
-    (5) vars -> . VAR tipo SEMICOLON vars_loop
-    (4) empty -> .
-
-    VAR             shift and go to state 6
-    ID              reduce using rule 4 (empty -> .)
-    IF              reduce using rule 4 (empty -> .)
-    WHILE           reduce using rule 4 (empty -> .)
-    PRINT           reduce using rule 4 (empty -> .)
-    READ            reduce using rule 4 (empty -> .)
-    COMMENT         reduce using rule 4 (empty -> .)
-    RETURN          reduce using rule 4 (empty -> .)
-    RBRACE          reduce using rule 4 (empty -> .)
-
-    bloque_rutina_opt              shift and go to state 305
-    vars                           shift and go to state 306
-    empty                          shift and go to state 307
-
-state 277
-
-    (49) fgra_atr -> TRIANG LPARENTHESIS exp COMA . exp COMA exp COMA exp COMA fgra_atr_end
-    (137) exp -> . termino exp_loop
-    (141) termino -> . factor termino_loop
-    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
-    (146) factor -> . factor_opt factor_opt_2
-    (147) factor_opt -> . PLUS
-    (148) factor_opt -> . MINUS
-    (149) factor_opt -> . empty
-    (4) empty -> .
-
-    LPARENTHESIS    shift and go to state 74
-    PLUS            shift and go to state 77
-    MINUS           shift and go to state 81
-    STRING          reduce using rule 4 (empty -> .)
-    INT             reduce using rule 4 (empty -> .)
-    DOUBLE          reduce using rule 4 (empty -> .)
-    BOOL            reduce using rule 4 (empty -> .)
-    ID              reduce using rule 4 (empty -> .)
-
-    factor_opt                     shift and go to state 82
-    termino                        shift and go to state 78
-    exp                            shift and go to state 308
-    factor                         shift and go to state 80
-    empty                          shift and go to state 76
-
-state 278
-
-    (50) fgra_atr_end -> exp COMA . exp COMA color RPARENTHESIS
-    (137) exp -> . termino exp_loop
-    (141) termino -> . factor termino_loop
-    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
-    (146) factor -> . factor_opt factor_opt_2
-    (147) factor_opt -> . PLUS
-    (148) factor_opt -> . MINUS
-    (149) factor_opt -> . empty
-    (4) empty -> .
-
-    LPARENTHESIS    shift and go to state 74
-    PLUS            shift and go to state 77
-    MINUS           shift and go to state 81
-    STRING          reduce using rule 4 (empty -> .)
-    INT             reduce using rule 4 (empty -> .)
-    DOUBLE          reduce using rule 4 (empty -> .)
-    BOOL            reduce using rule 4 (empty -> .)
-    ID              reduce using rule 4 (empty -> .)
-
-    factor_opt                     shift and go to state 82
-    termino                        shift and go to state 78
-    exp                            shift and go to state 309
-    factor                         shift and go to state 80
-    empty                          shift and go to state 76
-
-state 279
-
-    (47) fgra_atr -> CIRC LPARENTHESIS exp COMA . fgra_atr_end
-    (50) fgra_atr_end -> . exp COMA exp COMA color RPARENTHESIS
-    (137) exp -> . termino exp_loop
-    (141) termino -> . factor termino_loop
-    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
-    (146) factor -> . factor_opt factor_opt_2
-    (147) factor_opt -> . PLUS
-    (148) factor_opt -> . MINUS
-    (149) factor_opt -> . empty
-    (4) empty -> .
-
-    LPARENTHESIS    shift and go to state 74
-    PLUS            shift and go to state 77
-    MINUS           shift and go to state 81
-    STRING          reduce using rule 4 (empty -> .)
-    INT             reduce using rule 4 (empty -> .)
-    DOUBLE          reduce using rule 4 (empty -> .)
-    BOOL            reduce using rule 4 (empty -> .)
-    ID              reduce using rule 4 (empty -> .)
-
-    factor_opt                     shift and go to state 82
-    termino                        shift and go to state 78
-    exp                            shift and go to state 235
-    factor                         shift and go to state 80
-    fgra_atr_end                   shift and go to state 310
-    empty                          shift and go to state 76
-
-state 280
-
-    (48) fgra_atr -> RECT LPARENTHESIS exp COMA . exp COMA fgra_atr_end
-    (137) exp -> . termino exp_loop
-    (141) termino -> . factor termino_loop
-    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
-    (146) factor -> . factor_opt factor_opt_2
-    (147) factor_opt -> . PLUS
-    (148) factor_opt -> . MINUS
-    (149) factor_opt -> . empty
-    (4) empty -> .
-
-    LPARENTHESIS    shift and go to state 74
-    PLUS            shift and go to state 77
-    MINUS           shift and go to state 81
-    STRING          reduce using rule 4 (empty -> .)
-    INT             reduce using rule 4 (empty -> .)
-    DOUBLE          reduce using rule 4 (empty -> .)
-    BOOL            reduce using rule 4 (empty -> .)
-    ID              reduce using rule 4 (empty -> .)
-
-    factor_opt                     shift and go to state 82
-    termino                        shift and go to state 78
-    exp                            shift and go to state 311
-    factor                         shift and go to state 80
-    empty                          shift and go to state 76
-
-state 281
-
-    (46) fgra_atr -> CUAD LPARENTHESIS exp COMA . fgra_atr_end
-    (50) fgra_atr_end -> . exp COMA exp COMA color RPARENTHESIS
-    (137) exp -> . termino exp_loop
-    (141) termino -> . factor termino_loop
-    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
-    (146) factor -> . factor_opt factor_opt_2
-    (147) factor_opt -> . PLUS
-    (148) factor_opt -> . MINUS
-    (149) factor_opt -> . empty
-    (4) empty -> .
-
-    LPARENTHESIS    shift and go to state 74
-    PLUS            shift and go to state 77
-    MINUS           shift and go to state 81
-    STRING          reduce using rule 4 (empty -> .)
-    INT             reduce using rule 4 (empty -> .)
-    DOUBLE          reduce using rule 4 (empty -> .)
-    BOOL            reduce using rule 4 (empty -> .)
-    ID              reduce using rule 4 (empty -> .)
-
-    factor_opt                     shift and go to state 82
-    termino                        shift and go to state 78
-    exp                            shift and go to state 235
-    factor                         shift and go to state 80
-    fgra_atr_end                   shift and go to state 312
-    empty                          shift and go to state 76
-
-state 282
-
-    (41) ini_fgras_v_loop -> COMA . logica ini_fgras_v_loop
-    (124) logica -> . expresion logica_loop
-    (128) expresion -> . exp expresion_opt
-    (137) exp -> . termino exp_loop
-    (141) termino -> . factor termino_loop
-    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
-    (146) factor -> . factor_opt factor_opt_2
-    (147) factor_opt -> . PLUS
-    (148) factor_opt -> . MINUS
-    (149) factor_opt -> . empty
-    (4) empty -> .
-
-    LPARENTHESIS    shift and go to state 74
-    PLUS            shift and go to state 77
-    MINUS           shift and go to state 81
-    STRING          reduce using rule 4 (empty -> .)
-    INT             reduce using rule 4 (empty -> .)
-    DOUBLE          reduce using rule 4 (empty -> .)
-    BOOL            reduce using rule 4 (empty -> .)
-    ID              reduce using rule 4 (empty -> .)
-
-    expresion                      shift and go to state 73
-    factor                         shift and go to state 80
-    logica                         shift and go to state 313
-    empty                          shift and go to state 76
-    termino                        shift and go to state 78
-    exp                            shift and go to state 79
-    factor_opt                     shift and go to state 82
-
-state 283
-
-    (39) ini_fgra_v -> COMA logica ini_fgras_v_loop .
-
-    SEMICOLON       reduce using rule 39 (ini_fgra_v -> COMA logica ini_fgras_v_loop .)
-
-
-state 284
-
-    (42) ini_fgras_v_loop -> empty .
-
-    SEMICOLON       reduce using rule 42 (ini_fgras_v_loop -> empty .)
-
-
-state 285
-
-    (153) idllamada_opt -> LPARENTHESIS exp idllamada_opt_loop . RPARENTHESIS
-
-    RPARENTHESIS    shift and go to state 314
-
-
-state 286
-
-    (158) idllamada_opt_loop -> empty .
-
-    RPARENTHESIS    reduce using rule 158 (idllamada_opt_loop -> empty .)
-
-
-state 287
-
-    (157) idllamada_opt_loop -> COMA exp . idllamada_opt_loop
-    (157) idllamada_opt_loop -> . COMA exp idllamada_opt_loop
-    (158) idllamada_opt_loop -> . empty
-    (4) empty -> .
-
-    COMA            shift and go to state 242
-    RPARENTHESIS    reduce using rule 4 (empty -> .)
-
-    idllamada_opt_loop             shift and go to state 315
-    empty                          shift and go to state 286
-
-state 288
-
-    (154) idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .
-
-    TIMES           reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    DIVIDE          reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    PLUS            reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    MINUS           reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    GTHAN           reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    GETHAN          reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    ASIGN           reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    NOTEQUAL        reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    LTHAN           reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    LETHAN          reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    AND             reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    OR              reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    RBRACKET        reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    COMA            reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    SEMICOLON       reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    RPARENTHESIS    reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-    RBRACE          reduce using rule 154 (idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS .)
-
-
-state 289
-
-    (155) idllamada_opt -> LBRACKET expresion RBRACKET .
-
-    TIMES           reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    DIVIDE          reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    PLUS            reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    MINUS           reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    GTHAN           reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    GETHAN          reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    ASIGN           reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    NOTEQUAL        reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    LTHAN           reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    LETHAN          reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    AND             reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    OR              reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    RBRACKET        reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    COMA            reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    SEMICOLON       reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    RPARENTHESIS    reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-    RBRACE          reduce using rule 155 (idllamada_opt -> LBRACKET expresion RBRACKET .)
-
-
-state 290
-
-    (35) ini_prim_v -> ASIGN LBRACE logica . ini_prim_v_loop RBRACE
-    (36) ini_prim_v_loop -> . COMA logica ini_prim_v_loop
-    (37) ini_prim_v_loop -> . empty
-    (4) empty -> .
-
-    COMA            shift and go to state 317
-    RBRACE          reduce using rule 4 (empty -> .)
-
-    ini_prim_v_loop                shift and go to state 316
-    empty                          shift and go to state 318
-
-state 291
-
-    (114) condicion_loop_opt -> ELIF . condicion_loop
-    (113) condicion_loop -> . LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt
-
-    LPARENTHESIS    shift and go to state 92
-
-    condicion_loop                 shift and go to state 319
-
-state 292
-
-    (113) condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .
-
-    ELSE            reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
-    VAR             reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
-    ID              reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
-    IF              reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
-    WHILE           reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
-    PRINT           reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
-    READ            reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
-    COMMENT         reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
-    RBRACE          reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
-    RETURN          reduce using rule 113 (condicion_loop -> LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt .)
-
-
-state 293
-
-    (115) condicion_loop_opt -> empty .
-
-    ELSE            reduce using rule 115 (condicion_loop_opt -> empty .)
-    VAR             reduce using rule 115 (condicion_loop_opt -> empty .)
-    ID              reduce using rule 115 (condicion_loop_opt -> empty .)
-    IF              reduce using rule 115 (condicion_loop_opt -> empty .)
-    WHILE           reduce using rule 115 (condicion_loop_opt -> empty .)
-    PRINT           reduce using rule 115 (condicion_loop_opt -> empty .)
-    READ            reduce using rule 115 (condicion_loop_opt -> empty .)
-    COMMENT         reduce using rule 115 (condicion_loop_opt -> empty .)
-    RBRACE          reduce using rule 115 (condicion_loop_opt -> empty .)
-    RETURN          reduce using rule 115 (condicion_loop_opt -> empty .)
-
-
-state 294
-
-    (76) bloque_loop -> estatuto bloque_loop .
-
-    RBRACE          reduce using rule 76 (bloque_loop -> estatuto bloque_loop .)
-
-
-state 295
-
-    (75) bloque -> LBRACE bloque_loop RBRACE .
-
-    VAR             reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
-    ID              reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
-    IF              reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
-    WHILE           reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
-    PRINT           reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
-    READ            reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
-    COMMENT         reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
-    RBRACE          reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
-    RETURN          reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
-    ELIF            reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
-    ELSE            reduce using rule 75 (bloque -> LBRACE bloque_loop RBRACE .)
-
-
-state 296
-
-    (176) accion_pincel_opt -> GRAPH LPARENTHESIS CTEFUNCION COMA . exp
-    (137) exp -> . termino exp_loop
-    (141) termino -> . factor termino_loop
-    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
-    (146) factor -> . factor_opt factor_opt_2
-    (147) factor_opt -> . PLUS
-    (148) factor_opt -> . MINUS
-    (149) factor_opt -> . empty
-    (4) empty -> .
-
-    LPARENTHESIS    shift and go to state 74
-    PLUS            shift and go to state 77
-    MINUS           shift and go to state 81
-    STRING          reduce using rule 4 (empty -> .)
-    INT             reduce using rule 4 (empty -> .)
-    DOUBLE          reduce using rule 4 (empty -> .)
-    BOOL            reduce using rule 4 (empty -> .)
-    ID              reduce using rule 4 (empty -> .)
-
-    factor_opt                     shift and go to state 82
-    termino                        shift and go to state 78
-    exp                            shift and go to state 320
-    factor                         shift and go to state 80
-    empty                          shift and go to state 76
-
-state 297
-
-    (177) accion_pincel_opt_end -> LPARENTHESIS expresion COMA . expresion
-    (128) expresion -> . exp expresion_opt
-    (137) exp -> . termino exp_loop
-    (141) termino -> . factor termino_loop
-    (145) factor -> . LPARENTHESIS expresion RPARENTHESIS
-    (146) factor -> . factor_opt factor_opt_2
-    (147) factor_opt -> . PLUS
-    (148) factor_opt -> . MINUS
-    (149) factor_opt -> . empty
-    (4) empty -> .
-
-    LPARENTHESIS    shift and go to state 74
-    PLUS            shift and go to state 77
-    MINUS           shift and go to state 81
-    STRING          reduce using rule 4 (empty -> .)
-    INT             reduce using rule 4 (empty -> .)
-    DOUBLE          reduce using rule 4 (empty -> .)
-    BOOL            reduce using rule 4 (empty -> .)
-    ID              reduce using rule 4 (empty -> .)
-
-    expresion                      shift and go to state 321
-    empty                          shift and go to state 76
-    termino                        shift and go to state 78
-    exp                            shift and go to state 79
-    factor                         shift and go to state 80
-    factor_opt                     shift and go to state 82
-
-state 298
-
-    (121) llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .
-
-    ID              reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
-    IF              reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
-    WHILE           reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
-    PRINT           reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
-    READ            reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
-    COMMENT         reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
-    RETURN          reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
-    RBRACE          reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
-    VAR             reduce using rule 121 (llamada -> ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON .)
-
-
-state 299
-
-    (122) llamada_loop -> COMA exp llamada_loop .
-
-    RPARENTHESIS    reduce using rule 122 (llamada_loop -> COMA exp llamada_loop .)
-
-
-state 300
-
-    (70) param_list_loop -> COMA param_list .
-
-    COMA            reduce using rule 70 (param_list_loop -> COMA param_list .)
-    RPARENTHESIS    reduce using rule 70 (param_list_loop -> COMA param_list .)
-
-
 state 301
-
-    (69) param_list -> empty .
-
-    COMA            reduce using rule 69 (param_list -> empty .)
-    RPARENTHESIS    reduce using rule 69 (param_list -> empty .)
-
-
-state 302
 
     (8) rutinas -> RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop .
 
     MAIN            reduce using rule 8 (rutinas -> RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop .)
 
 
-state 303
+state 302
 
     (12) rutinas_loop -> rutinas .
 
     MAIN            reduce using rule 12 (rutinas_loop -> rutinas .)
 
 
-state 304
+state 303
 
     (13) rutinas_loop -> empty .
 
     MAIN            reduce using rule 13 (rutinas_loop -> empty .)
 
 
-state 305
+state 304
 
     (78) bloque_rutina -> LBRACE bloque_rutina_opt . bloque_rutina_loop bloque_rutina_opt_2 RBRACE
     (81) bloque_rutina_loop -> . estatuto bloque_rutina_loop
@@ -4729,18 +4720,18 @@ state 305
     COMMENT         shift and go to state 56
 
     comentario                     shift and go to state 250
-    bloque_rutina_loop             shift and go to state 322
+    bloque_rutina_loop             shift and go to state 323
     ciclo                          shift and go to state 251
-    estatuto                       shift and go to state 323
+    estatuto                       shift and go to state 324
     llamada                        shift and go to state 253
     condicion                      shift and go to state 254
     lectura                        shift and go to state 255
-    empty                          shift and go to state 324
+    empty                          shift and go to state 325
     accion                         shift and go to state 258
     asignacion                     shift and go to state 259
     impresion                      shift and go to state 260
 
-state 306
+state 305
 
     (79) bloque_rutina_opt -> vars .
 
@@ -4754,7 +4745,7 @@ state 306
     RBRACE          reduce using rule 79 (bloque_rutina_opt -> vars .)
 
 
-state 307
+state 306
 
     (80) bloque_rutina_opt -> empty .
 
@@ -4768,55 +4759,55 @@ state 307
     RBRACE          reduce using rule 80 (bloque_rutina_opt -> empty .)
 
 
-state 308
+state 307
 
     (49) fgra_atr -> TRIANG LPARENTHESIS exp COMA exp . COMA exp COMA exp COMA fgra_atr_end
-
-    COMA            shift and go to state 325
-
-
-state 309
-
-    (50) fgra_atr_end -> exp COMA exp . COMA color RPARENTHESIS
 
     COMA            shift and go to state 326
 
 
-state 310
+state 308
+
+    (50) fgra_atr_end -> exp COMA exp . COMA color RPARENTHESIS
+
+    COMA            shift and go to state 327
+
+
+state 309
 
     (47) fgra_atr -> CIRC LPARENTHESIS exp COMA fgra_atr_end .
 
     SEMICOLON       reduce using rule 47 (fgra_atr -> CIRC LPARENTHESIS exp COMA fgra_atr_end .)
 
 
-state 311
+state 310
 
     (48) fgra_atr -> RECT LPARENTHESIS exp COMA exp . COMA fgra_atr_end
 
-    COMA            shift and go to state 327
+    COMA            shift and go to state 328
 
 
-state 312
+state 311
 
     (46) fgra_atr -> CUAD LPARENTHESIS exp COMA fgra_atr_end .
 
     SEMICOLON       reduce using rule 46 (fgra_atr -> CUAD LPARENTHESIS exp COMA fgra_atr_end .)
 
 
-state 313
+state 312
 
     (41) ini_fgras_v_loop -> COMA logica . ini_fgras_v_loop
     (41) ini_fgras_v_loop -> . COMA logica ini_fgras_v_loop
     (42) ini_fgras_v_loop -> . empty
     (4) empty -> .
 
-    COMA            shift and go to state 282
+    COMA            shift and go to state 280
     SEMICOLON       reduce using rule 4 (empty -> .)
 
-    ini_fgras_v_loop               shift and go to state 328
-    empty                          shift and go to state 284
+    ini_fgras_v_loop               shift and go to state 329
+    empty                          shift and go to state 282
 
-state 314
+state 313
 
     (153) idllamada_opt -> LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS .
 
@@ -4839,21 +4830,21 @@ state 314
     RBRACE          reduce using rule 153 (idllamada_opt -> LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS .)
 
 
-state 315
+state 314
 
     (157) idllamada_opt_loop -> COMA exp idllamada_opt_loop .
 
     RPARENTHESIS    reduce using rule 157 (idllamada_opt_loop -> COMA exp idllamada_opt_loop .)
 
 
-state 316
+state 315
 
     (35) ini_prim_v -> ASIGN LBRACE logica ini_prim_v_loop . RBRACE
 
-    RBRACE          shift and go to state 329
+    RBRACE          shift and go to state 330
 
 
-state 317
+state 316
 
     (36) ini_prim_v_loop -> COMA . logica ini_prim_v_loop
     (124) logica -> . expresion logica_loop
@@ -4877,21 +4868,21 @@ state 317
     ID              reduce using rule 4 (empty -> .)
 
     expresion                      shift and go to state 73
-    logica                         shift and go to state 330
+    logica                         shift and go to state 331
     empty                          shift and go to state 76
     termino                        shift and go to state 78
     exp                            shift and go to state 79
     factor                         shift and go to state 80
     factor_opt                     shift and go to state 82
 
-state 318
+state 317
 
     (37) ini_prim_v_loop -> empty .
 
     RBRACE          reduce using rule 37 (ini_prim_v_loop -> empty .)
 
 
-state 319
+state 318
 
     (114) condicion_loop_opt -> ELIF condicion_loop .
 
@@ -4907,34 +4898,50 @@ state 319
     RETURN          reduce using rule 114 (condicion_loop_opt -> ELIF condicion_loop .)
 
 
-state 320
+state 319
 
     (176) accion_pincel_opt -> GRAPH LPARENTHESIS CTEFUNCION COMA exp .
 
     RPARENTHESIS    reduce using rule 176 (accion_pincel_opt -> GRAPH LPARENTHESIS CTEFUNCION COMA exp .)
 
 
-state 321
+state 320
 
     (177) accion_pincel_opt_end -> LPARENTHESIS expresion COMA expresion .
 
     RPARENTHESIS    reduce using rule 177 (accion_pincel_opt_end -> LPARENTHESIS expresion COMA expresion .)
 
 
+state 321
+
+    (70) param_list_loop -> COMA param_list .
+
+    COMA            reduce using rule 70 (param_list_loop -> COMA param_list .)
+    RPARENTHESIS    reduce using rule 70 (param_list_loop -> COMA param_list .)
+
+
 state 322
+
+    (69) param_list -> empty .
+
+    COMA            reduce using rule 69 (param_list -> empty .)
+    RPARENTHESIS    reduce using rule 69 (param_list -> empty .)
+
+
+state 323
 
     (78) bloque_rutina -> LBRACE bloque_rutina_opt bloque_rutina_loop . bloque_rutina_opt_2 RBRACE
     (83) bloque_rutina_opt_2 -> . RETURN logica SEMICOLON
     (84) bloque_rutina_opt_2 -> . empty
     (4) empty -> .
 
-    RETURN          shift and go to state 331
+    RETURN          shift and go to state 332
     RBRACE          reduce using rule 4 (empty -> .)
 
-    bloque_rutina_opt_2            shift and go to state 332
-    empty                          shift and go to state 333
+    bloque_rutina_opt_2            shift and go to state 333
+    empty                          shift and go to state 334
 
-state 323
+state 324
 
     (81) bloque_rutina_loop -> estatuto . bloque_rutina_loop
     (81) bloque_rutina_loop -> . estatuto bloque_rutina_loop
@@ -4966,19 +4973,19 @@ state 323
     READ            shift and go to state 52
     COMMENT         shift and go to state 56
 
-    bloque_rutina_loop             shift and go to state 334
+    bloque_rutina_loop             shift and go to state 335
     asignacion                     shift and go to state 259
-    estatuto                       shift and go to state 323
+    estatuto                       shift and go to state 324
     impresion                      shift and go to state 260
     accion                         shift and go to state 258
     llamada                        shift and go to state 253
     condicion                      shift and go to state 254
     comentario                     shift and go to state 250
     lectura                        shift and go to state 255
-    empty                          shift and go to state 324
+    empty                          shift and go to state 325
     ciclo                          shift and go to state 251
 
-state 324
+state 325
 
     (82) bloque_rutina_loop -> empty .
 
@@ -4986,7 +4993,7 @@ state 324
     RBRACE          reduce using rule 82 (bloque_rutina_loop -> empty .)
 
 
-state 325
+state 326
 
     (49) fgra_atr -> TRIANG LPARENTHESIS exp COMA exp COMA . exp COMA exp COMA fgra_atr_end
     (137) exp -> . termino exp_loop
@@ -5009,11 +5016,11 @@ state 325
 
     factor_opt                     shift and go to state 82
     termino                        shift and go to state 78
-    exp                            shift and go to state 335
+    exp                            shift and go to state 336
     factor                         shift and go to state 80
     empty                          shift and go to state 76
 
-state 326
+state 327
 
     (50) fgra_atr_end -> exp COMA exp COMA . color RPARENTHESIS
     (178) color -> . CTECOLOR
@@ -5022,9 +5029,9 @@ state 326
     CTECOLOR        shift and go to state 264
     CTEHEXCOLOR     shift and go to state 263
 
-    color                          shift and go to state 336
+    color                          shift and go to state 337
 
-state 327
+state 328
 
     (48) fgra_atr -> RECT LPARENTHESIS exp COMA exp COMA . fgra_atr_end
     (50) fgra_atr_end -> . exp COMA exp COMA color RPARENTHESIS
@@ -5050,17 +5057,17 @@ state 327
     termino                        shift and go to state 78
     exp                            shift and go to state 235
     factor                         shift and go to state 80
-    fgra_atr_end                   shift and go to state 337
+    fgra_atr_end                   shift and go to state 338
     empty                          shift and go to state 76
 
-state 328
+state 329
 
     (41) ini_fgras_v_loop -> COMA logica ini_fgras_v_loop .
 
     SEMICOLON       reduce using rule 41 (ini_fgras_v_loop -> COMA logica ini_fgras_v_loop .)
 
 
-state 329
+state 330
 
     (35) ini_prim_v -> ASIGN LBRACE logica ini_prim_v_loop RBRACE .
 
@@ -5068,20 +5075,20 @@ state 329
     SEMICOLON       reduce using rule 35 (ini_prim_v -> ASIGN LBRACE logica ini_prim_v_loop RBRACE .)
 
 
-state 330
+state 331
 
     (36) ini_prim_v_loop -> COMA logica . ini_prim_v_loop
     (36) ini_prim_v_loop -> . COMA logica ini_prim_v_loop
     (37) ini_prim_v_loop -> . empty
     (4) empty -> .
 
-    COMA            shift and go to state 317
+    COMA            shift and go to state 316
     RBRACE          reduce using rule 4 (empty -> .)
 
-    ini_prim_v_loop                shift and go to state 338
-    empty                          shift and go to state 318
+    ini_prim_v_loop                shift and go to state 339
+    empty                          shift and go to state 317
 
-state 331
+state 332
 
     (83) bloque_rutina_opt_2 -> RETURN . logica SEMICOLON
     (124) logica -> . expresion logica_loop
@@ -5105,28 +5112,28 @@ state 331
     ID              reduce using rule 4 (empty -> .)
 
     expresion                      shift and go to state 73
-    logica                         shift and go to state 339
+    logica                         shift and go to state 340
     empty                          shift and go to state 76
     termino                        shift and go to state 78
     exp                            shift and go to state 79
     factor                         shift and go to state 80
     factor_opt                     shift and go to state 82
 
-state 332
+state 333
 
     (78) bloque_rutina -> LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 . RBRACE
 
-    RBRACE          shift and go to state 340
+    RBRACE          shift and go to state 341
 
 
-state 333
+state 334
 
     (84) bloque_rutina_opt_2 -> empty .
 
     RBRACE          reduce using rule 84 (bloque_rutina_opt_2 -> empty .)
 
 
-state 334
+state 335
 
     (81) bloque_rutina_loop -> estatuto bloque_rutina_loop .
 
@@ -5134,42 +5141,42 @@ state 334
     RBRACE          reduce using rule 81 (bloque_rutina_loop -> estatuto bloque_rutina_loop .)
 
 
-state 335
+state 336
 
     (49) fgra_atr -> TRIANG LPARENTHESIS exp COMA exp COMA exp . COMA exp COMA fgra_atr_end
 
-    COMA            shift and go to state 341
-
-
-state 336
-
-    (50) fgra_atr_end -> exp COMA exp COMA color . RPARENTHESIS
-
-    RPARENTHESIS    shift and go to state 342
+    COMA            shift and go to state 342
 
 
 state 337
+
+    (50) fgra_atr_end -> exp COMA exp COMA color . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 343
+
+
+state 338
 
     (48) fgra_atr -> RECT LPARENTHESIS exp COMA exp COMA fgra_atr_end .
 
     SEMICOLON       reduce using rule 48 (fgra_atr -> RECT LPARENTHESIS exp COMA exp COMA fgra_atr_end .)
 
 
-state 338
+state 339
 
     (36) ini_prim_v_loop -> COMA logica ini_prim_v_loop .
 
     RBRACE          reduce using rule 36 (ini_prim_v_loop -> COMA logica ini_prim_v_loop .)
 
 
-state 339
+state 340
 
     (83) bloque_rutina_opt_2 -> RETURN logica . SEMICOLON
 
-    SEMICOLON       shift and go to state 343
+    SEMICOLON       shift and go to state 344
 
 
-state 340
+state 341
 
     (78) bloque_rutina -> LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE .
 
@@ -5177,7 +5184,7 @@ state 340
     MAIN            reduce using rule 78 (bloque_rutina -> LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE .)
 
 
-state 341
+state 342
 
     (49) fgra_atr -> TRIANG LPARENTHESIS exp COMA exp COMA exp COMA . exp COMA fgra_atr_end
     (137) exp -> . termino exp_loop
@@ -5200,32 +5207,32 @@ state 341
 
     factor_opt                     shift and go to state 82
     termino                        shift and go to state 78
-    exp                            shift and go to state 344
+    exp                            shift and go to state 345
     factor                         shift and go to state 80
     empty                          shift and go to state 76
 
-state 342
+state 343
 
     (50) fgra_atr_end -> exp COMA exp COMA color RPARENTHESIS .
 
     SEMICOLON       reduce using rule 50 (fgra_atr_end -> exp COMA exp COMA color RPARENTHESIS .)
 
 
-state 343
+state 344
 
     (83) bloque_rutina_opt_2 -> RETURN logica SEMICOLON .
 
     RBRACE          reduce using rule 83 (bloque_rutina_opt_2 -> RETURN logica SEMICOLON .)
 
 
-state 344
+state 345
 
     (49) fgra_atr -> TRIANG LPARENTHESIS exp COMA exp COMA exp COMA exp . COMA fgra_atr_end
 
-    COMA            shift and go to state 345
+    COMA            shift and go to state 346
 
 
-state 345
+state 346
 
     (49) fgra_atr -> TRIANG LPARENTHESIS exp COMA exp COMA exp COMA exp COMA . fgra_atr_end
     (50) fgra_atr_end -> . exp COMA exp COMA color RPARENTHESIS
@@ -5251,10 +5258,10 @@ state 345
     termino                        shift and go to state 78
     exp                            shift and go to state 235
     factor                         shift and go to state 80
-    fgra_atr_end                   shift and go to state 346
+    fgra_atr_end                   shift and go to state 347
     empty                          shift and go to state 76
 
-state 346
+state 347
 
     (49) fgra_atr -> TRIANG LPARENTHESIS exp COMA exp COMA exp COMA exp COMA fgra_atr_end .
 
@@ -5264,7 +5271,7 @@ WARNING:
 WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for VAR in state 31 resolved as shift
-WARNING: shift/reduce conflict for COMA in state 232 resolved as shift
+WARNING: shift/reduce conflict for COMA in state 272 resolved as shift
 WARNING: reduce/reduce conflict in state 171 resolved using rule (parametros -> empty)
 WARNING: rejected rule (param_list -> empty) in state 171
 WARNING: reduce/reduce conflict in state 184 resolved using rule (tipo_opt_fig_3 -> empty)

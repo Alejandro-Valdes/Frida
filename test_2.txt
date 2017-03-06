@@ -1,7 +1,7 @@
 programa pruebaFrida2
 	variable cadena cPrueba = "";
 
-	rutina entero : rutinaRegresaEntero(entero iParam, decimal dParam) {
+	rutina entero : rutinaRegresaEntero(entero : iParam, decimal : dParam) {
 		variable bool bBandera = verdadero;
 
 		mientras (bBandera) {
@@ -17,7 +17,7 @@ programa pruebaFrida2
 		regresa iParam;
 	}
 
-	rutina decimal : rutinaRegresaDecimal(decimal dParam) {
+	rutina decimal : rutinaRegresaDecimal(decimal : dParam) {
 		variable decimal dCalculo = 20.5;
 
 		dParam = dCalculo * 15 + 10 / (45 * 52);

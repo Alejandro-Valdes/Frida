@@ -173,7 +173,7 @@ def p_parametros_loop(p):
 		| empty'''
 
 def p_param_list(p):
-	'''param_list : tipo_param ID param_list_loop
+	'''param_list : tipo_param COLON ID param_list_loop
 		| empty '''
 
 def p_param_list_loop(p):
