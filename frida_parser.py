@@ -106,6 +106,88 @@ def p_varcte(p):
 		| INT 
 		| FLOAT 
 		| STRING'''
+
+# parametros
+
+def p_parametros(p):
+	'parametros : tipo COLON ID parametros_loop'
+
+def p_parametros_loop(p):
+	'''parametros_loop : COMA parametros
+		| empty'''
+
+# lienzo
+
+def p_lienzo(p):
+	'lienzo : LIENZO bloque_lienzo'
+
+# Bloque
+
+def p_bloque(p):
+	'bloque : LBRACE bloque_loop RBRACE'
+
+def p_bloque_loop(p):
+	'''bloque_loop : estatuto bloque_loop
+		| empty'''
+
+# Bloque rutina
+
+def p_bloque_rutina(p):
+	'LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE'
+
+def p_bloque_rutina_opt(p):
+	'''bloque_rutina_opt : vars 
+		| empty'''
+
+def p_bloque_rutina_loop(p):
+	'''bloque_rutina_loop : estatuto bloque_rutina_loop 
+		| empty'''
+
+def p_bloque_rutina_opt_2(p):
+	'''bloque_rutina_opt_2 : RETURN logica
+		| empty'''
+
+# Bloque lienzo
+
+def p_bloque_lienzo(p):
+	'bloque_lienzo : LBRACE bloque_lienzo_loop RBRACE'
+
+def p_bloque_lienzo_loop(p):
+	'''bloque_lienzo_loop : estatuto_lienzo bloque_lienzo_loop 
+		| empty'''
+
+# ESTATUTO 
+
+def p_estatuto(p):
+	'''estatuto : asignacion 
+		| condicion 
+		| ciclo 
+		| impresion 
+		| lectura 
+		| accion 
+		| llamada'''
+
+def p_estatuto_lienzo(p):
+	'''estatuto_lienzo : vars 
+		| asignacion 
+		| condicion 
+		| ciclo 
+		| impresion 
+		| lectura 
+		| accion 
+		| llamada'''
+
+# ASIGNACION TODO opt_2?
+
+def p_asigncaion(p):
+	'asignacion : ID asignacion_opt ASIGN asignacion_opt_2'
+
+def p_asignacion_opt(p):
+	'''asignacion_opt : LBRACKET logica RBRACKET
+		| empty'''
+
+# CONDICION
+
 	
 
 # Error rule se tiene que agregar
