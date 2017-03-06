@@ -17,10 +17,16 @@ tipo : tipo-opt SEMICOLON
 tipo-opt : tipo-opt-prim | tipo-opt-fig
 tipo-opt-prim : primitivo ID tipo-opt-prim-2 tipo-opt-prim-loop
 tipo-opt-prim-loop : COMA tipo-opt-prim | empty
-tipo-opt-fig : figura ID tipo-opt-fig-2
-tipo-opt-fig-2 : ini_fgra | LBRACKET logica RBRACKET tipo-opt-fig-3 tipo-opt-fig-loop : 
-tipo-opt-fig-3 : ini_prim_v | empty
-
 tipo-opt-prim-2 : ini_prim | LBRACKET logica RBRACKET tipo-opt-prim-3 | empty
 tipo-opt-prim-3 : ini_prim_v | empty
 
+tipo-opt-fig : figura ID tipo-opt-fig-2
+tipo-opt-prim-loop : COMA tipo-opt-prim | empty
+tipo-opt-fig-2 : ini_fgra | LBRACKET logica RBRACKET tipo-opt-fig-3 | empty tipo-opt-fig-3 : ini_fgra_v | empty
+
+// ini_prim
+ini_prim : ASIGN logica
+
+// ini_prim_v
+ini_prim_v : ASIGN LBRACE logica ini_prim_v-loop RBRACE
+ini_prim_v-loop : , logica | empty
