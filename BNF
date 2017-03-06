@@ -29,4 +29,34 @@ ini_prim : ASIGN logica
 
 // ini_prim_v
 ini_prim_v : ASIGN LBRACE logica ini_prim_v-loop RBRACE
-ini_prim_v-loop : , logica | empty
+ini_prim_v-loop : , logica ini_prim_v-loop | empty
+
+// ini_fgra
+ini_fgra : ASIGN fgra_nva
+
+// ini_fgra_v
+ini_fgra_v : ASIGN LBRACE ini_fgra_v-loop RBRACE
+ini_fgras_v-loop : , logica ini_fgras_v-loop | empty
+
+// fgra_nva 
+fgra_nva : nuevo fgra_atr | ID
+
+// fgra_atr
+fgra_atr : pincel LPARENTHESIS fgra_atr_end 
+					| cuadrado LPARENTHESIS exp COMA fgra_atr_end 
+					| circulo LPARENTHESIS exp COMA fgra_atr_end
+					| rectangulo LPARENTHESIS exp COMA exp COMA fgra_atr_end
+					| triangulo LPARENTHESIS exp COMA exp COMA exp COMA exp COMA fgra_atr_end
+fgra_atr_end : exp COMA exp COMA color RPARENTHESIS
+
+// primitivo 
+primitivo : TYPEINT | TYPEDOUBLE | TYPEBOOL | TYPESTRING
+
+// figura 
+figura : PINCEL | CUAD | RECT | CIRC | TRIANG
+
+// cte
+cte : STRING | INT | DOUBLE | BOOL
+
+// parametros
+parametros : 

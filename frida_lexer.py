@@ -59,8 +59,14 @@ reserved = [
 	'leer' : 'READ',
 	'entero' : 'TYPEINT',
 	'decimal' : 'TYPEDOUBLE',
-	'bool' : 'TYPEBOOL'
-	'cadena' : 'TYPESTRING'
+	'bool' : 'TYPEBOOL',
+	'cadena' : 'TYPESTRING',
+	'pincel' : 'PINCEL',
+	'cuadrado' : 'CUAD',
+	'rectangulo' : 'RECT',
+	'circulo' : 'CIRC',
+	'triangulo' : 'TRIANG',
+	'nuevo' : 'NUEVO'
 ]
 
 #la lista de valores de las palabras reservadas se agregan a la lista de tokens.
