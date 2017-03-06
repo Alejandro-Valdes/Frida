@@ -290,7 +290,7 @@ def p_impresion(p):
 
 # LECTURA
 def p_lectura(p):
-	'lectura : READ LPARENTHESIS RPARENTHESIS SEMICOLON'
+	'lectura : READ LPARENTHESIS RPARENTHESIS'
 
 # LLAMADA
 

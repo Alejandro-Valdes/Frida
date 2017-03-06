@@ -21,7 +21,11 @@ programa pruebaFrida
 
 		arrCirculo[2] = miCirculo;
 
-		variable entero iIterador = 5;
+		variable entero iIterador = 0;
+
+		imprimir("TEST");
+
+		iIterador = leer();
 
 		si (iIterador < eSize) {
 			mientras (iIterador < eSize) {
