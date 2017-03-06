@@ -12,100 +12,148 @@ from frida_lexer import tokens
 # ejemplo si la funcion se define como p_A
 # no es necesario llamar a esa regla con p_A sino con A
 
+# Programa
 def p_programa(p):
-	'programa : PROGRAMA ID COLON programa2'
+	'programa : PROGRAMA ID vars_opt'
 	#Este mensaje solo se imprime si es valido el archivo
-	print('Valid MyLittleDuck2017 file')
+	print('Valid Frida file')
 
-def p_programa2(p):
-    '''programa2 : vars 
-    	| bloque'''
+def p_vars_opt(p):
+	'''vars_opt : vars 
+		| empty'''
+
+def p_rutinas_loop(p):
+	'''rutinas_loop : rutinas_loop rutinas 
+		| empty '''
+
+# Vars
 
 def p_vars(p):
-	'vars : VAR vars2'
+	'vars : VAR tipo COLON vars_loop'
 
-def p_vars2(p):
-	'vars2 : ID vars3'
-	
-def p_vars3(p):
-	'''vars3 : COMA vars2 
-		| COLON tipo SEMICOLON vars2
-		| COLON tipo SEMICOLON 
-		| COLON tipo SEMICOLON bloque 
-		| vars2 '''
-	
+def p_vars_loop(p):
+	'''vars_loop : vars
+		| empty
+	'''
+
+# Rutinas
+
+def p_rutinas(p):
+	'rutinas : RUTINA rutina_opt SEMICOLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop_2'
+
+def p_rutina_opt(p):
+	'''rutina_opt : primitivo 
+		| figura 
+		| VOID'''
+
+def p_rutinas_loop_2(p):
+	'''rutinas_loop_2 : rutinas
+		| empty '''
+
+# Tipo
+
 def p_tipo(p):
-	'''tipo : TYPEINT 
-		| TYPEFLOAT'''
+	'tipo : tipo-opt SEMICOLON'
 
-def p_bloque(p):
-	'bloque : LBRACE bloque2'
-	
-def p_bloque2(p):
-	'''bloque2 : estatuto bloque2 
-		| RBRACE'''
-	
-def p_estatuto(p):
-	'''estatuto : asignacion 
-		| condicion 
-		| escritura'''
+def p_tipo_opt(p):
+	'''tipo-opt : tipo-opt-prim 
+		| tipo-opt-fig'''
 
-def p_asignacion(p):
-	'asignacion : ID ASIGN expresion SEMICOLON'
+# Tipo Prim
 
-def p_condicion(p):
-	'condicion : IF LPARENTHESIS expresion RPARENTHESIS bloque condicion2'
+def p_tipo_opt_prim(p):
+	'tipo_opt_prim : primitivo ID tipo-opt-prim-2 tipo-opt-prim-loop'
 
-def p_condicion2(p):
-	'''condicion2 : SEMICOLON 
-		| ELSE bloque SEMICOLON'''
+def p_tipo_opt_prim_loop(p):
+	'''topo_opt_prin_loop : COMA tipo-opt-prim
+		| emtpy'''
 
-def p_escritura(p):
-	'escritura : PRINT LPARENTHESIS escritura2'
+def p_tipo_opt_prim_2(p):
+	'''tipo_opt_prim_2 : ini_prim 
+		| LBRACKET logica RBRACKET tipo-opt-prim-3
+		| empty'''
 
-def p_escritura2(p):
-	'''escritura2 : expresion escritura3 '''
+def p_tipo_opt_prim_3(p):
+	'''tipo_opt_prim_3 : ini_prim_v 
+		| empty '''
 
-def p_escritura3(p):
-	'''escritura3 : POINT escritura2 
-		| RPARENTHESIS SEMICOLON'''
+# Tipo fig
 
-def p_expresion(p):
-	'''expresion : exp 
-		| exp expresion2'''
+def p_tipo_opt_fig(p):
+	'tipo_opt_fig : figura ID tipo_opt_fig_2'
 
-def p_expresion2(p):
-	'''expresion2 : GTHAN expresion 
-		| LTHAN expresion 
-		| NOTEQUAL expresion'''
+def p_tipo_opt_fig_loop(p):
+	'''tipo_opt_fig_loop : COMA tipo_opt_fig
+		| empty'''
 
-def p_exp(p):
-	'''exp : termino 
-		| termino exp2'''
+def p_tipo_opt_fig_2(p):
+	'''tipo_opt_fig_2 : ini_fgra 
+		| LBRACKET logica RBRACKET tipo_opt_fig_3 
+		| empty '''
 
-def p_exp2(p):
-	'''exp2 : PLUS exp 
-		| MINUS exp'''
-	
-def p_termino(p):
-	'''termino : factor 
-		| factor termino2'''
+def p_tipo_opt_fig_3(p):
+	'''tipo_opt_fig_3 : ini_fgra_v 
+		| empty'''
 
-def p_termino2(p):
-	'''termino2 : TIMES termino 
-		| DIVIDE termino'''
+# Inicializacion de valores primitivos
 
-def p_factor(p):
-	'''factor : LPARENTHESIS expresion RPARENTHESIS 
-		| varcte 
-		| PLUS varcte 
-		| MINUS varcte'''
+def p_ini_prim(p):
+	'ini_prim : ASIGN logica'
 
-def p_varcte(p):
-	'''varcte : ID 
-		| INT 
-		| FLOAT 
-		| STRING'''
+# Inicializacion de arreglos con valores primarios
+
+def p_ini_prim_v(p):
+	'ini_prim_v : ASIGN LBRACE logica ini_prim_v_loop RBRACE'
+
+def p_ini_prim_v_loop(p):
+	'''ini_prim_v-loop : COMA logica ini_prim_v_loop 
+		| empty'''
+
+# Inicializacion de figuras
+
+def p_ini_fgra(p):
+	'ini_fgra : ASIGN fgra_nva'
+
+# Inicitalizacion de arreglos de figuras
+
+def p_ini_fgra_v(p):
+	'''ini_fgra_v : COMA logica init_fgras_v_loop
+		| emtpy'''
+
+def p_fgra_nva(p):
+	'''fgra_nva : nuevo fgra_atr
+		| empty'''
+
+def p_fgra_atr(p):
+	'''fgra_atr : pincel LPARENTHESIS fgra_atr_end 
+		| cuadrado LPARENTHESIS exp COMA fgra_atr_end 
+		| circulo LPARENTHESIS exp COMA fgra_atr_end
+		| rectangulo LPARENTHESIS exp COMA exp COMA fgra_atr_end
+		| triangulo LPARENTHESIS exp COMA exp COMA exp COMA exp COMA fgra_atr_end'''
+
+def p_fgra_atr_end(p):
+	'fgra_atr_end : exp COMA exp COMA color RPARENTHESIS'
+
+# Data types
+
+def p_primitivo(p):
+	'''primitivo : TYPEINT
+		| TYPEDOUBLE
+		| TYPEBOOL
+		| TYPESTRING'''
+
+def p_figura(p):
+	'''figura : PINCEL
+		| CUADRDO
+		| RECTANGULO
+		| CIRCULO
+		| TRIANGULO'''
+
+def p_cte(p):
+	'''cte : STRING 
+		| INT
+		| DOUBLE
+		| BOOL'''	
 
 # parametros
 
@@ -204,6 +252,13 @@ def p_condicion_opt(p):
 def p_ciclo(p):
 	'ciclo : WHILE LPARENTHESIS logica RPARENTHESIS bloque'
 
+
+
+
+def p_empty(p):
+    'empty :'
+    pass
+
 # Error rule se tiene que agregar
 # Nos indica el error y el numero de linea donde esta
 # gracias al contador del lexer
@@ -225,15 +280,15 @@ def readFile(file):
 
 print('\nArchivos Falla:\n')
 
-readFile("test_fail_1.txt")
-readFile("test_fail_2.txt")
-readFile("test_fail_3.txt")
+#readFile("test_fail_1.txt")
+#readFile("test_fail_2.txt")
+#readFile("test_fail_3.txt")
 
-print('\n#####################')
+#print('\n#####################')
 
-print('\nArchivos Exito:\n')
+#print('\nArchivos Exito:\n')
 readFile("test_1.txt")
-readFile("test_2.txt")
-readFile("test_3.txt")
+#readFile("test_2.txt")
+#readFile("test_3.txt")
 print('\n')
 
