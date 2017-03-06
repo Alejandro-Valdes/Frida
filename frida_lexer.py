@@ -30,7 +30,7 @@ tokens = [
    	'MOD',
    	'EXPONENTIAL',
    	'INT',
-   	'FLOAT',
+   	'DOUBLE',
    	'BOOL',
    	'STRING',
    	'COMMENT',
@@ -52,13 +52,13 @@ reserved = {
 	'y' : 'AND',
 	'o' : 'OR',
 	'hacer' : 'DO',
-	'rutina' : 'FUNCTION',
+	'rutina' : 'RUTINA',
 	'nulo' : 'NULL',
 	'regresa' : 'RETURN',
 	'imprimir' : 'PRINT',
 	'leer' : 'READ',
 	'entero' : 'TYPEINT',
-	'decimal' : 'TYPEFLOAT',
+	'decimal' : 'TYPEDOUBLE',
 	'bool' : 'TYPEBOOL',
 	'cadena' : 'TYPESTRING',
 	'pincel' : 'PINCEL',
@@ -66,7 +66,8 @@ reserved = {
 	'rectangulo' : 'RECT',
 	'circulo' : 'CIRC',
 	'triangulo' : 'TRIANG',
-	'nuevo' : 'NUEVO'
+	'nuevo' : 'NUEVO',
+	'void' : 'VOID'
 }
 
 #la lista de valores de las palabras reservadas se agregan a la lista de tokens.
@@ -99,7 +100,7 @@ t_DIVIDE = r'\/'
 t_MOD = r'\%'
 t_EXPONENTIAL = r'\^'
 t_INT = r'[\+,-]?\d+'
-t_FLOAT = r'(\+|-)?[0-9]+(.[0-9]+)?'
+t_DOUBLE = r'(\+|-)?[0-9]+(.[0-9]+)?'
 t_BOOL = r'verdadero|falso'
 t_STRING = r'(\'.*\' | \".*\")'
 t_COMMENT = r'\/\*(\*(?!\/)|[^*])*\*\/'
