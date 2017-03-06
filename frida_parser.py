@@ -256,6 +256,7 @@ def p_asignacion(p):
 
 def p_asignacion_opt(p):
 	'''asignacion_opt : LBRACKET logica RBRACKET
+		| LBRACKET RBRACKET
 		| empty'''
 
 def p_asignacion_opt_2(p):
