@@ -66,7 +66,18 @@ reserved = {
 	'rectangulo' : 'RECT',
 	'circulo' : 'CIRC',
 	'triangulo' : 'TRIANG',
-	'nuevo' : 'NUEVO'
+	'nuevo' : 'NUEVO',
+	'regresa' : 'RETURN',
+	'avanza' : 'MOVEA',
+	'gira' : 'ROTATE',
+	'crece' : 'GROW',
+	'grosor' : 'THICK',
+	'elimina' : 'REMOVE',
+	'relleno' : 'FILL', 
+	'color' : 'COLOR',
+	'desplazar' : 'DISPLACE',
+	'pinta' : 'PAINT',
+	'grafica' : 'GRAPH'
 }
 
 #la lista de valores de las palabras reservadas se agregan a la lista de tokens.
