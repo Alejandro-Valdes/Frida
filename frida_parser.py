@@ -188,7 +188,21 @@ def p_asignacion_opt(p):
 
 # CONDICION
 
+def p_condicion(p):
+	'condicion : IF condicion_loop condicion_opt'
+def p_condicion_loop(p):
+	'condicion_loop : LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt'
+def p_condicion_loop_opt(p):
+	'''condicion_loop_opt : ELIF condicion_loop 
+		| empty'''
+def p_condicion_opt(p):
+	'''condicion_opt : ELSE bloque 
+		| empty'''
 	
+# CICLO
+
+def p_ciclo(p):
+	'ciclo : WHILE LPARENTHESIS logica RPARENTHESIS bloque'
 
 # Error rule se tiene que agregar
 # Nos indica el error y el numero de linea donde esta
