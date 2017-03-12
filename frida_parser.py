@@ -6,15 +6,26 @@ import ply.yacc as yacc
 # importar la lista de tokens
 from frida_lexer import tokens
 
+# importar modulo para tabla de simbolos
+from symbol_table import *
+
 # Defino las reglas del lenguaje MyLittleDuck2017
 # se definenen como funcciones p_*
 # las reglas se escriben de la forma A : a + b
 # ejemplo si la funcion se define como p_A
 # no es necesario llamar a esa regla con p_A sino con A
 
+# Defino variables globales a usar para la tabla de simbolos
+
+funcParams = []
+funcType = None
+funcName = None
+funcTypeSoon = False
+paramTypeSoon = False
+
 # Programa
 def p_programa(p):
-	'programa : PROGRAMA ID vars_opt rutinas lienzo'
+	'programa : PROGRAMA ID vars_opt rutinas lienzo printFuncTable'
 	#Este mensaje solo se imprime si es valido el archivo
 	print('Valid Frida file')
 
@@ -39,12 +50,12 @@ def p_vars_loop(p):
 # Rutinas
 
 def p_rutinas(p):
-	'rutinas : RUTINA rutina_opt COLON ID LPARENTHESIS parametros RPARENTHESIS bloque_rutina rutinas_loop'
+	'rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFunc bloque_rutina rutinas_loop'
 
 def p_rutina_opt(p):
-	'''rutina_opt : primitivo 
-		| figura 
-		| VOID'''
+	'''rutina_opt : primitivo
+		| figura
+		| VOID saveFuncTypeVoid'''
 
 def p_rutinas_loop(p):
 	'''rutinas_loop : rutinas
@@ -144,17 +155,17 @@ def p_fgra_atr_end(p):
 # Data types
 
 def p_primitivo(p):
-	'''primitivo : TYPEINT
-		| TYPEDOUBLE
-		| TYPEBOOL
-		| TYPESTRING'''
+	'''primitivo : TYPEINT saveType
+		| TYPEDOUBLE saveType
+		| TYPEBOOL saveType
+		| TYPESTRING saveType'''
 
 def p_figura(p):
-	'''figura : PINCEL
-		| CUAD
-		| RECT
-		| CIRC
-		| TRIANG'''
+	'''figura : PINCEL saveType
+		| CUAD saveType
+		| RECT saveType
+		| CIRC saveType
+		| TRIANG saveType'''
 
 def p_cte(p):
 	'''cte : STRING 
@@ -173,7 +184,7 @@ def p_parametros_loop(p):
 		| empty'''
 
 def p_param_list(p):
-	'''param_list : tipo_param COLON ID param_list_loop
+	'''param_list : paramTypeNext tipo_param COLON ID param_list_loop
 		| empty '''
 
 def p_param_list_loop(p):
@@ -296,7 +307,11 @@ def p_lectura(p):
 # LLAMADA
 
 def p_llamada(p):
-	'llamada : ID LPARENTHESIS exp llamada_loop RPARENTHESIS COLON'
+	'llamada : ID LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON'
+
+def p_llamada_param(p):
+	'''llamada_param : exp llamada_loop
+		| empty'''
 
 def p_llamada_loop(p):
 	'''llamada_loop : COMA exp llamada_loop 
@@ -425,6 +440,61 @@ def p_color(p):
 	'''color : CTECOLOR
 		| CTEHEXCOLOR'''
 
+# REGLAS PARA TABLA DE SIMBOLOS
+
+def p_saveFunc(p):
+	'saveFunc : empty'
+	global funcName, funcType, funcParams
+
+	function = Function(funcName, funcType, funcParams, None)
+
+	SymbolsTable.add_function(function)
+
+	funcParams = []
+	funcName = ''
+	funcType = ''
+
+
+def p_saveFuncTypeVoid(p):
+	'saveFuncTypeVoid : empty'
+	global funcTypeSoon, paramTypeSoon, funcType
+
+	funcType = p[-1]
+
+	paramTypeSoon = False
+	funcTypeSoon = False
+
+def p_FuncTypeNext(p):
+	'FuncTypeNext : empty'
+	global funcTypeSoon
+	funcTypeSoon = True
+
+def  p_saveType(p):
+	'saveType : empty'
+	
+	global funcTypeSoon, funcType, paramTypeSoon, funcParams
+
+	if funcTypeSoon:
+		funcType = p[-1]
+		funcTypeSoon = False
+	elif paramTypeSoon:
+		funcParams.append(p[-1])
+		paramTypeSoon = False
+	pass
+
+def p_saveFuncName(p):
+	'saveFuncName : empty'
+	global funcName
+	funcName = p[-1]
+
+def p_paramTypeNext(p):
+	'paramTypeNext : empty'
+	global paramTypeSoon
+	paramTypeSoon = True
+
+def p_printFuncTable(p):
+	'printFuncTable : empty'
+	SymbolsTable.printFunctionTable()
 
 
 # Error rule se tiene que agregar
@@ -446,17 +516,21 @@ def readFile(file):
 	file_in.close()
 	parser.parse(data)
 
-print('\nArchivos Falla:\n')
+'''print('\nArchivos Falla:\n')
 
 readFile("test_fail_1.txt")
 readFile("test_fail_2.txt")
-readFile("test_fail_3.txt")
+readFile("test_fail_3.txt")'''
 
 print('\n#####################')
 
 print('\nArchivos Exito:\n')
 readFile("test_1.txt")
+'''
+print('\n#####################')
 readFile("test_2.txt")
+print('\n#####################')
 readFile("test_3.txt")
+'''
 print('\n')
 

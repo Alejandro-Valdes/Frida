@@ -3,7 +3,7 @@ programa pruebaFrida
 	variable bool fFalso;
 	variable entero dArrayTest[3] = { 1, 5, 10 };
 
-	rutina entero : suma(entero : x1, entero : x2){
+	rutina decimal : suma(entero : x1, entero : x2){
 		regresa x1 + x2;
 	}
 	
@@ -30,6 +30,40 @@ programa pruebaFrida
 			}
 		}
 	}
+
+
+	rutina entero : rutinaRegresaEntero(entero : iParam, decimal : dParam) {
+		variable bool bBandera = verdadero;
+
+		mientras (bBandera) {
+			si (iParam == 10) {
+				bBandera = falso;
+			}
+			sino_pero (iParam < dParam) {
+				iParam = dParam;
+				bBandera = falso;
+			}
+		}
+
+		regresa iParam;
+	}
+
+	rutina decimal : rutinaRegresaDecimal(decimal : dParam) {
+		variable decimal dCalculo = 20.5;
+
+		dParam = dCalculo * 15 + 10 / (45 * 52);
+
+		regresa dParam;
+	}
+
+	rutina triangulo : pruebaRegresaFigura() {
+		variable entero iPunto1 = 12;
+		variable entero iPunto2 = 12;
+
+		variable triangulo trianguloRegreso = nuevo triangulo(iPunto1, iPunto2, 10, 10, 15, 15, "#FFF");
+
+		regresa trianguloRegreso;
+	}
 	
 	lienzo {
 		variable entero iIterador = 0;
@@ -38,6 +72,17 @@ programa pruebaFrida
 			imprimir(iIterador);
 			iIterador = iIterador + 1;
 		}
+
+		variable entero res = suma(5,4);
+		variable triangulo trianguloRegreso;
+
+		res = rutinaRegreaEntero(3, 10.2);
+
+		variable decimal res2 = rutinaRegresaDecimal(5.4);
+
+		trianguloRegreso = pruebaRegresaFigura();
+
+		pruebaRutina();
 
 		variable bool bfalso = verdadero;
 	}
