@@ -2,8 +2,8 @@ import sys
 
 class Variable:
 
-	def __init__(self, name, type, value):
-		self.name = names
+	def __init__(self, name, type, value, scope):
+		self.name = name
 		self.type = type
 		self.value = value
 
@@ -25,7 +25,8 @@ class  Function:
 		'''
 
 		if var.name in self.vars:
-			print "Error variable already defined within function scope"
+			print "Error variable " + var.name + " already defined within function scope"
+			sys.exit()
 
 		else:
 			self.vars[var.name] = var
@@ -33,14 +34,9 @@ class  Function:
 class SymbolsTable:
 	'''docstring for SymbolsTable'''
 
-	global_scope = Function('global', 'void', None, None)
-
 	main_scope = Function('lienzo', 'void', None, None)
 
-	function_dictionary = {
-		'program' : global_scope,
-		'lienzo' : main_scope
-	}
+	function_dictionary = {}
 
 	__shared_state = {}
 
@@ -50,24 +46,40 @@ class SymbolsTable:
 	@classmethod
 	def add_function(cls, function):
 
-
 		if function.name in cls.function_dictionary:
 			print "Error function " + function.name + " already defined"
-
+			sys.exit()
 		else:
 			cls.function_dictionary[function.name] = function
 
 	@classmethod
 	def printFunctionTable(cls):
-		for key in cls.function_dictionary:
-				print(key)
-				print(cls.function_dictionary[key].returnType)
-				print(cls.function_dictionary[key].params)
-				print('--------------')
+		function_dir = cls.function_dictionary
+		for key in function_dir:
+				print('name: ' + key)
+				print('return type: ' + function_dir[key].returnType)
+				print('params : ' + ', '.join(function_dir[key].params))
+				print('scoped variables:')
+				for var_key in function_dir[key].vars:
+					print('\t' + function_dir[key].vars[var_key].name + ' ' +function_dir[key].vars[var_key].type)
+				print('\n')
 
 	@classmethod
-	def add_var_to_func(cls, function, var):
-		cls.function_dictionary[function.name].add_var(var)
+	def add_var_to_func(cls, name, type, value, scope):
+		var = Variable(name, type, None, scope)
+		if scope in cls.function_dictionary:
+			cls.function_dictionary[scope].add_var(var)
+		else:
+			print "Error scope " + scope + " not defined"
+			sys.exit()
+
+	@classmethod
+	def add_function_params(cls, scope, params):
+		if scope in cls.function_dictionary:
+			cls.function_dictionary[scope].params = params
+		else:
+			print "Error scope " + scope + " not defined"
+			sys.exit()
 
 
 

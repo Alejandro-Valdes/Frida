@@ -6,6 +6,8 @@ import ply.yacc as yacc
 # importar la lista de tokens
 from frida_lexer import tokens
 
+from symbol_table_ply import *
+
 # importar modulo para tabla de simbolos
 from symbol_table import *
 
@@ -15,17 +17,9 @@ from symbol_table import *
 # ejemplo si la funcion se define como p_A
 # no es necesario llamar a esa regla con p_A sino con A
 
-# Defino variables globales a usar para la tabla de simbolos
-
-funcParams = []
-funcType = None
-funcName = None
-funcTypeSoon = False
-paramTypeSoon = False
-
 # Programa
 def p_programa(p):
-	'programa : PROGRAMA ID vars_opt rutinas lienzo printFuncTable'
+	'programa : PROGRAMA ID add_global_scope vars_opt rutinas lienzo printFuncTable'
 	#Este mensaje solo se imprime si es valido el archivo
 	print('Valid Frida file')
 
@@ -50,7 +44,7 @@ def p_vars_loop(p):
 # Rutinas
 
 def p_rutinas(p):
-	'rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFunc bloque_rutina rutinas_loop'
+	'rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFuncParam bloque_rutina cleanFunc rutinas_loop'
 
 def p_rutina_opt(p):
 	'''rutina_opt : primitivo
@@ -73,10 +67,10 @@ def p_tipo_opt(p):
 # Tipo Prim
 
 def p_tipo_opt_prim(p):
-	'tipo_opt_prim : primitivo tipo_opt_prim_loop'
+	'tipo_opt_prim : add_var_name primitivo tipo_opt_prim_loop'
 
 def p_tipo_opt_prim_loop(p):
-	'tipo_opt_prim_loop : ID tipo_opt_prim_2 tipo_opt_prim_loop_2'
+	'tipo_opt_prim_loop : ID add_var tipo_opt_prim_2 tipo_opt_prim_loop_2'
 
 def p_tipo_opt_prim_loop_2(p):
 	'''tipo_opt_prim_loop_2 : COMA tipo_opt_prim_loop
@@ -94,7 +88,7 @@ def p_tipo_opt_prim_3(p):
 # Tipo fig
 
 def p_tipo_opt_fig(p):
-	'tipo_opt_fig : figura ID tipo_opt_fig_2'
+	'tipo_opt_fig : add_var_name figura ID add_var tipo_opt_fig_2'
 
 def p_tipo_opt_fig_loop(p):
 	'''tipo_opt_fig_loop : COMA tipo_opt_fig
@@ -184,7 +178,7 @@ def p_parametros_loop(p):
 		| empty'''
 
 def p_param_list(p):
-	'''param_list : paramTypeNext tipo_param COLON ID param_list_loop
+	'''param_list : paramTypeNext tipo_param COLON ID paramID param_list_loop
 		| empty '''
 
 def p_param_list_loop(p):
@@ -199,7 +193,7 @@ def p_tipo_param(p):
 # lienzo
 
 def p_lienzo(p):
-	'lienzo : MAIN bloque_lienzo'
+	'lienzo : MAIN add_main_scope bloque_lienzo'
 
 # Bloque
 
@@ -440,61 +434,7 @@ def p_color(p):
 	'''color : CTECOLOR
 		| CTEHEXCOLOR'''
 
-# REGLAS PARA TABLA DE SIMBOLOS
 
-def p_saveFunc(p):
-	'saveFunc : empty'
-	global funcName, funcType, funcParams
-
-	function = Function(funcName, funcType, funcParams, None)
-
-	SymbolsTable.add_function(function)
-
-	funcParams = []
-	funcName = ''
-	funcType = ''
-
-
-def p_saveFuncTypeVoid(p):
-	'saveFuncTypeVoid : empty'
-	global funcTypeSoon, paramTypeSoon, funcType
-
-	funcType = p[-1]
-
-	paramTypeSoon = False
-	funcTypeSoon = False
-
-def p_FuncTypeNext(p):
-	'FuncTypeNext : empty'
-	global funcTypeSoon
-	funcTypeSoon = True
-
-def  p_saveType(p):
-	'saveType : empty'
-	
-	global funcTypeSoon, funcType, paramTypeSoon, funcParams
-
-	if funcTypeSoon:
-		funcType = p[-1]
-		funcTypeSoon = False
-	elif paramTypeSoon:
-		funcParams.append(p[-1])
-		paramTypeSoon = False
-	pass
-
-def p_saveFuncName(p):
-	'saveFuncName : empty'
-	global funcName
-	funcName = p[-1]
-
-def p_paramTypeNext(p):
-	'paramTypeNext : empty'
-	global paramTypeSoon
-	paramTypeSoon = True
-
-def p_printFuncTable(p):
-	'printFuncTable : empty'
-	SymbolsTable.printFunctionTable()
 
 
 # Error rule se tiene que agregar
@@ -522,15 +462,15 @@ readFile("test_fail_1.txt")
 readFile("test_fail_2.txt")
 readFile("test_fail_3.txt")'''
 
-print('\n#####################')
+#print('\n#####################')
 
-print('\nArchivos Exito:\n')
+#print('\nArchivos Exito:\n')
 readFile("test_1.txt")
-'''
-print('\n#####################')
-readFile("test_2.txt")
-print('\n#####################')
-readFile("test_3.txt")
-'''
+
+#print('\n#####################')
+#readFile("test_2.txt")
+#print('\n#####################')
+#readFile("test_3.txt")
+
 print('\n')
 
