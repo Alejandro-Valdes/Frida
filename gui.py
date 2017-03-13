@@ -262,26 +262,26 @@ class FridaMainWindow(QMainWindow):
 #-------- Toolbar slots -----------------------------------
 
 	def New(self):
-		self.text.clear()
+		self.text.getTextEdit().clear()
  
 	def Open(self):
 		filename = QFileDialog.getOpenFileName(self, 'Open File')
 		f = open(filename, 'r')
 		filedata = f.read()
-		self.text.setText(filedata)
+		self.text.getTextEdit().setText(filedata)
 		f.close()
  
 	def Save(self):
 		filename = QFileDialog.getSaveFileName(self, 'Save File')
 		f = open(filename, 'w')
-		filedata = self.text.toPlainText()
+		filedata = self.text.getTextEdit().toPlainText()
 		f.write(filedata)
 		f.close()
  
 	def Print(self):
 		dialog = QPrintDialog()
 		if dialog.exec_() == QDialog.Accepted:
-			self.text.document().print_(dialog.printer())
+			self.text.getTextEdit().document().print_(dialog.printer())
  
 	def Find(self):
 		global f
@@ -306,37 +306,37 @@ class FridaMainWindow(QMainWindow):
 			elif cs == True and wwo == True:
 				flag = QTextDocument.FindBackward and QTextDocument.FindCaseSensitively and QTextDocument.FindWholeWords
 			 
-			self.text.find(f,flag)
+			self.text.getTextEdit().find(f,flag)
  
 		def handleReplace():
 			f = find.te.toPlainText()
 			r = find.rp.toPlainText()
  
-			text = self.text.toPlainText()
+			text = self.text.getTextEdit().toPlainText()
 			 
-			newText = text.replace(f,r)
+			newText = text.getTextEdit().replace(f,r)
  
-			self.text.clear()
-			self.text.append(newText)
+			self.text.getTextEdit().clear()
+			self.text.getTextEdit().append(newText)
 		 
 		find.src.clicked.connect(handleFind)
 		find.rpb.clicked.connect(handleReplace)
  
  
 	def Undo(self):
-		self.text.undo()
+		self.text.getTextEdit().undo()
  
 	def Redo(self):
-		self.text.redo()
+		self.text.getTextEdit().redo()
  
 	def Cut(self):
-		self.text.cut()
+		self.text.getTextEdit().cut()
  
 	def Copy(self):
-		self.text.copy()
+		self.text.getTextEdit().copy()
  
 	def Paste(self):
-		self.text.paste()
+		self.text.getTextEdit().paste()
  
 	def DateTime(self):
  
@@ -348,38 +348,38 @@ class FridaMainWindow(QMainWindow):
 	def insertDate(self):
 		global choiceStr
 		print(choiceStr)
-		self.text.append(choiceStr)
+		self.text.getTextEdit().append(choiceStr)
 		 
 	def CursorPosition(self):
-		line = self.text.textCursor().blockNumber()
-		col = self.text.textCursor().columnNumber()
+		line = self.text.getTextEdit().textCursor().blockNumber()
+		col = self.text.getTextEdit().textCursor().columnNumber()
 		linecol = ("Line: "+str(line)+" | "+"Column: "+str(col))
 		self.status.showMessage(linecol)
  
 	def FontFamily(self,font):
 		font = QFont(self.fontFamily.currentFont())
-		self.text.setCurrentFont(font)
+		self.text.getTextEdit().setCurrentFont(font)
  
 	def FontSize(self, fsize):
 		size = (int(fsize))
-		self.text.setFontPointSize(size)
+		self.text.getTextEdit().setFontPointSize(size)
  
 	def FontColor(self):
 		c = QColorDialog.getColor()
  
-		self.text.setTextColor(c)
+		self.text.getTextEdit().setTextColor(c)
 		 
 	def FontBackColor(self):
 		c = QColorDialog.getColor()
  
-		self.text.setTextBackgroundColor(c)
+		self.text.getTextEdit().setTextBackgroundColor(c)
 			 
 	def lThrough(self):
 		lt = QFont.style()
  
 	def Indent(self):
 		tab = "\t"
-		cursor = self.text.textCursor()
+		cursor = self.text.getTextEdit().textCursor()
  
 		start = cursor.selectionStart()
 		end = cursor.selectionEnd()
