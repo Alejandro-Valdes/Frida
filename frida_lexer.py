@@ -30,7 +30,7 @@ tokens = [
    	'MOD',
    	'EXPONENTIAL',
    	'INT',
-   	'FLOAT',
+   	'DOUBLE',
    	'BOOL',
    	'STRING',
    	'COMMENT',
@@ -51,14 +51,14 @@ reserved = {
 	'sino_pero' : 'ELIF',
 	'y' : 'AND',
 	'o' : 'OR',
-	'hacer' : 'DO',
-	'rutina' : 'FUNCTION',
+	'mientras' : 'WHILE',
+	'rutina' : 'RUTINA',
 	'nulo' : 'NULL',
 	'regresa' : 'RETURN',
 	'imprimir' : 'PRINT',
 	'leer' : 'READ',
 	'entero' : 'TYPEINT',
-	'decimal' : 'TYPEFLOAT',
+	'decimal' : 'TYPEDOUBLE',
 	'bool' : 'TYPEBOOL',
 	'cadena' : 'TYPESTRING',
 	'pincel' : 'PINCEL',
@@ -67,6 +67,7 @@ reserved = {
 	'circulo' : 'CIRC',
 	'triangulo' : 'TRIANG',
 	'nuevo' : 'NUEVO',
+	'void' : 'VOID',
 	'regresa' : 'RETURN',
 	'avanza' : 'MOVEA',
 	'gira' : 'ROTATE',
@@ -110,13 +111,16 @@ t_DIVIDE = r'\/'
 t_MOD = r'\%'
 t_EXPONENTIAL = r'\^'
 t_INT = r'[\+,-]?\d+'
-t_FLOAT = r'(\+|-)?[0-9]+(.[0-9]+)?'
+t_DOUBLE = r'(\+|-)?[0-9]+(.[0-9]+)?'
 t_BOOL = r'verdadero|falso'
 t_STRING = r'(\'.*\' | \".*\")'
 t_COMMENT = r'\/\*(\*(?!\/)|[^*])*\*\/'
-t_CTECOLOR = r'rojo|azul|verde|amarillo|rosa'
-t_CTEHEXCOLOR = r'\#([0-9a-fA-F]{6} | [0-9a-fA-F]{3})'
-t_CTEFUNCION = r'(([x]|[0-9]+(.[0-9]+)?))+([+\-*/^]([xX]|([0-9]+(.[0-9]+)?)+))+'
+
+t_CTECOLOR = r'\"(rojo|azul|verde|amarillo|rosa)\"'
+
+t_CTEHEXCOLOR = r'\"\#([0-9a-fA-F]{6} | [0-9a-fA-F]{3})\"'
+
+t_CTEFUNCION = r'\"(([x]|[0-9]+(.[0-9]+)?))+([+\-*/^]([xX]|([0-9]+(.[0-9]+)?)+))+\"'
 t_ignore = ' \t'
 
 #Funciones para tokens que necesitan funcionalidad extra
@@ -129,7 +133,7 @@ def t_ID(t):
     r'[a-z](_?[a-zA-Z0-9])*'
     if t.value in reserved:
       if(t.value == 'programa'):
-        t.lexer.lineno = 0
+        t.lexer.lineno = 1
       t.type = reserved[t.value]
       return t
     t.value = str(t.value)

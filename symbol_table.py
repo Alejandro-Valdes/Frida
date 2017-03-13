@@ -1,0 +1,101 @@
+import sys
+
+class Variable:
+
+	def __init__(self, name, type, value, scope):
+		self.name = name
+		self.type = type
+		self.value = value
+
+class  Function:
+
+	def __init__(self, name, returnType, params, vars):
+		self.name = name
+		self.returnType = returnType
+		self.params = params
+		self.vars = {}
+
+	def add_var(self, var):
+		'''
+			add_var
+
+			Adds a variable to the function scope
+
+			Arguments: var variable object
+		'''
+
+		if var.name in self.vars:
+			print "Error variable " + var.name + " already defined within function scope"
+			sys.exit()
+
+		else:
+			self.vars[var.name] = var
+
+class SymbolsTable:
+	'''docstring for SymbolsTable'''
+
+	main_scope = Function('lienzo', 'void', None, None)
+
+	function_dictionary = {}
+
+	__shared_state = {}
+
+	def __init__(self):
+		self.__dict__ = sefl.__shared_state
+
+	@classmethod
+	def add_function(cls, function):
+
+		if function.name in cls.function_dictionary:
+			print "Error function " + function.name + " already defined"
+			sys.exit()
+		else:
+			cls.function_dictionary[function.name] = function
+
+	@classmethod
+	def printFunctionTable(cls):
+		function_dir = cls.function_dictionary
+		for key in function_dir:
+				print('name: ' + key)
+				print('return type: ' + function_dir[key].returnType)
+				print('params : ' + ', '.join(function_dir[key].params))
+				print('scoped variables:')
+				for var_key in function_dir[key].vars:
+					print('\t' + function_dir[key].vars[var_key].name + ' ' +function_dir[key].vars[var_key].type)
+				print('\n')
+
+	@classmethod
+	def add_var_to_func(cls, name, type, value, scope):
+		var = Variable(name, type, None, scope)
+		if scope in cls.function_dictionary:
+			cls.function_dictionary[scope].add_var(var)
+		else:
+			print "Error scope " + scope + " not defined"
+			sys.exit()
+
+	@classmethod
+	def add_function_params(cls, scope, params):
+		if scope in cls.function_dictionary:
+			cls.function_dictionary[scope].params = params
+		else:
+			print "Error scope " + scope + " not defined"
+			sys.exit()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
