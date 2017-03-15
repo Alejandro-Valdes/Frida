@@ -434,9 +434,6 @@ def p_color(p):
 	'''color : CTECOLOR
 		| CTEHEXCOLOR'''
 
-
-
-
 # Error rule se tiene que agregar
 # Nos indica el error y el numero de linea donde esta
 # gracias al contador del lexer
