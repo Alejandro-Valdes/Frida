@@ -257,7 +257,7 @@ def p_comentario(p):
 	'comentario : COMMENT'
 
 def p_asignacion(p):
-	'asignacion : ID asignacion_opt ASIGN asignacion_opt_2 SEMICOLON'
+	'asignacion : ID check_variable asignacion_opt ASIGN asignacion_opt_2 SEMICOLON'
 
 def p_asignacion_opt(p):
 	'''asignacion_opt : LBRACKET logica RBRACKET
@@ -301,7 +301,7 @@ def p_lectura(p):
 # LLAMADA
 
 def p_llamada(p):
-	'llamada : ID LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON'
+	'llamada : ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON'
 
 def p_llamada_param(p):
 	'''llamada_param : exp llamada_loop
@@ -370,17 +370,21 @@ def p_factor_opt(p):
 
 def p_factor_opt_2(p):
 	'''factor_opt_2 : cte 
+		| id_factor'''
+
+def p_id_factor(p):
+	'''id_factor : ID check_variable
 		| idllamada'''
 
 # idLlamada
 def p_idllamada(p):
-	'idllamada : ID idllamada_opt'
+	'idllamada : ID test2 idllamada_opt'
 
 def p_idllamada_opt(p):
 	'''idllamada_opt : LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS 
 		| LPARENTHESIS idllamada_opt_loop RPARENTHESIS	
-		| LBRACKET expresion RBRACKET 
-		| empty'''
+		| LBRACKET expresion RBRACKET
+		'''
 
 def p_idllamada_opt_loop(p):
 	'''idllamada_opt_loop : COMA exp idllamada_opt_loop 

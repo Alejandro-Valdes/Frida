@@ -13,6 +13,15 @@ varName = ''
 
 # REGLAS PARA TABLA DE SIMBOLOS
 
+def p_check_variable(p):
+	'check_variable : empty'
+	global funcName
+	SymbolsTable.checkVariable(p[-1], funcName)
+
+def p_test2(p):
+	'test2 : empty'
+	print('llamada ' + p[-1])
+
 def p_saveFuncParam(p):
 	'saveFuncParam : empty'
 	global funcName, funcParams

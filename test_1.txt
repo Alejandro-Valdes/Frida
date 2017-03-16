@@ -60,7 +60,9 @@ programa pruebaFrida
 		variable entero iPunto1 = 12;
 		variable entero iPunto2 = 12;
 
-		variable triangulo trianguloRegreso = nuevo triangulo(iPunto1, iPunto2, 10, 10, 15, 15, "#FFF");
+		variable triangulo trianguloRegreso = nuevo triangulo(suma(3,2), iPunto2, 10, 10, 15, 15, "#FFF");
+
+		imprimir(pruebaRutina());
 
 		regresa trianguloRegreso;
 	}

@@ -81,6 +81,14 @@ class SymbolsTable:
 			print "Error scope " + scope + " not defined"
 			sys.exit()
 
+	@classmethod
+	def checkVariable(cls, var, func):
+		if(var in cls.function_dictionary[func].vars):
+			print ('noError')
+		elif(var in cls.function_dictionary['global'].vars):
+			print ('noError')
+		else:
+			print('Error ' + var)
 
 
 
