@@ -80,7 +80,6 @@ def p_paramID(p):
 	varName = p[-1]
 	SymbolsTable.add_var_to_func(varName, funcType, None, funcName)
 
-
 def p_paramTypeNext(p):
 	'paramTypeNext : empty'
 	global paramTypeSoon

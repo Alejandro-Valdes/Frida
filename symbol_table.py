@@ -89,7 +89,7 @@ class SymbolsTable:
 			pass
 		else:
 			print('Error ' + var + ' is not defined within the function or global scope')
-			#sys.exit()
+			sys.exit()
 
 	@classmethod
 	def checkFunction(cls, func):

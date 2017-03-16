@@ -31,7 +31,6 @@ tokens = [
    	'EXPONENTIAL',
    	'INT',
    	'DOUBLE',
-   	'BOOL',
    	'STRING',
    	'COMMENT',
    	'CTECOLOR',
@@ -78,7 +77,9 @@ reserved = {
 	'color' : 'COLOR',
 	'desplazar' : 'DISPLACE',
 	'pinta' : 'PAINT',
-	'grafica' : 'GRAPH'
+	'grafica' : 'GRAPH',
+	'verdadero' : 'TRUE',
+	'falso' : 'FALSE'
 }
 
 #la lista de valores de las palabras reservadas se agregan a la lista de tokens.
@@ -112,7 +113,8 @@ t_MOD = r'\%'
 t_EXPONENTIAL = r'\^'
 t_INT = r'[\+,-]?\d+'
 t_DOUBLE = r'(\+|-)?[0-9]+(.[0-9]+)?'
-t_BOOL = r'verdadero|falso'
+t_TRUE = r'verdadero'
+t_FALSE = r'falso'
 t_STRING = r'(\'.*\' | \".*\")'
 t_COMMENT = r'\/\*(\*(?!\/)|[^*])*\*\/'
 

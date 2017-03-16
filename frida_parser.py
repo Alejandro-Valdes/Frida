@@ -165,7 +165,11 @@ def p_cte(p):
 	'''cte : STRING 
 		| INT
 		| DOUBLE
-		| BOOL'''	
+		| bool'''	
+
+def p_bool(p):
+	'''bool : TRUE
+		| FALSE'''
 
 # parametros
 
