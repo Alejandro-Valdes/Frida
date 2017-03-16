@@ -301,7 +301,7 @@ def p_lectura(p):
 # LLAMADA
 
 def p_llamada(p):
-	'llamada : ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON'
+	'llamada : ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON'
 
 def p_llamada_param(p):
 	'''llamada_param : exp llamada_loop
@@ -378,7 +378,7 @@ def p_id_factor(p):
 
 # idLlamada
 def p_idllamada(p):
-	'idllamada : ID test2 idllamada_opt'
+	'idllamada : ID check_function idllamada_opt'
 
 def p_idllamada_opt(p):
 	'''idllamada_opt : LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS 

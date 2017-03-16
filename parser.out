@@ -11,7 +11,7 @@ Grammar
 Rule 0     S' -> programa
 Rule 1     check_variable -> empty
 Rule 2     programa -> PROGRAMA ID add_global_scope vars_opt rutinas lienzo printFuncTable
-Rule 3     test2 -> empty
+Rule 3     check_function -> empty
 Rule 4     saveFuncParam -> empty
 Rule 5     vars_opt -> vars
 Rule 6     vars_opt -> empty
@@ -145,7 +145,7 @@ Rule 133   condicion_opt -> empty
 Rule 134   ciclo -> WHILE LPARENTHESIS logica RPARENTHESIS bloque
 Rule 135   impresion -> PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON
 Rule 136   lectura -> READ LPARENTHESIS RPARENTHESIS
-Rule 137   llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
+Rule 137   llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
 Rule 138   llamada_param -> exp llamada_loop
 Rule 139   llamada_param -> empty
 Rule 140   llamada_loop -> COMA exp llamada_loop
@@ -180,7 +180,7 @@ Rule 168   factor_opt_2 -> cte
 Rule 169   factor_opt_2 -> id_factor
 Rule 170   id_factor -> ID check_variable
 Rule 171   id_factor -> idllamada
-Rule 172   idllamada -> ID test2 idllamada_opt
+Rule 172   idllamada -> ID check_function idllamada_opt
 Rule 173   idllamada_opt -> LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS
 Rule 174   idllamada_opt -> LPARENTHESIS idllamada_opt_loop RPARENTHESIS
 Rule 175   idllamada_opt -> LBRACKET expresion RBRACKET
@@ -306,6 +306,7 @@ bloque_rutina        : 13
 bloque_rutina_loop   : 93 96
 bloque_rutina_opt    : 93
 bloque_rutina_opt_2  : 93
+check_function       : 137 172
 check_variable       : 121 170
 ciclo                : 105 114
 cleanFunc            : 13
@@ -367,7 +368,6 @@ saveFuncTypeVoid     : 17
 saveType             : 66 67 68 69 70 71 72 73 74
 termino              : 155 160 161
 termino_loop         : 159
-test2                : 137 172
 tipo                 : 9
 tipo_opt             : 21
 tipo_opt_fig         : 24 38
@@ -1058,7 +1058,7 @@ state 58
     (135) impresion -> . PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON
     (136) lectura -> . READ LPARENTHESIS RPARENTHESIS
     (178) accion -> . ID POINT accion_opt SEMICOLON
-    (137) llamada -> . ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
+    (137) llamada -> . ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
     (120) comentario -> . COMMENT
 
     RBRACE          reduce using rule 7 (empty -> .)
@@ -1303,18 +1303,18 @@ state 79
 
     (121) asignacion -> ID . check_variable asignacion_opt ASIGN asignacion_opt_2 SEMICOLON
     (178) accion -> ID . POINT accion_opt SEMICOLON
-    (137) llamada -> ID . test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
+    (137) llamada -> ID . check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
     (1) check_variable -> . empty
-    (3) test2 -> . empty
+    (3) check_function -> . empty
     (7) empty -> .
 
-    POINT           shift and go to state 102
+    POINT           shift and go to state 101
     LBRACKET        reduce using rule 7 (empty -> .)
     ASIGN           reduce using rule 7 (empty -> .)
     LPARENTHESIS    reduce using rule 7 (empty -> .)
 
-    test2                          shift and go to state 101
-    check_variable                 shift and go to state 103
+    check_variable                 shift and go to state 102
+    check_function                 shift and go to state 103
     empty                          shift and go to state 104
 
 state 80
@@ -1367,7 +1367,7 @@ state 82
     (135) impresion -> . PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON
     (136) lectura -> . READ LPARENTHESIS RPARENTHESIS
     (178) accion -> . ID POINT accion_opt SEMICOLON
-    (137) llamada -> . ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
+    (137) llamada -> . ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
     (120) comentario -> . COMMENT
 
     RBRACE          reduce using rule 7 (empty -> .)
@@ -1703,13 +1703,6 @@ state 100
 
 state 101
 
-    (137) llamada -> ID test2 . LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
-
-    LPARENTHESIS    shift and go to state 133
-
-
-state 102
-
     (178) accion -> ID POINT . accion_opt SEMICOLON
     (179) accion_opt -> . accion_figura
     (180) accion_opt -> . accion_pincel
@@ -1728,26 +1721,26 @@ state 102
     (189) accion_figura_opt_3 -> . REMOVE LPARENTHESIS
     (190) accion_figura_opt_3 -> . FILL LPARENTHESIS color
 
-    COLOR           shift and go to state 137
-    DISPLACE        shift and go to state 145
-    PAINT           shift and go to state 146
-    GRAPH           shift and go to state 144
-    MOVEA           shift and go to state 138
-    ROTATE          shift and go to state 147
-    GROW            shift and go to state 139
-    THICK           shift and go to state 142
-    REMOVE          shift and go to state 148
-    FILL            shift and go to state 136
+    COLOR           shift and go to state 136
+    DISPLACE        shift and go to state 144
+    PAINT           shift and go to state 145
+    GRAPH           shift and go to state 143
+    MOVEA           shift and go to state 137
+    ROTATE          shift and go to state 146
+    GROW            shift and go to state 138
+    THICK           shift and go to state 141
+    REMOVE          shift and go to state 147
+    FILL            shift and go to state 135
 
-    accion_pincel                  shift and go to state 134
-    accion_pincel_opt              shift and go to state 135
-    accion_figura                  shift and go to state 140
-    accion_figura_opt              shift and go to state 141
-    accion_figura_opt_2            shift and go to state 149
-    accion_figura_opt_3            shift and go to state 150
-    accion_opt                     shift and go to state 143
+    accion_pincel                  shift and go to state 133
+    accion_pincel_opt              shift and go to state 134
+    accion_figura                  shift and go to state 139
+    accion_figura_opt              shift and go to state 140
+    accion_figura_opt_2            shift and go to state 148
+    accion_figura_opt_3            shift and go to state 149
+    accion_opt                     shift and go to state 142
 
-state 103
+state 102
 
     (121) asignacion -> ID check_variable . asignacion_opt ASIGN asignacion_opt_2 SEMICOLON
     (122) asignacion_opt -> . LBRACKET logica RBRACKET
@@ -1755,16 +1748,23 @@ state 103
     (124) asignacion_opt -> . empty
     (7) empty -> .
 
-    LBRACKET        shift and go to state 152
+    LBRACKET        shift and go to state 151
     ASIGN           reduce using rule 7 (empty -> .)
 
-    asignacion_opt                 shift and go to state 151
-    empty                          shift and go to state 153
+    asignacion_opt                 shift and go to state 150
+    empty                          shift and go to state 152
+
+state 103
+
+    (137) llamada -> ID check_function . LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
+
+    LPARENTHESIS    shift and go to state 153
+
 
 state 104
 
     (1) check_variable -> empty .
-    (3) test2 -> empty .
+    (3) check_function -> empty .
 
   ! reduce/reduce conflict for LBRACKET resolved using rule 1 (check_variable -> empty .)
     TIMES           reduce using rule 1 (check_variable -> empty .)
@@ -1785,9 +1785,9 @@ state 104
     RPARENTHESIS    reduce using rule 1 (check_variable -> empty .)
     RBRACE          reduce using rule 1 (check_variable -> empty .)
     LBRACKET        reduce using rule 1 (check_variable -> empty .)
-    LPARENTHESIS    reduce using rule 3 (test2 -> empty .)
+    LPARENTHESIS    reduce using rule 3 (check_function -> empty .)
 
-  ! LBRACKET        [ reduce using rule 3 (test2 -> empty .) ]
+  ! LBRACKET        [ reduce using rule 3 (check_function -> empty .) ]
 
 
 state 105
@@ -1997,7 +1997,7 @@ state 117
     (78) cte -> . BOOL
     (170) id_factor -> . ID check_variable
     (171) id_factor -> . idllamada
-    (172) idllamada -> . ID test2 idllamada_opt
+    (172) idllamada -> . ID check_function idllamada_opt
 
     STRING          shift and go to state 180
     INT             shift and go to state 182
@@ -2159,7 +2159,185 @@ state 132
 
 state 133
 
-    (137) llamada -> ID test2 LPARENTHESIS . llamada_param RPARENTHESIS SEMICOLON
+    (180) accion_opt -> accion_pincel .
+
+    SEMICOLON       reduce using rule 180 (accion_opt -> accion_pincel .)
+
+
+state 134
+
+    (191) accion_pincel -> accion_pincel_opt . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 200
+
+
+state 135
+
+    (190) accion_figura_opt_3 -> FILL . LPARENTHESIS color
+
+    LPARENTHESIS    shift and go to state 201
+
+
+state 136
+
+    (192) accion_pincel_opt -> COLOR . LPARENTHESIS color
+
+    LPARENTHESIS    shift and go to state 202
+
+
+state 137
+
+    (184) accion_figura_opt_2 -> MOVEA . accion_figura_opt_2_end
+    (188) accion_figura_opt_2_end -> . LPARENTHESIS expresion
+
+    LPARENTHESIS    shift and go to state 204
+
+    accion_figura_opt_2_end        shift and go to state 203
+
+state 138
+
+    (186) accion_figura_opt_2 -> GROW . accion_figura_opt_2_end
+    (188) accion_figura_opt_2_end -> . LPARENTHESIS expresion
+
+    LPARENTHESIS    shift and go to state 204
+
+    accion_figura_opt_2_end        shift and go to state 205
+
+state 139
+
+    (179) accion_opt -> accion_figura .
+
+    SEMICOLON       reduce using rule 179 (accion_opt -> accion_figura .)
+
+
+state 140
+
+    (181) accion_figura -> accion_figura_opt . RPARENTHESIS
+
+    RPARENTHESIS    shift and go to state 206
+
+
+state 141
+
+    (187) accion_figura_opt_2 -> THICK . accion_figura_opt_2_end
+    (188) accion_figura_opt_2_end -> . LPARENTHESIS expresion
+
+    LPARENTHESIS    shift and go to state 204
+
+    accion_figura_opt_2_end        shift and go to state 207
+
+state 142
+
+    (178) accion -> ID POINT accion_opt . SEMICOLON
+
+    SEMICOLON       shift and go to state 208
+
+
+state 143
+
+    (195) accion_pincel_opt -> GRAPH . LPARENTHESIS CTEFUNCION COMA exp
+
+    LPARENTHESIS    shift and go to state 209
+
+
+state 144
+
+    (193) accion_pincel_opt -> DISPLACE . accion_pincel_opt_end
+    (196) accion_pincel_opt_end -> . LPARENTHESIS expresion COMA expresion
+
+    LPARENTHESIS    shift and go to state 211
+
+    accion_pincel_opt_end          shift and go to state 210
+
+state 145
+
+    (194) accion_pincel_opt -> PAINT . accion_pincel_opt_end
+    (196) accion_pincel_opt_end -> . LPARENTHESIS expresion COMA expresion
+
+    LPARENTHESIS    shift and go to state 211
+
+    accion_pincel_opt_end          shift and go to state 212
+
+state 146
+
+    (185) accion_figura_opt_2 -> ROTATE . accion_figura_opt_2_end
+    (188) accion_figura_opt_2_end -> . LPARENTHESIS expresion
+
+    LPARENTHESIS    shift and go to state 204
+
+    accion_figura_opt_2_end        shift and go to state 213
+
+state 147
+
+    (189) accion_figura_opt_3 -> REMOVE . LPARENTHESIS
+
+    LPARENTHESIS    shift and go to state 214
+
+
+state 148
+
+    (182) accion_figura_opt -> accion_figura_opt_2 .
+
+    RPARENTHESIS    reduce using rule 182 (accion_figura_opt -> accion_figura_opt_2 .)
+
+
+state 149
+
+    (183) accion_figura_opt -> accion_figura_opt_3 .
+
+    RPARENTHESIS    reduce using rule 183 (accion_figura_opt -> accion_figura_opt_3 .)
+
+
+state 150
+
+    (121) asignacion -> ID check_variable asignacion_opt . ASIGN asignacion_opt_2 SEMICOLON
+
+    ASIGN           shift and go to state 215
+
+
+state 151
+
+    (122) asignacion_opt -> LBRACKET . logica RBRACKET
+    (123) asignacion_opt -> LBRACKET . RBRACKET
+    (142) logica -> . expresion logica_loop
+    (146) expresion -> . exp expresion_opt
+    (155) exp -> . termino exp_loop
+    (159) termino -> . factor termino_loop
+    (163) factor -> . LPARENTHESIS expresion RPARENTHESIS
+    (164) factor -> . factor_opt factor_opt_2
+    (165) factor_opt -> . PLUS
+    (166) factor_opt -> . MINUS
+    (167) factor_opt -> . empty
+    (7) empty -> .
+
+    RBRACKET        shift and go to state 217
+    LPARENTHESIS    shift and go to state 109
+    PLUS            shift and go to state 112
+    MINUS           shift and go to state 116
+    STRING          reduce using rule 7 (empty -> .)
+    INT             reduce using rule 7 (empty -> .)
+    DOUBLE          reduce using rule 7 (empty -> .)
+    BOOL            reduce using rule 7 (empty -> .)
+    ID              reduce using rule 7 (empty -> .)
+
+    expresion                      shift and go to state 108
+    logica                         shift and go to state 216
+    empty                          shift and go to state 111
+    termino                        shift and go to state 113
+    exp                            shift and go to state 114
+    factor                         shift and go to state 115
+    factor_opt                     shift and go to state 117
+
+state 152
+
+    (124) asignacion_opt -> empty .
+
+    ASIGN           reduce using rule 124 (asignacion_opt -> empty .)
+
+
+state 153
+
+    (137) llamada -> ID check_function LPARENTHESIS . llamada_param RPARENTHESIS SEMICOLON
     (138) llamada_param -> . exp llamada_loop
     (139) llamada_param -> . empty
     (155) exp -> . termino exp_loop
@@ -2181,190 +2359,12 @@ state 133
     PLUS            shift and go to state 112
     MINUS           shift and go to state 116
 
-    llamada_param                  shift and go to state 200
+    llamada_param                  shift and go to state 218
     factor_opt                     shift and go to state 117
     termino                        shift and go to state 113
-    exp                            shift and go to state 201
+    exp                            shift and go to state 219
     factor                         shift and go to state 115
-    empty                          shift and go to state 202
-
-state 134
-
-    (180) accion_opt -> accion_pincel .
-
-    SEMICOLON       reduce using rule 180 (accion_opt -> accion_pincel .)
-
-
-state 135
-
-    (191) accion_pincel -> accion_pincel_opt . RPARENTHESIS
-
-    RPARENTHESIS    shift and go to state 203
-
-
-state 136
-
-    (190) accion_figura_opt_3 -> FILL . LPARENTHESIS color
-
-    LPARENTHESIS    shift and go to state 204
-
-
-state 137
-
-    (192) accion_pincel_opt -> COLOR . LPARENTHESIS color
-
-    LPARENTHESIS    shift and go to state 205
-
-
-state 138
-
-    (184) accion_figura_opt_2 -> MOVEA . accion_figura_opt_2_end
-    (188) accion_figura_opt_2_end -> . LPARENTHESIS expresion
-
-    LPARENTHESIS    shift and go to state 207
-
-    accion_figura_opt_2_end        shift and go to state 206
-
-state 139
-
-    (186) accion_figura_opt_2 -> GROW . accion_figura_opt_2_end
-    (188) accion_figura_opt_2_end -> . LPARENTHESIS expresion
-
-    LPARENTHESIS    shift and go to state 207
-
-    accion_figura_opt_2_end        shift and go to state 208
-
-state 140
-
-    (179) accion_opt -> accion_figura .
-
-    SEMICOLON       reduce using rule 179 (accion_opt -> accion_figura .)
-
-
-state 141
-
-    (181) accion_figura -> accion_figura_opt . RPARENTHESIS
-
-    RPARENTHESIS    shift and go to state 209
-
-
-state 142
-
-    (187) accion_figura_opt_2 -> THICK . accion_figura_opt_2_end
-    (188) accion_figura_opt_2_end -> . LPARENTHESIS expresion
-
-    LPARENTHESIS    shift and go to state 207
-
-    accion_figura_opt_2_end        shift and go to state 210
-
-state 143
-
-    (178) accion -> ID POINT accion_opt . SEMICOLON
-
-    SEMICOLON       shift and go to state 211
-
-
-state 144
-
-    (195) accion_pincel_opt -> GRAPH . LPARENTHESIS CTEFUNCION COMA exp
-
-    LPARENTHESIS    shift and go to state 212
-
-
-state 145
-
-    (193) accion_pincel_opt -> DISPLACE . accion_pincel_opt_end
-    (196) accion_pincel_opt_end -> . LPARENTHESIS expresion COMA expresion
-
-    LPARENTHESIS    shift and go to state 214
-
-    accion_pincel_opt_end          shift and go to state 213
-
-state 146
-
-    (194) accion_pincel_opt -> PAINT . accion_pincel_opt_end
-    (196) accion_pincel_opt_end -> . LPARENTHESIS expresion COMA expresion
-
-    LPARENTHESIS    shift and go to state 214
-
-    accion_pincel_opt_end          shift and go to state 215
-
-state 147
-
-    (185) accion_figura_opt_2 -> ROTATE . accion_figura_opt_2_end
-    (188) accion_figura_opt_2_end -> . LPARENTHESIS expresion
-
-    LPARENTHESIS    shift and go to state 207
-
-    accion_figura_opt_2_end        shift and go to state 216
-
-state 148
-
-    (189) accion_figura_opt_3 -> REMOVE . LPARENTHESIS
-
-    LPARENTHESIS    shift and go to state 217
-
-
-state 149
-
-    (182) accion_figura_opt -> accion_figura_opt_2 .
-
-    RPARENTHESIS    reduce using rule 182 (accion_figura_opt -> accion_figura_opt_2 .)
-
-
-state 150
-
-    (183) accion_figura_opt -> accion_figura_opt_3 .
-
-    RPARENTHESIS    reduce using rule 183 (accion_figura_opt -> accion_figura_opt_3 .)
-
-
-state 151
-
-    (121) asignacion -> ID check_variable asignacion_opt . ASIGN asignacion_opt_2 SEMICOLON
-
-    ASIGN           shift and go to state 218
-
-
-state 152
-
-    (122) asignacion_opt -> LBRACKET . logica RBRACKET
-    (123) asignacion_opt -> LBRACKET . RBRACKET
-    (142) logica -> . expresion logica_loop
-    (146) expresion -> . exp expresion_opt
-    (155) exp -> . termino exp_loop
-    (159) termino -> . factor termino_loop
-    (163) factor -> . LPARENTHESIS expresion RPARENTHESIS
-    (164) factor -> . factor_opt factor_opt_2
-    (165) factor_opt -> . PLUS
-    (166) factor_opt -> . MINUS
-    (167) factor_opt -> . empty
-    (7) empty -> .
-
-    RBRACKET        shift and go to state 220
-    LPARENTHESIS    shift and go to state 109
-    PLUS            shift and go to state 112
-    MINUS           shift and go to state 116
-    STRING          reduce using rule 7 (empty -> .)
-    INT             reduce using rule 7 (empty -> .)
-    DOUBLE          reduce using rule 7 (empty -> .)
-    BOOL            reduce using rule 7 (empty -> .)
-    ID              reduce using rule 7 (empty -> .)
-
-    expresion                      shift and go to state 108
-    logica                         shift and go to state 219
-    empty                          shift and go to state 111
-    termino                        shift and go to state 113
-    exp                            shift and go to state 114
-    factor                         shift and go to state 115
-    factor_opt                     shift and go to state 117
-
-state 153
-
-    (124) asignacion_opt -> empty .
-
-    ASIGN           reduce using rule 124 (asignacion_opt -> empty .)
-
+    empty                          shift and go to state 220
 
 state 154
 
@@ -2505,18 +2505,18 @@ state 161
     (155) exp -> termino exp_loop .
 
     COMA            reduce using rule 155 (exp -> termino exp_loop .)
-    RPARENTHESIS    reduce using rule 155 (exp -> termino exp_loop .)
-    AND             reduce using rule 155 (exp -> termino exp_loop .)
-    OR              reduce using rule 155 (exp -> termino exp_loop .)
-    RBRACKET        reduce using rule 155 (exp -> termino exp_loop .)
-    SEMICOLON       reduce using rule 155 (exp -> termino exp_loop .)
-    RBRACE          reduce using rule 155 (exp -> termino exp_loop .)
     GTHAN           reduce using rule 155 (exp -> termino exp_loop .)
     GETHAN          reduce using rule 155 (exp -> termino exp_loop .)
     ASIGN           reduce using rule 155 (exp -> termino exp_loop .)
     NOTEQUAL        reduce using rule 155 (exp -> termino exp_loop .)
     LTHAN           reduce using rule 155 (exp -> termino exp_loop .)
     LETHAN          reduce using rule 155 (exp -> termino exp_loop .)
+    AND             reduce using rule 155 (exp -> termino exp_loop .)
+    OR              reduce using rule 155 (exp -> termino exp_loop .)
+    RPARENTHESIS    reduce using rule 155 (exp -> termino exp_loop .)
+    RBRACKET        reduce using rule 155 (exp -> termino exp_loop .)
+    SEMICOLON       reduce using rule 155 (exp -> termino exp_loop .)
+    RBRACE          reduce using rule 155 (exp -> termino exp_loop .)
 
 
 state 162
@@ -2679,10 +2679,10 @@ state 170
 
     (146) expresion -> exp expresion_opt .
 
+    RPARENTHESIS    reduce using rule 146 (expresion -> exp expresion_opt .)
     AND             reduce using rule 146 (expresion -> exp expresion_opt .)
     OR              reduce using rule 146 (expresion -> exp expresion_opt .)
     RBRACKET        reduce using rule 146 (expresion -> exp expresion_opt .)
-    RPARENTHESIS    reduce using rule 146 (expresion -> exp expresion_opt .)
     COMA            reduce using rule 146 (expresion -> exp expresion_opt .)
     RBRACE          reduce using rule 146 (expresion -> exp expresion_opt .)
     SEMICOLON       reduce using rule 146 (expresion -> exp expresion_opt .)
@@ -2754,13 +2754,13 @@ state 175
     PLUS            reduce using rule 159 (termino -> factor termino_loop .)
     MINUS           reduce using rule 159 (termino -> factor termino_loop .)
     COMA            reduce using rule 159 (termino -> factor termino_loop .)
+    RPARENTHESIS    reduce using rule 159 (termino -> factor termino_loop .)
     GTHAN           reduce using rule 159 (termino -> factor termino_loop .)
     GETHAN          reduce using rule 159 (termino -> factor termino_loop .)
     ASIGN           reduce using rule 159 (termino -> factor termino_loop .)
     NOTEQUAL        reduce using rule 159 (termino -> factor termino_loop .)
     LTHAN           reduce using rule 159 (termino -> factor termino_loop .)
     LETHAN          reduce using rule 159 (termino -> factor termino_loop .)
-    RPARENTHESIS    reduce using rule 159 (termino -> factor termino_loop .)
     AND             reduce using rule 159 (termino -> factor termino_loop .)
     OR              reduce using rule 159 (termino -> factor termino_loop .)
     SEMICOLON       reduce using rule 159 (termino -> factor termino_loop .)
@@ -3001,9 +3001,9 @@ state 185
 state 186
 
     (170) id_factor -> ID . check_variable
-    (172) idllamada -> ID . test2 idllamada_opt
+    (172) idllamada -> ID . check_function idllamada_opt
     (1) check_variable -> . empty
-    (3) test2 -> . empty
+    (3) check_function -> . empty
     (7) empty -> .
 
     TIMES           reduce using rule 7 (empty -> .)
@@ -3027,7 +3027,7 @@ state 186
     LBRACKET        reduce using rule 7 (empty -> .)
 
     check_variable                 shift and go to state 238
-    test2                          shift and go to state 239
+    check_function                 shift and go to state 239
     empty                          shift and go to state 104
 
 state 187
@@ -3157,7 +3157,7 @@ state 199
     (135) impresion -> . PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON
     (136) lectura -> . READ LPARENTHESIS RPARENTHESIS
     (178) accion -> . ID POINT accion_opt SEMICOLON
-    (137) llamada -> . ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
+    (137) llamada -> . ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
     (120) comentario -> . COMMENT
 
     RBRACE          reduce using rule 7 (empty -> .)
@@ -3182,74 +3182,41 @@ state 199
 
 state 200
 
-    (137) llamada -> ID test2 LPARENTHESIS llamada_param . RPARENTHESIS SEMICOLON
-
-    RPARENTHESIS    shift and go to state 263
-
-
-state 201
-
-    (138) llamada_param -> exp . llamada_loop
-    (140) llamada_loop -> . COMA exp llamada_loop
-    (141) llamada_loop -> . empty
-    (7) empty -> .
-
-    COMA            shift and go to state 264
-    RPARENTHESIS    reduce using rule 7 (empty -> .)
-
-    llamada_loop                   shift and go to state 265
-    empty                          shift and go to state 266
-
-state 202
-
-    (139) llamada_param -> empty .
-    (167) factor_opt -> empty .
-
-    RPARENTHESIS    reduce using rule 139 (llamada_param -> empty .)
-    STRING          reduce using rule 167 (factor_opt -> empty .)
-    INT             reduce using rule 167 (factor_opt -> empty .)
-    DOUBLE          reduce using rule 167 (factor_opt -> empty .)
-    BOOL            reduce using rule 167 (factor_opt -> empty .)
-    ID              reduce using rule 167 (factor_opt -> empty .)
-
-
-state 203
-
     (191) accion_pincel -> accion_pincel_opt RPARENTHESIS .
 
     SEMICOLON       reduce using rule 191 (accion_pincel -> accion_pincel_opt RPARENTHESIS .)
 
 
-state 204
+state 201
 
     (190) accion_figura_opt_3 -> FILL LPARENTHESIS . color
     (197) color -> . CTECOLOR
     (198) color -> . CTEHEXCOLOR
 
-    CTECOLOR        shift and go to state 269
-    CTEHEXCOLOR     shift and go to state 268
+    CTECOLOR        shift and go to state 265
+    CTEHEXCOLOR     shift and go to state 264
 
-    color                          shift and go to state 267
+    color                          shift and go to state 263
 
-state 205
+state 202
 
     (192) accion_pincel_opt -> COLOR LPARENTHESIS . color
     (197) color -> . CTECOLOR
     (198) color -> . CTEHEXCOLOR
 
-    CTECOLOR        shift and go to state 269
-    CTEHEXCOLOR     shift and go to state 268
+    CTECOLOR        shift and go to state 265
+    CTEHEXCOLOR     shift and go to state 264
 
-    color                          shift and go to state 270
+    color                          shift and go to state 266
 
-state 206
+state 203
 
     (184) accion_figura_opt_2 -> MOVEA accion_figura_opt_2_end .
 
     RPARENTHESIS    reduce using rule 184 (accion_figura_opt_2 -> MOVEA accion_figura_opt_2_end .)
 
 
-state 207
+state 204
 
     (188) accion_figura_opt_2_end -> LPARENTHESIS . expresion
     (146) expresion -> . exp expresion_opt
@@ -3271,35 +3238,35 @@ state 207
     BOOL            reduce using rule 7 (empty -> .)
     ID              reduce using rule 7 (empty -> .)
 
-    expresion                      shift and go to state 271
+    expresion                      shift and go to state 267
     empty                          shift and go to state 111
     termino                        shift and go to state 113
     exp                            shift and go to state 114
     factor                         shift and go to state 115
     factor_opt                     shift and go to state 117
 
-state 208
+state 205
 
     (186) accion_figura_opt_2 -> GROW accion_figura_opt_2_end .
 
     RPARENTHESIS    reduce using rule 186 (accion_figura_opt_2 -> GROW accion_figura_opt_2_end .)
 
 
-state 209
+state 206
 
     (181) accion_figura -> accion_figura_opt RPARENTHESIS .
 
     SEMICOLON       reduce using rule 181 (accion_figura -> accion_figura_opt RPARENTHESIS .)
 
 
-state 210
+state 207
 
     (187) accion_figura_opt_2 -> THICK accion_figura_opt_2_end .
 
     RPARENTHESIS    reduce using rule 187 (accion_figura_opt_2 -> THICK accion_figura_opt_2_end .)
 
 
-state 211
+state 208
 
     (178) accion -> ID POINT accion_opt SEMICOLON .
 
@@ -3314,21 +3281,21 @@ state 211
     RETURN          reduce using rule 178 (accion -> ID POINT accion_opt SEMICOLON .)
 
 
-state 212
+state 209
 
     (195) accion_pincel_opt -> GRAPH LPARENTHESIS . CTEFUNCION COMA exp
 
-    CTEFUNCION      shift and go to state 272
+    CTEFUNCION      shift and go to state 268
 
 
-state 213
+state 210
 
     (193) accion_pincel_opt -> DISPLACE accion_pincel_opt_end .
 
     RPARENTHESIS    reduce using rule 193 (accion_pincel_opt -> DISPLACE accion_pincel_opt_end .)
 
 
-state 214
+state 211
 
     (196) accion_pincel_opt_end -> LPARENTHESIS . expresion COMA expresion
     (146) expresion -> . exp expresion_opt
@@ -3350,35 +3317,35 @@ state 214
     BOOL            reduce using rule 7 (empty -> .)
     ID              reduce using rule 7 (empty -> .)
 
-    expresion                      shift and go to state 273
+    expresion                      shift and go to state 269
     empty                          shift and go to state 111
     termino                        shift and go to state 113
     exp                            shift and go to state 114
     factor                         shift and go to state 115
     factor_opt                     shift and go to state 117
 
-state 215
+state 212
 
     (194) accion_pincel_opt -> PAINT accion_pincel_opt_end .
 
     RPARENTHESIS    reduce using rule 194 (accion_pincel_opt -> PAINT accion_pincel_opt_end .)
 
 
-state 216
+state 213
 
     (185) accion_figura_opt_2 -> ROTATE accion_figura_opt_2_end .
 
     RPARENTHESIS    reduce using rule 185 (accion_figura_opt_2 -> ROTATE accion_figura_opt_2_end .)
 
 
-state 217
+state 214
 
     (189) accion_figura_opt_3 -> REMOVE LPARENTHESIS .
 
     RPARENTHESIS    reduce using rule 189 (accion_figura_opt_3 -> REMOVE LPARENTHESIS .)
 
 
-state 218
+state 215
 
     (121) asignacion -> ID check_variable asignacion_opt ASIGN . asignacion_opt_2 SEMICOLON
     (125) asignacion_opt_2 -> . logica
@@ -3411,28 +3378,61 @@ state 218
     MINUS           shift and go to state 116
 
     expresion                      shift and go to state 108
-    asignacion_opt_2               shift and go to state 278
-    fgra_nva                       shift and go to state 274
-    logica                         shift and go to state 275
+    asignacion_opt_2               shift and go to state 274
+    fgra_nva                       shift and go to state 270
+    logica                         shift and go to state 271
     termino                        shift and go to state 113
     exp                            shift and go to state 114
     factor                         shift and go to state 115
-    lectura                        shift and go to state 276
-    empty                          shift and go to state 277
+    lectura                        shift and go to state 272
+    empty                          shift and go to state 273
     factor_opt                     shift and go to state 117
 
-state 219
+state 216
 
     (122) asignacion_opt -> LBRACKET logica . RBRACKET
 
-    RBRACKET        shift and go to state 279
+    RBRACKET        shift and go to state 275
 
 
-state 220
+state 217
 
     (123) asignacion_opt -> LBRACKET RBRACKET .
 
     ASIGN           reduce using rule 123 (asignacion_opt -> LBRACKET RBRACKET .)
+
+
+state 218
+
+    (137) llamada -> ID check_function LPARENTHESIS llamada_param . RPARENTHESIS SEMICOLON
+
+    RPARENTHESIS    shift and go to state 276
+
+
+state 219
+
+    (138) llamada_param -> exp . llamada_loop
+    (140) llamada_loop -> . COMA exp llamada_loop
+    (141) llamada_loop -> . empty
+    (7) empty -> .
+
+    COMA            shift and go to state 277
+    RPARENTHESIS    reduce using rule 7 (empty -> .)
+
+    llamada_loop                   shift and go to state 278
+    empty                          shift and go to state 279
+
+state 220
+
+    (139) llamada_param -> empty .
+    (167) factor_opt -> empty .
+
+    RPARENTHESIS    reduce using rule 139 (llamada_param -> empty .)
+    STRING          reduce using rule 167 (factor_opt -> empty .)
+    INT             reduce using rule 167 (factor_opt -> empty .)
+    DOUBLE          reduce using rule 167 (factor_opt -> empty .)
+    BOOL            reduce using rule 167 (factor_opt -> empty .)
+    ID              reduce using rule 167 (factor_opt -> empty .)
 
 
 state 221
@@ -3715,7 +3715,7 @@ state 238
 
 state 239
 
-    (172) idllamada -> ID test2 . idllamada_opt
+    (172) idllamada -> ID check_function . idllamada_opt
     (173) idllamada_opt -> . LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS
     (174) idllamada_opt -> . LPARENTHESIS idllamada_opt_loop RPARENTHESIS
     (175) idllamada_opt -> . LBRACKET expresion RBRACKET
@@ -3993,7 +3993,7 @@ state 254
     (135) impresion -> . PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON
     (136) lectura -> . READ LPARENTHESIS RPARENTHESIS
     (178) accion -> . ID POINT accion_opt SEMICOLON
-    (137) llamada -> . ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
+    (137) llamada -> . ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
     (120) comentario -> . COMMENT
 
     RBRACE          reduce using rule 7 (empty -> .)
@@ -4116,12 +4116,109 @@ state 262
 
 state 263
 
-    (137) llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS . SEMICOLON
+    (190) accion_figura_opt_3 -> FILL LPARENTHESIS color .
 
-    SEMICOLON       shift and go to state 303
+    RPARENTHESIS    reduce using rule 190 (accion_figura_opt_3 -> FILL LPARENTHESIS color .)
 
 
 state 264
+
+    (198) color -> CTEHEXCOLOR .
+
+    RPARENTHESIS    reduce using rule 198 (color -> CTEHEXCOLOR .)
+
+
+state 265
+
+    (197) color -> CTECOLOR .
+
+    RPARENTHESIS    reduce using rule 197 (color -> CTECOLOR .)
+
+
+state 266
+
+    (192) accion_pincel_opt -> COLOR LPARENTHESIS color .
+
+    RPARENTHESIS    reduce using rule 192 (accion_pincel_opt -> COLOR LPARENTHESIS color .)
+
+
+state 267
+
+    (188) accion_figura_opt_2_end -> LPARENTHESIS expresion .
+
+    RPARENTHESIS    reduce using rule 188 (accion_figura_opt_2_end -> LPARENTHESIS expresion .)
+
+
+state 268
+
+    (195) accion_pincel_opt -> GRAPH LPARENTHESIS CTEFUNCION . COMA exp
+
+    COMA            shift and go to state 303
+
+
+state 269
+
+    (196) accion_pincel_opt_end -> LPARENTHESIS expresion . COMA expresion
+
+    COMA            shift and go to state 304
+
+
+state 270
+
+    (127) asignacion_opt_2 -> fgra_nva .
+
+    SEMICOLON       reduce using rule 127 (asignacion_opt_2 -> fgra_nva .)
+
+
+state 271
+
+    (125) asignacion_opt_2 -> logica .
+
+    SEMICOLON       reduce using rule 125 (asignacion_opt_2 -> logica .)
+
+
+state 272
+
+    (126) asignacion_opt_2 -> lectura .
+
+    SEMICOLON       reduce using rule 126 (asignacion_opt_2 -> lectura .)
+
+
+state 273
+
+    (59) fgra_nva -> empty .
+    (167) factor_opt -> empty .
+
+    SEMICOLON       reduce using rule 59 (fgra_nva -> empty .)
+    STRING          reduce using rule 167 (factor_opt -> empty .)
+    INT             reduce using rule 167 (factor_opt -> empty .)
+    DOUBLE          reduce using rule 167 (factor_opt -> empty .)
+    BOOL            reduce using rule 167 (factor_opt -> empty .)
+    ID              reduce using rule 167 (factor_opt -> empty .)
+
+
+state 274
+
+    (121) asignacion -> ID check_variable asignacion_opt ASIGN asignacion_opt_2 . SEMICOLON
+
+    SEMICOLON       shift and go to state 305
+
+
+state 275
+
+    (122) asignacion_opt -> LBRACKET logica RBRACKET .
+
+    ASIGN           reduce using rule 122 (asignacion_opt -> LBRACKET logica RBRACKET .)
+
+
+state 276
+
+    (137) llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS . SEMICOLON
+
+    SEMICOLON       shift and go to state 306
+
+
+state 277
 
     (140) llamada_loop -> COMA . exp llamada_loop
     (155) exp -> . termino exp_loop
@@ -4144,119 +4241,22 @@ state 264
 
     factor_opt                     shift and go to state 117
     termino                        shift and go to state 113
-    exp                            shift and go to state 304
+    exp                            shift and go to state 307
     factor                         shift and go to state 115
     empty                          shift and go to state 111
 
-state 265
+state 278
 
     (138) llamada_param -> exp llamada_loop .
 
     RPARENTHESIS    reduce using rule 138 (llamada_param -> exp llamada_loop .)
 
 
-state 266
+state 279
 
     (141) llamada_loop -> empty .
 
     RPARENTHESIS    reduce using rule 141 (llamada_loop -> empty .)
-
-
-state 267
-
-    (190) accion_figura_opt_3 -> FILL LPARENTHESIS color .
-
-    RPARENTHESIS    reduce using rule 190 (accion_figura_opt_3 -> FILL LPARENTHESIS color .)
-
-
-state 268
-
-    (198) color -> CTEHEXCOLOR .
-
-    RPARENTHESIS    reduce using rule 198 (color -> CTEHEXCOLOR .)
-
-
-state 269
-
-    (197) color -> CTECOLOR .
-
-    RPARENTHESIS    reduce using rule 197 (color -> CTECOLOR .)
-
-
-state 270
-
-    (192) accion_pincel_opt -> COLOR LPARENTHESIS color .
-
-    RPARENTHESIS    reduce using rule 192 (accion_pincel_opt -> COLOR LPARENTHESIS color .)
-
-
-state 271
-
-    (188) accion_figura_opt_2_end -> LPARENTHESIS expresion .
-
-    RPARENTHESIS    reduce using rule 188 (accion_figura_opt_2_end -> LPARENTHESIS expresion .)
-
-
-state 272
-
-    (195) accion_pincel_opt -> GRAPH LPARENTHESIS CTEFUNCION . COMA exp
-
-    COMA            shift and go to state 305
-
-
-state 273
-
-    (196) accion_pincel_opt_end -> LPARENTHESIS expresion . COMA expresion
-
-    COMA            shift and go to state 306
-
-
-state 274
-
-    (127) asignacion_opt_2 -> fgra_nva .
-
-    SEMICOLON       reduce using rule 127 (asignacion_opt_2 -> fgra_nva .)
-
-
-state 275
-
-    (125) asignacion_opt_2 -> logica .
-
-    SEMICOLON       reduce using rule 125 (asignacion_opt_2 -> logica .)
-
-
-state 276
-
-    (126) asignacion_opt_2 -> lectura .
-
-    SEMICOLON       reduce using rule 126 (asignacion_opt_2 -> lectura .)
-
-
-state 277
-
-    (59) fgra_nva -> empty .
-    (167) factor_opt -> empty .
-
-    SEMICOLON       reduce using rule 59 (fgra_nva -> empty .)
-    STRING          reduce using rule 167 (factor_opt -> empty .)
-    INT             reduce using rule 167 (factor_opt -> empty .)
-    DOUBLE          reduce using rule 167 (factor_opt -> empty .)
-    BOOL            reduce using rule 167 (factor_opt -> empty .)
-    ID              reduce using rule 167 (factor_opt -> empty .)
-
-
-state 278
-
-    (121) asignacion -> ID check_variable asignacion_opt ASIGN asignacion_opt_2 . SEMICOLON
-
-    SEMICOLON       shift and go to state 307
-
-
-state 279
-
-    (122) asignacion_opt -> LBRACKET logica RBRACKET .
-
-    ASIGN           reduce using rule 122 (asignacion_opt -> LBRACKET logica RBRACKET .)
 
 
 state 280
@@ -4348,25 +4348,25 @@ state 287
 
 state 288
 
-    (172) idllamada -> ID test2 idllamada_opt .
+    (172) idllamada -> ID check_function idllamada_opt .
 
-    TIMES           reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    DIVIDE          reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    PLUS            reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    MINUS           reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    GTHAN           reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    GETHAN          reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    ASIGN           reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    NOTEQUAL        reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    LTHAN           reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    LETHAN          reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    AND             reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    OR              reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    RBRACKET        reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    COMA            reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    SEMICOLON       reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    RPARENTHESIS    reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
-    RBRACE          reduce using rule 172 (idllamada -> ID test2 idllamada_opt .)
+    TIMES           reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    DIVIDE          reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    PLUS            reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    MINUS           reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    GTHAN           reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    GETHAN          reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    ASIGN           reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    NOTEQUAL        reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    LTHAN           reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    LETHAN          reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    AND             reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    OR              reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    RBRACKET        reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    COMA            reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    SEMICOLON       reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    RPARENTHESIS    reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
+    RBRACE          reduce using rule 172 (idllamada -> ID check_function idllamada_opt .)
 
 
 state 289
@@ -4573,34 +4573,6 @@ state 302
 
 state 303
 
-    (137) llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .
-
-    ID              reduce using rule 137 (llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
-    IF              reduce using rule 137 (llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
-    WHILE           reduce using rule 137 (llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
-    PRINT           reduce using rule 137 (llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
-    READ            reduce using rule 137 (llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
-    COMMENT         reduce using rule 137 (llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
-    RETURN          reduce using rule 137 (llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
-    RBRACE          reduce using rule 137 (llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
-    VAR             reduce using rule 137 (llamada -> ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
-
-
-state 304
-
-    (140) llamada_loop -> COMA exp . llamada_loop
-    (140) llamada_loop -> . COMA exp llamada_loop
-    (141) llamada_loop -> . empty
-    (7) empty -> .
-
-    COMA            shift and go to state 264
-    RPARENTHESIS    reduce using rule 7 (empty -> .)
-
-    llamada_loop                   shift and go to state 325
-    empty                          shift and go to state 266
-
-state 305
-
     (195) accion_pincel_opt -> GRAPH LPARENTHESIS CTEFUNCION COMA . exp
     (155) exp -> . termino exp_loop
     (159) termino -> . factor termino_loop
@@ -4622,11 +4594,11 @@ state 305
 
     factor_opt                     shift and go to state 117
     termino                        shift and go to state 113
-    exp                            shift and go to state 326
+    exp                            shift and go to state 325
     factor                         shift and go to state 115
     empty                          shift and go to state 111
 
-state 306
+state 304
 
     (196) accion_pincel_opt_end -> LPARENTHESIS expresion COMA . expresion
     (146) expresion -> . exp expresion_opt
@@ -4648,14 +4620,14 @@ state 306
     BOOL            reduce using rule 7 (empty -> .)
     ID              reduce using rule 7 (empty -> .)
 
-    expresion                      shift and go to state 327
+    expresion                      shift and go to state 326
     empty                          shift and go to state 111
     termino                        shift and go to state 113
     exp                            shift and go to state 114
     factor                         shift and go to state 115
     factor_opt                     shift and go to state 117
 
-state 307
+state 305
 
     (121) asignacion -> ID check_variable asignacion_opt ASIGN asignacion_opt_2 SEMICOLON .
 
@@ -4669,6 +4641,34 @@ state 307
     RBRACE          reduce using rule 121 (asignacion -> ID check_variable asignacion_opt ASIGN asignacion_opt_2 SEMICOLON .)
     RETURN          reduce using rule 121 (asignacion -> ID check_variable asignacion_opt ASIGN asignacion_opt_2 SEMICOLON .)
 
+
+state 306
+
+    (137) llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .
+
+    ID              reduce using rule 137 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
+    IF              reduce using rule 137 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
+    WHILE           reduce using rule 137 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
+    PRINT           reduce using rule 137 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
+    READ            reduce using rule 137 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
+    COMMENT         reduce using rule 137 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
+    RETURN          reduce using rule 137 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
+    RBRACE          reduce using rule 137 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
+    VAR             reduce using rule 137 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
+
+
+state 307
+
+    (140) llamada_loop -> COMA exp . llamada_loop
+    (140) llamada_loop -> . COMA exp llamada_loop
+    (141) llamada_loop -> . empty
+    (7) empty -> .
+
+    COMA            shift and go to state 277
+    RPARENTHESIS    reduce using rule 7 (empty -> .)
+
+    llamada_loop                   shift and go to state 327
+    empty                          shift and go to state 279
 
 state 308
 
@@ -4950,23 +4950,23 @@ state 324
 
 state 325
 
-    (140) llamada_loop -> COMA exp llamada_loop .
-
-    RPARENTHESIS    reduce using rule 140 (llamada_loop -> COMA exp llamada_loop .)
-
-
-state 326
-
     (195) accion_pincel_opt -> GRAPH LPARENTHESIS CTEFUNCION COMA exp .
 
     RPARENTHESIS    reduce using rule 195 (accion_pincel_opt -> GRAPH LPARENTHESIS CTEFUNCION COMA exp .)
 
 
-state 327
+state 326
 
     (196) accion_pincel_opt_end -> LPARENTHESIS expresion COMA expresion .
 
     RPARENTHESIS    reduce using rule 196 (accion_pincel_opt_end -> LPARENTHESIS expresion COMA expresion .)
+
+
+state 327
+
+    (140) llamada_loop -> COMA exp llamada_loop .
+
+    RPARENTHESIS    reduce using rule 140 (llamada_loop -> COMA exp llamada_loop .)
 
 
 state 328
@@ -5267,7 +5267,7 @@ state 351
     (135) impresion -> . PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON
     (136) lectura -> . READ LPARENTHESIS RPARENTHESIS
     (178) accion -> . ID POINT accion_opt SEMICOLON
-    (137) llamada -> . ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
+    (137) llamada -> . ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
     (120) comentario -> . COMMENT
 
     RETURN          reduce using rule 7 (empty -> .)
@@ -5402,8 +5402,8 @@ state 359
     (197) color -> . CTECOLOR
     (198) color -> . CTEHEXCOLOR
 
-    CTECOLOR        shift and go to state 269
-    CTEHEXCOLOR     shift and go to state 268
+    CTECOLOR        shift and go to state 265
+    CTEHEXCOLOR     shift and go to state 264
 
     color                          shift and go to state 374
 
@@ -5551,7 +5551,7 @@ state 370
     (135) impresion -> . PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON
     (136) lectura -> . READ LPARENTHESIS RPARENTHESIS
     (178) accion -> . ID POINT accion_opt SEMICOLON
-    (137) llamada -> . ID test2 LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
+    (137) llamada -> . ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON
     (120) comentario -> . COMMENT
 
     RETURN          reduce using rule 7 (empty -> .)
@@ -5807,7 +5807,7 @@ WARNING:
 WARNING: shift/reduce conflict for VAR in state 22 resolved as shift
 WARNING: shift/reduce conflict for COMA in state 347 resolved as shift
 WARNING: reduce/reduce conflict in state 104 resolved using rule (check_variable -> empty)
-WARNING: rejected rule (test2 -> empty) in state 104
+WARNING: rejected rule (check_function -> empty) in state 104
 WARNING: reduce/reduce conflict in state 222 resolved using rule (parametros -> empty)
 WARNING: rejected rule (param_list -> empty) in state 222
 WARNING: reduce/reduce conflict in state 231 resolved using rule (tipo_opt_fig_3 -> empty)

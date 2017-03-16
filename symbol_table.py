@@ -84,11 +84,18 @@ class SymbolsTable:
 	@classmethod
 	def checkVariable(cls, var, func):
 		if(var in cls.function_dictionary[func].vars):
-			print ('noError')
+			pass
 		elif(var in cls.function_dictionary['global'].vars):
-			print ('noError')
+			pass
 		else:
-			print('Error ' + var)
+			print('Error ' + var + ' is not defined within the function or global scope')
+			#sys.exit()
+
+	@classmethod
+	def checkFunction(cls, func):
+		if(func not in cls.function_dictionary):
+			print('Error ' + func + ' is not defined as a function')
+			sys.exit()
 
 
 

@@ -12,7 +12,7 @@ programa pruebaFrida
 
 		dArrayTest[0] = suma(4, 34+43) / 20 * (2 - 5);
 
-		tTest = 10 * (20 + suma(3, 4) - 20) / 1;
+		iTest = 10 * (20 + suma(3, 4) - 20) / 1;
 		dArrayTest[3] = iTest;
 
 		si (2>0 y 5 != 3) {
@@ -78,7 +78,7 @@ programa pruebaFrida
 		variable entero res = suma(5,4);
 		variable triangulo trianguloRegreso;
 
-		res = rutinaRegreaEntero(3, 10.2);
+		res = rutinaRegresaEntero(3, 10.2);
 
 		variable decimal res2 = rutinaRegresaDecimal(5.4);
 

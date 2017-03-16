@@ -18,9 +18,9 @@ def p_check_variable(p):
 	global funcName
 	SymbolsTable.checkVariable(p[-1], funcName)
 
-def p_test2(p):
-	'test2 : empty'
-	print('llamada ' + p[-1])
+def p_check_function(p):
+	'check_function : empty'
+	SymbolsTable.checkFunction(p[-1])
 
 def p_saveFuncParam(p):
 	'saveFuncParam : empty'
