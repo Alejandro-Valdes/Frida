@@ -1,0 +1,90 @@
+programa pruebaFrida 
+	variable entero iTest = 3, iVTest;
+	variable bool fFalso;
+	variable entero dArrayTest[3] = { 1, 5, 10 };
+
+	rutina decimal : suma(entero : x1, entero : x2){
+		regresa x1 + x2;
+	}
+	
+	rutina void : pruebaRutina() {
+		variable cadena cPrueba = "cte_cadena";
+
+		dArrayTest[0] = suma(4, 34+43) / 20 * (2 - 5);
+
+		iTest = 10 * (20 + suma(3, 4) - 20) / 1;
+		dArrayTest[3] = iTest;
+
+		si (2>0 y 5 != 3) {
+			si (0!=0) {
+				imprimir("diez");
+			}
+			sino {
+				imprimir(100);
+			}
+		}
+		sino {
+			si (20<100) {
+				iTest = 0;
+				imprimir(iTest);
+			}
+		}
+	}
+
+
+	rutina entero : rutinaRegresaEntero(entero : iParam, decimal : dParam) {
+		variable bool bBandera = verdadero;
+
+		mientras (bBandera) {
+			si (iParam == 10) {
+				bBandera = falso;
+			}
+			sino_pero (iParam < dParam) {
+				iParam = dParam;
+				bBandera = falso;
+			}
+		}
+
+		regresa iParam;
+	}
+
+	rutina decimal : rutinaRegresaDecimal(decimal : dParam) {
+		variable decimal dCalculo = 20.5;
+
+		dParam = dCalculo * 15 + 10 / (45 * 52);
+
+		regresa dParam;
+	}
+
+	rutina triangulo : pruebaRegresaFigura() {
+		variable entero iPunto1 = 12;
+		variable entero iPunto2 = 12;
+
+		variable triangulo trianguloRegreso = nuevo triangulo(resta(3,2), iPunto2, 10, 10, 15, 15, "#FFF");
+
+		imprimir(pruebaRutina());
+
+		regresa trianguloRegreso;
+	}
+	
+	lienzo {
+		variable entero iIterador = 0;
+
+		mientras (iIterador < 10) {
+			imprimir(iIterador);
+			iIterador = iIterador + 1;
+		}
+
+		variable entero res = suma(5,4);
+		variable triangulo trianguloRegreso;
+
+		res = rutinaRegresaEntero(3, 10.2);
+
+		variable decimal res2 = rutinaRegresaDecimal(5.4);
+
+		trianguloRegreso = pruebaRegresaFigura();
+
+		pruebaRutina();
+
+		variable bool bfalso = verdadero;
+	}

@@ -1,7 +1,7 @@
 programa pruebaFrida2
 	variable cadena cPrueba = "";
 
-	rutina entero : rutinaRegresaEntero(entero : iParam, decimal dParam) {
+	rutina entero : rutinaRegresaEntero(entero : iParam, decimal : dParam) {
 		variable bool bBandera = verdadero;
 
 		mientras (bBandera) {

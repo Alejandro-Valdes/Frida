@@ -450,6 +450,7 @@ def p_error(p):
 		print("Syntax error '" + str(p.value) + "' in input line: " + str(p.lineno))
 	else:
 		print("Syntax error at the end of the file")
+	sys.exit()
 
 # Crea el parser dandole el estado inicial
 parser = yacc.yacc(start='programa')
@@ -470,7 +471,7 @@ readFile("test_fail_3.txt")'''
 #print('\n#####################')
 
 #print('\nArchivos Exito:\n')
-readFile("test_1.txt")
+readFile("test_fail_2.txt")
 
 #print('\n#####################')
 #readFile("test_2.txt")
