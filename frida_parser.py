@@ -334,12 +334,12 @@ def p_expresion(p):
 
 def p_expresion_opt(p):
 	'''expresion_opt : empty
-		| GTHAN exp push_operation expresion_helper
-		| GETHAN exp  push_operation expresion_helper
-		| EQUAL exp push_operation expresion_helper
-		| NOTEQUAL exp  push_operation expresion_helper
-		| LTHAN exp  push_operation expresion_helper
-		| LETHAN exp push_operation expresion_helper'''
+		| GTHAN push_operation exp expresion_helper
+		| GETHAN push_operation exp expresion_helper
+		| EQUAL push_operation exp expresion_helper
+		| NOTEQUAL push_operation exp expresion_helper
+		| LTHAN push_operation exp expresion_helper
+		| LETHAN push_operation exp expresion_helper'''
 
 # EXP
 

@@ -165,12 +165,12 @@ Rule 153   logica_loop -> OR push_operation logica
 Rule 154   logica_loop -> empty
 Rule 155   expresion -> exp expresion_opt
 Rule 156   expresion_opt -> empty
-Rule 157   expresion_opt -> GTHAN exp push_operation expresion_helper
-Rule 158   expresion_opt -> GETHAN exp push_operation expresion_helper
-Rule 159   expresion_opt -> EQUAL exp push_operation expresion_helper
-Rule 160   expresion_opt -> NOTEQUAL exp push_operation expresion_helper
-Rule 161   expresion_opt -> LTHAN exp push_operation expresion_helper
-Rule 162   expresion_opt -> LETHAN exp push_operation expresion_helper
+Rule 157   expresion_opt -> GTHAN push_operation exp expresion_helper
+Rule 158   expresion_opt -> GETHAN push_operation exp expresion_helper
+Rule 159   expresion_opt -> EQUAL push_operation exp expresion_helper
+Rule 160   expresion_opt -> NOTEQUAL push_operation exp expresion_helper
+Rule 161   expresion_opt -> LTHAN push_operation exp expresion_helper
+Rule 162   expresion_opt -> LETHAN push_operation exp expresion_helper
 Rule 163   exp -> termino exp_loop exp_helper
 Rule 164   exp_loop -> PLUS push_operation exp exp_loop
 Rule 165   exp_loop -> MINUS push_operation exp exp_loop
@@ -1948,12 +1948,12 @@ state 114
 
     (155) expresion -> exp . expresion_opt
     (156) expresion_opt -> . empty
-    (157) expresion_opt -> . GTHAN exp push_operation expresion_helper
-    (158) expresion_opt -> . GETHAN exp push_operation expresion_helper
-    (159) expresion_opt -> . EQUAL exp push_operation expresion_helper
-    (160) expresion_opt -> . NOTEQUAL exp push_operation expresion_helper
-    (161) expresion_opt -> . LTHAN exp push_operation expresion_helper
-    (162) expresion_opt -> . LETHAN exp push_operation expresion_helper
+    (157) expresion_opt -> . GTHAN push_operation exp expresion_helper
+    (158) expresion_opt -> . GETHAN push_operation exp expresion_helper
+    (159) expresion_opt -> . EQUAL push_operation exp expresion_helper
+    (160) expresion_opt -> . NOTEQUAL push_operation exp expresion_helper
+    (161) expresion_opt -> . LTHAN push_operation exp expresion_helper
+    (162) expresion_opt -> . LETHAN push_operation exp expresion_helper
     (17) empty -> .
 
     GTHAN           shift and go to state 165
@@ -2440,9 +2440,9 @@ state 155
     COMA            reduce using rule 17 (empty -> .)
     SEMICOLON       reduce using rule 17 (empty -> .)
     RPARENTHESIS    reduce using rule 17 (empty -> .)
-    RBRACE          reduce using rule 17 (empty -> .)
     PLUS            reduce using rule 17 (empty -> .)
     MINUS           reduce using rule 17 (empty -> .)
+    RBRACE          reduce using rule 17 (empty -> .)
 
     exp_helper                     shift and go to state 226
     empty                          shift and go to state 227
@@ -2501,9 +2501,9 @@ state 158
     COMA            reduce using rule 166 (exp_loop -> empty .)
     SEMICOLON       reduce using rule 166 (exp_loop -> empty .)
     RPARENTHESIS    reduce using rule 166 (exp_loop -> empty .)
-    RBRACE          reduce using rule 166 (exp_loop -> empty .)
     PLUS            reduce using rule 166 (exp_loop -> empty .)
     MINUS           reduce using rule 166 (exp_loop -> empty .)
+    RBRACE          reduce using rule 166 (exp_loop -> empty .)
 
 
 state 159
@@ -2612,19 +2612,13 @@ state 163
 
 state 164
 
-    (160) expresion_opt -> NOTEQUAL . exp push_operation expresion_helper
-    (163) exp -> . termino exp_loop exp_helper
-    (167) termino -> . factor termino_loop termino_helper
-    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
-    (172) factor -> . factor_opt factor_opt_2 factor_helper
-    (173) factor_opt -> . PLUS
-    (174) factor_opt -> . MINUS
-    (175) factor_opt -> . empty
+    (160) expresion_opt -> NOTEQUAL . push_operation exp expresion_helper
+    (1) push_operation -> . empty
     (17) empty -> .
 
-    LPARENTHESIS    shift and go to state 115
-    PLUS            shift and go to state 111
-    MINUS           shift and go to state 109
+    LPARENTHESIS    reduce using rule 17 (empty -> .)
+    PLUS            reduce using rule 17 (empty -> .)
+    MINUS           reduce using rule 17 (empty -> .)
     STRING          reduce using rule 17 (empty -> .)
     INT             reduce using rule 17 (empty -> .)
     DOUBLE          reduce using rule 17 (empty -> .)
@@ -2632,27 +2626,18 @@ state 164
     FALSE           reduce using rule 17 (empty -> .)
     ID              reduce using rule 17 (empty -> .)
 
-    factor_opt                     shift and go to state 116
-    termino                        shift and go to state 108
-    exp                            shift and go to state 239
-    factor                         shift and go to state 112
-    empty                          shift and go to state 113
+    push_operation                 shift and go to state 239
+    empty                          shift and go to state 229
 
 state 165
 
-    (157) expresion_opt -> GTHAN . exp push_operation expresion_helper
-    (163) exp -> . termino exp_loop exp_helper
-    (167) termino -> . factor termino_loop termino_helper
-    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
-    (172) factor -> . factor_opt factor_opt_2 factor_helper
-    (173) factor_opt -> . PLUS
-    (174) factor_opt -> . MINUS
-    (175) factor_opt -> . empty
+    (157) expresion_opt -> GTHAN . push_operation exp expresion_helper
+    (1) push_operation -> . empty
     (17) empty -> .
 
-    LPARENTHESIS    shift and go to state 115
-    PLUS            shift and go to state 111
-    MINUS           shift and go to state 109
+    LPARENTHESIS    reduce using rule 17 (empty -> .)
+    PLUS            reduce using rule 17 (empty -> .)
+    MINUS           reduce using rule 17 (empty -> .)
     STRING          reduce using rule 17 (empty -> .)
     INT             reduce using rule 17 (empty -> .)
     DOUBLE          reduce using rule 17 (empty -> .)
@@ -2660,27 +2645,18 @@ state 165
     FALSE           reduce using rule 17 (empty -> .)
     ID              reduce using rule 17 (empty -> .)
 
-    factor_opt                     shift and go to state 116
-    termino                        shift and go to state 108
-    exp                            shift and go to state 240
-    factor                         shift and go to state 112
-    empty                          shift and go to state 113
+    push_operation                 shift and go to state 240
+    empty                          shift and go to state 229
 
 state 166
 
-    (159) expresion_opt -> EQUAL . exp push_operation expresion_helper
-    (163) exp -> . termino exp_loop exp_helper
-    (167) termino -> . factor termino_loop termino_helper
-    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
-    (172) factor -> . factor_opt factor_opt_2 factor_helper
-    (173) factor_opt -> . PLUS
-    (174) factor_opt -> . MINUS
-    (175) factor_opt -> . empty
+    (159) expresion_opt -> EQUAL . push_operation exp expresion_helper
+    (1) push_operation -> . empty
     (17) empty -> .
 
-    LPARENTHESIS    shift and go to state 115
-    PLUS            shift and go to state 111
-    MINUS           shift and go to state 109
+    LPARENTHESIS    reduce using rule 17 (empty -> .)
+    PLUS            reduce using rule 17 (empty -> .)
+    MINUS           reduce using rule 17 (empty -> .)
     STRING          reduce using rule 17 (empty -> .)
     INT             reduce using rule 17 (empty -> .)
     DOUBLE          reduce using rule 17 (empty -> .)
@@ -2688,27 +2664,18 @@ state 166
     FALSE           reduce using rule 17 (empty -> .)
     ID              reduce using rule 17 (empty -> .)
 
-    factor_opt                     shift and go to state 116
-    termino                        shift and go to state 108
-    exp                            shift and go to state 241
-    factor                         shift and go to state 112
-    empty                          shift and go to state 113
+    push_operation                 shift and go to state 241
+    empty                          shift and go to state 229
 
 state 167
 
-    (158) expresion_opt -> GETHAN . exp push_operation expresion_helper
-    (163) exp -> . termino exp_loop exp_helper
-    (167) termino -> . factor termino_loop termino_helper
-    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
-    (172) factor -> . factor_opt factor_opt_2 factor_helper
-    (173) factor_opt -> . PLUS
-    (174) factor_opt -> . MINUS
-    (175) factor_opt -> . empty
+    (158) expresion_opt -> GETHAN . push_operation exp expresion_helper
+    (1) push_operation -> . empty
     (17) empty -> .
 
-    LPARENTHESIS    shift and go to state 115
-    PLUS            shift and go to state 111
-    MINUS           shift and go to state 109
+    LPARENTHESIS    reduce using rule 17 (empty -> .)
+    PLUS            reduce using rule 17 (empty -> .)
+    MINUS           reduce using rule 17 (empty -> .)
     STRING          reduce using rule 17 (empty -> .)
     INT             reduce using rule 17 (empty -> .)
     DOUBLE          reduce using rule 17 (empty -> .)
@@ -2716,27 +2683,18 @@ state 167
     FALSE           reduce using rule 17 (empty -> .)
     ID              reduce using rule 17 (empty -> .)
 
-    factor_opt                     shift and go to state 116
-    termino                        shift and go to state 108
-    exp                            shift and go to state 242
-    factor                         shift and go to state 112
-    empty                          shift and go to state 113
+    push_operation                 shift and go to state 242
+    empty                          shift and go to state 229
 
 state 168
 
-    (161) expresion_opt -> LTHAN . exp push_operation expresion_helper
-    (163) exp -> . termino exp_loop exp_helper
-    (167) termino -> . factor termino_loop termino_helper
-    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
-    (172) factor -> . factor_opt factor_opt_2 factor_helper
-    (173) factor_opt -> . PLUS
-    (174) factor_opt -> . MINUS
-    (175) factor_opt -> . empty
+    (161) expresion_opt -> LTHAN . push_operation exp expresion_helper
+    (1) push_operation -> . empty
     (17) empty -> .
 
-    LPARENTHESIS    shift and go to state 115
-    PLUS            shift and go to state 111
-    MINUS           shift and go to state 109
+    LPARENTHESIS    reduce using rule 17 (empty -> .)
+    PLUS            reduce using rule 17 (empty -> .)
+    MINUS           reduce using rule 17 (empty -> .)
     STRING          reduce using rule 17 (empty -> .)
     INT             reduce using rule 17 (empty -> .)
     DOUBLE          reduce using rule 17 (empty -> .)
@@ -2744,11 +2702,8 @@ state 168
     FALSE           reduce using rule 17 (empty -> .)
     ID              reduce using rule 17 (empty -> .)
 
-    factor_opt                     shift and go to state 116
-    termino                        shift and go to state 108
-    exp                            shift and go to state 243
-    factor                         shift and go to state 112
-    empty                          shift and go to state 113
+    push_operation                 shift and go to state 243
+    empty                          shift and go to state 229
 
 state 169
 
@@ -2765,19 +2720,13 @@ state 169
 
 state 170
 
-    (162) expresion_opt -> LETHAN . exp push_operation expresion_helper
-    (163) exp -> . termino exp_loop exp_helper
-    (167) termino -> . factor termino_loop termino_helper
-    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
-    (172) factor -> . factor_opt factor_opt_2 factor_helper
-    (173) factor_opt -> . PLUS
-    (174) factor_opt -> . MINUS
-    (175) factor_opt -> . empty
+    (162) expresion_opt -> LETHAN . push_operation exp expresion_helper
+    (1) push_operation -> . empty
     (17) empty -> .
 
-    LPARENTHESIS    shift and go to state 115
-    PLUS            shift and go to state 111
-    MINUS           shift and go to state 109
+    LPARENTHESIS    reduce using rule 17 (empty -> .)
+    PLUS            reduce using rule 17 (empty -> .)
+    MINUS           reduce using rule 17 (empty -> .)
     STRING          reduce using rule 17 (empty -> .)
     INT             reduce using rule 17 (empty -> .)
     DOUBLE          reduce using rule 17 (empty -> .)
@@ -2785,11 +2734,8 @@ state 170
     FALSE           reduce using rule 17 (empty -> .)
     ID              reduce using rule 17 (empty -> .)
 
-    factor_opt                     shift and go to state 116
-    termino                        shift and go to state 108
-    exp                            shift and go to state 244
-    factor                         shift and go to state 112
-    empty                          shift and go to state 113
+    push_operation                 shift and go to state 244
+    empty                          shift and go to state 229
 
 state 171
 
@@ -3636,19 +3582,19 @@ state 226
 
     (163) exp -> termino exp_loop exp_helper .
 
+    COMA            reduce using rule 163 (exp -> termino exp_loop exp_helper .)
+    AND             reduce using rule 163 (exp -> termino exp_loop exp_helper .)
+    OR              reduce using rule 163 (exp -> termino exp_loop exp_helper .)
+    RBRACKET        reduce using rule 163 (exp -> termino exp_loop exp_helper .)
+    SEMICOLON       reduce using rule 163 (exp -> termino exp_loop exp_helper .)
+    RPARENTHESIS    reduce using rule 163 (exp -> termino exp_loop exp_helper .)
+    RBRACE          reduce using rule 163 (exp -> termino exp_loop exp_helper .)
     GTHAN           reduce using rule 163 (exp -> termino exp_loop exp_helper .)
     GETHAN          reduce using rule 163 (exp -> termino exp_loop exp_helper .)
     EQUAL           reduce using rule 163 (exp -> termino exp_loop exp_helper .)
     NOTEQUAL        reduce using rule 163 (exp -> termino exp_loop exp_helper .)
     LTHAN           reduce using rule 163 (exp -> termino exp_loop exp_helper .)
     LETHAN          reduce using rule 163 (exp -> termino exp_loop exp_helper .)
-    AND             reduce using rule 163 (exp -> termino exp_loop exp_helper .)
-    OR              reduce using rule 163 (exp -> termino exp_loop exp_helper .)
-    RPARENTHESIS    reduce using rule 163 (exp -> termino exp_loop exp_helper .)
-    COMA            reduce using rule 163 (exp -> termino exp_loop exp_helper .)
-    RBRACKET        reduce using rule 163 (exp -> termino exp_loop exp_helper .)
-    SEMICOLON       reduce using rule 163 (exp -> termino exp_loop exp_helper .)
-    RBRACE          reduce using rule 163 (exp -> termino exp_loop exp_helper .)
     PLUS            reduce using rule 163 (exp -> termino exp_loop exp_helper .)
     MINUS           reduce using rule 163 (exp -> termino exp_loop exp_helper .)
 
@@ -3669,9 +3615,9 @@ state 227
     COMA            reduce using rule 7 (exp_helper -> empty .)
     SEMICOLON       reduce using rule 7 (exp_helper -> empty .)
     RPARENTHESIS    reduce using rule 7 (exp_helper -> empty .)
-    RBRACE          reduce using rule 7 (exp_helper -> empty .)
     PLUS            reduce using rule 7 (exp_helper -> empty .)
     MINUS           reduce using rule 7 (exp_helper -> empty .)
+    RBRACE          reduce using rule 7 (exp_helper -> empty .)
 
 
 state 228
@@ -3706,13 +3652,6 @@ state 229
 
     (1) push_operation -> empty .
 
-    AND             reduce using rule 1 (push_operation -> empty .)
-    OR              reduce using rule 1 (push_operation -> empty .)
-    RBRACKET        reduce using rule 1 (push_operation -> empty .)
-    COMA            reduce using rule 1 (push_operation -> empty .)
-    SEMICOLON       reduce using rule 1 (push_operation -> empty .)
-    RPARENTHESIS    reduce using rule 1 (push_operation -> empty .)
-    RBRACE          reduce using rule 1 (push_operation -> empty .)
     LPARENTHESIS    reduce using rule 1 (push_operation -> empty .)
     PLUS            reduce using rule 1 (push_operation -> empty .)
     MINUS           reduce using rule 1 (push_operation -> empty .)
@@ -3884,105 +3823,171 @@ state 238
 
 state 239
 
-    (160) expresion_opt -> NOTEQUAL exp . push_operation expresion_helper
-    (1) push_operation -> . empty
+    (160) expresion_opt -> NOTEQUAL push_operation . exp expresion_helper
+    (163) exp -> . termino exp_loop exp_helper
+    (167) termino -> . factor termino_loop termino_helper
+    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
+    (172) factor -> . factor_opt factor_opt_2 factor_helper
+    (173) factor_opt -> . PLUS
+    (174) factor_opt -> . MINUS
+    (175) factor_opt -> . empty
     (17) empty -> .
 
-    AND             reduce using rule 17 (empty -> .)
-    OR              reduce using rule 17 (empty -> .)
-    RBRACKET        reduce using rule 17 (empty -> .)
-    COMA            reduce using rule 17 (empty -> .)
-    SEMICOLON       reduce using rule 17 (empty -> .)
-    RPARENTHESIS    reduce using rule 17 (empty -> .)
-    RBRACE          reduce using rule 17 (empty -> .)
+    LPARENTHESIS    shift and go to state 115
+    PLUS            shift and go to state 111
+    MINUS           shift and go to state 109
+    STRING          reduce using rule 17 (empty -> .)
+    INT             reduce using rule 17 (empty -> .)
+    DOUBLE          reduce using rule 17 (empty -> .)
+    TRUE            reduce using rule 17 (empty -> .)
+    FALSE           reduce using rule 17 (empty -> .)
+    ID              reduce using rule 17 (empty -> .)
 
-    push_operation                 shift and go to state 304
-    empty                          shift and go to state 229
+    factor_opt                     shift and go to state 116
+    termino                        shift and go to state 108
+    exp                            shift and go to state 304
+    factor                         shift and go to state 112
+    empty                          shift and go to state 113
 
 state 240
 
-    (157) expresion_opt -> GTHAN exp . push_operation expresion_helper
-    (1) push_operation -> . empty
+    (157) expresion_opt -> GTHAN push_operation . exp expresion_helper
+    (163) exp -> . termino exp_loop exp_helper
+    (167) termino -> . factor termino_loop termino_helper
+    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
+    (172) factor -> . factor_opt factor_opt_2 factor_helper
+    (173) factor_opt -> . PLUS
+    (174) factor_opt -> . MINUS
+    (175) factor_opt -> . empty
     (17) empty -> .
 
-    AND             reduce using rule 17 (empty -> .)
-    OR              reduce using rule 17 (empty -> .)
-    RBRACKET        reduce using rule 17 (empty -> .)
-    COMA            reduce using rule 17 (empty -> .)
-    SEMICOLON       reduce using rule 17 (empty -> .)
-    RPARENTHESIS    reduce using rule 17 (empty -> .)
-    RBRACE          reduce using rule 17 (empty -> .)
+    LPARENTHESIS    shift and go to state 115
+    PLUS            shift and go to state 111
+    MINUS           shift and go to state 109
+    STRING          reduce using rule 17 (empty -> .)
+    INT             reduce using rule 17 (empty -> .)
+    DOUBLE          reduce using rule 17 (empty -> .)
+    TRUE            reduce using rule 17 (empty -> .)
+    FALSE           reduce using rule 17 (empty -> .)
+    ID              reduce using rule 17 (empty -> .)
 
-    push_operation                 shift and go to state 305
-    empty                          shift and go to state 229
+    factor_opt                     shift and go to state 116
+    termino                        shift and go to state 108
+    exp                            shift and go to state 305
+    factor                         shift and go to state 112
+    empty                          shift and go to state 113
 
 state 241
 
-    (159) expresion_opt -> EQUAL exp . push_operation expresion_helper
-    (1) push_operation -> . empty
+    (159) expresion_opt -> EQUAL push_operation . exp expresion_helper
+    (163) exp -> . termino exp_loop exp_helper
+    (167) termino -> . factor termino_loop termino_helper
+    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
+    (172) factor -> . factor_opt factor_opt_2 factor_helper
+    (173) factor_opt -> . PLUS
+    (174) factor_opt -> . MINUS
+    (175) factor_opt -> . empty
     (17) empty -> .
 
-    AND             reduce using rule 17 (empty -> .)
-    OR              reduce using rule 17 (empty -> .)
-    RBRACKET        reduce using rule 17 (empty -> .)
-    COMA            reduce using rule 17 (empty -> .)
-    SEMICOLON       reduce using rule 17 (empty -> .)
-    RPARENTHESIS    reduce using rule 17 (empty -> .)
-    RBRACE          reduce using rule 17 (empty -> .)
+    LPARENTHESIS    shift and go to state 115
+    PLUS            shift and go to state 111
+    MINUS           shift and go to state 109
+    STRING          reduce using rule 17 (empty -> .)
+    INT             reduce using rule 17 (empty -> .)
+    DOUBLE          reduce using rule 17 (empty -> .)
+    TRUE            reduce using rule 17 (empty -> .)
+    FALSE           reduce using rule 17 (empty -> .)
+    ID              reduce using rule 17 (empty -> .)
 
-    push_operation                 shift and go to state 306
-    empty                          shift and go to state 229
+    factor_opt                     shift and go to state 116
+    termino                        shift and go to state 108
+    exp                            shift and go to state 306
+    factor                         shift and go to state 112
+    empty                          shift and go to state 113
 
 state 242
 
-    (158) expresion_opt -> GETHAN exp . push_operation expresion_helper
-    (1) push_operation -> . empty
+    (158) expresion_opt -> GETHAN push_operation . exp expresion_helper
+    (163) exp -> . termino exp_loop exp_helper
+    (167) termino -> . factor termino_loop termino_helper
+    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
+    (172) factor -> . factor_opt factor_opt_2 factor_helper
+    (173) factor_opt -> . PLUS
+    (174) factor_opt -> . MINUS
+    (175) factor_opt -> . empty
     (17) empty -> .
 
-    AND             reduce using rule 17 (empty -> .)
-    OR              reduce using rule 17 (empty -> .)
-    RBRACKET        reduce using rule 17 (empty -> .)
-    COMA            reduce using rule 17 (empty -> .)
-    SEMICOLON       reduce using rule 17 (empty -> .)
-    RPARENTHESIS    reduce using rule 17 (empty -> .)
-    RBRACE          reduce using rule 17 (empty -> .)
+    LPARENTHESIS    shift and go to state 115
+    PLUS            shift and go to state 111
+    MINUS           shift and go to state 109
+    STRING          reduce using rule 17 (empty -> .)
+    INT             reduce using rule 17 (empty -> .)
+    DOUBLE          reduce using rule 17 (empty -> .)
+    TRUE            reduce using rule 17 (empty -> .)
+    FALSE           reduce using rule 17 (empty -> .)
+    ID              reduce using rule 17 (empty -> .)
 
-    push_operation                 shift and go to state 307
-    empty                          shift and go to state 229
+    factor_opt                     shift and go to state 116
+    termino                        shift and go to state 108
+    exp                            shift and go to state 307
+    factor                         shift and go to state 112
+    empty                          shift and go to state 113
 
 state 243
 
-    (161) expresion_opt -> LTHAN exp . push_operation expresion_helper
-    (1) push_operation -> . empty
+    (161) expresion_opt -> LTHAN push_operation . exp expresion_helper
+    (163) exp -> . termino exp_loop exp_helper
+    (167) termino -> . factor termino_loop termino_helper
+    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
+    (172) factor -> . factor_opt factor_opt_2 factor_helper
+    (173) factor_opt -> . PLUS
+    (174) factor_opt -> . MINUS
+    (175) factor_opt -> . empty
     (17) empty -> .
 
-    AND             reduce using rule 17 (empty -> .)
-    OR              reduce using rule 17 (empty -> .)
-    RBRACKET        reduce using rule 17 (empty -> .)
-    COMA            reduce using rule 17 (empty -> .)
-    SEMICOLON       reduce using rule 17 (empty -> .)
-    RPARENTHESIS    reduce using rule 17 (empty -> .)
-    RBRACE          reduce using rule 17 (empty -> .)
+    LPARENTHESIS    shift and go to state 115
+    PLUS            shift and go to state 111
+    MINUS           shift and go to state 109
+    STRING          reduce using rule 17 (empty -> .)
+    INT             reduce using rule 17 (empty -> .)
+    DOUBLE          reduce using rule 17 (empty -> .)
+    TRUE            reduce using rule 17 (empty -> .)
+    FALSE           reduce using rule 17 (empty -> .)
+    ID              reduce using rule 17 (empty -> .)
 
-    push_operation                 shift and go to state 308
-    empty                          shift and go to state 229
+    factor_opt                     shift and go to state 116
+    termino                        shift and go to state 108
+    exp                            shift and go to state 308
+    factor                         shift and go to state 112
+    empty                          shift and go to state 113
 
 state 244
 
-    (162) expresion_opt -> LETHAN exp . push_operation expresion_helper
-    (1) push_operation -> . empty
+    (162) expresion_opt -> LETHAN push_operation . exp expresion_helper
+    (163) exp -> . termino exp_loop exp_helper
+    (167) termino -> . factor termino_loop termino_helper
+    (171) factor -> . LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
+    (172) factor -> . factor_opt factor_opt_2 factor_helper
+    (173) factor_opt -> . PLUS
+    (174) factor_opt -> . MINUS
+    (175) factor_opt -> . empty
     (17) empty -> .
 
-    AND             reduce using rule 17 (empty -> .)
-    OR              reduce using rule 17 (empty -> .)
-    RBRACKET        reduce using rule 17 (empty -> .)
-    COMA            reduce using rule 17 (empty -> .)
-    SEMICOLON       reduce using rule 17 (empty -> .)
-    RPARENTHESIS    reduce using rule 17 (empty -> .)
-    RBRACE          reduce using rule 17 (empty -> .)
+    LPARENTHESIS    shift and go to state 115
+    PLUS            shift and go to state 111
+    MINUS           shift and go to state 109
+    STRING          reduce using rule 17 (empty -> .)
+    INT             reduce using rule 17 (empty -> .)
+    DOUBLE          reduce using rule 17 (empty -> .)
+    TRUE            reduce using rule 17 (empty -> .)
+    FALSE           reduce using rule 17 (empty -> .)
+    ID              reduce using rule 17 (empty -> .)
 
-    push_operation                 shift and go to state 309
-    empty                          shift and go to state 229
+    factor_opt                     shift and go to state 116
+    termino                        shift and go to state 108
+    exp                            shift and go to state 309
+    factor                         shift and go to state 112
+    empty                          shift and go to state 113
 
 state 245
 
@@ -3999,12 +4004,6 @@ state 246
     DIVIDE          reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
     PLUS            reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
     MINUS           reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
-    GTHAN           reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
-    GETHAN          reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
-    EQUAL           reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
-    NOTEQUAL        reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
-    LTHAN           reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
-    LETHAN          reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
     AND             reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
     OR              reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
     RBRACKET        reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
@@ -4012,6 +4011,12 @@ state 246
     SEMICOLON       reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
     RPARENTHESIS    reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
     RBRACE          reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
+    GTHAN           reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
+    GETHAN          reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
+    EQUAL           reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
+    NOTEQUAL        reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
+    LTHAN           reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
+    LETHAN          reduce using rule 172 (factor -> factor_opt factor_opt_2 factor_helper .)
 
 
 state 247
@@ -4898,7 +4903,7 @@ state 303
 
 state 304
 
-    (160) expresion_opt -> NOTEQUAL exp push_operation . expresion_helper
+    (160) expresion_opt -> NOTEQUAL push_operation exp . expresion_helper
     (5) expresion_helper -> . empty
     (17) empty -> .
 
@@ -4915,7 +4920,7 @@ state 304
 
 state 305
 
-    (157) expresion_opt -> GTHAN exp push_operation . expresion_helper
+    (157) expresion_opt -> GTHAN push_operation exp . expresion_helper
     (5) expresion_helper -> . empty
     (17) empty -> .
 
@@ -4932,7 +4937,7 @@ state 305
 
 state 306
 
-    (159) expresion_opt -> EQUAL exp push_operation . expresion_helper
+    (159) expresion_opt -> EQUAL push_operation exp . expresion_helper
     (5) expresion_helper -> . empty
     (17) empty -> .
 
@@ -4949,7 +4954,7 @@ state 306
 
 state 307
 
-    (158) expresion_opt -> GETHAN exp push_operation . expresion_helper
+    (158) expresion_opt -> GETHAN push_operation exp . expresion_helper
     (5) expresion_helper -> . empty
     (17) empty -> .
 
@@ -4966,7 +4971,7 @@ state 307
 
 state 308
 
-    (161) expresion_opt -> LTHAN exp push_operation . expresion_helper
+    (161) expresion_opt -> LTHAN push_operation exp . expresion_helper
     (5) expresion_helper -> . empty
     (17) empty -> .
 
@@ -4983,7 +4988,7 @@ state 308
 
 state 309
 
-    (162) expresion_opt -> LETHAN exp push_operation . expresion_helper
+    (162) expresion_opt -> LETHAN push_operation exp . expresion_helper
     (5) expresion_helper -> . empty
     (17) empty -> .
 
@@ -5358,8 +5363,8 @@ state 331
     PRINT           reduce using rule 146 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
     READ            reduce using rule 146 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
     COMMENT         reduce using rule 146 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
-    RETURN          reduce using rule 146 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
     RBRACE          reduce using rule 146 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
+    RETURN          reduce using rule 146 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
     VAR             reduce using rule 146 (llamada -> ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON .)
 
 
@@ -5422,9 +5427,9 @@ state 337
     COMA            reduce using rule 164 (exp_loop -> PLUS push_operation exp exp_loop .)
     SEMICOLON       reduce using rule 164 (exp_loop -> PLUS push_operation exp exp_loop .)
     RPARENTHESIS    reduce using rule 164 (exp_loop -> PLUS push_operation exp exp_loop .)
-    RBRACE          reduce using rule 164 (exp_loop -> PLUS push_operation exp exp_loop .)
     PLUS            reduce using rule 164 (exp_loop -> PLUS push_operation exp exp_loop .)
     MINUS           reduce using rule 164 (exp_loop -> PLUS push_operation exp exp_loop .)
+    RBRACE          reduce using rule 164 (exp_loop -> PLUS push_operation exp exp_loop .)
 
 
 state 338
@@ -5443,9 +5448,9 @@ state 338
     COMA            reduce using rule 165 (exp_loop -> MINUS push_operation exp exp_loop .)
     SEMICOLON       reduce using rule 165 (exp_loop -> MINUS push_operation exp exp_loop .)
     RPARENTHESIS    reduce using rule 165 (exp_loop -> MINUS push_operation exp exp_loop .)
-    RBRACE          reduce using rule 165 (exp_loop -> MINUS push_operation exp exp_loop .)
     PLUS            reduce using rule 165 (exp_loop -> MINUS push_operation exp exp_loop .)
     MINUS           reduce using rule 165 (exp_loop -> MINUS push_operation exp exp_loop .)
+    RBRACE          reduce using rule 165 (exp_loop -> MINUS push_operation exp exp_loop .)
 
 
 state 339
@@ -5509,15 +5514,15 @@ state 341
 
 state 342
 
-    (160) expresion_opt -> NOTEQUAL exp push_operation expresion_helper .
+    (160) expresion_opt -> NOTEQUAL push_operation exp expresion_helper .
 
-    AND             reduce using rule 160 (expresion_opt -> NOTEQUAL exp push_operation expresion_helper .)
-    OR              reduce using rule 160 (expresion_opt -> NOTEQUAL exp push_operation expresion_helper .)
-    RBRACKET        reduce using rule 160 (expresion_opt -> NOTEQUAL exp push_operation expresion_helper .)
-    COMA            reduce using rule 160 (expresion_opt -> NOTEQUAL exp push_operation expresion_helper .)
-    SEMICOLON       reduce using rule 160 (expresion_opt -> NOTEQUAL exp push_operation expresion_helper .)
-    RPARENTHESIS    reduce using rule 160 (expresion_opt -> NOTEQUAL exp push_operation expresion_helper .)
-    RBRACE          reduce using rule 160 (expresion_opt -> NOTEQUAL exp push_operation expresion_helper .)
+    AND             reduce using rule 160 (expresion_opt -> NOTEQUAL push_operation exp expresion_helper .)
+    OR              reduce using rule 160 (expresion_opt -> NOTEQUAL push_operation exp expresion_helper .)
+    RBRACKET        reduce using rule 160 (expresion_opt -> NOTEQUAL push_operation exp expresion_helper .)
+    COMA            reduce using rule 160 (expresion_opt -> NOTEQUAL push_operation exp expresion_helper .)
+    SEMICOLON       reduce using rule 160 (expresion_opt -> NOTEQUAL push_operation exp expresion_helper .)
+    RPARENTHESIS    reduce using rule 160 (expresion_opt -> NOTEQUAL push_operation exp expresion_helper .)
+    RBRACE          reduce using rule 160 (expresion_opt -> NOTEQUAL push_operation exp expresion_helper .)
 
 
 state 343
@@ -5535,67 +5540,67 @@ state 343
 
 state 344
 
-    (157) expresion_opt -> GTHAN exp push_operation expresion_helper .
+    (157) expresion_opt -> GTHAN push_operation exp expresion_helper .
 
-    AND             reduce using rule 157 (expresion_opt -> GTHAN exp push_operation expresion_helper .)
-    OR              reduce using rule 157 (expresion_opt -> GTHAN exp push_operation expresion_helper .)
-    RBRACKET        reduce using rule 157 (expresion_opt -> GTHAN exp push_operation expresion_helper .)
-    COMA            reduce using rule 157 (expresion_opt -> GTHAN exp push_operation expresion_helper .)
-    SEMICOLON       reduce using rule 157 (expresion_opt -> GTHAN exp push_operation expresion_helper .)
-    RPARENTHESIS    reduce using rule 157 (expresion_opt -> GTHAN exp push_operation expresion_helper .)
-    RBRACE          reduce using rule 157 (expresion_opt -> GTHAN exp push_operation expresion_helper .)
+    AND             reduce using rule 157 (expresion_opt -> GTHAN push_operation exp expresion_helper .)
+    OR              reduce using rule 157 (expresion_opt -> GTHAN push_operation exp expresion_helper .)
+    RBRACKET        reduce using rule 157 (expresion_opt -> GTHAN push_operation exp expresion_helper .)
+    COMA            reduce using rule 157 (expresion_opt -> GTHAN push_operation exp expresion_helper .)
+    SEMICOLON       reduce using rule 157 (expresion_opt -> GTHAN push_operation exp expresion_helper .)
+    RPARENTHESIS    reduce using rule 157 (expresion_opt -> GTHAN push_operation exp expresion_helper .)
+    RBRACE          reduce using rule 157 (expresion_opt -> GTHAN push_operation exp expresion_helper .)
 
 
 state 345
 
-    (159) expresion_opt -> EQUAL exp push_operation expresion_helper .
+    (159) expresion_opt -> EQUAL push_operation exp expresion_helper .
 
-    AND             reduce using rule 159 (expresion_opt -> EQUAL exp push_operation expresion_helper .)
-    OR              reduce using rule 159 (expresion_opt -> EQUAL exp push_operation expresion_helper .)
-    RBRACKET        reduce using rule 159 (expresion_opt -> EQUAL exp push_operation expresion_helper .)
-    COMA            reduce using rule 159 (expresion_opt -> EQUAL exp push_operation expresion_helper .)
-    SEMICOLON       reduce using rule 159 (expresion_opt -> EQUAL exp push_operation expresion_helper .)
-    RPARENTHESIS    reduce using rule 159 (expresion_opt -> EQUAL exp push_operation expresion_helper .)
-    RBRACE          reduce using rule 159 (expresion_opt -> EQUAL exp push_operation expresion_helper .)
+    AND             reduce using rule 159 (expresion_opt -> EQUAL push_operation exp expresion_helper .)
+    OR              reduce using rule 159 (expresion_opt -> EQUAL push_operation exp expresion_helper .)
+    RBRACKET        reduce using rule 159 (expresion_opt -> EQUAL push_operation exp expresion_helper .)
+    COMA            reduce using rule 159 (expresion_opt -> EQUAL push_operation exp expresion_helper .)
+    SEMICOLON       reduce using rule 159 (expresion_opt -> EQUAL push_operation exp expresion_helper .)
+    RPARENTHESIS    reduce using rule 159 (expresion_opt -> EQUAL push_operation exp expresion_helper .)
+    RBRACE          reduce using rule 159 (expresion_opt -> EQUAL push_operation exp expresion_helper .)
 
 
 state 346
 
-    (158) expresion_opt -> GETHAN exp push_operation expresion_helper .
+    (158) expresion_opt -> GETHAN push_operation exp expresion_helper .
 
-    AND             reduce using rule 158 (expresion_opt -> GETHAN exp push_operation expresion_helper .)
-    OR              reduce using rule 158 (expresion_opt -> GETHAN exp push_operation expresion_helper .)
-    RBRACKET        reduce using rule 158 (expresion_opt -> GETHAN exp push_operation expresion_helper .)
-    COMA            reduce using rule 158 (expresion_opt -> GETHAN exp push_operation expresion_helper .)
-    SEMICOLON       reduce using rule 158 (expresion_opt -> GETHAN exp push_operation expresion_helper .)
-    RPARENTHESIS    reduce using rule 158 (expresion_opt -> GETHAN exp push_operation expresion_helper .)
-    RBRACE          reduce using rule 158 (expresion_opt -> GETHAN exp push_operation expresion_helper .)
+    AND             reduce using rule 158 (expresion_opt -> GETHAN push_operation exp expresion_helper .)
+    OR              reduce using rule 158 (expresion_opt -> GETHAN push_operation exp expresion_helper .)
+    RBRACKET        reduce using rule 158 (expresion_opt -> GETHAN push_operation exp expresion_helper .)
+    COMA            reduce using rule 158 (expresion_opt -> GETHAN push_operation exp expresion_helper .)
+    SEMICOLON       reduce using rule 158 (expresion_opt -> GETHAN push_operation exp expresion_helper .)
+    RPARENTHESIS    reduce using rule 158 (expresion_opt -> GETHAN push_operation exp expresion_helper .)
+    RBRACE          reduce using rule 158 (expresion_opt -> GETHAN push_operation exp expresion_helper .)
 
 
 state 347
 
-    (161) expresion_opt -> LTHAN exp push_operation expresion_helper .
+    (161) expresion_opt -> LTHAN push_operation exp expresion_helper .
 
-    AND             reduce using rule 161 (expresion_opt -> LTHAN exp push_operation expresion_helper .)
-    OR              reduce using rule 161 (expresion_opt -> LTHAN exp push_operation expresion_helper .)
-    RBRACKET        reduce using rule 161 (expresion_opt -> LTHAN exp push_operation expresion_helper .)
-    COMA            reduce using rule 161 (expresion_opt -> LTHAN exp push_operation expresion_helper .)
-    SEMICOLON       reduce using rule 161 (expresion_opt -> LTHAN exp push_operation expresion_helper .)
-    RPARENTHESIS    reduce using rule 161 (expresion_opt -> LTHAN exp push_operation expresion_helper .)
-    RBRACE          reduce using rule 161 (expresion_opt -> LTHAN exp push_operation expresion_helper .)
+    AND             reduce using rule 161 (expresion_opt -> LTHAN push_operation exp expresion_helper .)
+    OR              reduce using rule 161 (expresion_opt -> LTHAN push_operation exp expresion_helper .)
+    RBRACKET        reduce using rule 161 (expresion_opt -> LTHAN push_operation exp expresion_helper .)
+    COMA            reduce using rule 161 (expresion_opt -> LTHAN push_operation exp expresion_helper .)
+    SEMICOLON       reduce using rule 161 (expresion_opt -> LTHAN push_operation exp expresion_helper .)
+    RPARENTHESIS    reduce using rule 161 (expresion_opt -> LTHAN push_operation exp expresion_helper .)
+    RBRACE          reduce using rule 161 (expresion_opt -> LTHAN push_operation exp expresion_helper .)
 
 
 state 348
 
-    (162) expresion_opt -> LETHAN exp push_operation expresion_helper .
+    (162) expresion_opt -> LETHAN push_operation exp expresion_helper .
 
-    AND             reduce using rule 162 (expresion_opt -> LETHAN exp push_operation expresion_helper .)
-    OR              reduce using rule 162 (expresion_opt -> LETHAN exp push_operation expresion_helper .)
-    RBRACKET        reduce using rule 162 (expresion_opt -> LETHAN exp push_operation expresion_helper .)
-    COMA            reduce using rule 162 (expresion_opt -> LETHAN exp push_operation expresion_helper .)
-    SEMICOLON       reduce using rule 162 (expresion_opt -> LETHAN exp push_operation expresion_helper .)
-    RPARENTHESIS    reduce using rule 162 (expresion_opt -> LETHAN exp push_operation expresion_helper .)
-    RBRACE          reduce using rule 162 (expresion_opt -> LETHAN exp push_operation expresion_helper .)
+    AND             reduce using rule 162 (expresion_opt -> LETHAN push_operation exp expresion_helper .)
+    OR              reduce using rule 162 (expresion_opt -> LETHAN push_operation exp expresion_helper .)
+    RBRACKET        reduce using rule 162 (expresion_opt -> LETHAN push_operation exp expresion_helper .)
+    COMA            reduce using rule 162 (expresion_opt -> LETHAN push_operation exp expresion_helper .)
+    SEMICOLON       reduce using rule 162 (expresion_opt -> LETHAN push_operation exp expresion_helper .)
+    RPARENTHESIS    reduce using rule 162 (expresion_opt -> LETHAN push_operation exp expresion_helper .)
+    RBRACE          reduce using rule 162 (expresion_opt -> LETHAN push_operation exp expresion_helper .)
 
 
 state 349
@@ -5993,12 +5998,6 @@ state 372
     DIVIDE          reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
     PLUS            reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
     MINUS           reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
-    GTHAN           reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
-    GETHAN          reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
-    EQUAL           reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
-    NOTEQUAL        reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
-    LTHAN           reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
-    LETHAN          reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
     AND             reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
     OR              reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
     RBRACKET        reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
@@ -6006,6 +6005,12 @@ state 372
     SEMICOLON       reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
     RPARENTHESIS    reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
     RBRACE          reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
+    GTHAN           reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
+    GETHAN          reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
+    EQUAL           reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
+    NOTEQUAL        reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
+    LTHAN           reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
+    LETHAN          reduce using rule 171 (factor -> LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper .)
 
 
 state 373
