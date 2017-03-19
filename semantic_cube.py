@@ -1,14 +1,14 @@
 
 VOID = 0
 BOOL = 1
-BOOLARRAY = 11
 ENTERO = 2
-ENTEROARRAY = 22
 DECIMAL = 3
-DECIMALARRAY = 33
 CADENA = 4
-CADENAARRAY = 44
 
+ENTEROARRAY = 22
+DECIMALARRAY = 33
+BOOLARRAY = 11
+CADENAARRAY = 44
 
 cubeDict = {}
 
@@ -84,10 +84,13 @@ cubeDict['cadena!=cadena'] = BOOL
 cubeDict['bool!=bool'] = BOOL
 
 # And
-cubeDict['bool&&bool'] = BOOL
+cubeDict['boolybool'] = BOOL
 
 # Or
-cubeDict['bool||bool'] = BOOL
+cubeDict['boolobool'] = BOOL
 
-def test(p):
-	pass
+def getResultType(query):
+	if (query in cubeDict):
+		return cubeDict[query];
+	else:
+		return -1;
