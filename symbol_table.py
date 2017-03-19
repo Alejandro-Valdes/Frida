@@ -97,6 +97,22 @@ class SymbolsTable:
 			print('Error ' + func + ' is not defined as a function')
 			sys.exit()
 
+	@classmethod
+	def checkVarType(cls, func, var):
+		if(var in cls.function_dictionary[func].vars):
+			return cls.function_dictionary[func].vars[var].type
+		elif(var in cls.function_dictionary['global'].vars):
+			return cls.function_dictionary['global'].vars[var].type
+		else:
+			return -1
+
+	@classmethod
+	def checkFuncReturnType(cls, func):
+		if(cls.function_dictionary[func]):
+			return cls.function_dictionary[func].returnType
+		else:
+			return -1
+
 
 
 

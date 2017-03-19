@@ -11,7 +11,7 @@ programa pruebaFrida
 	rutina void : pruebaRutina() {
 		variable cadena cPrueba = "cte_cadena";
 
-		dArrayTest[0] = suma(4, 34 + 43) / 20 * (2 - 5);
+		dArrayTest[0] = suma(4, 34 + 1) / 20 * (2 - 5);
 
 		iTest = 10 * (20 + suma(3, 4) - 20) / 1;
 		dArrayTest[3] = iTest;

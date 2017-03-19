@@ -22,9 +22,9 @@ from intermediate_code_ply import *
 
 # Programa
 def p_programa(p):
-	'programa : PROGRAMA ID add_global_scope vars_opt rutinas lienzo printFuncTable'
+	'programa : PROGRAMA ID add_global_scope vars_opt rutinas lienzo printQuadList'
 	#Este mensaje solo se imprime si es valido el archivo
-	print('Valid Frida file')
+	print('\nValid Frida file')
 
 def p_vars_opt(p):
 	'''vars_opt : vars 
@@ -110,12 +110,12 @@ def p_tipo_opt_fig_3(p):
 # Inicializacion de valores primitivos
 
 def p_ini_prim(p):
-	'ini_prim : ASIGN logica'
+	'ini_prim : ASSIGN logica'
 
 # Inicializacion de arreglos con valores primarios
 
 def p_ini_prim_v(p):
-	'ini_prim_v : ASIGN LBRACE logica ini_prim_v_loop RBRACE'
+	'ini_prim_v : ASSIGN LBRACE logica ini_prim_v_loop RBRACE'
 
 def p_ini_prim_v_loop(p):
 	'''ini_prim_v_loop : COMA logica ini_prim_v_loop 
@@ -124,12 +124,12 @@ def p_ini_prim_v_loop(p):
 # Inicializacion de figuras
 
 def p_ini_fgra(p):
-	'ini_fgra : ASIGN fgra_nva'
+	'ini_fgra : ASSIGN fgra_nva'
 
 # Inicitalizacion de arreglos de figuras
 
 def p_ini_fgra_v(p):
-	'''ini_fgra_v : ASIGN LBRACE fgra_nva ini_fgras_v_loop RBRACE
+	'''ini_fgra_v : ASSIGN LBRACE fgra_nva ini_fgras_v_loop RBRACE
 		| empty'''
 
 def p_ini_fgras_v_loop(p):
@@ -166,12 +166,24 @@ def p_figura(p):
 		| TRIANG saveType'''
 
 def p_cte(p):
-	'''cte : STRING
-		| INT
-		| DOUBLE
-		| TRUE
-		| FALSE'''
-	push_o(p[1])
+	'''cte : STRING push_string
+		| INT push_int
+		| DOUBLE push_double
+		| TRUE push_bool
+		| FALSE push_bool'''
+
+def p_push_string(p):
+	'push_string : empty'
+	push_o(p[-1], 'cadena')
+def p_push_int(p):
+	'push_int : empty'
+	push_o(p[-1], 'entero')
+def p_push_double(p):
+	'push_double : empty'
+	push_o(p[-1], 'decimal')
+def p_push_bool(p):
+	'push_bool : empty'
+	push_o(p[-1], 'bool')
 
 # parametros
 
@@ -263,7 +275,9 @@ def p_comentario(p):
 	'comentario : COMMENT'
 
 def p_asignacion(p):
-	'asignacion : ID check_variable asignacion_opt ASIGN asignacion_opt_2 SEMICOLON'
+	'asignacion : ID check_variable asignacion_opt ASSIGN push_operation asignacion_opt_2 SEMICOLON'
+	push_o(p[1], 'var')
+	assign_helper()
 
 def p_asignacion_opt(p):
 	'''asignacion_opt : LBRACKET logica RBRACKET
@@ -299,10 +313,12 @@ def p_ciclo(p):
 # IMPRESION
 def p_impresion(p):
 	'impresion : PRINT LPARENTHESIS logica RPARENTHESIS SEMICOLON'
+	print_helper()
 
 # LECTURA
 def p_lectura(p):
 	'lectura : READ LPARENTHESIS RPARENTHESIS'
+	read_helper()
 
 # LLAMADA
 
@@ -330,7 +346,7 @@ def p_logica_loop(p):
 # expresion
 
 def p_expresion(p):
-	'expresion : exp expresion_opt'
+	'expresion : exp expresion_opt logica_helper'
 
 
 def p_expresion_opt(p):
@@ -345,7 +361,7 @@ def p_expresion_opt(p):
 # EXP
 
 def p_exp(p):
-	'exp : termino exp_loop exp_helper'
+	'exp : termino exp_loop'
 
 def p_exp_loop(p):
 	'''exp_loop : PLUS push_operation exp exp_loop
@@ -354,7 +370,7 @@ def p_exp_loop(p):
 
 # Termino
 def p_termino(p):
-	'termino : factor termino_loop termino_helper'
+	'termino : factor termino_loop exp_helper'
 
 def p_termino_loop(p):
 	'''termino_loop : TIMES push_operation termino termino_loop
@@ -380,12 +396,12 @@ def p_id_factor(p):
 	'''id_factor : ID check_variable
 		| idllamada'''
 	if(len(p) == 3):
-		push_o(p[1])
+		push_o(p[1], 'var')
 
 # idLlamada
 def p_idllamada(p):
 	'idllamada : ID check_function idllamada_opt'
-	push_o(p[1])
+	push_o(p[1], 'func')
 
 def p_idllamada_opt(p):
 	'''idllamada_opt : LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS 
