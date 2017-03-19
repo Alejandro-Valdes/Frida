@@ -47,7 +47,8 @@ def p_vars_loop(p):
 # Rutinas
 
 def p_rutinas(p):
-	'rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFuncParam bloque_rutina cleanFunc rutinas_loop'
+	'''rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFuncParam bloque_rutina cleanFunc rutinas_loop
+		| empty'''
 
 def p_rutina_opt(p):
 	'''rutina_opt : primitivo
