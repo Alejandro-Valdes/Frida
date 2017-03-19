@@ -11,6 +11,9 @@ from symbol_table_ply import *
 # importar modulo para tabla de simbolos
 from symbol_table import *
 
+# importar reglas para codigo intermedio
+from intermediate_code_ply import *
+
 # Defino las reglas del lenguaje MyLittleDuck2017
 # se definenen como funcciones p_*
 # las reglas se escriben de la forma A : a + b
@@ -162,14 +165,12 @@ def p_figura(p):
 		| TRIANG saveType'''
 
 def p_cte(p):
-	'''cte : STRING 
+	'''cte : STRING
 		| INT
 		| DOUBLE
-		| bool'''	
-
-def p_bool(p):
-	'''bool : TRUE
+		| TRUE
 		| FALSE'''
+	push_o(p[1])
 
 # parametros
 
@@ -321,8 +322,8 @@ def p_logica(p):
 	'logica : expresion logica_loop'
 
 def p_logica_loop(p):
-	'''logica_loop : AND logica
-		| OR logica
+	'''logica_loop : AND push_operation logica
+		| OR push_operation logica
 		| empty'''
 
 # expresion
@@ -330,59 +331,60 @@ def p_logica_loop(p):
 def p_expresion(p):
 	'expresion : exp expresion_opt'
 
-def p_expresion_opt(p):
-	'''expresion_opt : expresion_opt_opt exp 
-		| empty'''
 
-def p_expresion_opt_opt(p):
-	'''expresion_opt_opt : GTHAN 
-		| GETHAN 
-		| ASIGN ASIGN 
-		| NOTEQUAL 
-		| LTHAN 
-		| LETHAN'''
+def p_expresion_opt(p):
+	'''expresion_opt : empty
+		| GTHAN exp push_operation expresion_helper
+		| GETHAN exp  push_operation expresion_helper
+		| EQUAL exp push_operation expresion_helper
+		| NOTEQUAL exp  push_operation expresion_helper
+		| LTHAN exp  push_operation expresion_helper
+		| LETHAN exp push_operation expresion_helper'''
 
 # EXP
 
 def p_exp(p):
-	'exp : termino exp_loop'
+	'exp : termino exp_loop exp_helper'
 
 def p_exp_loop(p):
-	'''exp_loop : PLUS exp
-		| MINUS exp
+	'''exp_loop : PLUS push_operation exp exp_loop
+		| MINUS push_operation exp exp_loop
 		| empty'''
 
 # Termino
 def p_termino(p):
-	'termino : factor termino_loop'
+	'termino : factor termino_loop termino_helper'
 
 def p_termino_loop(p):
-	'''termino_loop : TIMES termino 
-		| DIVIDE termino 
+	'''termino_loop : TIMES push_operation termino termino_loop
+		| DIVIDE push_operation termino termino_loop
 		| empty'''
 
 # Factor
 
 def p_factor(p):
-	'''factor : LPARENTHESIS expresion RPARENTHESIS 
-		| factor_opt factor_opt_2'''
+	'''factor : LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
+		| factor_opt factor_opt_2 factor_helper'''
 
 def p_factor_opt(p):
-	'''factor_opt : PLUS 
-		| MINUS 
+	'''factor_opt : PLUS
+		| MINUS
 		| empty'''
 
 def p_factor_opt_2(p):
-	'''factor_opt_2 : cte 
+	'''factor_opt_2 : cte
 		| id_factor'''
 
 def p_id_factor(p):
 	'''id_factor : ID check_variable
 		| idllamada'''
+	if(len(p) == 3):
+		push_o(p[1])
 
 # idLlamada
 def p_idllamada(p):
 	'idllamada : ID check_function idllamada_opt'
+	push_o(p[1])
 
 def p_idllamada_opt(p):
 	'''idllamada_opt : LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS 
@@ -455,28 +457,5 @@ def p_error(p):
 # Crea el parser dandole el estado inicial
 parser = yacc.yacc(start='programa')
 
-# Pruebas del analizador lexico y gramatico
-def readFile(file):
-	file_in = open(file, 'r')
-	data = file_in.read()
-	file_in.close()
-	parser.parse(data)
 
-'''print('\nArchivos Falla:\n')
-
-readFile("test_fail_1.txt")
-readFile("test_fail_2.txt")
-readFile("test_fail_3.txt")'''
-
-#print('\n#####################')
-
-#print('\nArchivos Exito:\n')
-readFile("test_fail_2.txt")
-
-#print('\n#####################')
-#readFile("test_2.txt")
-#print('\n#####################')
-#readFile("test_3.txt")
-
-print('\n')
 

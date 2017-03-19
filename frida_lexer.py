@@ -12,6 +12,7 @@ tokens = [
 	'LTHAN',
 	'GETHAN',
 	'LETHAN',
+	'EQUAL',
 	'NOTEQUAL',
 	'COLON',
 	'SEMICOLON',
@@ -94,6 +95,7 @@ t_GTHAN = r'<'
 t_LTHAN = r'>'
 t_GETHAN = r'>='
 t_LETHAN = r'<='
+t_EQUAL = r'=='
 t_NOTEQUAL = r'!='
 t_COLON = r':'
 t_SEMICOLON = r';'
@@ -111,8 +113,8 @@ t_TIMES = r'\*'
 t_DIVIDE = r'\/'
 t_MOD = r'\%'
 t_EXPONENTIAL = r'\^'
-t_INT = r'[\+,-]?\d+'
-t_DOUBLE = r'(\+|-)?[0-9]+(.[0-9]+)?'
+t_INT = r'\d+'
+t_DOUBLE = r'\d+(.\d+)?'
 t_TRUE = r'verdadero'
 t_FALSE = r'falso'
 t_STRING = r'(\'.*\' | \".*\")'
