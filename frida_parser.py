@@ -50,6 +50,7 @@ def p_rutinas(p):
 	'''rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFuncParam bloque_rutina cleanFunc rutinas_loop
 		| empty'''
 
+
 def p_rutina_opt(p):
 	'''rutina_opt : primitivo
 		| figura
@@ -126,7 +127,7 @@ def p_ini_prim_v_loop(p):
 def p_ini_fgra(p):
 	'ini_fgra : ASSIGN fgra_nva'
 
-# Inicitalizacion de arreglos de figuras
+# Inicializacion de arreglos de figuras
 
 def p_ini_fgra_v(p):
 	'''ini_fgra_v : ASSIGN LBRACE fgra_nva ini_fgras_v_loop RBRACE
@@ -172,15 +173,19 @@ def p_cte(p):
 		| TRUE push_bool
 		| FALSE push_bool'''
 
+# Push to operands stack for quadruples generation
 def p_push_string(p):
 	'push_string : empty'
 	push_o(p[-1], 'cadena')
+
 def p_push_int(p):
 	'push_int : empty'
 	push_o(p[-1], 'entero')
+
 def p_push_double(p):
 	'push_double : empty'
 	push_o(p[-1], 'decimal')
+
 def p_push_bool(p):
 	'push_bool : empty'
 	push_o(p[-1], 'bool')
