@@ -7,7 +7,7 @@ class Variable:
 		self.type = type
 		self.value = value
 
-class  Function:
+class Function:
 
 	def __init__(self, name, returnType, params, vars):
 		self.name = name
@@ -25,7 +25,7 @@ class  Function:
 		'''
 
 		if var.name in self.vars:
-			print "Error variable " + var.name + " already defined within function scope"
+			print("Error variable " + var.name + " already defined within function scope")
 			sys.exit()
 
 		else:
@@ -47,7 +47,7 @@ class SymbolsTable:
 	def add_function(cls, function):
 
 		if function.name in cls.function_dictionary:
-			print "Error function " + function.name + " already defined"
+			print("Error function " + function.name + " already defined")
 			sys.exit()
 		else:
 			cls.function_dictionary[function.name] = function
@@ -70,7 +70,7 @@ class SymbolsTable:
 		if scope in cls.function_dictionary:
 			cls.function_dictionary[scope].add_var(var)
 		else:
-			print "Error scope " + scope + " not defined"
+			print("Error scope " + scope + " not defined")
 			sys.exit()
 
 	@classmethod
@@ -78,7 +78,7 @@ class SymbolsTable:
 		if scope in cls.function_dictionary:
 			cls.function_dictionary[scope].params = params
 		else:
-			print "Error scope " + scope + " not defined"
+			print("Error scope " + scope + " not defined")
 			sys.exit()
 
 	@classmethod

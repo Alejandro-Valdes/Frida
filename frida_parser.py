@@ -88,7 +88,7 @@ def p_tipo_opt_prim_3(p):
 # Tipo fig
 
 def p_tipo_opt_fig(p):
-	'tipo_opt_fig : add_var_name figura ID add_var tipo_opt_fig_2'
+	'tipo_opt_fig : add_var_name figura ID add_var tipo_opt_fig_2 tipo_opt_fig_loop'
 
 def p_tipo_opt_fig_loop(p):
 	'''tipo_opt_fig_loop : COMA tipo_opt_fig
@@ -470,7 +470,7 @@ readFile("test_fail_3.txt")'''
 #print('\n#####################')
 
 #print('\nArchivos Exito:\n')
-readFile("test_1.txt")
+readFile("test_fail_2.txt")
 
 #print('\n#####################')
 #readFile("test_2.txt")
