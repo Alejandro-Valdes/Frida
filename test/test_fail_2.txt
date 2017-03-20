@@ -1,7 +1,7 @@
 programa pruebaFrida2
 	variable cadena cPrueba = "";
 
-	rutina entero : rutinaRegresaEntero(entero : iParam, decimal dParam) {
+	rutina entero : rutinaRegresaEntero(entero : iParam, decimal : dParam) {
 		variable bool bBandera = verdadero;
 
 		mientras (bBandera) {
@@ -16,7 +16,7 @@ programa pruebaFrida2
 
 		regresa iParam;
 	
-
+		
 	rutina decimal : rutinaRegresaDecimal(decimal : dParam) {
 		variable decimal dCalculo = 20.5;
 
@@ -35,7 +35,7 @@ programa pruebaFrida2
 
 		variable cuadrado miCuadrado = nuevo cuadrado(45, 45, 5, "#000");
 
-		miCuadrado.avanza(52, 78);
+		miCuadrado.avanza(5278);
 
 		variable circulo miCirculo = nuevo circulo(54, 21, 2, "#F15A45");
 
@@ -45,6 +45,6 @@ programa pruebaFrida2
 
 		variable triangulo miTriangulo = nuevo triangulo(15, 15, 12, 12, 13, 13, "#E5E5E5");
 
-		triangulo.relleno("#565656");
-		triangulo.gira(90);		
+		miTriangulo.relleno("#565656");
+		miTriangulo.gira(90);		
 	}
