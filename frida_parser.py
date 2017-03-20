@@ -111,7 +111,9 @@ def p_tipo_opt_fig_3(p):
 # Inicializacion de valores primitivos
 
 def p_ini_prim(p):
-	'ini_prim : ASSIGN logica'
+	'ini_prim : ASSIGN push_operation logica'
+	push_o(g.varName, 'var')
+	assign_helper()
 
 # Inicializacion de arreglos con valores primarios
 
