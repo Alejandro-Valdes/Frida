@@ -5,7 +5,6 @@ import global_vars as g
 
 i = 0;
 
-
 def p_push_operation(p):
 	'push_operation : empty'
 	g.operStack.append(p[-1])

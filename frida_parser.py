@@ -50,6 +50,7 @@ def p_rutinas(p):
 	'''rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFuncParam bloque_rutina cleanFunc rutinas_loop
 		| empty'''
 
+
 def p_rutina_opt(p):
 	'''rutina_opt : primitivo
 		| figura
@@ -92,7 +93,7 @@ def p_tipo_opt_prim_3(p):
 # Tipo fig
 
 def p_tipo_opt_fig(p):
-	'tipo_opt_fig : add_var_name figura ID add_var tipo_opt_fig_2'
+	'tipo_opt_fig : add_var_name figura ID add_var tipo_opt_fig_2 tipo_opt_fig_loop'
 
 def p_tipo_opt_fig_loop(p):
 	'''tipo_opt_fig_loop : COMA tipo_opt_fig
@@ -110,7 +111,9 @@ def p_tipo_opt_fig_3(p):
 # Inicializacion de valores primitivos
 
 def p_ini_prim(p):
-	'ini_prim : ASSIGN logica'
+	'ini_prim : ASSIGN push_operation logica'
+	push_o(g.varName, 'var')
+	assign_helper()
 
 # Inicializacion de arreglos con valores primarios
 
@@ -126,7 +129,7 @@ def p_ini_prim_v_loop(p):
 def p_ini_fgra(p):
 	'ini_fgra : ASSIGN fgra_nva'
 
-# Inicitalizacion de arreglos de figuras
+# Inicializacion de arreglos de figuras
 
 def p_ini_fgra_v(p):
 	'''ini_fgra_v : ASSIGN LBRACE fgra_nva ini_fgras_v_loop RBRACE
@@ -172,15 +175,19 @@ def p_cte(p):
 		| TRUE push_bool
 		| FALSE push_bool'''
 
+# Push to operands stack for quadruples generation
 def p_push_string(p):
 	'push_string : empty'
 	push_o(p[-1], 'cadena')
+
 def p_push_int(p):
 	'push_int : empty'
 	push_o(p[-1], 'entero')
+
 def p_push_double(p):
 	'push_double : empty'
 	push_o(p[-1], 'decimal')
+
 def p_push_bool(p):
 	'push_bool : empty'
 	push_o(p[-1], 'bool')
@@ -473,6 +480,3 @@ def p_error(p):
 
 # Crea el parser dandole el estado inicial
 parser = yacc.yacc(start='programa')
-
-
-
