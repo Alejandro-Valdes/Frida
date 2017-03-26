@@ -5,6 +5,10 @@ import global_vars as g
 
 i = 0;
 
+GOTO = 'GoTo'
+GOTOV = 'GoToV'
+GOTOF = 'GoToF'
+
 def p_push_operation(p):
 	'push_operation : empty'
 	g.operStack.append(p[-1])
@@ -41,10 +45,6 @@ def p_factor_helper(p):
 	if( len(g.operStack) > 0):
 		if (g.operStack[-1] == '*' or g.operStack[-1] == '/'):
 			quad_maker()
-
-
-
-
 
 def p_push_fake_bottom(p):
 	'push_fake_bottom : empty'
@@ -127,3 +127,17 @@ def print_helper():
 	quad = QuadrupleItem('imprimir', '' , '' ,res)
 	Quadruple.add_quad(quad)
 
+def goto_helper():
+	actualStep = Quadruple.quadruple_list.amount()
+	g.jumpStack.append(actualStep)
+	quad = QuadrupleItem(GOTO, '', '', '')
+
+def gotov_helper():
+	actualStep = Quadruple.quadruple_list.amount()
+	g.jumpStack.append(actualStep)
+	quad = QuadrupleItem(GOTOV, '', '', '')
+
+def gotof_helper():
+	actualStep = Quadruple.quadruple_list.amount()
+	g.jumpStack.append(actualStep)
+	quad = QuadrupleItem(GOTOF, '', '', '')

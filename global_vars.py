@@ -10,6 +10,7 @@ def init():
 	global oStack
 	global operStack
 	global typeStack
+	global jumpStack
 	
 	oStack = []
 	operStack = []
