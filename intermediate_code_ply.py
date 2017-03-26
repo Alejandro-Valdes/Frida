@@ -127,17 +127,22 @@ def print_helper():
 	quad = QuadrupleItem('imprimir', '' , '' ,res)
 	Quadruple.add_quad(quad)
 
-def goto_helper():
+def goto_push_helper():
 	actualStep = Quadruple.quadruple_list.amount()
 	g.jumpStack.append(actualStep)
 	quad = QuadrupleItem(GOTO, '', '', '')
 
-def gotov_helper():
+def gotov_push_helper():
 	actualStep = Quadruple.quadruple_list.amount()
 	g.jumpStack.append(actualStep)
 	quad = QuadrupleItem(GOTOV, '', '', '')
 
-def gotof_helper():
+def gotof_push_helper():
 	actualStep = Quadruple.quadruple_list.amount()
 	g.jumpStack.append(actualStep)
 	quad = QuadrupleItem(GOTOF, '', '', '')
+
+def goto_generic_pop_helper():
+	actualStep = Quadruple.quadruple_list.amount()
+	jumpTo = g.jumpStack.pop()
+	Quadruple.quadruple_list[jumpTo].res = actualStep
