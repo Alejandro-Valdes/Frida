@@ -14,6 +14,7 @@ def init():
 	
 	oStack = []
 	operStack = []
+	jumpStack = []
 	typeStack = []
 	funcParams = []
 	funcType = None
