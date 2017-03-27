@@ -315,7 +315,7 @@ def p_condicion_opt(p):
 # CICLO
 
 def p_ciclo(p):
-	'ciclo : WHILE LPARENTHESIS logica RPARENTHESIS bloque'
+	'ciclo : WHILE while_1 LPARENTHESIS logica RPARENTHESIS while_2 bloque while_3'
 
 # IMPRESION
 def p_impresion(p):

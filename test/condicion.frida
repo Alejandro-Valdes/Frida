@@ -1,0 +1,20 @@
+programa pruebaFrida 
+
+
+	lienzo {
+		variable entero id2 = 5*5;
+		variable entero id = 34 - 42 * 31.3 + 1 / 3 - 4;
+
+		si (id > 5) {
+			imprimir('esto es un if');
+			imprimir('esto es un if');
+			
+		}
+
+		sino{
+			imprimir('esto es un else');
+			imprimir('esto es un else');
+		}
+
+		id = 2;
+	}

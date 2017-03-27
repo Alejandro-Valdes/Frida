@@ -156,3 +156,34 @@ def p_if_else_3(p):
 	cont = len(Quadruple.quadruple_list)
 	g.jumpStack.append(cont - 1)
 	Quadruple.quadruple_list[false].res = str(cont) 
+
+def p_while_1(p):
+	'while_1 : empty'
+	cont = len(Quadruple.quadruple_list)
+	g.jumpStack.append(cont)
+
+def p_while_2(p):
+	'while_2 : empty'
+	exp_type = g.typeStack.pop()
+	if exp_type != 'bool':
+		print('Error type mismatch')
+		print('expected bool but got ' + exp_type)
+		sys.exit()
+	else:
+		result = g.oStack.pop()
+		quad = QuadrupleItem(GOTOF, str(result), '', '')
+		Quadruple.add_quad(quad)
+
+		cont = len(Quadruple.quadruple_list)
+		g.jumpStack.append(cont-1)
+
+
+def p_while_3(p):
+	'while_3 : empty'	
+	end = g.jumpStack.pop()
+	ret = g.jumpStack.pop()
+	quad = QuadrupleItem(GOTO, '', '', str(ret))
+	Quadruple.add_quad(quad)
+	cont = len(Quadruple.quadruple_list)
+	Quadruple.quadruple_list[end].res = str(cont)
+
