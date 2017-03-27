@@ -302,7 +302,7 @@ def p_condicion(p):
 	'condicion : IF condicion_loop condicion_opt'
 
 def p_condicion_loop(p):
-	'condicion_loop : LPARENTHESIS logica RPARENTHESIS push_step_to_jump_stack gotof_push bloque condicion_loop_opt forward_jump'
+	'condicion_loop : LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt'
 
 def p_condicion_loop_opt(p):
 	'''condicion_loop_opt : ELIF condicion_loop 
@@ -315,7 +315,7 @@ def p_condicion_opt(p):
 # CICLO
 
 def p_ciclo(p):
-	'ciclo : WHILE LPARENTHESIS logica RPARENTHESIS push_step_to_jump_stack gotof_push bloque backward_jump forward_jump'
+	'ciclo : WHILE while_1 LPARENTHESIS logica RPARENTHESIS while_2 bloque while_3'
 
 # IMPRESION
 def p_impresion(p):

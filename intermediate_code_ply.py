@@ -127,6 +127,34 @@ def print_helper():
 	quad = QuadrupleItem('imprimir', '' , '' ,res)
 	Quadruple.add_quad(quad)
 
+def p_while_1(p):
+	'while_1 : empty'
+	cont = len(Quadruple.quadruple_list)
+	g.jumpStack.append(cont)
+
+def p_while_2(p):
+	'while_2 : empty'
+	#TODO add check
+	result = g.oStack.pop()
+	quad = QuadrupleItem(GOTOF, str(result), '', '')
+	Quadruple.add_quad(quad)
+
+	cont = len(Quadruple.quadruple_list)
+	g.jumpStack.append(cont-1)
+
+
+def p_while_3(p):
+	'while_3 : empty'	
+	end = g.jumpStack.pop()
+	ret = g.jumpStack.pop()
+	quad = QuadrupleItem(GOTO, '', '', str(ret))
+	Quadruple.add_quad(quad)
+	cont = len(Quadruple.quadruple_list)
+	Quadruple.quadruple_list[end].res = str(cont)
+
+
+'''
+
 def p_goto_push(p):
 	'goto_push : empty'
 	actualStep = len(Quadruple.quadruple_list)
@@ -148,6 +176,12 @@ def p_gotof_push(p):
 	quad = QuadrupleItem(GOTOF, 't' + str(i), '', '')
 	Quadruple.add_quad(quad)
 
+def p_else_quad(p):
+	'else_quad : empty'
+	actualStep = len(Quadruple.quadruple_list)
+	false = g.jumpStack.pop()
+	Quadruple.quadruple_list[false].res = str(actualStep)
+
 def p_forward_jump(p):
 	'forward_jump : empty'
 	actualStep = len(Quadruple.quadruple_list)
@@ -164,3 +198,4 @@ def p_push_step_to_jump_stack(p):
 	'push_step_to_jump_stack : empty'
 	actualStep = len(Quadruple.quadruple_list)
 	g.jumpStack.append(actualStep)
+'''
