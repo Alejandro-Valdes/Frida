@@ -302,7 +302,7 @@ def p_condicion(p):
 	'condicion : IF condicion_loop condicion_opt'
 
 def p_condicion_loop(p):
-	'condicion_loop : LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt'
+	'condicion_loop : LPARENTHESIS logica RPARENTHESIS push_step_to_jump_stack gotof_push bloque condicion_loop_opt forward_jump'
 
 def p_condicion_loop_opt(p):
 	'''condicion_loop_opt : ELIF condicion_loop 
