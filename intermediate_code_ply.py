@@ -134,13 +134,18 @@ def p_while_1(p):
 
 def p_while_2(p):
 	'while_2 : empty'
-	#TODO add check
-	result = g.oStack.pop()
-	quad = QuadrupleItem(GOTOF, str(result), '', '')
-	Quadruple.add_quad(quad)
+	exp_type = g.typeStack.pop()
+	if exp_type != 'bool':
+		print('Error type mismatch')
+		print('expected bool but got ' + exp_type)
+		sys.exit()
+	else:
+		result = g.oStack.pop()
+		quad = QuadrupleItem(GOTOF, str(result), '', '')
+		Quadruple.add_quad(quad)
 
-	cont = len(Quadruple.quadruple_list)
-	g.jumpStack.append(cont-1)
+		cont = len(Quadruple.quadruple_list)
+		g.jumpStack.append(cont-1)
 
 
 def p_while_3(p):
