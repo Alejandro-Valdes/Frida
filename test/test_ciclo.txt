@@ -7,5 +7,8 @@ programa pruebaFrida
 
 		mientras (id > 5) {
 			imprimir('esto es un ciclo');
+			mientras (id > 5) {
+				imprimir('esto es otro ciclo');
+			}
 		}
 	}
