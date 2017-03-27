@@ -127,40 +127,32 @@ def print_helper():
 	quad = QuadrupleItem('imprimir', '' , '' ,res)
 	Quadruple.add_quad(quad)
 
-def p_goto_push(p):
-	'goto_push : empty'
-	actualStep = len(Quadruple.quadruple_list)
-	g.jumpStack.append(actualStep)
+# Inflection points
+def p_if_1(p):
+	'if_1 : empty'
+	exp_type = g.typeStack.pop()
+	if (exp_type != 'bool'):
+		print('ERROR: Type mismatch!')
+	else:
+		res = g.oStack.pop()
+		quad = QuadrupleItem(GOTOF, res, '', '')
+		Quadruple.add_quad(quad)
+		cont = len(Quadruple.quadruple_list)
+		g.jumpStack.append(cont - 1)
+
+# TODO: ELIF
+
+def p_if_2(p):
+	'if_2 : empty'
+	cont = len(Quadruple.quadruple_list)
+	end = g.jumpStack.pop()
+	Quadruple.quadruple_list[end].res = str(cont) 
+
+def p_if_else_3(p):
+	'if_else_3 : empty'
 	quad = QuadrupleItem(GOTO, '', '', '')
 	Quadruple.add_quad(quad)
-
-def p_gotov_push(p):
-	'gotov_push : empty'
-	actualStep = len(Quadruple.quadruple_list)
-	g.jumpStack.append(actualStep)
-	quad = QuadrupleItem(GOTOV, 't' + str(i), '', '')
-	Quadruple.add_quad(quad)
-
-def p_gotof_push(p):
-	'gotof_push : empty'
-	actualStep = len(Quadruple.quadruple_list)
-	g.jumpStack.append(actualStep)
-	quad = QuadrupleItem(GOTOF, 't' + str(i), '', '')
-	Quadruple.add_quad(quad)
-
-def p_forward_jump(p):
-	'forward_jump : empty'
-	actualStep = len(Quadruple.quadruple_list)
-	jumpTo = g.jumpStack.pop()
-	Quadruple.quadruple_list[jumpTo].res = str(actualStep)
-
-def p_backward_jump(p):
-	'backward_jump : empty'
-	jumpTo = g.jumpStack.pop()
-	quad = QuadrupleItem(GOTO, '', '', str(jumpTo))
-	Quadruple.add_quad(quad)
-
-def p_push_step_to_jump_stack(p):
-	'push_step_to_jump_stack : empty'
-	actualStep = len(Quadruple.quadruple_list)
-	g.jumpStack.append(actualStep)
+	false = g.jumpStack.pop()
+	cont = len(Quadruple.quadruple_list)
+	g.jumpStack.append(cont - 1)
+	Quadruple.quadruple_list[false].res = str(cont) 

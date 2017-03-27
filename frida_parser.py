@@ -299,23 +299,23 @@ def p_asignacion_opt_2(p):
 # CONDICION
 
 def p_condicion(p):
-	'condicion : IF condicion_loop condicion_opt'
+	'condicion : IF condicion_loop condicion_opt if_2'
 
 def p_condicion_loop(p):
-	'condicion_loop : LPARENTHESIS logica RPARENTHESIS bloque condicion_loop_opt'
+	'condicion_loop : LPARENTHESIS logica RPARENTHESIS if_1 bloque condicion_loop_opt'
 
 def p_condicion_loop_opt(p):
-	'''condicion_loop_opt : ELIF condicion_loop 
+	'''condicion_loop_opt : ELIF if_else_3 condicion_loop if_2
 		| empty'''
 
 def p_condicion_opt(p):
-	'''condicion_opt : ELSE bloque 
+	'''condicion_opt : ELSE if_else_3 bloque 
 		| empty'''
 	
 # CICLO
 
 def p_ciclo(p):
-	'ciclo : WHILE LPARENTHESIS logica RPARENTHESIS push_step_to_jump_stack gotof_push bloque backward_jump forward_jump'
+	'ciclo : WHILE LPARENTHESIS logica RPARENTHESIS bloque'
 
 # IMPRESION
 def p_impresion(p):
