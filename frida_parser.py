@@ -299,13 +299,13 @@ def p_asignacion_opt_2(p):
 # CONDICION
 
 def p_condicion(p):
-	'condicion : IF condicion_loop condicion_opt if_2'
+	'condicion : IF cond_floor condicion_loop condicion_opt if_2'
 
 def p_condicion_loop(p):
 	'condicion_loop : LPARENTHESIS logica RPARENTHESIS if_1 bloque condicion_loop_opt'
 
 def p_condicion_loop_opt(p):
-	'''condicion_loop_opt : ELIF if_else_3 condicion_loop if_2
+	'''condicion_loop_opt : ELIF if_else_3 condicion_loop
 		| empty'''
 
 def p_condicion_opt(p):
