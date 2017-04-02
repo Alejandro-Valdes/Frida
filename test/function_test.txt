@@ -1,0 +1,33 @@
+programa pruebaFrida 
+	
+	variable entero a, b;
+	variable decimal f;
+
+	rutina entero : uno(entero : a){
+		a = a + b * a;
+		imprimir(a+b);
+		uno(2);
+	}
+	
+	rutina decimal : dos(entero : a, entero : b, decimal : g){
+		variable entero i;
+		i = b;
+
+		mientras(i>0){
+			a = a+b*i+b;
+			uno(3);
+			imprimir(a);
+			i=1-1;
+		}
+		regresa i;
+	}
+	
+	lienzo {
+		a = 3;
+		b = a + 1;
+		imprimir(a);
+		imprimir(b);
+		f = 3.14;
+		dos(a, b, f * 3);
+		imprimir(f*2+1);
+	}

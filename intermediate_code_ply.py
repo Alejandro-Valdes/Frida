@@ -35,12 +35,6 @@ def p_exp_helper(p):
 		if (g.operStack[-1] == '+' or g.operStack[-1] == '-'):
 			quad_maker()
 
-def p_termino_helper(p):
-	'termino_helper : empty'
-	if( len(g.operStack) > 0):
-		if (g.operStack[-1] == '*' or g.operStack[-1] == '/'):
-			quad_maker()
-
 def p_factor_helper(p):
 	'factor_helper : empty'
 	if( len(g.operStack) > 0):
@@ -143,11 +137,18 @@ def p_if_1(p):
 
 # TODO: ELIF
 
+def p_cond_floor(p):
+	'cond_floor : empty'
+	g.jumpStack.append(-1)
+
 def p_if_2(p):
 	'if_2 : empty'
 	cont = len(Quadruple.quadruple_list)
 	end = g.jumpStack.pop()
-	Quadruple.quadruple_list[end].res = str(cont) 
+	while end > 0:
+		Quadruple.quadruple_list[end].res = str(cont)
+		end = g.jumpStack.pop()
+
 
 def p_if_else_3(p):
 	'if_else_3 : empty'

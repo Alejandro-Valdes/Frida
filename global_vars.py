@@ -11,6 +11,7 @@ def init():
 	global operStack
 	global typeStack
 	global jumpStack
+	global param_count
 	
 	oStack = []
 	operStack = []
