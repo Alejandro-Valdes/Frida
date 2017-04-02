@@ -1,5 +1,6 @@
 from symbol_table import *
 import global_vars as g
+from quadruples import Quadruple
 
 # Defino variables globales a usar para la tabla de simbolos
 # REGLAS PARA TABLA DE SIMBOLOS
@@ -20,7 +21,7 @@ def p_saveFuncParam(p):
 def p_saveFuncName(p):
 	'saveFuncName : empty'
 	g.funcName = p[-1]
-	function = Function(g.funcName, g.funcType, None, None)
+	function = Function(g.funcName, g.funcType, None, None, None)
 	SymbolsTable.add_function(function)
 
 def p_cleanFunc(p):
@@ -72,14 +73,14 @@ def p_add_global_scope(p):
 	'add_global_scope : empty'
 
 	g.funcName = 'global'
-	function = Function(g.funcName, 'void', [], None)
+	function = Function(g.funcName, 'void', [], None, None)
 	SymbolsTable.add_function(function)
 	
 def p_add_main_scope(p):
 	'add_main_scope : empty'
 
 	g.funcName = p[-1]
-	function = Function(p[-1], 'void', [], None)
+	function = Function(p[-1], 'void', [], None, None)
 	SymbolsTable.add_function(function)
 
 def p_add_var_name(p):
@@ -91,3 +92,9 @@ def p_add_var(p):
 	g.varName = p[-1]
 	
 	SymbolsTable.add_var_to_func(g.varName, g.funcType, None, g.funcName)
+
+def p_add_quad_count(p):
+	'add_quad_count : empty'
+
+	actual_quad_count = len(Quadruple.quadruple_list)
+	SymbolsTable.addQuadCountToFunc(g.funcName, actual_quad_count)

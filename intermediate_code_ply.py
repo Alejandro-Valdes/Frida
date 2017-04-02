@@ -8,6 +8,7 @@ i = 0;
 GOTO = 'GoTo'
 GOTOV = 'GoToV'
 GOTOF = 'GoToF'
+ENDPROC = 'return'
 
 def p_push_operation(p):
 	'push_operation : empty'
@@ -187,3 +188,8 @@ def p_while_3(p):
 	cont = len(Quadruple.quadruple_list)
 	Quadruple.quadruple_list[end].res = str(cont)
 
+def p_gen_end_proc(p):
+	'gen_end_proc : empty'
+
+	quad = QuadrupleItem(ENDPROC, '', '', '')
+	Quadruple.add_quad(quad)

@@ -22,7 +22,7 @@ from intermediate_code_ply import *
 
 # Programa
 def p_programa(p):
-	'programa : PROGRAMA ID add_global_scope vars_opt rutinas lienzo printQuadList'
+	'programa : PROGRAMA ID add_global_scope vars_opt rutinas lienzo printQuadList printFuncTable'
 	#Este mensaje solo se imprime si es valido el archivo
 	print('\nValid Frida file')
 
@@ -47,7 +47,7 @@ def p_vars_loop(p):
 # Rutinas
 
 def p_rutinas(p):
-	'''rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFuncParam bloque_rutina cleanFunc rutinas_loop
+	'''rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFuncParam bloque_rutina cleanFunc rutinas_loop gen_end_proc
 		| empty'''
 
 
@@ -232,7 +232,7 @@ def p_bloque_loop(p):
 # Bloque rutina
 
 def p_bloque_rutina(p):
-	'bloque_rutina : LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE'
+	'bloque_rutina : add_quad_count LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE'
 
 def p_bloque_rutina_opt(p):
 	'''bloque_rutina_opt : vars 

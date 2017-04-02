@@ -19,7 +19,7 @@ readFile("test_fail_3.txt")'''
 #print('\n#####################')
 
 #print('\nArchivos Exito:\n')
-readFile("test/test_ciclo.txt")
+readFile("test/test_func.txt")
 
 #print('\n#####################')
 #readFile("test_2.txt")

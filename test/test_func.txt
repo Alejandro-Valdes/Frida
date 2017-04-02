@@ -1,0 +1,10 @@
+programa pruebaFrida 
+
+	rutina decimal : suma(entero : x1, entero : x2){
+		variable decimal dTest = 5.0;
+		regresa x1+x2;
+	}
+
+	lienzo {
+		suma(1, 20);
+	}

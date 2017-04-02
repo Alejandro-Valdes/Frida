@@ -9,11 +9,12 @@ class Variable:
 
 class Function:
 
-	def __init__(self, name, returnType, params, vars):
+	def __init__(self, name, returnType, params, vars, quad_cont):
 		self.name = name
 		self.returnType = returnType
 		self.params = params
 		self.vars = {}
+		self.quad_cont = quad_cont
 
 	def add_var(self, var):
 		'''
@@ -34,7 +35,7 @@ class Function:
 class SymbolsTable:
 	'''docstring for SymbolsTable'''
 
-	main_scope = Function('lienzo', 'void', None, None)
+	main_scope = Function('lienzo', 'void', None, None, None)
 
 	function_dictionary = {}
 
@@ -58,6 +59,7 @@ class SymbolsTable:
 		for key in function_dir:
 				print('name: ' + key)
 				print('return type: ' + function_dir[key].returnType)
+				print('quad count: ' + str(function_dir[key].quad_cont))
 				print('params : ' + ', '.join(function_dir[key].params))
 				print('scoped variables:')
 				for var_key in function_dir[key].vars:
@@ -113,6 +115,12 @@ class SymbolsTable:
 		else:
 			return -1
 
+	@classmethod
+	def addQuadCountToFunc(cls, func, quad_cont):
+		if (cls.function_dictionary[func]):
+			cls.function_dictionary[func].quad_cont = quad_cont
+		else:
+			return -1
 
 
 
