@@ -34,12 +34,6 @@ def p_exp_helper(p):
 		if (g.operStack[-1] == '+' or g.operStack[-1] == '-'):
 			quad_maker()
 
-def p_termino_helper(p):
-	'termino_helper : empty'
-	if( len(g.operStack) > 0):
-		if (g.operStack[-1] == '*' or g.operStack[-1] == '/'):
-			quad_maker()
-
 def p_factor_helper(p):
 	'factor_helper : empty'
 	if( len(g.operStack) > 0):

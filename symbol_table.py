@@ -31,6 +31,7 @@ class Function:
 		else:
 			self.vars[var.name] = var
 
+
 class SymbolsTable:
 	'''docstring for SymbolsTable'''
 
@@ -53,7 +54,16 @@ class SymbolsTable:
 			cls.function_dictionary[function.name] = function
 
 	@classmethod
+	def params_size(cls, name):
+		return len(cls.function_dictionary[name].params)
+
+	@classmethod
+	def check_param(cls, name, index):
+		return cls.function_dictionary[name].params[index]
+
+	@classmethod
 	def printFunctionTable(cls):
+		print('\n')
 		function_dir = cls.function_dictionary
 		for key in function_dir:
 				print('name: ' + key)

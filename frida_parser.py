@@ -14,6 +14,8 @@ from symbol_table import *
 # importar reglas para codigo intermedio
 from intermediate_code_ply import *
 
+from module_ply import *
+
 # Defino las reglas del lenguaje MyLittleDuck2017
 # se definenen como funcciones p_*
 # las reglas se escriben de la forma A : a + b
@@ -22,7 +24,7 @@ from intermediate_code_ply import *
 
 # Programa
 def p_programa(p):
-	'programa : PROGRAMA ID add_global_scope vars_opt rutinas lienzo printQuadList'
+	'programa : PROGRAMA ID add_global_scope vars_opt rutinas lienzo printFuncTable printQuadList'
 	#Este mensaje solo se imprime si es valido el archivo
 	print('\nValid Frida file')
 
@@ -57,11 +59,9 @@ def p_rutina_opt(p):
 		| VOID saveFuncTypeVoid'''
 
 def p_rutinas_loop(p):
-	'''rutinas_loop : rutinas
-		| empty '''
+	'rutinas_loop : rutinas'
 
 # Tipo
-
 def p_tipo(p):
 	'tipo : tipo_opt'
 
@@ -132,8 +132,7 @@ def p_ini_fgra(p):
 # Inicializacion de arreglos de figuras
 
 def p_ini_fgra_v(p):
-	'''ini_fgra_v : ASSIGN LBRACE fgra_nva ini_fgras_v_loop RBRACE
-		| empty'''
+	'ini_fgra_v : ASSIGN LBRACE fgra_nva ini_fgras_v_loop RBRACE'
 
 def p_ini_fgras_v_loop(p):
 	'''ini_fgras_v_loop : COMA fgra_nva ini_fgras_v_loop
@@ -203,8 +202,7 @@ def p_parametros_loop(p):
 		| empty'''
 
 def p_param_list(p):
-	'''param_list : paramTypeNext tipo_param COLON ID paramID param_list_loop
-		| empty '''
+	'''param_list : paramTypeNext tipo_param COLON ID paramID param_list_loop '''
 
 def p_param_list_loop(p):
 	'''param_list_loop : COMA param_list
@@ -330,18 +328,17 @@ def p_lectura(p):
 # LLAMADA
 
 def p_llamada(p):
-	'llamada : ID check_function LPARENTHESIS llamada_param RPARENTHESIS SEMICOLON'
+	'llamada : ID check_function LPARENTHESIS mod_call_2 llamada_param RPARENTHESIS mod_call_5 SEMICOLON mod_call_6'
 
 def p_llamada_param(p):
-	'''llamada_param : exp llamada_loop
-		| empty'''
+	'''llamada_param : logica mod_call_3 llamada_loop
+		| empty mod_call_empty'''
 
 def p_llamada_loop(p):
-	'''llamada_loop : COMA exp llamada_loop 
+	'''llamada_loop : COMA mod_call_4 llamada_param
 		| empty'''
 
 # logica
-
 def p_logica(p):
 	'logica : expresion logica_loop'
 
@@ -401,24 +398,15 @@ def p_factor_opt_2(p):
 
 def p_id_factor(p):
 	'''id_factor : ID check_variable
-		| idllamada'''
+		| llamadaExp'''
 	if(len(p) == 3):
 		push_o(p[1], 'var')
 
-# idLlamada
-def p_idllamada(p):
-	'idllamada : ID check_function idllamada_opt'
+# llamadaExp
+
+def p_llamadaExp(p):
+	'llamadaExp : ID check_function LPARENTHESIS llamada_param RPARENTHESIS'
 	push_o(p[1], 'func')
-
-def p_idllamada_opt(p):
-	'''idllamada_opt : LPARENTHESIS exp idllamada_opt_loop RPARENTHESIS 
-		| LPARENTHESIS idllamada_opt_loop RPARENTHESIS	
-		| LBRACKET expresion RBRACKET
-		'''
-
-def p_idllamada_opt_loop(p):
-	'''idllamada_opt_loop : COMA exp idllamada_opt_loop 
-		| empty'''
 
 # accion
 def p_accion(p):

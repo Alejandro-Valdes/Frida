@@ -28,8 +28,6 @@ tokens = [
    	'MINUS',
    	'TIMES',
    	'DIVIDE',
-   	'MOD',
-   	'EXPONENTIAL',
    	'INT',
    	'DOUBLE',
    	'STRING',
@@ -111,8 +109,6 @@ t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_TIMES = r'\*'
 t_DIVIDE = r'\/'
-t_MOD = r'\%'
-t_EXPONENTIAL = r'\^'
 t_INT = r'\d+'
 t_DOUBLE = r'\d+(\.\d+)'
 t_TRUE = r'verdadero'
