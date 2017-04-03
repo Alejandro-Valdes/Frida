@@ -52,7 +52,8 @@ def p_mod_call_5(p):
 def p_mod_call_6(p):
 	'mod_call_6 : empty'
 	global name
-	quad = QuadrupleItem('gosub', name, '' ,'')
+	quadPointer = SymbolsTable.getFuncPI(name)
+	quad = QuadrupleItem('gosub', name, '' , str(quadPointer))
 	Quadruple.add_quad(quad)
 
 

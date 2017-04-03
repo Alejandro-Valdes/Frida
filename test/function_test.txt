@@ -3,6 +3,11 @@ programa pruebaFrida
 	variable entero a, b;
 	variable decimal f;
 
+	rutina void : cero(entero : a){
+		a = a + b * a;
+		imprimir(a+b);
+	}
+
 	rutina entero : uno(entero : a){
 		a = a + b * a;
 		imprimir(a+b);

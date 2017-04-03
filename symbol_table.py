@@ -132,6 +132,13 @@ class SymbolsTable:
 		else:
 			return -1
 
+	@classmethod
+	def getFuncPI(cls, func):
+		if cls.function_dictionary[func]:
+			return cls.function_dictionary[func].quad_cont
+		else:
+			returnType -1
+
 
 
 
