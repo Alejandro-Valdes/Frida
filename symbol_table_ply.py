@@ -75,13 +75,16 @@ def p_add_global_scope(p):
 	g.funcName = 'global'
 	function = Function(g.funcName, 'void', [], None, None)
 	SymbolsTable.add_function(function)
-	
+
 def p_add_main_scope(p):
 	'add_main_scope : empty'
 
 	g.funcName = p[-1]
 	function = Function(p[-1], 'void', [], None, None)
 	SymbolsTable.add_function(function)
+
+	mainPI = len(Quadruple.quadruple_list)
+	Quadruple.quadruple_list[0].res = str(mainPI) 
 
 def p_add_var_name(p):
 	'add_var_name : empty'

@@ -28,6 +28,8 @@ programa pruebaFrida
 	}
 	
 	lienzo {
+		variable bool v;
+		v = falso;
 		a = 3;
 		b = a + 1;
 		imprimir(a);

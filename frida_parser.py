@@ -24,7 +24,7 @@ from module_ply import *
 
 # Programa
 def p_programa(p):
-	'programa : PROGRAMA ID add_global_scope vars_opt rutinas lienzo printFuncTable printQuadList'
+	'programa : PROGRAMA ID init_quad add_global_scope vars_opt rutinas lienzo printFuncTable printQuadList'
 	#Este mensaje solo se imprime si es valido el archivo
 	print('\nValid Frida file')
 
@@ -49,7 +49,7 @@ def p_vars_loop(p):
 # Rutinas
 
 def p_rutinas(p):
-	'''rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFuncParam bloque_rutina cleanFunc rutinas_loop gen_end_proc
+	'''rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFuncParam bloque_rutina gen_end_proc cleanFunc rutinas_loop 
 		| empty'''
 
 
@@ -216,7 +216,7 @@ def p_tipo_param(p):
 # lienzo
 
 def p_lienzo(p):
-	'lienzo : MAIN add_main_scope bloque_lienzo'
+	'lienzo : MAIN add_main_scope bloque_rutina'
 
 # Bloque
 
@@ -244,30 +244,10 @@ def p_bloque_rutina_opt_2(p):
 	'''bloque_rutina_opt_2 : RETURN logica SEMICOLON
 		| empty'''
 
-# Bloque lienzo
-
-def p_bloque_lienzo(p):
-	'bloque_lienzo : LBRACE bloque_lienzo_loop RBRACE'
-
-def p_bloque_lienzo_loop(p):
-	'''bloque_lienzo_loop : estatuto_lienzo bloque_lienzo_loop 
-		| empty'''
-
 # ESTATUTO 
 
 def p_estatuto(p):
 	'''estatuto : asignacion 
-		| condicion 
-		| ciclo 
-		| impresion 
-		| lectura 
-		| accion 
-		| llamada
-		| comentario'''
-
-def p_estatuto_lienzo(p):
-	'''estatuto_lienzo : vars 
-		| asignacion 
 		| condicion 
 		| ciclo 
 		| impresion 

@@ -10,6 +10,11 @@ GOTOV = 'GoToV'
 GOTOF = 'GoToF'
 ENDPROC = 'return'
 
+def p_init_quad(p):
+	'init_quad : empty'
+	quad = QuadrupleItem('goto', '','','')
+	Quadruple.add_quad(quad)
+
 def p_push_operation(p):
 	'push_operation : empty'
 	g.operStack.append(p[-1])

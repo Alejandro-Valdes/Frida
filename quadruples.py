@@ -13,7 +13,7 @@ class  Quadruple():
 	__shared_state = {}
 
 	def __init__(self):
-		self.__dict__ = sefl.__shared_state
+		self.__dict__ = self.__shared_state
 
 	@classmethod
 	def add_quad(cls, quadruple):
