@@ -19,7 +19,7 @@ programa pruebaFrida
 		i = b;
 
 		mientras(i>0){
-			a = a+b*i+b;
+			a = verdadero;
 			uno(3);
 			imprimir(a);
 			i=1-1;

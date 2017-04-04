@@ -111,8 +111,18 @@ def assign_helper():
 			left_o = g.oStack.pop()
 			res = g.oStack.pop()
 			operand = g.operStack.pop()
-			quad = QuadrupleItem(operand, res, '' , left_o)
-			Quadruple.add_quad(quad)
+			left_type = g.typeStack.pop()
+			right_type = g.typeStack.pop()
+			resultType = getResultType(left_type+operand+right_type)
+
+			if resultType > 0:
+				quad = QuadrupleItem(operand, res, '' , left_o)
+				Quadruple.add_quad(quad)
+			else:
+				print('Cant assign ' + res + ' of type ' + right_type + ' to ' + left_o + ' of type ' + left_type)
+				print(operand + left_o + res)
+				sys.exit()
+
 
 def read_helper():
 	global i
