@@ -31,8 +31,6 @@ programa pruebaFrida
 		imprimir(a+b);
 		ar[2] = 2;
 	}
-
-	
 	
 	rutina decimal : dos(entero : a, entero : b, decimal : g){
 		variable entero i;
@@ -41,13 +39,14 @@ programa pruebaFrida
 		mientras(i>0){
 			si(3 != 2){
 				imprimir(a);
+				regresa 3;
 			}
 			a = 3;
 			uno(a);
 			imprimir(a);
 			i=1-1;
 		}
-		regresa i;
+		regresa 5;
 	}
 	
 	lienzo {

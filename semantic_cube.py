@@ -30,6 +30,7 @@ FUNC = 101
 PRINT = 200
 READ = 300
 
+RET = 400
 cubeDict = {}
 
 # Assignments
@@ -107,6 +108,12 @@ cubeDict[(DECIMAL, DIV, ENTERO)] = DECIMAL
 cubeDict[(ENTERO, DIV, DECIMAL)] = DECIMAL
 cubeDict[(DECIMAL, DIV, DECIMAL)] = DECIMAL
 
+cubeDict[(ENTERO, RET, ENTERO)] = ENTERO
+cubeDict[(DECIMAL, RET, ENTERO)] = DECIMAL
+cubeDict[(DECIMAL, RET, DECIMAL)] = DECIMAL
+cubeDict[(BOOL, RET, BOOL)] = BOOL
+cubeDict[(CADENA, RET, CADENA)] = CADENA
+
 def getResultType(left,operation,right):
 	if ((left,operation,right) in cubeDict):
 		return cubeDict[left,operation,right];
@@ -144,6 +151,8 @@ def getOperationCode(code):
 		return PRINT
 	elif(code == 'read'):
 		return READ
+	elif(code == 'return'):
+		return RET
 	else:
 		return -1
 
@@ -178,6 +187,8 @@ def getOperationStr(code):
 		return 'imprimir' 
 	elif(code == READ):
 		return 'leer' 
+	elif(code == RET):
+		return 'regresa' 
 	else:
 		return -1
 

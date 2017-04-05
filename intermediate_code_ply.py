@@ -222,9 +222,21 @@ def p_check_return(p):
 		sys.exit()
 	else:
 		g.funcHasReturn = True
+
+		ret_type = SymbolsTable.checkFuncReturnType(g.funcName)
+
 		res = g.oStack.pop()
-		quad = QuadrupleItem(RETURN, '', '', res)
-		Quadruple.add_quad(quad)
+		act_type = g.typeStack.pop()
+
+		func_result = getResultType(getTypeCode(ret_type), getOperationCode('return'), act_type)
+
+		if func_result > 0:
+			quad = QuadrupleItem(RETURN, '', '', res)
+			Quadruple.add_quad(quad)
+			g.typeStack.append(func_result)
+		else:
+			print 'Error: funcion ' + g.funcName + ' de tipo '+ g.funcType +' no puede regresar valor de tipo ' + getTypeStr(act_type)
+			sys.exit()
 
 def p_gen_end_proc(p):
 	'gen_end_proc : empty'
