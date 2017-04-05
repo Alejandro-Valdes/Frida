@@ -9,6 +9,7 @@ GOTO = 'GoTo'
 GOTOV = 'GoToV'
 GOTOF = 'GoToF'
 ENDPROC = 'ENDPROC'
+RETURN = 'RETURN'
 
 def p_init_quad(p):
 	'init_quad : empty'
@@ -62,12 +63,13 @@ def p_printQuadList(p):
 
 def quad_maker():
 	global i
-	left_o = g.oStack.pop()
-	left_type = g.typeStack.pop()
 
 	right_o = g.oStack.pop()
 	right_type = g.typeStack.pop()
-	
+
+	left_o = g.oStack.pop()
+	left_type = g.typeStack.pop()
+
 	operand = g.operStack.pop()
 	resultType = getResultType(left_type, operand, right_type)
 	resType = ''
@@ -106,11 +108,15 @@ def push_o(p, type):
 def assign_helper():
 	if( len(g.operStack) > 0):
 		if (g.operStack[-1] == getOperationCode('=')):
+
 			left_o = g.oStack.pop()
 			res = g.oStack.pop()
+
 			operand = g.operStack.pop()
-			left_type = g.typeStack.pop()
+
 			right_type = g.typeStack.pop()
+			left_type = g.typeStack.pop()
+			
 			resultType = getResultType(left_type, operand, right_type)
 
 			if resultType > 0:
@@ -207,8 +213,28 @@ def p_while_3(p):
 	cont = len(Quadruple.quadruple_list)
 	Quadruple.quadruple_list[end].res = str(cont)
 
+def p_check_return(p):
+	'check_return : empty'
+	ret_type = SymbolsTable.checkFuncReturnType(g.funcName)
+
+	if ret_type == 'void':
+		print 'Error: funcion ' + g.funcName + ' de tipo void no puede tener estatuto de retorno'
+		sys.exit()
+	else:
+		g.funcHasReturn = True
+		res = g.oStack.pop()
+		quad = QuadrupleItem(RETURN, '', '', res)
+		Quadruple.add_quad(quad)
+
 def p_gen_end_proc(p):
 	'gen_end_proc : empty'
+
+	ret_type = SymbolsTable.checkFuncReturnType(g.funcName)
+	if ret_type != 'void' and g.funcHasReturn == False:
+		print 'Error: funcion ' + g.funcName + ' de tipo ' + g.funcType + ' no tiene estatuto de retorno'
+		sys.exit()
+	else:
+		g.funcHasReturn = False
 
 	quad = QuadrupleItem(ENDPROC, '', '', '')
 	Quadruple.add_quad(quad)

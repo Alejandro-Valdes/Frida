@@ -254,7 +254,7 @@ def p_estatuto(p):
 		| retorno'''
 
 def p_retorno(p):
-	'retorno : check_return RETURN logica SEMICOLON'
+	'retorno : RETURN logica check_return SEMICOLON'
 
 def p_comentario(p):
 	'comentario : COMMENT'

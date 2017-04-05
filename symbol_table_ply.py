@@ -21,7 +21,7 @@ def p_saveFuncParam(p):
 def p_saveFuncName(p):
 	'saveFuncName : empty'
 	g.funcName = p[-1]
-	function = Function(g.funcName, g.funcType, None, None, None)
+	function = Function(g.funcName, g.nextType, None, None, None)
 	SymbolsTable.add_function(function)
 
 def p_cleanFunc(p):
@@ -29,19 +29,13 @@ def p_cleanFunc(p):
 
 	g.funcParams = []
 	g.funcName = ''
+	g.nextType = ''
 	g.funcType = ''
 
 def p_saveFuncTypeVoid(p):
 	'saveFuncTypeVoid : empty'
 
-	g.funcType = p[-1]
-
-def p_check_return(p):
-	'check_return : empty'
-	ret_type = SymbolsTable.checkFuncReturnType(g.funcName)
-	if ret_type == 'void':
-		print 'Error: funcion ' + g.funcName + ' de tipo void no puede tener estatuto de retorno'
-		sys.exit()
+	g.nextType = p[-1]
 
 
 def p_FuncTypeNext(p):
@@ -50,23 +44,24 @@ def p_FuncTypeNext(p):
 
 def  p_saveType(p):
 	'saveType : empty'
-	
+
 	if g.funcTypeSoon:
+		g.nextType = p[-1]
 		g.funcType = p[-1]
 		g.funcTypeSoon = False 
 	elif g.paramTypeSoon:
-		g.funcType = p[-1]
+		g.nextType = p[-1]
 		g.funcParams.append(p[-1])
 		g.paramTypeSoon = False
 	elif g.varTypeSoon:
-		g.funcType = p[-1]
+		g.nextType = p[-1]
 		g.varTypeSoon = False
 	pass
 
 def p_paramID(p):
 	'paramID : empty'
 	g.varName = p[-1]
-	SymbolsTable.add_var_to_func(g.varName, g.funcType, None, g.funcName)
+	SymbolsTable.add_var_to_func(g.varName, g.nextType, None, g.funcName)
 
 def p_paramTypeNext(p):
 	'paramTypeNext : empty'
@@ -101,7 +96,7 @@ def p_add_var(p):
 	'add_var : empty'
 	g.varName = p[-1]
 	
-	SymbolsTable.add_var_to_func(g.varName, g.funcType, None, g.funcName)
+	SymbolsTable.add_var_to_func(g.varName, g.nextType, None, g.funcName)
 
 def p_add_quad_count(p):
 	'add_quad_count : empty'
