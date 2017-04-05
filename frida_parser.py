@@ -441,9 +441,9 @@ def p_color(p):
 # gracias al contador del lexer
 def p_error(p):
 	if(p):
-		print("Syntax error '" + str(p.value) + "' in input line: " + str(p.lineno))
+		print("Error: sintaxis '" + str(p.value) + "' en linea: " + str(p.lineno))
 	else:
-		print("Syntax error at the end of the file")
+		print("Error: sintaxis al final del archivo")
 	sys.exit()
 
 # Crea el parser dandole el estado inicial

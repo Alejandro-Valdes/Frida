@@ -147,8 +147,41 @@ def getOperationCode(code):
 	else:
 		return -1
 
+def getOperationStr(code):
+	if(code == ASSIGN):
+		return '=' 
+	elif(code == AND):
+		return 'y' 
+	elif(code == OR):
+		return 'o' 
+	elif(code == LTHAN):
+		return '<' 
+	elif(code == GTHAN):
+		return '>' 
+	elif(code == EQUAL):
+		return '==' 
+	elif(code == DIFF):
+		return '!=' 
+	elif(code == LETHAN):
+		return '<=' 
+	elif(code == GETHAN):
+		return '>=' 
+	elif(code == SUM):
+		return '+' 
+	elif(code == SUB):
+		return '-' 
+	elif(code == MULT):
+		return '*' 
+	elif(code == DIV):
+		return '/' 
+	elif(code == PRINT):
+		return 'imprimir' 
+	elif(code == READ):
+		return 'leer' 
+	else:
+		return -1
+
 def getTypeCode(strType):
-	print strType
 	if strType == 'void':
 		return VOID
 	elif strType == 'bool':
@@ -159,3 +192,15 @@ def getTypeCode(strType):
 		return DECIMAL
 	elif strType == 'cadena':
 		return CADENA
+
+def getTypeStr(codeType):
+	if codeType ==  VOID:
+		return 'void'
+	elif codeType ==  BOOL:
+		return 'bool'
+	elif codeType ==  ENTERO:
+		return 'entero'
+	elif codeType ==  DECIMAL:
+		return 'decimal'
+	elif codeType ==  CADENA:
+		return 'cadena'

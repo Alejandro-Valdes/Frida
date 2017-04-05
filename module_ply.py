@@ -22,7 +22,7 @@ def p_mod_call_3(p):
 	expected_type = SymbolsTable.check_param(name, g.param_count)
 
 	if arg_type != getTypeCode(expected_type):
-		print('Type mismatch: expected '+ expected_type + ' but got ' + arg_type)
+		print('Error: Funcion ' + name + ' esperaba parametro de tipo '+ expected_type + ' pero me diste ' + getTypeStr(arg_type))
 		sys.exit()
 
 	quad = QuadrupleItem('param', arg , '', 'param' + str(g.param_count+1))
@@ -33,7 +33,7 @@ def p_mod_call_4(p):
 	g.param_count += 1
 
 	if g.param_count + 1 > SymbolsTable.params_size(name):
-		print('error: way to many parameters for function ' + name)
+		print('Error: Le mandaste parametros de mas a la funcion ' + name)
 		sys.exit()
 
 def p_mod_call_5(p):
@@ -46,7 +46,7 @@ def p_mod_call_5(p):
 		pass
 
 	elif act_param_size < expected_param_size:
-		print('error: way to few parameters for function ' + name)
+		print('Error: Le mandaste muy poquitos parametros a la funcion ' + name)
 		sys.exit()
 
 def p_mod_call_6(p):
@@ -61,7 +61,7 @@ def p_mod_call_empty(p):
 	'mod_call_empty : empty'
 	expected_param_size = SymbolsTable.params_size(name)
 	if expected_param_size > 0:
-		print('error: missing all parameters for function ' + name)
+		print('Error: No le mandaste nada a la funcion ' + name)
 		sys.exit()
 
 

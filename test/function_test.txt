@@ -8,10 +8,12 @@ programa pruebaFrida
 	rutina void : cero(entero : a){
 		a = a + b * a;
 		imprimir(a+b);
-		ar[3] = 3;
+		ar[3] = 2;
+
 	}
 
 	rutina entero : uno(entero : a){
+		variable decimal f;
 		a = a + b * a;
 		imprimir(a+b);
 		uno(2);
@@ -22,8 +24,11 @@ programa pruebaFrida
 		i = b;
 
 		mientras(i>0){
+			si(3 != 2){
+				imprimir(a);
+			}
 			a = 3;
-			uno(3);
+			uno(a);
 			imprimir(a);
 			i=1-1;
 		}

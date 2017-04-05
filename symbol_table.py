@@ -26,7 +26,7 @@ class Function:
 		'''
 
 		if var.name in self.vars:
-			print("Error variable " + var.name + " already defined within function scope")
+			print("Error: variable " + var.name + " ya se definio dentro del alcance de la funcion")
 			sys.exit()
 
 		else:
@@ -49,7 +49,7 @@ class SymbolsTable:
 	def add_function(cls, function):
 
 		if function.name in cls.function_dictionary:
-			print("Error function " + function.name + " already defined")
+			print("Error: funcion " + function.name + " ya se definio")
 			sys.exit()
 		else:
 			cls.function_dictionary[function.name] = function
@@ -82,7 +82,7 @@ class SymbolsTable:
 		if scope in cls.function_dictionary:
 			cls.function_dictionary[scope].add_var(var)
 		else:
-			print("Error scope " + scope + " not defined")
+			print("Error: alcance " + scope + " no definido")
 			sys.exit()
 
 	@classmethod
@@ -90,7 +90,7 @@ class SymbolsTable:
 		if scope in cls.function_dictionary:
 			cls.function_dictionary[scope].params = params
 		else:
-			print("Error scope " + scope + " not defined")
+			print("Error: alcance " + scope + " no definido")
 			sys.exit()
 
 	@classmethod
@@ -100,13 +100,13 @@ class SymbolsTable:
 		elif(var in cls.function_dictionary['global'].vars):
 			pass
 		else:
-			print('Error ' + var + ' is not defined within the function or global scope')
+			print('Error: ' + var + ' no esta definida dentro del alcance de la funcion ni como varible global')
 			sys.exit()
 
 	@classmethod
 	def checkFunction(cls, func):
 		if(func not in cls.function_dictionary):
-			print('Error ' + func + ' is not defined as a function')
+			print('Error: funcion ' + func + ' no esta definida')
 			sys.exit()
 
 	@classmethod

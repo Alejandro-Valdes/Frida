@@ -72,10 +72,7 @@ def quad_maker():
 	resultType = getResultType(left_type, operand, right_type)
 	resType = ''
 
-	print resultType
-
 	if(resultType > 0):
-		print 'aaa'
 		res = 't' + str(i)
 		quad = QuadrupleItem(operand, left_o, right_o, res)
 		Quadruple.add_quad(quad)
@@ -86,8 +83,9 @@ def quad_maker():
 
 		i+=1
 	else:
-		print('Error type mismatch')
-		print(operand + left_o + right_o)
+		print('Error: tipo no coincide')
+		print(left_o + getOperationStr(operand) + right_o)
+		print(getTypeStr(left_type) + getOperationStr(operand) + getTypeStr(right_type))
 		sys.exit()
 
 def push_o(p, type):
@@ -115,17 +113,11 @@ def assign_helper():
 			right_type = g.typeStack.pop()
 			resultType = getResultType(left_type, operand, right_type)
 
-			print res
-			print right_type
-			print left_o
-			print left_type
-
 			if resultType > 0:
 				quad = QuadrupleItem(operand, res, '' , left_o)
 				Quadruple.add_quad(quad)
 			else:
-				print('Cant assign ' + res + ' of type ' + right_type + ' to ' + left_o + ' of type ' + left_type)
-				print(operand + left_o + res)
+				print('No puedo asignar ' + res + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + left_o + ' por que es ' + getTypeStr(left_type))
 				sys.exit()
 
 
@@ -148,9 +140,11 @@ def print_helper():
 def p_if_1(p):
 	'if_1 : empty'
 	exp_type = g.typeStack.pop()
-	print exp_type
+
 	if (exp_type != getTypeCode('bool')):
-		print('ERROR: Type mismatch!')
+		print('Error: tipo no coincide')
+		print('Esperaba bool pero me diste un ' + getTypeStr(exp_type))
+		sys.exit()
 	else:
 		res = g.oStack.pop()
 		quad = QuadrupleItem(GOTOF, res, '', '')
@@ -191,12 +185,9 @@ def p_while_2(p):
 	'while_2 : empty'
 	exp_type = g.typeStack.pop()
 
-	print exp_type
-	print getTypeCode(exp_type)
-
 	if exp_type != getTypeCode('bool'):
-		print('Error type mismatch')
-		print('expected bool but got ' + exp_type)
+		print('Error: tipo no coincide')
+		print('Esperaba bool pero me diste un ' + getTypeStr(exp_type))
 		sys.exit()
 	else:
 		result = g.oStack.pop()
