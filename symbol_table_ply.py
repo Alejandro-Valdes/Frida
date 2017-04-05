@@ -36,6 +36,13 @@ def p_saveFuncTypeVoid(p):
 
 	g.funcType = p[-1]
 
+def p_check_return(p):
+	'check_return : empty'
+	ret_type = SymbolsTable.checkFuncReturnType(g.funcName)
+	if ret_type == 'void':
+		print 'Error: funcion ' + g.funcName + ' de tipo void no puede tener estatuto de retorno'
+		sys.exit()
+
 
 def p_FuncTypeNext(p):
 	'FuncTypeNext : empty'

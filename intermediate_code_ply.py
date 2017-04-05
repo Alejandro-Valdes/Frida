@@ -8,7 +8,7 @@ i = 0;
 GOTO = 'GoTo'
 GOTOV = 'GoToV'
 GOTOF = 'GoToF'
-ENDPROC = 'return'
+ENDPROC = 'ENDPROC'
 
 def p_init_quad(p):
 	'init_quad : empty'

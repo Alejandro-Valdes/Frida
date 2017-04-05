@@ -9,14 +9,26 @@ programa pruebaFrida
 		a = a + b * a;
 		imprimir(a+b);
 		ar[3] = 2;
-
 	}
 
 	rutina entero : uno(entero : a){
 		variable decimal f;
 		a = a + b * a;
+
 		imprimir(a+b);
 		uno(2);
+
+		si(uno(2) == 0){
+			si(uno(2) == 0){
+				regresa a;
+			}
+			regresa a;
+		}
+		sino_pero(a <= 3.3){
+			regresa a;
+		}
+
+		regresa a;
 	}
 	
 	rutina decimal : dos(entero : a, entero : b, decimal : g){

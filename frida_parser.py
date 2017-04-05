@@ -230,7 +230,7 @@ def p_bloque_loop(p):
 # Bloque rutina
 
 def p_bloque_rutina(p):
-	'bloque_rutina : add_quad_count LBRACE bloque_rutina_opt bloque_rutina_loop bloque_rutina_opt_2 RBRACE'
+	'bloque_rutina : add_quad_count LBRACE bloque_rutina_opt bloque_rutina_loop RBRACE'
 
 def p_bloque_rutina_opt(p):
 	'''bloque_rutina_opt : vars 
@@ -238,10 +238,6 @@ def p_bloque_rutina_opt(p):
 
 def p_bloque_rutina_loop(p):
 	'''bloque_rutina_loop : estatuto bloque_rutina_loop 
-		| empty'''
-
-def p_bloque_rutina_opt_2(p):
-	'''bloque_rutina_opt_2 : RETURN logica SEMICOLON
 		| empty'''
 
 # ESTATUTO 
@@ -254,7 +250,11 @@ def p_estatuto(p):
 		| lectura 
 		| accion 
 		| llamada
-		| comentario'''
+		| comentario
+		| retorno'''
+
+def p_retorno(p):
+	'retorno : check_return RETURN logica SEMICOLON'
 
 def p_comentario(p):
 	'comentario : COMMENT'
