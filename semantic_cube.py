@@ -27,6 +27,9 @@ DIV = 91
 VAR = 100
 FUNC = 101
 
+PRINT = 200
+READ = 300
+
 cubeDict = {}
 
 # Assignments
@@ -137,6 +140,10 @@ def getOperationCode(code):
 		return MULT
 	elif(code == '/'):
 		return DIV
+	elif(code == 'print'):
+		return PRINT
+	elif(code == 'read'):
+		return READ
 	else:
 		return -1
 

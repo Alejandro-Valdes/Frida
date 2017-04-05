@@ -132,14 +132,16 @@ def assign_helper():
 def read_helper():
 	global i
 	res = 't' + str(i)
-	quad = QuadrupleItem('leer', '' , '' ,res)
+	opCode = getOperationCode('read')
+	quad = QuadrupleItem(opCode, '' , '' ,res)
 	Quadruple.add_quad(quad)
 	g.oStack.append(res)
 	i += 1
 
 def print_helper():
 	res = g.oStack.pop()
-	quad = QuadrupleItem('imprimir', '' , '' ,res)
+	opCode = getOperationCode('print')
+	quad = QuadrupleItem(opCode, '' , '' ,res)
 	Quadruple.add_quad(quad)
 
 # Inflection points

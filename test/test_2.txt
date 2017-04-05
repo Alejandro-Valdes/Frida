@@ -9,7 +9,7 @@ programa pruebaFrida2
 				bBandera = falso;
 			}
 			sino_pero (iParam < dParam) {
-				iParam = dParam;
+				iParam = 5;
 				bBandera = falso;
 			}
 		}
@@ -19,6 +19,8 @@ programa pruebaFrida2
 
 	rutina decimal : rutinaRegresaDecimal(decimal : dParam) {
 		variable decimal dCalculo = 20.5;
+
+		dCalculo = leer();
 
 		dParam = dCalculo * 15 + 10 / (45 * 52);
 
