@@ -2,10 +2,13 @@ programa pruebaFrida
 	
 	variable entero a, b;
 	variable decimal f;
+	variable cadena c = "cadena";
+	variable entero ar[3];
 
 	rutina void : cero(entero : a){
 		a = a + b * a;
 		imprimir(a+b);
+		ar[3] = 3;
 	}
 
 	rutina entero : uno(entero : a){
@@ -19,7 +22,7 @@ programa pruebaFrida
 		i = b;
 
 		mientras(i>0){
-			a = verdadero;
+			a = 3;
 			uno(3);
 			imprimir(a);
 			i=1-1;

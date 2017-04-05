@@ -1,4 +1,4 @@
-from semantic_cube import getResultType
+from semantic_cube import *
 from symbol_table import *
 from quadruples import *
 import global_vars as g
@@ -21,7 +21,7 @@ def p_mod_call_3(p):
 	arg_type = g.typeStack.pop()
 	expected_type = SymbolsTable.check_param(name, g.param_count)
 
-	if arg_type != expected_type:
+	if arg_type != getTypeCode(expected_type):
 		print('Type mismatch: expected '+ expected_type + ' but got ' + arg_type)
 		sys.exit()
 

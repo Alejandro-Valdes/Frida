@@ -1,4 +1,4 @@
-from semantic_cube import getResultType
+from semantic_cube import *
 from symbol_table import *
 from quadruples import *
 import global_vars as g
@@ -17,38 +17,40 @@ def p_init_quad(p):
 
 def p_push_operation(p):
 	'push_operation : empty'
-	g.operStack.append(p[-1])
+	opCode = getOperationCode(p[-1])
+	g.operStack.append(opCode)
 
 def p_logica_helper(p):
 	'logica_helper : empty'
 	if( len(g.operStack) > 0 ):
-		if (g.operStack[-1] == 'y' or g.operStack[-1] == 'o'):
+		if (g.operStack[-1] == getOperationCode('y') or g.operStack[-1] == getOperationCode('o')):
 			quad_maker()
 
 def p_expresion_helper(p):
 	'expresion_helper : empty'
 	if( len(g.operStack) > 0 ):
-		if (g.operStack[-1] == '>' or g.operStack[-1] == '<' 
-			or g.operStack[-1] == '>=' or g.operStack[-1] == '<='
-			or g.operStack[-1] == '==' or g.operStack[-1] == '!='):
+		if (g.operStack[-1] == getOperationCode('>') or g.operStack[-1] == getOperationCode('<') 
+			or g.operStack[-1] == getOperationCode('>=') or g.operStack[-1] == getOperationCode('<=')
+			or g.operStack[-1] == getOperationCode('==') or g.operStack[-1] == getOperationCode('!=')):
 			quad_maker()
 
 def p_exp_helper(p):
 	'exp_helper : empty'
 
 	if( len(g.operStack) > 0 ):
-		if (g.operStack[-1] == '+' or g.operStack[-1] == '-'):
+		if (g.operStack[-1] == getOperationCode('+') or g.operStack[-1] == getOperationCode('-')):
 			quad_maker()
 
 def p_factor_helper(p):
 	'factor_helper : empty'
 	if( len(g.operStack) > 0):
-		if (g.operStack[-1] == '*' or g.operStack[-1] == '/'):
+		if (g.operStack[-1] == getOperationCode('*') or g.operStack[-1] == getOperationCode('/')):
 			quad_maker()
 
 def p_push_fake_bottom(p):
 	'push_fake_bottom : empty'
-	g.operStack.append(p[-1])
+	opCode = getOperationCode(p[-1])
+	g.operStack.append(opCode)
 	
 def p_pop_fake_bottom(p):
 	'pop_fake_bottom : empty'
@@ -60,31 +62,27 @@ def p_printQuadList(p):
 
 def quad_maker():
 	global i
-	right_o = g.oStack.pop()
-	right_type = g.typeStack.pop()
 	left_o = g.oStack.pop()
 	left_type = g.typeStack.pop()
+
+	right_o = g.oStack.pop()
+	right_type = g.typeStack.pop()
+	
 	operand = g.operStack.pop()
-	resultType = getResultType(right_type+operand+left_type)
+	resultType = getResultType(left_type, operand, right_type)
 	resType = ''
 
+	print resultType
+
 	if(resultType > 0):
+		print 'aaa'
 		res = 't' + str(i)
 		quad = QuadrupleItem(operand, left_o, right_o, res)
 		Quadruple.add_quad(quad)
 
 		g.oStack.append(res)
 
-		if(resultType == 1):
-			resType = 'bool'
-		elif(resultType == 2):
-			resType = 'entero'
-		elif(resultType == 3):
-			resType = 'decimal'
-		elif(resultType == 4):
-			resType = 'cadena'
-
-		g.typeStack.append(resType)
+		g.typeStack.append(resultType)
 
 		i+=1
 	else:
@@ -102,18 +100,25 @@ def push_o(p, type):
 	else:
 		resType = type
 
+	resType = getTypeCode(resType)
+
 	g.oStack.append(p)
 	g.typeStack.append(resType)
 
 def assign_helper():
 	if( len(g.operStack) > 0):
-		if (g.operStack[-1] == '='):
+		if (g.operStack[-1] == getOperationCode('=')):
 			left_o = g.oStack.pop()
 			res = g.oStack.pop()
 			operand = g.operStack.pop()
 			left_type = g.typeStack.pop()
 			right_type = g.typeStack.pop()
-			resultType = getResultType(left_type+operand+right_type)
+			resultType = getResultType(left_type, operand, right_type)
+
+			print res
+			print right_type
+			print left_o
+			print left_type
 
 			if resultType > 0:
 				quad = QuadrupleItem(operand, res, '' , left_o)
@@ -141,7 +146,8 @@ def print_helper():
 def p_if_1(p):
 	'if_1 : empty'
 	exp_type = g.typeStack.pop()
-	if (exp_type != 'bool'):
+	print exp_type
+	if (exp_type != getTypeCode('bool')):
 		print('ERROR: Type mismatch!')
 	else:
 		res = g.oStack.pop()
@@ -182,7 +188,11 @@ def p_while_1(p):
 def p_while_2(p):
 	'while_2 : empty'
 	exp_type = g.typeStack.pop()
-	if exp_type != 'bool':
+
+	print exp_type
+	print getTypeCode(exp_type)
+
+	if exp_type != getTypeCode('bool'):
 		print('Error type mismatch')
 		print('expected bool but got ' + exp_type)
 		sys.exit()

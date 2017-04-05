@@ -12,7 +12,7 @@ programa pruebaFrida
 		variable entero eSize; 
 
 		variable circulo arrCirculo[eSize] = { nuevo circulo(15, 15, 15, "#545454"), nuevo circulo(45, 45, 45,"#585858") };
-
+		variable entero iIterador = 0;
 		variable circulo miCirculo = nuevo circulo(10, 10, 10, "#E4E4E4");
 
 		/*
@@ -21,7 +21,7 @@ programa pruebaFrida
 
 		arrCirculo[2] = miCirculo;
 
-		variable entero iIterador = 0;
+		
 
 		imprimir("TEST");
 
