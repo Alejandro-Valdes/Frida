@@ -385,7 +385,7 @@ def p_id_factor(p):
 # llamadaExp
 
 def p_llamadaExp(p):
-	'llamadaExp : ID check_function LPARENTHESIS llamada_param RPARENTHESIS'
+	'llamadaExp : ID check_function LPARENTHESIS mod_call_2 llamada_param RPARENTHESIS mod_call_5 mod_call_6'
 	push_o(p[1], 'func')
 
 # accion

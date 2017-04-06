@@ -53,7 +53,7 @@ programa pruebaFrida
 		variable bool v;
 		v = falso;
 		a = 3;
-		b = a + 1;
+		b = uno(a - 2111 / 212 + 2) + 1;
 		imprimir(a);
 		imprimir(b);
 		f = 3.14;
