@@ -89,7 +89,6 @@ class GlobalMemory():
 		self.decimalCount = 0
 		self.cadenaCount = 0
 			
-
 class LocalMemory():
 
 	localMem = {}
@@ -207,6 +206,75 @@ class TempMemory():
 				printMemoryOverflow()
 
 		return address
+
+	@classmethod
+	def clearCount(self):
+		self.boolCount = 0
+		self.enteroCount = 0
+		self.decimalCount = 0
+		self.cadenaCount = 0
+
+class CteMemory():
+	
+	cteMem = {}
+	cteMemRev = {}
+	boolCount = 0
+	enteroCount = 0
+	decimalCount = 0
+	cadenaCount = 0
+
+	__shared_state = {}
+	
+	def __init__(self):
+		self.__dict__ = self.__shared_state
+		
+	@classmethod
+	def printCteMem(cls):
+		print cls.cteMem
+
+	@classmethod
+	def getItemValue(cls, key):
+		return cls.cteMem[key]	
+
+	@classmethod
+	def getAddress(cls, type, value):
+		address = 0
+		if value in cls.cteMemRev:
+			return cls.cteMemRev[value]
+
+		if type == BOOL:
+			if cls.boolCount < LIM:
+				address = CTEBOOL + cls.boolCount
+				cls.boolCount += 1
+			else:
+				printMemoryOverflow()
+		elif type == ENTERO:
+			if cls.enteroCount < LIM:
+				address = CTEENTERO + cls.enteroCount
+				cls.enteroCount += 1
+			else:
+				printMemoryOverflow()
+		elif type == DECIMAL:
+			if cls.decimalCount < LIM:
+				address = CTEDECIMAL + cls.decimalCount
+				cls.decimalCount += 1
+			else:
+				printMemoryOverflow()
+		elif type == CADENA:
+			if cls.cadenaCount < LIM:
+				address = CTECADENA + cls.cadenaCount
+				cls.cadenaCount += 1
+			else:
+				printMemoryOverflow()
+
+		cls.cteMem[address] = value
+		cls.cteMemRev[value] = address
+
+		return address
+
+	@classmethod
+	def setValue(cls, address, value):
+		pass
 
 	@classmethod
 	def clearCount(self):

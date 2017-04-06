@@ -3,6 +3,8 @@ programa pruebaFrida
 	variable entero i, j;
 	
 	rutina entero : dos(entero : b){
+		variable bool test;
+		test = verdadero;
 		b = b * i + j;
 
 		regresa(b*2);

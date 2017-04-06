@@ -178,19 +178,30 @@ def p_cte(p):
 # Push to operands stack for quadruples generation
 def p_push_string(p):
 	'push_string : empty'
-	push_o(p[-1], 'cadena')
+	type = getTypeCode('cadena')
+	address = CteMemory.getAddress(type, p[-1])
+	push_o(str(address), 'cadena')
 
 def p_push_int(p):
 	'push_int : empty'
-	push_o(p[-1], 'entero')
+	type = getTypeCode('entero')
+	address = CteMemory.getAddress(type, p[-1])
+	print address
+	print p[-1]
+	push_o(str(address), 'entero')
 
 def p_push_double(p):
 	'push_double : empty'
-	push_o(p[-1], 'decimal')
+	type = getTypeCode('decimal')
+	address = CteMemory.getAddress(type, p[-1])
+	push_o(str(address), 'decimal')
 
 def p_push_bool(p):
 	'push_bool : empty'
-	push_o(p[-1], 'bool')
+	type = getTypeCode('bool')
+	address = CteMemory.getAddress(type, p[-1])
+	val = True if p[-1] == 'verdadero' else False
+	push_o(str(address), 'bool')
 
 # parametros
 

@@ -32,6 +32,7 @@ def p_cleanFunc(p):
 	LocalMemory.printLocalMem()
 	TempMemory.printTempMem()
 	GlobalMemory.printGlobalMem()
+	CteMemory.printCteMem()
 	print '+++++++++++'
 	g.funcParams = []
 	g.funcName = ''

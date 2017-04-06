@@ -92,6 +92,8 @@ def quad_maker():
 def push_o(p, type):
 	resType = ''
 
+	print type
+	
 	if type == 'var':
 		resType = SymbolsTable.checkVarType(g.funcName, p)
 	elif type == 'func':
