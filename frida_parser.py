@@ -56,7 +56,7 @@ def p_rutinas(p):
 def p_rutina_opt(p):
 	'''rutina_opt : primitivo
 		| figura
-		| VOID saveFuncTypeVoid'''
+		| VOID saveType'''
 
 def p_rutinas_loop(p):
 	'rutinas_loop : rutinas'

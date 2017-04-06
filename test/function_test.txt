@@ -26,7 +26,7 @@ programa pruebaFrida
 
 	}
 
-	rutina void : cero(entero : a){
+	rutina void : cero(entero : a, entero: b){
 		a = a + b * a;
 		imprimir(a+b);
 		ar[2] = 2;
@@ -45,6 +45,7 @@ programa pruebaFrida
 			uno(a);
 			imprimir(a);
 			i=1-1;
+			cero(i, 1);
 		}
 		regresa 5;
 	}

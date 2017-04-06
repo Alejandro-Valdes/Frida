@@ -9,6 +9,6 @@ def readFile(file):
 	file_in.close()
 	parser.parse(data)
 
-readFile("test/function_test.txt")
+readFile("test/test_mem.txt")
 
 print('\n')

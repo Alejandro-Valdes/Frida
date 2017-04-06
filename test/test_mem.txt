@@ -1,0 +1,29 @@
+programa pruebaFrida
+
+	variable entero i, j;
+	
+	rutina entero : dos(entero : b){
+		b = b * i + j;
+
+		regresa(b*2);
+	}
+	
+
+	rutina void : uno(entero : a){
+		i = a * 2;
+		si ( 1 < a + 4){
+			uno(a+1);
+		}
+
+		imprimir(i);
+	}
+
+	
+	lienzo {
+		i = 2;
+		j =  i * 2 -1;
+
+		uno(j);
+
+		imprimir(i + dos(i+j));
+	}

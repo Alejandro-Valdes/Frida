@@ -60,7 +60,8 @@ class SymbolsTable:
 
 	@classmethod
 	def check_param(cls, name, index):
-		return cls.function_dictionary[name].params[index]
+		if (cls.function_dictionary[name].params) >= 0:
+			return cls.function_dictionary[name].params[index]
 
 	@classmethod
 	def printFunctionTable(cls):

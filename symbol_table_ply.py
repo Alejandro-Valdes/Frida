@@ -15,7 +15,6 @@ def p_check_function(p):
 
 def p_saveFuncParam(p):
 	'saveFuncParam : empty'
-
 	SymbolsTable.add_function_params(g.funcName, g.funcParams)
 
 def p_saveFuncName(p):
@@ -31,12 +30,6 @@ def p_cleanFunc(p):
 	g.funcName = ''
 	g.nextType = ''
 	g.funcType = ''
-
-def p_saveFuncTypeVoid(p):
-	'saveFuncTypeVoid : empty'
-
-	g.nextType = p[-1]
-
 
 def p_FuncTypeNext(p):
 	'FuncTypeNext : empty'
