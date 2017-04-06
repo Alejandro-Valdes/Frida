@@ -112,6 +112,7 @@ def p_tipo_opt_fig_3(p):
 
 def p_ini_prim(p):
 	'ini_prim : ASSIGN push_operation logica'
+	
 	push_o(g.varName, 'var')
 	assign_helper()
 
@@ -261,7 +262,14 @@ def p_comentario(p):
 
 def p_asignacion(p):
 	'asignacion : ID check_variable asignacion_opt ASSIGN push_operation asignacion_opt_2 SEMICOLON'
-	push_o(p[1], 'var')
+	
+	address = SymbolsTable.checkVarAddress(g.funcName, p[1])
+	if address > 0 and address != None:
+		type = SymbolsTable.checkVarType(g.funcName, p[1])
+		push_o(str(address), type)
+	else:
+		push_o(p[1], 'var')
+
 	assign_helper()
 
 def p_asignacion_opt(p):
@@ -380,7 +388,12 @@ def p_id_factor(p):
 	'''id_factor : ID check_variable
 		| llamadaExp'''
 	if(len(p) == 3):
-		push_o(p[1], 'var')
+		address = SymbolsTable.checkVarAddress(g.funcName, p[1])
+		if address > 0 and address != None:
+			type = SymbolsTable.checkVarType(g.funcName, p[1])
+			push_o(str(address), type)
+		else:
+			push_o(p[1], 'var')
 
 # llamadaExp
 

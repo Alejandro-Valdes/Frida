@@ -1,6 +1,7 @@
 from symbol_table import *
 import global_vars as g
 from quadruples import Quadruple
+from memory import *
 
 # Defino variables globales a usar para la tabla de simbolos
 # REGLAS PARA TABLA DE SIMBOLOS
@@ -22,6 +23,7 @@ def p_saveFuncName(p):
 	g.funcName = p[-1]
 	function = Function(g.funcName, g.nextType, None, None, None)
 	SymbolsTable.add_function(function)
+	LocalMemory.clearCount()
 
 def p_cleanFunc(p):
 	'cleanFunc : empty'
@@ -54,7 +56,13 @@ def  p_saveType(p):
 def p_paramID(p):
 	'paramID : empty'
 	g.varName = p[-1]
-	SymbolsTable.add_var_to_func(g.varName, g.nextType, None, g.funcName)
+
+	if g.funcName == 'global':
+		virtual_address = GlobalMemory.setItem(g.varName, getTypeCode(g.nextType))
+	else:
+		virtual_address = LocalMemory.setItem(g.varName, getTypeCode(g.nextType))
+
+	SymbolsTable.add_var_to_func(g.varName, g.nextType, virtual_address, g.funcName)
 
 def p_paramTypeNext(p):
 	'paramTypeNext : empty'
@@ -88,8 +96,13 @@ def p_add_var_name(p):
 def p_add_var(p):
 	'add_var : empty'
 	g.varName = p[-1]
+
+	if g.funcName == 'global':
+		virtual_address = GlobalMemory.setItem(g.varName, getTypeCode(g.nextType))
+	else:
+		virtual_address = LocalMemory.setItem(g.varName, getTypeCode(g.nextType))
 	
-	SymbolsTable.add_var_to_func(g.varName, g.nextType, None, g.funcName)
+	SymbolsTable.add_var_to_func(g.varName, g.nextType, virtual_address, g.funcName)
 
 def p_add_quad_count(p):
 	'add_quad_count : empty'

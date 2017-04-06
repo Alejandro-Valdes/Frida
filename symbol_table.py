@@ -2,10 +2,10 @@ import sys
 
 class Variable:
 
-	def __init__(self, name, type, value, scope):
+	def __init__(self, name, type, virtual_address, scope):
 		self.name = name
 		self.type = type
-		self.value = value
+		self.virtual_address = virtual_address
 
 class Function:
 
@@ -74,12 +74,13 @@ class SymbolsTable:
 				print('params : ' + ', '.join(function_dir[key].params))
 				print('scoped variables:')
 				for var_key in function_dir[key].vars:
-					print('\t' + function_dir[key].vars[var_key].name + ' ' +function_dir[key].vars[var_key].type)
+					print('\t' + function_dir[key].vars[var_key].name + ' ' +function_dir[key].vars[var_key].type 
+						+ ' ' + str(function_dir[key].vars[var_key].virtual_address))
 				print('\n')
 
 	@classmethod
-	def add_var_to_func(cls, name, type, value, scope):
-		var = Variable(name, type, None, scope)
+	def add_var_to_func(cls, name, type, virtual_address, scope):
+		var = Variable(name, type, virtual_address, scope)
 		if scope in cls.function_dictionary:
 			cls.function_dictionary[scope].add_var(var)
 		else:
@@ -116,6 +117,15 @@ class SymbolsTable:
 			return cls.function_dictionary[func].vars[var].type
 		elif(var in cls.function_dictionary['global'].vars):
 			return cls.function_dictionary['global'].vars[var].type
+		else:
+			return -1
+
+	@classmethod
+	def checkVarAddress(cls, func, var):
+		if(var in cls.function_dictionary[func].vars):
+			return cls.function_dictionary[func].vars[var].virtual_address
+		elif(var in cls.function_dictionary['global'].vars):
+			return cls.function_dictionary['global'].vars[var].virtual_address
 		else:
 			return -1
 

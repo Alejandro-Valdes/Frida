@@ -73,7 +73,7 @@ def quad_maker():
 	operand = g.operStack.pop()
 	resultType = getResultType(left_type, operand, right_type)
 	resType = ''
-
+	
 	if(resultType > 0):
 		res = 't' + str(i)
 		quad = QuadrupleItem(operand, left_o, right_o, res)
