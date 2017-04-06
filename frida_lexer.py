@@ -51,7 +51,6 @@ reserved = {
 	'o' : 'OR',
 	'mientras' : 'WHILE',
 	'rutina' : 'RUTINA',
-	'nulo' : 'NULL',
 	'imprimir' : 'PRINT',
 	'leer' : 'READ',
 	'entero' : 'TYPEINT',

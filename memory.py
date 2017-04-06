@@ -269,7 +269,6 @@ class CteMemory():
 
 		cls.cteMem[address] = value
 		cls.cteMemRev[value] = address
-
 		return address
 
 	@classmethod

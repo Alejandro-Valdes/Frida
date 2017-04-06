@@ -25,8 +25,6 @@ from module_ply import *
 # Programa
 def p_programa(p):
 	'programa : PROGRAMA ID init_quad add_global_scope vars_opt rutinas lienzo printFuncTable printQuadList'
-	#Este mensaje solo se imprime si es valido el archivo
-	print('\nValid Frida file')
 
 def p_vars_opt(p):
 	'''vars_opt : vars 

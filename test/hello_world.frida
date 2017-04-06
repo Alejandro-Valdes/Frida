@@ -1,0 +1,6 @@
+programa pruebaFrida
+
+	lienzo {
+		imprimir('Hola, me llamo Frida');
+		imprimir('Hello');
+	}

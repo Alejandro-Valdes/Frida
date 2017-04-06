@@ -1,4 +1,5 @@
 import sys
+from virtual_machine import VirtualMachine
 
 class QuadrupleItem():
 	def __init__(self, action, o1, o2, res):
@@ -26,3 +27,9 @@ class  Quadruple():
 		for quad in cls.quadruple_list:
 			print(str(i) + '\t' + str(quad.action) + '\t' + str(quad.o1) + '\t' + str(quad.o2) + '\t' + str(quad.res))
 			i +=1
+
+
+	@classmethod
+	def run_list(cls):
+		vm = VirtualMachine(cls.quadruple_list)
+		vm.run_list()
