@@ -10,6 +10,7 @@ programa pruebaFrida
 	
 
 	rutina void : uno(entero : a){
+		variable entero i;
 		i = a * 2;
 		si ( 1 < a + 4){
 			uno(a+1);

@@ -45,32 +45,28 @@ class GlobalMemory():
 		return cls.globalMem[key]		
 
 	@classmethod
-	def setItem(cls, value, type):
+	def getAddress(cls, type):
 		address = 0
 		if type == BOOL:
 			if cls.boolCount < LIM:
-				cls.globalMem[GLOBALBOOL + cls.boolCount] = value
 				address = GLOBALBOOL + cls.boolCount
 				cls.boolCount += 1
 			else:
 				printMemoryOverflow()
 		elif type == ENTERO:
 			if cls.enteroCount < LIM:
-				cls.globalMem[ENTERO + cls.enteroCount] = value
 				address = GLOBALENTERO + cls.enteroCount
 				cls.enteroCount += 1
 			else:
 				printMemoryOverflow()
 		elif type == DECIMAL:
 			if cls.decimalCount < LIM:
-				cls.globalMem[DECIMAL + cls.decimalCount] = value
 				address = GLOBALDECIMAL + cls.decimalCount
 				cls.decimalCount += 1
 			else:
 				printMemoryOverflow()
 		elif type == CADENA:
 			if cls.cadenaCount < LIM:
-				cls.globalMem[CADENA + cls.cadenaCount] = value
 				address = GLOBALCADENA + cls.cadenaCount
 				cls.cadenaCount += 1
 			else:
@@ -105,32 +101,28 @@ class LocalMemory():
 		return cls.localMem[key]		
 
 	@classmethod
-	def setItem(cls, value, type):
+	def getAddress(cls, type):
 		address = 0
 		if type == BOOL:
 			if cls.boolCount < LIM:
-				cls.localMem[LOCALBOOL + cls.boolCount] = value
 				address = LOCALBOOL + cls.boolCount
 				cls.boolCount += 1
 			else:
 				printMemoryOverflow()
 		elif type == ENTERO:
 			if cls.enteroCount < LIM:
-				cls.localMem[ENTERO + cls.enteroCount] = value
 				address = LOCALENTERO + cls.enteroCount
 				cls.enteroCount += 1
 			else:
 				printMemoryOverflow()
 		elif type == DECIMAL:
 			if cls.decimalCount < LIM:
-				cls.localMem[DECIMAL + cls.decimalCount] = value
 				address = LOCALDECIMAL + cls.decimalCount
 				cls.decimalCount += 1
 			else:
 				printMemoryOverflow()
 		elif type == CADENA:
 			if cls.cadenaCount < LIM:
-				cls.localMem[CADENA + cls.cadenaCount] = value
 				address = LOCALCADENA + cls.cadenaCount
 				cls.cadenaCount += 1
 			else:
@@ -145,90 +137,55 @@ class LocalMemory():
 		self.decimalCount = 0
 		self.cadenaCount = 0
 
-class ConstMemory():
-	
-	def __init__(self):
-		self.globalMem = {}
-
-		self.boolCount = 0
-		self.enteroCount = 0
-		self.decimalCount = 0
-		self.cadenaCount = 0
-
-	def getItem(self, key):
-		return constMem[key]
-
-	def setItem(self, key, value, type):
-		if type == BOOL:
-			if self.boolCount < LIM:
-				self.boolCount += 1
-				self.constMem[key] = value
-			else:
-				printMemoryOverflow()
-		elif type == ENTERO:
-			if self.enteroCount < LIM:
-				self.enteroCount += 1
-				self.constMem[key] = value
-			else:
-				printMemoryOverflow()
-		elif type == DECIMAL:
-			if self.decimalCount < LIM:
-				self.decimalCount += 1
-				self.constMem[key] = value
-			else:
-				printMemoryOverflow()
-		elif type == CADENA:
-			if self.cadenaCount < LIM:
-				self.cadenaCount += 1
-				self.constMem[key] = value
-			else:
-				printMemoryOverflow()
-
-	def clearCount(self):
-		self.boolCount = 0
-		self.enteroCount = 0
-		self.decimalCount = 0
-		self.cadenaCount = 0
-
 class TempMemory():
 	
+	tempMem = {}
+	boolCount = 0
+	enteroCount = 0
+	decimalCount = 0
+	cadenaCount = 0
+
+	__shared_state = {}
+	
 	def __init__(self):
-		self.globalMem = {}
+		self.__dict__ = self.__shared_state
+		
 
-		self.boolCount = 0
-		self.enteroCount = 0
-		self.decimalCount = 0
-		self.cadenaCount = 0
+	@classmethod
+	def getItemValue(cls, key):
+		return cls.tempMem[key]		
 
-	def getItem(self, key):
-		return tempMem[key]
-
-	def setItem(self, key, value, type):
+	@classmethod
+	def getAddress(cls, type):
+		address = 0
 		if type == BOOL:
-			if self.boolCount < LIM:
-				self.boolCount += 1
-				self.tempMem[key] = value
+			if cls.boolCount < LIM:
+				address = TEMPBOOL + cls.boolCount
+				cls.boolCount += 1
 			else:
 				printMemoryOverflow()
 		elif type == ENTERO:
-			if self.enteroCount < LIM:
-				self.enteroCount += 1
-				self.tempMem[key] = value
+			if cls.enteroCount < LIM:
+				address = TEMPENTERO + cls.enteroCount
+				cls.enteroCount += 1
 			else:
 				printMemoryOverflow()
 		elif type == DECIMAL:
-			if self.decimalCount < LIM:
-				self.decimalCount += 1
-				self.tempMem[key] = value
+			if cls.decimalCount < LIM:
+				address = TEMPDECIMAL + cls.decimalCount
+				cls.decimalCount += 1
 			else:
 				printMemoryOverflow()
 		elif type == CADENA:
-			if self.cadenaCount < LIM:
-				self.cadenaCount += 1
-				self.tempMem[key] = value
+			if cls.cadenaCount < LIM:
+				address = TEMPCADENA + cls.cadenaCount
+				cls.cadenaCount += 1
 			else:
 				printMemoryOverflow()
 
+		return address
+
+	@classmethod
 	def clearCount(self):
 		self.boolCount = 0
 		self.enteroCount = 0

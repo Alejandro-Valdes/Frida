@@ -2,8 +2,7 @@ from semantic_cube import *
 from symbol_table import *
 from quadruples import *
 import global_vars as g
-
-i = 0;
+from memory import *
 
 GOTO = 'GoTo'
 GOTOV = 'GoToV'
@@ -75,15 +74,15 @@ def quad_maker():
 	resType = ''
 	
 	if(resultType > 0):
-		res = 't' + str(i)
-		quad = QuadrupleItem(operand, left_o, right_o, res)
+
+		virtual_address = TempMemory.getAddress(resultType)
+
+		quad = QuadrupleItem(operand, left_o, right_o, virtual_address)
 		Quadruple.add_quad(quad)
 
-		g.oStack.append(res)
-
+		g.oStack.append(virtual_address)
 		g.typeStack.append(resultType)
 
-		i+=1
 	else:
 		print('Error: tipo no coincide')
 		print(left_o + getOperationStr(operand) + right_o)

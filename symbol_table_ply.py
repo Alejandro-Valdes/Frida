@@ -23,11 +23,11 @@ def p_saveFuncName(p):
 	g.funcName = p[-1]
 	function = Function(g.funcName, g.nextType, None, None, None)
 	SymbolsTable.add_function(function)
-	LocalMemory.clearCount()
 
 def p_cleanFunc(p):
 	'cleanFunc : empty'
-
+	LocalMemory.clearCount()
+	TempMemory.clearCount()
 	g.funcParams = []
 	g.funcName = ''
 	g.nextType = ''
@@ -58,9 +58,9 @@ def p_paramID(p):
 	g.varName = p[-1]
 
 	if g.funcName == 'global':
-		virtual_address = GlobalMemory.setItem(g.varName, getTypeCode(g.nextType))
+		virtual_address = GlobalMemory.getAddress(getTypeCode(g.nextType))
 	else:
-		virtual_address = LocalMemory.setItem(g.varName, getTypeCode(g.nextType))
+		virtual_address = LocalMemory.getAddress(getTypeCode(g.nextType))
 
 	SymbolsTable.add_var_to_func(g.varName, g.nextType, virtual_address, g.funcName)
 
@@ -98,9 +98,9 @@ def p_add_var(p):
 	g.varName = p[-1]
 
 	if g.funcName == 'global':
-		virtual_address = GlobalMemory.setItem(g.varName, getTypeCode(g.nextType))
+		virtual_address = GlobalMemory.getAddress(getTypeCode(g.nextType))
 	else:
-		virtual_address = LocalMemory.setItem(g.varName, getTypeCode(g.nextType))
+		virtual_address = LocalMemory.getAddress(getTypeCode(g.nextType))
 	
 	SymbolsTable.add_var_to_func(g.varName, g.nextType, virtual_address, g.funcName)
 
