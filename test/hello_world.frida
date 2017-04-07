@@ -2,14 +2,27 @@ programa pruebaFrida
 
 	lienzo {
 		variable cadena test;
-		variable entero d2;
+		variable decimal dPi;
+		variable entero edad;
+		variable bool bPintar;
 
-		
-		
 		imprimir('Hola, me llamo Frida');
+
 		imprimir('tu como te llamas:');
 		test = leer();
 		imprimir('Mucho gusto,');
 		imprimir(test);
+
+		imprimir('Cuantos años tienes?');
+		edad = leer();
+		imprimir(edad);
+
+		imprimir('Te gusta pintar?');
+		bPintar = leer();
+		imprimir(bPintar);
+
+		imprimir('Cuanto vale pi?');
+		dPi = leer();
+		imprimir(dPi);
 
 	}

@@ -20,15 +20,27 @@ class VirtualMachine():
 				if quad.res < 9000:
 					print 'error'
 					sys.exit()
+
 				elif quad.res >= 9000 and quad.res < 10000:
-					pass
+					bRes = raw_input()
+					if bRes == 'verdadero' or bRes == 'falso':
+						TempMemory.setValue(int(quad.res), bRes)
+					else:
+						print 'Error: esperaba un bool'
+						sys.exit()
+
 				elif quad.res >= 10000 and quad.res < 11000:
-					pass
+					iRes = raw_input()
+					TempMemory.setValue(int(quad.res), int(iRes))
+
 				elif quad.res >= 11000 and quad.res < 12000:
-					pass
+					fRes = raw_input()
+					TempMemory.setValue(int(quad.res), float(fRes))
+
 				elif quad.res >= 12000 and quad.res < 13000:
 					sRes = raw_input()
 					TempMemory.setValue(int(quad.res), sRes)
+
 				else:
 					print 'error'
 					sys.exit()
