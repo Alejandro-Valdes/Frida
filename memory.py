@@ -301,12 +301,14 @@ class CteMemory():
 			if cls.enteroCount < LIM:
 				address = CTEENTERO + cls.enteroCount
 				cls.enteroCount += 1
+				value = int(value)
 			else:
 				printMemoryOverflow()
 		elif type == DECIMAL:
 			if cls.decimalCount < LIM:
 				address = CTEDECIMAL + cls.decimalCount
 				cls.decimalCount += 1
+				value = float(value)
 			else:
 				printMemoryOverflow()
 		elif type == CADENA:

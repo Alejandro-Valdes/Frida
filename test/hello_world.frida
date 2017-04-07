@@ -6,7 +6,7 @@ programa pruebaFrida
 		variable entero edad;
 		variable bool bPintar;
 
-		imprimir('Hola, me llamo Frida');
+		/*imprimir('Hola, me llamo Frida');
 
 		imprimir('tu como te llamas:');
 		test = leer();
@@ -19,10 +19,37 @@ programa pruebaFrida
 
 		imprimir('Te gusta pintar?');
 		bPintar = leer();
-		imprimir(bPintar);
+		imprimir(bPintar);*/
 
 		imprimir('Cuanto vale pi?');
+
 		dPi = leer();
+
+		dPi = dPi + 1;
+
 		imprimir(dPi);
+
+		imprimir(dPi-1);
+
+		imprimir(dPi-1 * 211);
+
+		imprimir( 100.0 / 31 * 2 + 1 - 21 / 21);
+
+		imprimir(100 > 1002);
+		imprimir(100 < 1002);
+
+		imprimir(1002 <= 1002);
+		imprimir('check');
+		imprimir(dPi == dPi);
+		imprimir(dPi == dPi / dPi);
+		imprimir(1 == dPi/dPi);
+
+		imprimir('endcheck');
+		imprimir(1002 != 1002);
+
+		imprimir(1002 != 1002 * 2);
+		
+
+
 
 	}
