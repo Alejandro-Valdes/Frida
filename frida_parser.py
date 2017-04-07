@@ -184,8 +184,6 @@ def p_push_int(p):
 	'push_int : empty'
 	type = getTypeCode('entero')
 	address = CteMemory.getAddress(type, p[-1])
-	print address
-	print p[-1]
 	push_o(str(address), 'entero')
 
 def p_push_double(p):
@@ -257,7 +255,6 @@ def p_estatuto(p):
 		| condicion 
 		| ciclo 
 		| impresion 
-		| lectura 
 		| accion 
 		| llamada
 		| comentario
@@ -288,7 +285,7 @@ def p_asignacion_opt(p):
 
 def p_asignacion_opt_2(p):
 	'''asignacion_opt_2 : logica 
-		| lectura 
+		| lectura
 		| fgra_nva '''
 
 # CONDICION
@@ -320,6 +317,7 @@ def p_impresion(p):
 # LECTURA
 def p_lectura(p):
 	'lectura : READ LPARENTHESIS RPARENTHESIS'
+	g.nextType = SymbolsTable.checkVarType(g.funcName, p[-5])
 	read_helper()
 
 # LLAMADA

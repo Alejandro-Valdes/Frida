@@ -26,6 +26,43 @@ LIM = 1000
 def printMemoryOverflow():
 	print 'Error: se acabo la memoria'
 
+class Memory():
+	"""docstring for Memory"""
+	def __init__(self):
+		pass
+
+	def getValue(self, address):
+		if address < 1000:
+			print 'Error'
+			sys.exit()
+		elif address >= 1000 and address < 5000:
+			return GlobalMemory.getItemValue(address)
+		elif address >= 5000 and address < 9000:
+			return LocalMemory.getItemValue(address)
+		elif address >= 9000 and address < 13000:
+			return TempMemory.getItemValue(address)
+		elif address >= 13000 and address < 17000:
+			return CteMemory.getItemValue(address)
+		else:
+			print 'Error'
+			sys.exit()
+
+	def setValue(self, value, address):
+		if address < 1000:
+			print 'Error'
+			sys.exit()
+		elif address >= 1000 and address < 5000:
+			GlobalMemory.setValue(address, value)
+		elif address >= 5000 and address < 9000:
+			LocalMemory.setValue(address, value)
+		elif address >= 9000 and address < 13000:
+			TempMemory.setValue(address, value)
+		elif address >= 13000 and address < 17000:
+			CteMemory.setValue(address, value)
+		else:
+			print 'Error'
+			sys.exit()
+
 class GlobalMemory():
 
 	globalMem = {}
@@ -81,6 +118,10 @@ class GlobalMemory():
 				printMemoryOverflow()
 
 		return address
+
+	@classmethod
+	def setValue(cls, address, value):
+		cls.globalMem[address] = value
 
 	@classmethod
 	def clearCount(self):
@@ -146,6 +187,10 @@ class LocalMemory():
 		return address
 
 	@classmethod
+	def setValue(cls, address, value):
+		cls.localMem[address] = value
+
+	@classmethod
 	def clearCount(self):
 		self.boolCount = 0
 		self.enteroCount = 0
@@ -206,6 +251,10 @@ class TempMemory():
 				printMemoryOverflow()
 
 		return address
+
+	@classmethod
+	def setValue(cls, address, value):
+		cls.tempMem[address] = value
 
 	@classmethod
 	def clearCount(self):
@@ -273,7 +322,7 @@ class CteMemory():
 
 	@classmethod
 	def setValue(cls, address, value):
-		pass
+		cls.cteMem[address] = value
 
 	@classmethod
 	def clearCount(self):

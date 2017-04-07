@@ -1,6 +1,15 @@
 programa pruebaFrida
 
 	lienzo {
+		variable cadena test;
+		variable entero d2;
+
+		
+		
 		imprimir('Hola, me llamo Frida');
-		imprimir('Hello');
+		imprimir('tu como te llamas:');
+		test = leer();
+		imprimir('Mucho gusto,');
+		imprimir(test);
+
 	}

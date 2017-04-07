@@ -111,30 +111,26 @@ def assign_helper():
 
 			left_o = g.oStack.pop()
 			res = g.oStack.pop()
-
 			operand = g.operStack.pop()
-
 			right_type = g.typeStack.pop()
-			left_type = g.typeStack.pop()
-			
+			left_type = g.typeStack.pop()			
 			resultType = getResultType(left_type, operand, right_type)
 
 			if resultType > 0:
 				quad = QuadrupleItem(operand, res, '' , left_o)
 				Quadruple.add_quad(quad)
 			else:
-				print('No puedo asignar ' + res + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + left_o + ' por que es ' + getTypeStr(left_type))
+				print('No puedo asignar ' + str(res) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(left_o) + ' por que es ' + getTypeStr(left_type))
 				sys.exit()
 
 
 def read_helper():
-	global i
-	res = 't' + str(i)
+	address = TempMemory.getAddress(getTypeCode(g.nextType))
 	opCode = getOperationCode('read')
-	quad = QuadrupleItem(opCode, '' , '' ,res)
+	quad = QuadrupleItem(opCode, '' , '' ,address)
 	Quadruple.add_quad(quad)
-	g.oStack.append(res)
-	i += 1
+	g.oStack.append(address)
+	g.typeStack.append(getTypeCode(g.nextType))
 
 def print_helper():
 	res = g.oStack.pop()
