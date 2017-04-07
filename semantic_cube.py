@@ -96,6 +96,7 @@ cubeDict[(ENTERO, SUM, ENTERO)] = ENTERO
 cubeDict[(DECIMAL, SUM, ENTERO)] = DECIMAL
 cubeDict[(ENTERO, SUM, DECIMAL)] = DECIMAL
 cubeDict[(DECIMAL, SUM, DECIMAL)] = DECIMAL
+cubeDict[(CADENA, SUM, CADENA)] = CADENA
 
 # Substraction
 cubeDict[(ENTERO, SUB, ENTERO)] = ENTERO
