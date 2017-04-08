@@ -5,6 +5,8 @@ import global_vars as g
 
 GOTO = 'GoTo'
 GOTOF = 'GoToF'
+TRUE = 'verdadero'
+FALSE = 'falso'
 
 class VirtualMachine():
 	def __init__(self, quad_list):
@@ -79,6 +81,10 @@ class VirtualMachine():
 				else:
 					pass
 
+			elif quad.action > ANDORSTART and quad.action < ANDOREND:
+				res = self.and_or_operation(quad.action, quad.o1, quad.o2)
+				self.mem.setValue(res, int(quad.res))
+
 			ip += 1
 
 	def relational_operation(self, action, o1, o2):
@@ -86,17 +92,17 @@ class VirtualMachine():
 		o2 = self.mem.getValue(int(o2))
 
 		if action == LTHAN:
-			return 'verdadero' if o1 < o2 else 'falso' 
+			return TRUE if o1 < o2 else FALSE 
 		elif action == GTHAN:
-			return 'verdadero' if o1 > o2 else 'falso'
+			return TRUE if o1 > o2 else FALSE
 		elif action == EQUAL:
-			return 'verdadero' if o1 == o2 else 'falso'
+			return TRUE if o1 == o2 else FALSE
 		elif action == DIFF:
-			return 'verdadero' if o1 != o2 else 'falso'
+			return TRUE if o1 != o2 else FALSE
 		elif action == LETHAN:
-			return 'verdadero' if o1 <= o2 else 'falso'
+			return TRUE if o1 <= o2 else FALSE
 		elif action == GETHAN:
-			return 'verdadero' if o1 >= o2 else 'falso'
+			return TRUE if o1 >= o2 else FALSE
 		print 'Error'
 		sys.exit()
 
@@ -112,6 +118,21 @@ class VirtualMachine():
 			return o1 * o2
 		elif action == DIV:
 			return o1 / o2
+		print 'Error'
+		sys.exit()
+
+	def and_or_operation(self, action, o1, o2):
+		o1 = self.mem.getValue(int(o1))
+		o2 = self.mem.getValue(int(o2))
+
+		o1 = True if o1 == TRUE else False
+		o2 = True if o2 == TRUE else False
+
+		if action == AND:
+			return TRUE if o1 and o2 else FALSE
+		elif action == OR:
+			return TRUE if o1 or o2 else FALSE
+
 		print 'Error'
 		sys.exit()
 
