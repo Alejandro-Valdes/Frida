@@ -8,12 +8,13 @@ programa pruebaFrida
 		variable bool bPintar;
 		variable entero i = 0;
 		variable entero lim = 0;
+		variable cadena res = 'si';
 
 		imprimir(edad);
 		
 		valido = verdadero;
 
-		/*imprimir('Hola, me llamo Frida');
+		imprimir('Hola, me llamo Frida');
 
 		imprimir('tu como te llamas:');
 		test = leer();
@@ -54,7 +55,7 @@ programa pruebaFrida
 		imprimir('endcheck');
 		imprimir(1002 != 1002);
 
-		imprimir(1002 != 1002 * 2);*/
+		imprimir(1002 != 1002 * 2);
 
 		imprimir('condiciones');
 
@@ -87,14 +88,21 @@ programa pruebaFrida
 
 		imprimir('fin condiciones');
 
-		imprimir('ciclos');
-		imprimir('cuantos ciclos');
-		lim = leer();
+		mientras(res == 'si'){
+			imprimir('ciclos');
+			imprimir('cuantos ciclos');
+			lim = leer();
 
-		mientras(i < lim){
-			imprimir ('ciclo #:');
-			imprimir (i);
-			i = i + 1;
+			mientras(i < lim){
+				imprimir ('ciclo #:');
+				imprimir (i);
+				i = i + 1;
+			}
+			imprimir('fin ciclo nest');
+			imprimir('Seguir (si, no): ');
+			res = leer();
 		}
+		imprimir('fin ciclo padre');
 
+		
 	}

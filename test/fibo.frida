@@ -1,0 +1,40 @@
+programa fibo
+	variable entero res = 0;
+
+	lienzo{
+		variable entero limite = 0;
+		variable entero x1 = 0, x2 = 1, temp;
+		variable entero cont = 1;
+
+		imprimir('Hasta que numero calculo:');
+		limite = leer();
+
+		si(limite == 0){
+			res = x1;
+		}
+		sino_pero(limite == 1){
+			res = x2;
+		}
+		sino{
+			mientras(cont < limite){
+
+				res = x1 + x2;
+
+				temp = x2;
+				x2 = x1 + x2;
+				x1 = temp;
+
+				cont = cont + 1;
+			}
+			/*
+			res  0 1 1 2 3 5 8 13 21 34 10
+			cont 0 1 2 3 4 5 6 7  8  9  55
+			*/
+		}
+
+		imprimir('Result:');
+		imprimir(res);
+		
+	}
+
+	
