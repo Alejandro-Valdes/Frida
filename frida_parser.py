@@ -110,8 +110,10 @@ def p_tipo_opt_fig_3(p):
 
 def p_ini_prim(p):
 	'ini_prim : ASSIGN push_operation logica'
-	
-	push_o(g.varName, 'var')
+
+	address = SymbolsTable.checkVarAddress(g.funcName, p[-2])
+	type = SymbolsTable.checkVarType(g.funcName, p[-2])
+	push_o(str(address), type)
 	assign_helper()
 
 # Inicializacion de arreglos con valores primarios
@@ -177,7 +179,7 @@ def p_cte(p):
 def p_push_string(p):
 	'push_string : empty'
 	type = getTypeCode('cadena')
-	address = CteMemory.getAddress(type, p[-1])
+	address = CteMemory.getAddress(type, p[-1][1:-1])
 	push_o(str(address), 'cadena')
 
 def p_push_int(p):

@@ -1,10 +1,15 @@
 programa pruebaFrida
+	variable bool valido;
 
 	lienzo {
 		variable cadena test;
 		variable decimal dPi;
-		variable entero edad;
+		variable entero edad = 2, test2;
 		variable bool bPintar;
+
+		imprimir(edad);
+		
+		valido = verdadero;
 
 		imprimir('Hola, me llamo Frida');
 
@@ -14,7 +19,8 @@ programa pruebaFrida
 
 		imprimir('Cuantos años tienes?');
 		edad = leer();
-		imprimir(edad);
+		test2 = edad;
+		imprimir(test2);
 
 		imprimir('Te gusta pintar?');
 		bPintar = leer();
@@ -48,13 +54,12 @@ programa pruebaFrida
 
 		imprimir(1002 != 1002 * 2);
 
-		si(dPi == dPi + 1){
+		si(valido){
 			imprimir('soy valido');
 		}
 		sino{
-			imprimir('no soy');
+			imprimir('no soy valido');
 		}
-
 
 
 	}
