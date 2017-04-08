@@ -3,6 +3,9 @@ from memory import *
 from semantic_cube import *
 import global_vars as g
 
+GOTO = 'GoTo'
+GOTOF = 'GoToF'
+
 class VirtualMachine():
 	def __init__(self, quad_list):
 		self.quad_list = quad_list
@@ -66,6 +69,15 @@ class VirtualMachine():
 			elif quad.action > MATHSTART and quad.action < MATHEND:
 				res = self.basic_math(quad.action, quad.o1, quad.o2)
 				self.mem.setValue(res, int(quad.res))
+
+			elif quad.action == GOTO:
+				ip = int(quad.res) - 1
+
+			elif quad.action == GOTOF:
+				if self.mem.getValue(int(quad.o1)) == 'falso':
+					ip = int(quad.res) - 1
+				else:
+					pass
 
 			ip += 1
 

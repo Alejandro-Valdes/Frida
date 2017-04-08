@@ -6,12 +6,14 @@ programa pruebaFrida
 		variable decimal dPi;
 		variable entero edad = 2, test2;
 		variable bool bPintar;
+		variable entero i = 0;
+		variable entero lim = 0;
 
 		imprimir(edad);
 		
 		valido = verdadero;
 
-		imprimir('Hola, me llamo Frida');
+		/*imprimir('Hola, me llamo Frida');
 
 		imprimir('tu como te llamas:');
 		test = leer();
@@ -52,14 +54,47 @@ programa pruebaFrida
 		imprimir('endcheck');
 		imprimir(1002 != 1002);
 
-		imprimir(1002 != 1002 * 2);
+		imprimir(1002 != 1002 * 2);*/
 
-		si(valido){
-			imprimir('soy valido');
+		imprimir('condiciones');
+
+		si(valido == falso){
+			imprimir('waka');
+		}
+		sino_pero(valido != verdadero){
+			imprimir('waka waka');
+		}
+		sino_pero(4 == 2){
+			imprimir('waka waka waka');
+		}
+		sino_pero(verdadero){
+			imprimir('waka waka waka waka');
+			si(4 == 4){
+				imprimir('nest');
+				si(4 != 4){
+					imprimir('nest');
+				}
+				sino{
+					si(4 == 2*2){
+						imprimir('super nest');
+					}
+				}
+			}
 		}
 		sino{
-			imprimir('no soy valido');
+			imprimir('waka waka waka waka waka');
 		}
 
+		imprimir('fin condiciones');
+
+		imprimir('ciclos');
+		imprimir('cuantos ciclos');
+		lim = leer();
+
+		mientras(i < lim){
+			imprimir ('ciclo #:');
+			imprimir (i);
+			i = i + 1;
+		}
 
 	}
