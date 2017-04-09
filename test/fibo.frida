@@ -2,7 +2,7 @@ programa fibo
 	variable entero res = 0;
 
 	lienzo{
-		variable entero limite = 0;
+		variable entero limite;
 		variable entero x1 = 0, x2 = 1, temp;
 		variable entero cont = 1;
 

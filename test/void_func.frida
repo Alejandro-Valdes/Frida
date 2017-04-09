@@ -1,0 +1,24 @@
+programa voidFunc
+
+	rutina void : print(entero: str2){
+		si(verdadero o 2 * 1 < 2){
+			imprimir(str2);
+		}
+		sino{
+			imprimir('const');
+		}
+		
+	}
+
+	lienzo{
+		variable entero str;	
+		variable entero x = 2;	
+		imprimir('Que imprimo:');
+		str = leer();
+
+		print(str);
+		print(32);
+		print(x);
+	}
+
+	

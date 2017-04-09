@@ -82,7 +82,7 @@ class VirtualMachine():
 					pass
 
 			elif quad.action > ANDORSTART and quad.action < ANDOREND:
-				res = self.and_or_operation(quad.action, quad.o1, quad.o2)
+				res = self.logic_operation(quad.action, quad.o1, quad.o2)
 				self.mem.setValue(res, int(quad.res))
 
 			ip += 1
@@ -121,7 +121,7 @@ class VirtualMachine():
 		print 'Error'
 		sys.exit()
 
-	def and_or_operation(self, action, o1, o2):
+	def logic_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
 		o2 = self.mem.getValue(int(o2))
 
