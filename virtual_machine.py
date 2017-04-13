@@ -17,7 +17,12 @@ class VirtualMachine():
 			quad = self.quad_list[ip]
 
 			if quad.action == PRINT:
-				print(self.mem.getValue(int(quad.res)))
+				if (self.mem.getValue(int(quad.res)) == TRUE):
+					print('verdadero')
+				elif (self.mem.getValue(int(quad.res)) == FALSE):
+					print('falso')
+				else:
+					print(self.mem.getValue(int(quad.res)))
 
 			elif quad.action == READ:
 				if quad.res < 9000:
@@ -26,7 +31,7 @@ class VirtualMachine():
 
 				elif quad.res >= 9000 and quad.res < 10000:
 					bRes = input()
-					if bRes == 'verdadero' or bRes == 'falso':
+					if bRes == TRUE or bRes == FALSE:
 						TempMemory.setValue(int(quad.res), bRes)
 					else:
 						print("Eso no es un bool")
@@ -72,7 +77,7 @@ class VirtualMachine():
 				ip = int(quad.res) - 1
 
 			elif quad.action == GOTOF:
-				if self.mem.getValue(int(quad.o1)) == 'falso':
+				if self.mem.getValue(int(quad.o1)) == FALSE:
 					ip = int(quad.res) - 1
 				else:
 					pass
