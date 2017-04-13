@@ -28,12 +28,12 @@ def p_cleanFunc(p):
 	'cleanFunc : empty'
 	LocalMemory.clearCount()
 	TempMemory.clearCount()
-	print 'impresion'
+	print('impresion')
 	LocalMemory.printLocalMem()
 	TempMemory.printTempMem()
 	GlobalMemory.printGlobalMem()
 	CteMemory.printCteMem()
-	print '+++++++++++'
+	print('+++++++++++')
 	g.funcParams = []
 	g.funcName = ''
 	g.nextType = ''

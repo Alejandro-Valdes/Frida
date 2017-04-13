@@ -4,15 +4,9 @@ from quadruples import *
 import global_vars as g
 from memory import *
 
-GOTO = 'GoTo'
-GOTOV = 'GoToV'
-GOTOF = 'GoToF'
-ENDPROC = 'ENDPROC'
-RETURN = 'RETURN'
-
 def p_init_quad(p):
 	'init_quad : empty'
-	quad = QuadrupleItem('goto', '','','')
+	quad = QuadrupleItem(GOTO, '','','')
 	Quadruple.add_quad(quad)
 
 def p_push_operation(p):
@@ -214,7 +208,7 @@ def p_check_return(p):
 	ret_type = SymbolsTable.checkFuncReturnType(g.funcName)
 
 	if ret_type == 'void':
-		print 'Error: funcion ' + g.funcName + ' de tipo void no puede tener estatuto de retorno'
+		print('Error: funcion ' + g.funcName + ' de tipo void no puede tener estatuto de retorno')
 		sys.exit()
 	else:
 		g.funcHasReturn = True
@@ -227,11 +221,11 @@ def p_check_return(p):
 		func_result = getResultType(getTypeCode(ret_type), getOperationCode('return'), act_type)
 
 		if func_result > 0:
-			quad = QuadrupleItem(RETURN, '', '', res)
+			quad = QuadrupleItem(RET, '', '', res)
 			Quadruple.add_quad(quad)
 			g.typeStack.append(func_result)
 		else:
-			print 'Error: funcion ' + g.funcName + ' de tipo '+ g.funcType +' no puede regresar valor de tipo ' + getTypeStr(act_type)
+			print('Error: funcion ' + g.funcName + ' de tipo '+ g.funcType +' no puede regresar valor de tipo ' + getTypeStr(act_type))
 			sys.exit()
 
 def p_gen_end_proc(p):
@@ -239,7 +233,7 @@ def p_gen_end_proc(p):
 
 	ret_type = SymbolsTable.checkFuncReturnType(g.funcName)
 	if ret_type != 'void' and g.funcHasReturn == False:
-		print 'Error: funcion ' + g.funcName + ' de tipo ' + g.funcType + ' no tiene estatuto de retorno'
+		print('Error: funcion ' + g.funcName + ' de tipo ' + g.funcType + ' no tiene estatuto de retorno')
 		sys.exit()
 	else:
 		g.funcHasReturn = False

@@ -3,10 +3,6 @@ from memory import *
 from semantic_cube import *
 import global_vars as g
 
-GOTO = 'GoTo'
-GOTOF = 'GoToF'
-TRUE = 'verdadero'
-FALSE = 'falso'
 
 class VirtualMachine():
 	def __init__(self, quad_list):
@@ -21,15 +17,15 @@ class VirtualMachine():
 			quad = self.quad_list[ip]
 
 			if quad.action == PRINT:
-				print self.mem.getValue(int(quad.res))
+				print(self.mem.getValue(int(quad.res)))
 
 			elif quad.action == READ:
 				if quad.res < 9000:
-					print 'error'
+					print('error')
 					sys.exit()
 
 				elif quad.res >= 9000 and quad.res < 10000:
-					bRes = raw_input()
+					bRes = input()
 					if bRes == 'verdadero' or bRes == 'falso':
 						TempMemory.setValue(int(quad.res), bRes)
 					else:
@@ -38,7 +34,7 @@ class VirtualMachine():
 
 				elif quad.res >= 10000 and quad.res < 11000:
 					try:
-						iRes = raw_input()
+						iRes = input()
 						TempMemory.setValue(int(quad.res), int(iRes))
 					except ValueError:
 						print("Eso no es un entero")
@@ -46,18 +42,18 @@ class VirtualMachine():
 
 				elif quad.res >= 11000 and quad.res < 12000:
 					try:
-						fRes = raw_input()
+						fRes = input()
 						TempMemory.setValue(int(quad.res), float(fRes))
 					except ValueError:
 						print("Eso no es un decimal")
 						sys.exit()
 
 				elif quad.res >= 12000 and quad.res < 13000:
-					sRes = raw_input()
+					sRes = input()
 					TempMemory.setValue(int(quad.res), sRes)
 
 				else:
-					print 'error'
+					print('error')
 					sys.exit()
 
 			elif quad.action == ASSIGN:
@@ -103,7 +99,7 @@ class VirtualMachine():
 			return TRUE if o1 <= o2 else FALSE
 		elif action == GETHAN:
 			return TRUE if o1 >= o2 else FALSE
-		print 'Error'
+		print('Error')
 		sys.exit()
 
 	def basic_math(self, action, o1, o2):
@@ -118,7 +114,7 @@ class VirtualMachine():
 			return o1 * o2
 		elif action == DIV:
 			return o1 / o2
-		print 'Error'
+		print('Error')
 		sys.exit()
 
 	def logic_operation(self, action, o1, o2):
@@ -133,7 +129,7 @@ class VirtualMachine():
 		elif action == OR:
 			return TRUE if o1 or o2 else FALSE
 
-		print 'Error'
+		print('Error')
 		sys.exit()
 
 

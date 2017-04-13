@@ -40,6 +40,13 @@ PRINT = 200
 READ = 300
 
 RET = 400
+
+GOTO = 1000
+GOTOF = 1001
+TRUE = 1002
+FALSE = 1003
+ENDPROC = 1005
+
 cubeDict = {}
 
 # Assignments
