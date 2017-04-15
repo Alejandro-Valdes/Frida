@@ -70,18 +70,22 @@ def p_tipo_opt(p):
 # Tipo Prim
 
 def p_tipo_opt_prim(p):
-	'tipo_opt_prim : add_var_name primitivo tipo_opt_prim_loop'
+	'tipo_opt_prim : expect_var_type primitivo tipo_opt_prim_loop'
 
 def p_tipo_opt_prim_loop(p):
-	'tipo_opt_prim_loop : ID add_var tipo_opt_prim_2 tipo_opt_prim_loop_2'
+	'tipo_opt_prim_loop : ID add_var_name tipo_opt_prim_2 add_var tipo_opt_prim_loop_2'
 
 def p_tipo_opt_prim_loop_2(p):
 	'''tipo_opt_prim_loop_2 : COMA tipo_opt_prim_loop
 		| empty'''
 
 def p_tipo_opt_prim_2(p):
-	'''tipo_opt_prim_2 : ini_prim 
-		| LBRACKET logica RBRACKET tipo_opt_prim_3
+	'''tipo_opt_prim_2 : add_var ini_prim 
+		| tipo_dimensions tipo_opt_prim_3
+		| empty'''
+
+def p_tipo_dimensions(p):
+	'''tipo_dimensions : LBRACKET INT add_dimensioned_var RBRACKET tipo_dimensions
 		| empty'''
 
 def p_tipo_opt_prim_3(p):
@@ -91,7 +95,7 @@ def p_tipo_opt_prim_3(p):
 # Tipo fig
 
 def p_tipo_opt_fig(p):
-	'tipo_opt_fig : add_var_name figura ID add_var tipo_opt_fig_2 tipo_opt_fig_loop'
+	'tipo_opt_fig : expect_var_type figura ID add_var tipo_opt_fig_2 tipo_opt_fig_loop'
 
 def p_tipo_opt_fig_loop(p):
 	'''tipo_opt_fig_loop : COMA tipo_opt_fig

@@ -3,6 +3,7 @@ from symbol_table import *
 from quadruples import *
 import global_vars as g
 from memory import *
+from dimension import *
 
 def p_init_quad(p):
 	'init_quad : empty'

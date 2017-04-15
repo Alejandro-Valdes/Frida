@@ -14,6 +14,9 @@ def init():
 	global jumpStack
 	global param_count
 	global funcHasReturn
+	global currentVarDimensions
+	global dimensionedVar
+	global processingVar
 	
 	oStack = []
 	operStack = []
@@ -28,3 +31,5 @@ def init():
 	varTypeSoon = False
 	varName = ''
 	funcHasReturn = False
+	currentVarDimensions = None
+	processingVar = False

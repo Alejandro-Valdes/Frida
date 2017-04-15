@@ -2,10 +2,11 @@ import sys
 
 class Variable:
 
-	def __init__(self, name, type, virtual_address, scope):
+	def __init__(self, name, type, virtual_address, scope, dimension_list):
 		self.name = name
 		self.type = type
 		self.virtual_address = virtual_address
+		self.dimension_list = dimension_list
 
 class Function:
 
@@ -71,18 +72,20 @@ class SymbolsTable:
 				print('name: ' + key)
 				print('return type: ' + function_dir[key].returnType)
 				print('quad count: ' + str(function_dir[key].quad_cont))
-				print('params : ' + ', '.join(function_dir[key].params))
+				print('params: ' + ', '.join(function_dir[key].params))
 				print('scoped variables:')
 				for var_key in function_dir[key].vars:
 					print('\t' + function_dir[key].vars[var_key].name + ' ' +function_dir[key].vars[var_key].type 
-						+ ' ' + str(function_dir[key].vars[var_key].virtual_address))
+						+ ' ' + str(function_dir[key].vars[var_key].virtual_address) + ' ' + str(function_dir[key].vars[var_key].dimension_list))
 				print('\n')
 
 	@classmethod
-	def add_var_to_func(cls, name, type, virtual_address, scope):
-		var = Variable(name, type, virtual_address, scope)
+	def add_var_to_func(cls, name, type, virtual_address, scope, dimension_list = None):
+		var = Variable(name, type, virtual_address, scope, dimension_list)
 		if scope in cls.function_dictionary:
 			cls.function_dictionary[scope].add_var(var)
+
+			return var
 		else:
 			print("Error: alcance " + scope + " no definido")
 			sys.exit()

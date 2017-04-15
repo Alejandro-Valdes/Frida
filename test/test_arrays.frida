@@ -1,0 +1,6 @@
+programa voidFunc
+
+	lienzo{
+		variable entero arreglo[10][10];
+		variable entero arreglo2[10][10];	
+	}
