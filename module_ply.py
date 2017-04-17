@@ -10,7 +10,7 @@ def p_mod_call_2(p):
 	global name
 	# p-3 to get func name
 	name = p[-3]
-	quad = QuadrupleItem('era', name, '' ,'')
+	quad = QuadrupleItem('era', Operand(name), Operand('') ,'')
 	Quadruple.add_quad(quad)
 	g.param_count = 0
 
@@ -25,7 +25,7 @@ def p_mod_call_3(p):
 		print('Error: Funcion ' + name + ' esperaba parametro de tipo '+ expected_type + ' pero me diste ' + getTypeStr(arg_type))
 		sys.exit()
 
-	quad = QuadrupleItem('param', arg , '', 'param' + str(g.param_count+1))
+	quad = QuadrupleItem('param', Operand(arg) , Operand(''), 'param' + str(g.param_count+1))
 	Quadruple.add_quad(quad)
 
 def p_mod_call_4(p):
@@ -53,7 +53,7 @@ def p_mod_call_6(p):
 	'mod_call_6 : empty'
 	global name
 	quadPointer = SymbolsTable.getFuncPI(name)
-	quad = QuadrupleItem('gosub', name, '' , str(quadPointer))
+	quad = QuadrupleItem('gosub', Operand(name), Operand('') , str(quadPointer))
 	Quadruple.add_quad(quad)
 
 

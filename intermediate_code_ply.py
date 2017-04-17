@@ -7,7 +7,7 @@ from dimension import *
 
 def p_init_quad(p):
 	'init_quad : empty'
-	quad = QuadrupleItem(GOTO, '','','')
+	quad = QuadrupleItem(GOTO, Operand(''), Operand(''), '')
 	Quadruple.add_quad(quad)
 
 def p_push_operation(p):
@@ -187,7 +187,7 @@ def p_while_2(p):
 		sys.exit()
 	else:
 		result = g.oStack.pop()
-		quad = QuadrupleItem(GOTOF, str(result), '', '')
+		quad = QuadrupleItem(GOTOF, Operand(str(result)), Operand(''), '')
 		Quadruple.add_quad(quad)
 
 		cont = len(Quadruple.quadruple_list)
@@ -198,7 +198,7 @@ def p_while_3(p):
 	'while_3 : empty'	
 	end = g.jumpStack.pop()
 	ret = g.jumpStack.pop()
-	quad = QuadrupleItem(GOTO, '', '', str(ret))
+	quad = QuadrupleItem(GOTO, Operand(''), Operand(''), str(ret))
 	Quadruple.add_quad(quad)
 	cont = len(Quadruple.quadruple_list)
 	Quadruple.quadruple_list[end].res = str(cont)
@@ -221,7 +221,7 @@ def p_check_return(p):
 		func_result = getResultType(getTypeCode(ret_type), getOperationCode('return'), act_type)
 
 		if func_result > 0:
-			quad = QuadrupleItem(RET, '', '', res)
+			quad = QuadrupleItem(RET, Operand(''), Operand(''), res)
 			Quadruple.add_quad(quad)
 			g.typeStack.append(func_result)
 		else:
@@ -238,7 +238,7 @@ def p_gen_end_proc(p):
 	else:
 		g.funcHasReturn = False
 
-	quad = QuadrupleItem(ENDPROC, '', '', '')
+	quad = QuadrupleItem(ENDPROC, Operand(''), Operand(''), '')
 	Quadruple.add_quad(quad)
 
 # -------- Arrays ----------
@@ -266,7 +266,7 @@ def p_assign_to_array(p):
 			resultType = getResultType(g.arrayType, operand, right_type)
 
 			if resultType > 0:
-				quad = QuadrupleItem(operand, last_val_mem, '' , int(g.arrayBase) + g.arrayAssignmentCounter) 
+				quad = QuadrupleItem(operand, Operand(last_val_mem), Operand(''), int(g.arrayBase) + g.arrayAssignmentCounter) 
 				Quadruple.add_quad(quad)
 				g.arrayAssignmentCounter += 1
 			else:

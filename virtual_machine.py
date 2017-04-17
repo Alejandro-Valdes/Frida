@@ -61,28 +61,28 @@ class VirtualMachine():
 					sys.exit()
 
 			elif quad.action == ASSIGN:
-				res = self.mem.getValue(int(quad.o1))
+				res = self.mem.getValue(int(quad.o1.val))
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action > RELSTART and quad.action < RELEND:
-				res = self.relational_operation(quad.action, quad.o1, quad.o2)
+				res = self.relational_operation(quad.action, quad.o1.val, quad.o2.val)
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action > MATHSTART and quad.action < MATHEND:
-				res = self.basic_math(quad.action, quad.o1, quad.o2)
+				res = self.basic_math(quad.action, quad.o1.val, quad.o2.val)
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action == GOTO:
 				ip = int(quad.res) - 1
 
 			elif quad.action == GOTOF:
-				if self.mem.getValue(int(quad.o1)) == FALSE:
+				if self.mem.getValue(int(quad.o1.val)) == FALSE:
 					ip = int(quad.res) - 1
 				else:
 					pass
 
 			elif quad.action > ANDORSTART and quad.action < ANDOREND:
-				res = self.logic_operation(quad.action, quad.o1, quad.o2)
+				res = self.logic_operation(quad.action, quad.o1.val, quad.o2.val)
 				self.mem.setValue(res, int(quad.res))
 
 			ip += 1
