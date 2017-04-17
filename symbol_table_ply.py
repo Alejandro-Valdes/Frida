@@ -118,7 +118,7 @@ def p_add_var(p):
 			SymbolsTable.add_var_to_func(g.varName, g.nextType, virtual_address, g.funcName)
 		else:
 			g.currentVarDimensions.calculate_constants()
-			size = g.currentVarDimensions.totalSize
+			size = g.currentVarDimensions.total_size
 
 			if g.funcName == 'global':
 				virtual_address = GlobalMemory.getAddress(getTypeCode(g.nextType), size)

@@ -101,9 +101,9 @@ class SymbolsTable:
 	@classmethod
 	def checkVariable(cls, var, func):
 		if(var in cls.function_dictionary[func].vars):
-			pass
+			return cls.function_dictionary[func].vars[var]
 		elif(var in cls.function_dictionary['global'].vars):
-			pass
+			return cls.function_dictionary[func].vars[var]
 		else:
 			print('Error: ' + var + ' no esta definida dentro del alcance de la funcion ni como varible global')
 			sys.exit()
@@ -152,6 +152,8 @@ class SymbolsTable:
 			return cls.function_dictionary[func].quad_cont
 		else:
 			returnType -1
+
+
 
 
 

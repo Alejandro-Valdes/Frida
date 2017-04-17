@@ -29,7 +29,7 @@ class DimensionList():
 
 	def calculate_constants(self):
 		tmp = self.first
-		self.totalSize = self.r
+		self.total_size = self.r
 
 		while tmp:
 			tmp.m = self.r / (self.first.lim_sup + 1)
@@ -47,7 +47,7 @@ class DimensionList():
 			stringRep += 'lim: ' + str(aux.lim_sup) + ' m: ' + str(aux.m) + ' | '
 			aux = aux.next
 
-		stringRep += 'size: ' + str(self.totalSize)
+		stringRep += 'size: ' + str(self.total_size)
 
 		return stringRep
 

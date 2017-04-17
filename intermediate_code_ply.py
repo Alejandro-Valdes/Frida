@@ -246,8 +246,10 @@ def p_gen_end_proc(p):
 def p_init_array(p):
 	'init_array : empty'
 
-	address = SymbolsTable.checkVarAddress(g.funcName, p[-6])
-	type = SymbolsTable.checkVarType(g.funcName, p[-6])
+	g.varName = p[-6]
+
+	address = SymbolsTable.checkVarAddress(g.funcName, g.varName)
+	type = SymbolsTable.checkVarType(g.funcName, g.varName)
 	push_o(str(address), type)
 
 	if g.arrayBase == -1:
@@ -277,9 +279,13 @@ def p_assign_to_array(p):
 def p_finish_array_assignment(p):
 	'finish_array_assignment : empty'
 
-	# if g.arrayAssignmentCounter != 
+	var = SymbolsTable.checkVariable(g.varName, g.funcName)
 
-	g.arrayAssignmentCounter = 0
+	if g.arrayAssignmentCounter != var.dimension_list.total_size:
+		print('Error: Tamanio de asignacion no coincide con tamano de variable: ' + var.name)
+		sys.exit()
+
 	g.operStack.pop()
+	g.arrayAssignmentCounter = 0
 	g.arrayType = -1
 	g.arrayBase = -1
