@@ -101,7 +101,7 @@ def push_o(p, type):
 	g.typeStack.append(resType)
 
 def assign_helper():
-	if( len(g.operStack) > 0):
+	if(len(g.operStack) > 0):
 		if (g.operStack[-1] == getOperationCode('=')):
 
 			left_o = g.oStack.pop()
@@ -116,8 +116,7 @@ def assign_helper():
 				Quadruple.add_quad(quad)
 			else:
 				print('No puedo asignar ' + str(res) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(left_o) + ' por que es ' + getTypeStr(left_type))
-				sys.exit()
-
+				sys.exit()	
 
 def read_helper():
 	address = TempMemory.getAddress(getTypeCode(g.nextType))
@@ -241,3 +240,46 @@ def p_gen_end_proc(p):
 
 	quad = QuadrupleItem(ENDPROC, '', '', '')
 	Quadruple.add_quad(quad)
+
+# -------- Arrays ----------
+
+def p_init_array(p):
+	'init_array : empty'
+
+	address = SymbolsTable.checkVarAddress(g.funcName, p[-6])
+	type = SymbolsTable.checkVarType(g.funcName, p[-6])
+	push_o(str(address), type)
+
+	if g.arrayBase == -1:
+		g.arrayBase = g.oStack.pop()
+		g.arrayType = g.typeStack.pop()
+
+def p_assign_to_array(p):
+	'assign_to_array : empty'
+
+	if(len(g.operStack) > 0):
+		if (g.operStack[-1] == getOperationCode('=')):
+
+			last_val_mem = g.oStack.pop()
+			operand = getOperationCode('=')
+			right_type = g.typeStack.pop()
+			resultType = getResultType(g.arrayType, operand, right_type)
+
+			if resultType > 0:
+				quad = QuadrupleItem(operand, last_val_mem, '' , int(g.arrayBase) + g.arrayAssignmentCounter) 
+				Quadruple.add_quad(quad)
+				g.arrayAssignmentCounter += 1
+			else:
+				print('No puedo asignar ' + str(last_val_mem) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(g.arrayBase) + ' por que es ' + getTypeStr(g.arrayType))
+				sys.exit()	
+
+
+def p_finish_array_assignment(p):
+	'finish_array_assignment : empty'
+
+	# if g.arrayAssignmentCounter != 
+
+	g.arrayAssignmentCounter = 0
+	g.operStack.pop()
+	g.arrayType = -1
+	g.arrayBase = -1

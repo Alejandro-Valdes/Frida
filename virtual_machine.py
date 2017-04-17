@@ -3,7 +3,6 @@ from memory import *
 from semantic_cube import *
 import global_vars as g
 
-
 class VirtualMachine():
 	def __init__(self, quad_list):
 		self.quad_list = quad_list

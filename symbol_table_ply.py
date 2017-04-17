@@ -117,7 +117,8 @@ def p_add_var(p):
 			
 			SymbolsTable.add_var_to_func(g.varName, g.nextType, virtual_address, g.funcName)
 		else:
-			size = g.currentVarDimensions.r
+			g.currentVarDimensions.calculate_constants()
+			size = g.currentVarDimensions.totalSize
 
 			if g.funcName == 'global':
 				virtual_address = GlobalMemory.getAddress(getTypeCode(g.nextType), size)
@@ -128,7 +129,7 @@ def p_add_var(p):
 
 			g.currentVarDimensions = None
 
-		processingVar = False
+		g.processingVar = False
 
 
 def p_add_dimensioned_var(p):
@@ -138,15 +139,6 @@ def p_add_dimensioned_var(p):
 		g.currentVarDimensions = DimensionList(p[-1])
 	else: 
 		g.currentVarDimensions.add_dimension(p[-1])
-
-	# size = g.lastVar.dimension_list.r - 1
-	# print("size: " + str(size))
-
-	# # The memory assigned for the current variable is size - 1 since it has already been assigned a slot in memory 
-	# if g.funcName == 'global':
-	# 	virtual_address = GlobalMemory.getAddress(getTypeCode(g.nextType), size)
-	# else:
-	# 	virtual_address = LocalMemory.getAddress(getTypeCode(g.nextType), size)
 
 def p_add_quad_count(p):
 	'add_quad_count : empty'

@@ -50,7 +50,6 @@ def p_rutinas(p):
 	'''rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFuncParam bloque_rutina gen_end_proc cleanFunc rutinas_loop 
 		| empty'''
 
-
 def p_rutina_opt(p):
 	'''rutina_opt : primitivo
 		| figura
@@ -73,15 +72,15 @@ def p_tipo_opt_prim(p):
 	'tipo_opt_prim : expect_var_type primitivo tipo_opt_prim_loop'
 
 def p_tipo_opt_prim_loop(p):
-	'tipo_opt_prim_loop : ID add_var_name tipo_opt_prim_2 add_var tipo_opt_prim_loop_2'
+	'tipo_opt_prim_loop : ID add_var_name tipo_opt_prim_2 tipo_opt_prim_loop_2'
 
 def p_tipo_opt_prim_loop_2(p):
 	'''tipo_opt_prim_loop_2 : COMA tipo_opt_prim_loop
 		| empty'''
 
 def p_tipo_opt_prim_2(p):
-	'''tipo_opt_prim_2 : add_var ini_prim 
-		| tipo_dimensions tipo_opt_prim_3
+	'''tipo_opt_prim_2 : ini_prim
+		| tipo_dimensions add_var tipo_opt_prim_3
 		| empty'''
 
 def p_tipo_dimensions(p):
@@ -92,18 +91,22 @@ def p_tipo_opt_prim_3(p):
 	'''tipo_opt_prim_3 : ini_prim_v 
 		| empty '''
 
+def p_print_hola(p):
+	'print_hola : empty'
+	print('hola')
+
 # Tipo fig
 
 def p_tipo_opt_fig(p):
-	'tipo_opt_fig : expect_var_type figura ID add_var tipo_opt_fig_2 tipo_opt_fig_loop'
+	'tipo_opt_fig : expect_var_type figura ID add_var_name tipo_opt_fig_2 add_var tipo_opt_fig_loop'
 
 def p_tipo_opt_fig_loop(p):
 	'''tipo_opt_fig_loop : COMA tipo_opt_fig
 		| empty'''
 
 def p_tipo_opt_fig_2(p):
-	'''tipo_opt_fig_2 : ini_fgra 
-		| LBRACKET logica RBRACKET tipo_opt_fig_3 
+	'''tipo_opt_fig_2 : ini_fgra
+		| LBRACKET INT add_dimensioned_var RBRACKET tipo_opt_fig_3 
 		| empty '''
 
 def p_tipo_opt_fig_3(p):
@@ -113,31 +116,31 @@ def p_tipo_opt_fig_3(p):
 # Inicializacion de valores primitivos
 
 def p_ini_prim(p):
-	'ini_prim : ASSIGN push_operation logica'
+	'ini_prim : ASSIGN push_operation add_var logica'
 
 	address = SymbolsTable.checkVarAddress(g.funcName, p[-2])
 	type = SymbolsTable.checkVarType(g.funcName, p[-2])
 	push_o(str(address), type)
 	assign_helper()
 
-# Inicializacion de arreglos con valores primarios
+# Inicializacion de arreglos con valores primitivos
 
 def p_ini_prim_v(p):
-	'ini_prim_v : ASSIGN LBRACE logica ini_prim_v_loop RBRACE'
+	'ini_prim_v : ASSIGN push_operation init_array LBRACE cte assign_to_array ini_prim_v_loop RBRACE finish_array_assignment'
 
 def p_ini_prim_v_loop(p):
-	'''ini_prim_v_loop : COMA logica ini_prim_v_loop 
+	'''ini_prim_v_loop : COMA cte assign_to_array ini_prim_v_loop 
 		| empty'''
 
 # Inicializacion de figuras
 
 def p_ini_fgra(p):
-	'ini_fgra : ASSIGN fgra_nva'
+	'ini_fgra : ASSIGN push_operation fgra_nva'
 
 # Inicializacion de arreglos de figuras
 
 def p_ini_fgra_v(p):
-	'ini_fgra_v : ASSIGN LBRACE fgra_nva ini_fgras_v_loop RBRACE'
+	'ini_fgra_v : ASSIGN push_operation LBRACE fgra_nva ini_fgras_v_loop RBRACE'
 
 def p_ini_fgras_v_loop(p):
 	'''ini_fgras_v_loop : COMA fgra_nva ini_fgras_v_loop
@@ -225,7 +228,6 @@ def p_param_list_loop(p):
 def p_tipo_param(p):
 	'''tipo_param : primitivo 
 		| figura''' 
-
 
 # lienzo
 

@@ -17,6 +17,9 @@ def init():
 	global currentVarDimensions
 	global dimensionedVar
 	global processingVar
+	global arrayAssignmentCounter
+	global arrayBase
+	global arrayType
 	
 	oStack = []
 	operStack = []
@@ -33,3 +36,6 @@ def init():
 	funcHasReturn = False
 	currentVarDimensions = None
 	processingVar = False
+	arrayAssignmentCounter = 0
+	arrayBase = -1
+	arrayType = -1
