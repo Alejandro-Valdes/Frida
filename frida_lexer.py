@@ -112,14 +112,14 @@ t_DOUBLE = r'\d+(\.\d+)'
 t_TRUE = r'verdadero'
 t_FALSE = r'falso'
 t_STRING = r'(\'.*\' | \".*\")'
-t_COMMENT = r'\/\*(\*(?!\/)|[^*])*\*\/'
+t_ignore_COMMENT = r'\/\*(\*(?!\/)|[^*])*\*\/'
 
 t_CTECOLOR = r'\"(rojo|azul|verde|amarillo|rosa)\"'
 
 t_CTEHEXCOLOR = r'\"\#([0-9a-fA-F]{6} | [0-9a-fA-F]{3})\"'
 
 t_CTEFUNCION = r'\"(([x]|[0-9]+(.[0-9]+)?))+([+\-*/^]([xX]|([0-9]+(.[0-9]+)?)+))+\"'
-t_ignore = ' \t'
+t_ignore = '\t'
 
 #Funciones para tokens que necesitan funcionalidad extra
 
