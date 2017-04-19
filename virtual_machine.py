@@ -2,11 +2,18 @@ import sys
 from memory import *
 from semantic_cube import *
 import global_vars as g
+try:
+    from Tkinter import *
+except ImportError:
+    from tkinter import *
 
 class VirtualMachine():
 	def __init__(self, quad_list):
 		self.quad_list = quad_list
 		self.mem = Memory()
+		self.frida_gui = Tk()
+		self.canvas = Canvas(self.frida_gui, width = 750, height = 600)
+		self.canvas.pack()
 
 	def run_list(self):
 		print('\nOutput: ')
@@ -87,13 +94,13 @@ class VirtualMachine():
 				res = self.logic_operation(quad.action, quad.o1.val, quad.o2.val)
 				self.mem.setValue(res, int(quad.res))
 
-			elif quad.action == 'FIG':
+			elif quad.action == FIG:
 				fig_name = str(quad.o1)
 
-			elif quad.action == 'F_PAR':
+			elif quad.action == F_PAR:
 				fig_param_stack.append(int(quad.res))
 
-			elif quad.action == 'F_FIN':
+			elif quad.action == F_FIN:
 				self.drawShape(fig_name, fig_param_stack)
 
 			ip += 1
@@ -104,11 +111,9 @@ class VirtualMachine():
 			pos_y = self.mem.getValue(fig_param_stack.pop())
 			pos_x = self.mem.getValue(fig_param_stack.pop())
 			sqr_len = self.mem.getValue(fig_param_stack.pop())
+			cuadrado = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
 
-			print(color)
-			print(pos_y)
-			print(pos_x)
-			print(sqr_len)
+			
 
 	def relational_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))

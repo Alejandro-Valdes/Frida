@@ -256,7 +256,7 @@ def p_push_fig_param(p):
 
 def p_fgra_fin(p):
 	'fgra_fin : empty'
-	quad = QuadrupleItem(F_PAR, Operand(''), Operand(''), '')
+	quad = QuadrupleItem(F_FIN, Operand(''), Operand(''), '')
 	Quadruple.add_quad(quad)
 
 # -------- Arrays ----------
