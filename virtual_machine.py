@@ -105,12 +105,10 @@ class VirtualMachine():
 			pos_x = self.mem.getValue(fig_param_stack.pop())
 			sqr_len = self.mem.getValue(fig_param_stack.pop())
 
-			print color
-			print pos_y
-			print pos_x
-			print sqr_len
-
-
+			print(color)
+			print(pos_y)
+			print(pos_x)
+			print(sqr_len)
 
 	def relational_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))

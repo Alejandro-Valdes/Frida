@@ -47,6 +47,11 @@ TRUE = 1002
 FALSE = 1003
 ENDPROC = 1005
 
+# Language native functions
+FIG = 2000
+F_PAR = 2001
+F_FIN = 2002
+
 cubeDict = {}
 
 # Assignments

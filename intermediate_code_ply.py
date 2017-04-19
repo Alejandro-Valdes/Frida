@@ -244,19 +244,19 @@ def p_gen_end_proc(p):
 def  p_save_fig(p):
 	'save_fig : empty'
 	fig_name = p[-1]
-	quad = QuadrupleItem('FIG', str(p[-1]), '', '')
+	quad = QuadrupleItem(FIG, Operand(str(p[-1])), Operand(''), '')
 	Quadruple.add_quad(quad)
 
 def p_push_fig_param(p):
 	'push_fig_param : empty'
 	arg = g.oStack.pop()
 	arg_type = g.typeStack.pop()
-	quad = QuadrupleItem('F_PAR', '', '', arg)
+	quad = QuadrupleItem(F_PAR, Operand(''), Operand(''), arg)
 	Quadruple.add_quad(quad)
 
 def p_fgra_fin(p):
 	'fgra_fin : empty'
-	quad = QuadrupleItem('F_FIN', '', '', '')
+	quad = QuadrupleItem(F_PAR, Operand(''), Operand(''), '')
 	Quadruple.add_quad(quad)
 
 # -------- Arrays ----------
