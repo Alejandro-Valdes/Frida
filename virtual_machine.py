@@ -16,6 +16,8 @@ class VirtualMachine():
 	def run_list(self):
 		print('\nOutput: ')
 		ip = 0
+		fig_name = ''
+		fig_param_stack = []
 		
 		while ip < len(self.quad_list):
 			quad = self.quad_list[ip]
@@ -85,7 +87,30 @@ class VirtualMachine():
 				res = self.logic_operation(quad.action, quad.o1, quad.o2)
 				self.mem.setValue(res, int(quad.res))
 
+			elif quad.action == 'FIG':
+				fig_name = str(quad.o1)
+
+			elif quad.action == 'F_PAR':
+				fig_param_stack.append(int(quad.res))
+
+			elif quad.action == 'F_FIN':
+				self.drawShape(fig_name, fig_param_stack)
+
 			ip += 1
+
+	def drawShape(self, fig_name, fig_param_stack):
+		if fig_name == 'cuadrado':
+			color = self.mem.getValue(fig_param_stack.pop())
+			pos_y = self.mem.getValue(fig_param_stack.pop())
+			pos_x = self.mem.getValue(fig_param_stack.pop())
+			sqr_len = self.mem.getValue(fig_param_stack.pop())
+
+			print color
+			print pos_y
+			print pos_x
+			print sqr_len
+
+
 
 	def relational_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))

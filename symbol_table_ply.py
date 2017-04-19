@@ -115,3 +115,4 @@ def p_add_quad_count(p):
 
 	actual_quad_count = len(Quadruple.quadruple_list)
 	SymbolsTable.addQuadCountToFunc(g.funcName, actual_quad_count)
+

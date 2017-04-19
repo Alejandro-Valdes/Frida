@@ -12,6 +12,7 @@ def init():
 	global operStack
 	global typeStack
 	global jumpStack
+	global figParams
 	global param_count
 	global funcHasReturn
 	
@@ -20,6 +21,7 @@ def init():
 	jumpStack = []
 	typeStack = []
 	funcParams = []
+	figParams = []
 	funcType = None
 	nextType = None
 	funcName = None
