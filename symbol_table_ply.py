@@ -2,6 +2,7 @@ from symbol_table import *
 import global_vars as g
 from quadruples import Quadruple
 from memory import *
+from dimension import *
 
 # Defino variables globales a usar para la tabla de simbolos
 # REGLAS PARA TABLA DE SIMBOLOS
@@ -28,12 +29,12 @@ def p_cleanFunc(p):
 	'cleanFunc : empty'
 	LocalMemory.clearCount()
 	TempMemory.clearCount()
-	print 'impresion'
+	print('impresion')
 	LocalMemory.printLocalMem()
 	TempMemory.printTempMem()
 	GlobalMemory.printGlobalMem()
 	CteMemory.printCteMem()
-	print '+++++++++++'
+	print('+++++++++++')
 	g.funcParams = []
 	g.funcName = ''
 	g.nextType = ''
@@ -95,20 +96,49 @@ def p_add_main_scope(p):
 	mainPI = len(Quadruple.quadruple_list)
 	Quadruple.quadruple_list[0].res = str(mainPI) 
 
+def p_expect_var_type(p):
+	'expect_var_type : empty'
+	g.varTypeSoon = True
+
 def p_add_var_name(p):
 	'add_var_name : empty'
-	g.varTypeSoon = True
+	g.processingVar = True
+	g.varName = p[-1]
 
 def p_add_var(p):
 	'add_var : empty'
-	g.varName = p[-1]
 
-	if g.funcName == 'global':
-		virtual_address = GlobalMemory.getAddress(getTypeCode(g.nextType))
-	else:
-		virtual_address = LocalMemory.getAddress(getTypeCode(g.nextType))
-	
-	SymbolsTable.add_var_to_func(g.varName, g.nextType, virtual_address, g.funcName)
+	if g.processingVar:
+		if g.currentVarDimensions == None:
+			if g.funcName == 'global':
+				virtual_address = GlobalMemory.getAddress(getTypeCode(g.nextType))
+			else:
+				virtual_address = LocalMemory.getAddress(getTypeCode(g.nextType))
+			
+			SymbolsTable.add_var_to_func(g.varName, g.nextType, virtual_address, g.funcName)
+		else:
+			g.currentVarDimensions.calculate_constants()
+			size = g.currentVarDimensions.total_size
+
+			if g.funcName == 'global':
+				virtual_address = GlobalMemory.getAddress(getTypeCode(g.nextType), size)
+			else:
+				virtual_address = LocalMemory.getAddress(getTypeCode(g.nextType), size)
+
+			SymbolsTable.add_var_to_func(g.varName, g.nextType, virtual_address, g.funcName, g.currentVarDimensions)
+
+			g.currentVarDimensions = None
+
+		g.processingVar = False
+
+
+def p_add_dimensioned_var(p):
+	'add_dimensioned_var : empty'
+
+	if g.currentVarDimensions == None:
+		g.currentVarDimensions = DimensionList(p[-1])
+	else: 
+		g.currentVarDimensions.add_dimension(p[-1])
 
 def p_add_quad_count(p):
 	'add_quad_count : empty'

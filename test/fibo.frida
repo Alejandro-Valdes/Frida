@@ -10,7 +10,7 @@ programa fibo
 		imprimir('Hasta que numero calculo:');
 		limite = leer();
 
-		si(limite == 0){
+		si(limite == 0){		
 			res = x1;
 		}
 		sino_pero(limite == 1){
@@ -22,7 +22,7 @@ programa fibo
 				res = x1 + x2;
 
 				temp = x2;
-				x2 = x1 + x2;
+				x2 = res;
 				x1 = temp;
 
 				cont = cont + 1;

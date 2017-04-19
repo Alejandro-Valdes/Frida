@@ -3,11 +3,6 @@ from memory import *
 from semantic_cube import *
 import global_vars as g
 
-GOTO = 'GoTo'
-GOTOF = 'GoToF'
-TRUE = 'verdadero'
-FALSE = 'falso'
-
 class VirtualMachine():
 	def __init__(self, quad_list):
 		self.quad_list = quad_list
@@ -23,16 +18,21 @@ class VirtualMachine():
 			quad = self.quad_list[ip]
 
 			if quad.action == PRINT:
-				print self.mem.getValue(int(quad.res))
+				if (self.mem.getValue(int(quad.res)) == TRUE):
+					print('verdadero')
+				elif (self.mem.getValue(int(quad.res)) == FALSE):
+					print('falso')
+				else:
+					print(self.mem.getValue(int(quad.res)))
 
 			elif quad.action == READ:
 				if quad.res < 9000:
-					print 'error'
+					print('error')
 					sys.exit()
 
 				elif quad.res >= 9000 and quad.res < 10000:
-					bRes = raw_input()
-					if bRes == 'verdadero' or bRes == 'falso':
+					bRes = input()
+					if bRes == TRUE or bRes == FALSE:
 						TempMemory.setValue(int(quad.res), bRes)
 					else:
 						print("Eso no es un bool")
@@ -40,7 +40,7 @@ class VirtualMachine():
 
 				elif quad.res >= 10000 and quad.res < 11000:
 					try:
-						iRes = raw_input()
+						iRes = input()
 						TempMemory.setValue(int(quad.res), int(iRes))
 					except ValueError:
 						print("Eso no es un entero")
@@ -48,43 +48,43 @@ class VirtualMachine():
 
 				elif quad.res >= 11000 and quad.res < 12000:
 					try:
-						fRes = raw_input()
+						fRes = input()
 						TempMemory.setValue(int(quad.res), float(fRes))
 					except ValueError:
 						print("Eso no es un decimal")
 						sys.exit()
 
 				elif quad.res >= 12000 and quad.res < 13000:
-					sRes = raw_input()
+					sRes = input()
 					TempMemory.setValue(int(quad.res), sRes)
 
 				else:
-					print 'error'
+					print('error')
 					sys.exit()
 
 			elif quad.action == ASSIGN:
-				res = self.mem.getValue(int(quad.o1))
+				res = self.mem.getValue(int(quad.o1.val))
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action > RELSTART and quad.action < RELEND:
-				res = self.relational_operation(quad.action, quad.o1, quad.o2)
+				res = self.relational_operation(quad.action, quad.o1.val, quad.o2.val)
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action > MATHSTART and quad.action < MATHEND:
-				res = self.basic_math(quad.action, quad.o1, quad.o2)
+				res = self.basic_math(quad.action, quad.o1.val, quad.o2.val)
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action == GOTO:
 				ip = int(quad.res) - 1
 
 			elif quad.action == GOTOF:
-				if self.mem.getValue(int(quad.o1)) == 'falso':
+				if self.mem.getValue(int(quad.o1.val)) == FALSE:
 					ip = int(quad.res) - 1
 				else:
 					pass
 
 			elif quad.action > ANDORSTART and quad.action < ANDOREND:
-				res = self.logic_operation(quad.action, quad.o1, quad.o2)
+				res = self.logic_operation(quad.action, quad.o1.val, quad.o2.val)
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action == 'FIG':
@@ -128,7 +128,7 @@ class VirtualMachine():
 			return TRUE if o1 <= o2 else FALSE
 		elif action == GETHAN:
 			return TRUE if o1 >= o2 else FALSE
-		print 'Error'
+		print('Error')
 		sys.exit()
 
 	def basic_math(self, action, o1, o2):
@@ -143,7 +143,7 @@ class VirtualMachine():
 			return o1 * o2
 		elif action == DIV:
 			return o1 / o2
-		print 'Error'
+		print('Error')
 		sys.exit()
 
 	def logic_operation(self, action, o1, o2):
@@ -158,7 +158,7 @@ class VirtualMachine():
 		elif action == OR:
 			return TRUE if o1 or o2 else FALSE
 
-		print 'Error'
+		print('Error')
 		sys.exit()
 
 

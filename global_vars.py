@@ -15,6 +15,12 @@ def init():
 	global figParams
 	global param_count
 	global funcHasReturn
+	global currentVarDimensions
+	global dimensionedVar
+	global processingVar
+	global arrayAssignmentCounter
+	global arrayBase
+	global arrayType
 	
 	oStack = []
 	operStack = []
@@ -30,3 +36,8 @@ def init():
 	varTypeSoon = False
 	varName = ''
 	funcHasReturn = False
+	currentVarDimensions = None
+	processingVar = False
+	arrayAssignmentCounter = 0
+	arrayBase = -1
+	arrayType = -1

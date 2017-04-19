@@ -3,16 +3,11 @@ from symbol_table import *
 from quadruples import *
 import global_vars as g
 from memory import *
-
-GOTO = 'GoTo'
-GOTOV = 'GoToV'
-GOTOF = 'GoToF'
-ENDPROC = 'ENDPROC'
-RETURN = 'RETURN'
+from dimension import *
 
 def p_init_quad(p):
 	'init_quad : empty'
-	quad = QuadrupleItem('goto', '','','')
+	quad = QuadrupleItem(GOTO, Operand(''), Operand(''), '')
 	Quadruple.add_quad(quad)
 
 def p_push_operation(p):
@@ -106,7 +101,7 @@ def push_o(p, type):
 	g.typeStack.append(resType)
 
 def assign_helper():
-	if( len(g.operStack) > 0):
+	if(len(g.operStack) > 0):
 		if (g.operStack[-1] == getOperationCode('=')):
 
 			left_o = g.oStack.pop()
@@ -121,8 +116,7 @@ def assign_helper():
 				Quadruple.add_quad(quad)
 			else:
 				print('No puedo asignar ' + str(res) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(left_o) + ' por que es ' + getTypeStr(left_type))
-				sys.exit()
-
+				sys.exit()	
 
 def read_helper():
 	address = TempMemory.getAddress(getTypeCode(g.nextType))
@@ -193,7 +187,7 @@ def p_while_2(p):
 		sys.exit()
 	else:
 		result = g.oStack.pop()
-		quad = QuadrupleItem(GOTOF, str(result), '', '')
+		quad = QuadrupleItem(GOTOF, Operand(str(result)), Operand(''), '')
 		Quadruple.add_quad(quad)
 
 		cont = len(Quadruple.quadruple_list)
@@ -204,7 +198,7 @@ def p_while_3(p):
 	'while_3 : empty'	
 	end = g.jumpStack.pop()
 	ret = g.jumpStack.pop()
-	quad = QuadrupleItem(GOTO, '', '', str(ret))
+	quad = QuadrupleItem(GOTO, Operand(''), Operand(''), str(ret))
 	Quadruple.add_quad(quad)
 	cont = len(Quadruple.quadruple_list)
 	Quadruple.quadruple_list[end].res = str(cont)
@@ -214,7 +208,7 @@ def p_check_return(p):
 	ret_type = SymbolsTable.checkFuncReturnType(g.funcName)
 
 	if ret_type == 'void':
-		print 'Error: funcion ' + g.funcName + ' de tipo void no puede tener estatuto de retorno'
+		print('Error: funcion ' + g.funcName + ' de tipo void no puede tener estatuto de retorno')
 		sys.exit()
 	else:
 		g.funcHasReturn = True
@@ -227,11 +221,11 @@ def p_check_return(p):
 		func_result = getResultType(getTypeCode(ret_type), getOperationCode('return'), act_type)
 
 		if func_result > 0:
-			quad = QuadrupleItem(RETURN, '', '', res)
+			quad = QuadrupleItem(RET, Operand(''), Operand(''), res)
 			Quadruple.add_quad(quad)
 			g.typeStack.append(func_result)
 		else:
-			print 'Error: funcion ' + g.funcName + ' de tipo '+ g.funcType +' no puede regresar valor de tipo ' + getTypeStr(act_type)
+			print('Error: funcion ' + g.funcName + ' de tipo '+ g.funcType +' no puede regresar valor de tipo ' + getTypeStr(act_type))
 			sys.exit()
 
 def p_gen_end_proc(p):
@@ -239,12 +233,12 @@ def p_gen_end_proc(p):
 
 	ret_type = SymbolsTable.checkFuncReturnType(g.funcName)
 	if ret_type != 'void' and g.funcHasReturn == False:
-		print 'Error: funcion ' + g.funcName + ' de tipo ' + g.funcType + ' no tiene estatuto de retorno'
+		print('Error: funcion ' + g.funcName + ' de tipo ' + g.funcType + ' no tiene estatuto de retorno')
 		sys.exit()
 	else:
 		g.funcHasReturn = False
 
-	quad = QuadrupleItem(ENDPROC, '', '', '')
+	quad = QuadrupleItem(ENDPROC, Operand(''), Operand(''), '')
 	Quadruple.add_quad(quad)
 
 def  p_save_fig(p):
@@ -264,3 +258,52 @@ def p_fgra_fin(p):
 	'fgra_fin : empty'
 	quad = QuadrupleItem('F_FIN', '', '', '')
 	Quadruple.add_quad(quad)
+
+# -------- Arrays ----------
+
+def p_init_array(p):
+	'init_array : empty'
+
+	g.varName = p[-6]
+
+	address = SymbolsTable.checkVarAddress(g.funcName, g.varName)
+	type = SymbolsTable.checkVarType(g.funcName, g.varName)
+	push_o(str(address), type)
+
+	if g.arrayBase == -1:
+		g.arrayBase = g.oStack.pop()
+		g.arrayType = g.typeStack.pop()
+
+def p_assign_to_array(p):
+	'assign_to_array : empty'
+
+	if(len(g.operStack) > 0):
+		if (g.operStack[-1] == getOperationCode('=')):
+
+			last_val_mem = g.oStack.pop()
+			operand = getOperationCode('=')
+			right_type = g.typeStack.pop()
+			resultType = getResultType(g.arrayType, operand, right_type)
+
+			if resultType > 0:
+				quad = QuadrupleItem(operand, Operand(last_val_mem), Operand(''), int(g.arrayBase) + g.arrayAssignmentCounter) 
+				Quadruple.add_quad(quad)
+				g.arrayAssignmentCounter += 1
+			else:
+				print('No puedo asignar ' + str(last_val_mem) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(g.arrayBase) + ' por que es ' + getTypeStr(g.arrayType))
+				sys.exit()	
+
+
+def p_finish_array_assignment(p):
+	'finish_array_assignment : empty'
+
+	var = SymbolsTable.checkVariable(g.varName, g.funcName)
+
+	if g.arrayAssignmentCounter != var.dimension_list.total_size:
+		print('Error: Tamanio de asignacion no coincide con tamano de variable: ' + var.name)
+		sys.exit()
+
+	g.operStack.pop()
+	g.arrayAssignmentCounter = 0
+	g.arrayType = -1
+	g.arrayBase = -1

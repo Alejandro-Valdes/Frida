@@ -1,6 +1,19 @@
 import sys
 from virtual_machine import VirtualMachine
 
+class Operand():
+	def __init__(self, val, is_address = False):
+		self.val = val
+		self.is_address = is_address
+
+	def __str__(self):
+		string_rep = ''
+
+		if self.is_address:
+			string_rep = '*'
+
+		return string_rep + str(self.val)
+
 class QuadrupleItem():
 	def __init__(self, action, o1, o2, res):
 		self.action = action

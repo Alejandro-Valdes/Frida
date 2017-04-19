@@ -1,0 +1,6 @@
+programa voidFunc
+	variable entero miEntero = 10;	
+
+	lienzo{
+		variable entero arreglo[10] = { 10, 5, 20 };
+	}
