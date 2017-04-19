@@ -98,10 +98,13 @@ def p_print_hola(p):
 # Tipo fig
 
 def p_tipo_opt_fig(p):
-	'tipo_opt_fig : expect_var_type figura ID add_var_name tipo_opt_fig_2 add_var tipo_opt_fig_loop'
+	'tipo_opt_fig : add_var_name figura tipo_opt_fig_loop'
 
 def p_tipo_opt_fig_loop(p):
-	'''tipo_opt_fig_loop : COMA tipo_opt_fig
+	'tipo_opt_fig_loop : ID add_var tipo_opt_fig_2 tipo_opt_fig_loop_2'
+
+def p_tipo_opt_fig_loop_2(p):
+	'''tipo_opt_fig_loop_2 : COMA tipo_opt_fig_loop
 		| empty'''
 
 def p_tipo_opt_fig_2(p):
@@ -135,7 +138,7 @@ def p_ini_prim_v_loop(p):
 # Inicializacion de figuras
 
 def p_ini_fgra(p):
-	'ini_fgra : ASSIGN push_operation fgra_nva'
+	'ini_fgra : ASSIGN fgra_nva fgra_fin'
 
 # Inicializacion de arreglos de figuras
 
@@ -151,14 +154,14 @@ def p_fgra_nva(p):
 		| empty'''
 
 def p_fgra_atr(p):
-	'''fgra_atr : PINCEL LPARENTHESIS fgra_atr_end 
-		| CUAD LPARENTHESIS exp COMA fgra_atr_end 
-		| CIRC LPARENTHESIS exp COMA fgra_atr_end
-		| RECT LPARENTHESIS exp COMA exp COMA fgra_atr_end
-		| TRIANG LPARENTHESIS exp COMA exp COMA exp COMA exp COMA fgra_atr_end'''
+	'''fgra_atr : PINCEL save_fig LPARENTHESIS fgra_atr_end 
+		| CUAD save_fig LPARENTHESIS exp push_fig_param COMA fgra_atr_end 
+		| CIRC save_fig LPARENTHESIS exp push_fig_param COMA fgra_atr_end
+		| RECT save_fig LPARENTHESIS exp push_fig_param COMA exp push_fig_param COMA fgra_atr_end
+		| TRIANG save_fig LPARENTHESIS exp push_fig_param COMA exp push_fig_param COMA exp push_fig_param COMA exp push_fig_param COMA fgra_atr_end'''
 
 def p_fgra_atr_end(p):
-	'fgra_atr_end : exp COMA exp COMA color RPARENTHESIS'
+	'fgra_atr_end : exp push_fig_param COMA exp push_fig_param COMA color push_fig_param RPARENTHESIS'
 
 # Data types
 
@@ -465,8 +468,8 @@ def p_accion_pincel_opt_end(p):
 
 # Color
 def p_color(p):
-	'''color : CTECOLOR
-		| CTEHEXCOLOR'''
+	'''color : CTECOLOR push_string
+		| CTEHEXCOLOR push_string'''
 
 # Error rule se tiene que agregar
 # Nos indica el error y el numero de linea donde esta
