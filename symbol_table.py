@@ -103,7 +103,7 @@ class SymbolsTable:
 		if(var in cls.function_dictionary[func].vars):
 			return cls.function_dictionary[func].vars[var]
 		elif(var in cls.function_dictionary['global'].vars):
-			return cls.function_dictionary[func].vars[var]
+			return cls.function_dictionary['global'].vars[var]
 		else:
 			print('Error: ' + var + ' no esta definida dentro del alcance de la funcion ni como varible global')
 			sys.exit()

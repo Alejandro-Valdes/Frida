@@ -73,7 +73,7 @@ def quad_maker():
 
 		virtual_address = TempMemory.getAddress(resultType)
 
-		quad = QuadrupleItem(operand, left_o, right_o, virtual_address)
+		quad = QuadrupleItem(operand, Operand(left_o), Operand(right_o), virtual_address)
 		Quadruple.add_quad(quad)
 
 		g.oStack.append(virtual_address)
@@ -112,7 +112,7 @@ def assign_helper():
 			resultType = getResultType(left_type, operand, right_type)
 
 			if resultType > 0:
-				quad = QuadrupleItem(operand, res, '' , left_o)
+				quad = QuadrupleItem(operand, Operand(res), Operand(''), left_o)
 				Quadruple.add_quad(quad)
 			else:
 				print('No puedo asignar ' + str(res) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(left_o) + ' por que es ' + getTypeStr(left_type))
@@ -121,7 +121,7 @@ def assign_helper():
 def read_helper():
 	address = TempMemory.getAddress(getTypeCode(g.nextType))
 	opCode = getOperationCode('read')
-	quad = QuadrupleItem(opCode, '' , '' ,address)
+	quad = QuadrupleItem(opCode, Operand(''), Operand(''), address)
 	Quadruple.add_quad(quad)
 	g.oStack.append(address)
 	g.typeStack.append(getTypeCode(g.nextType))
@@ -129,7 +129,7 @@ def read_helper():
 def print_helper():
 	res = g.oStack.pop()
 	opCode = getOperationCode('print')
-	quad = QuadrupleItem(opCode, '' , '' ,res)
+	quad = QuadrupleItem(opCode, Operand(''), Operand(''),res)
 	Quadruple.add_quad(quad)
 
 # Inflection points
@@ -143,7 +143,7 @@ def p_if_1(p):
 		sys.exit()
 	else:
 		res = g.oStack.pop()
-		quad = QuadrupleItem(GOTOF, res, '', '')
+		quad = QuadrupleItem(GOTOF, Operand(res), Operand(''), '')
 		Quadruple.add_quad(quad)
 		cont = len(Quadruple.quadruple_list)
 		g.jumpStack.append(cont - 1)
@@ -165,7 +165,7 @@ def p_if_2(p):
 
 def p_if_else_3(p):
 	'if_else_3 : empty'
-	quad = QuadrupleItem(GOTO, '', '', '')
+	quad = QuadrupleItem(GOTO, Operand(''), Operand(''), '')
 	Quadruple.add_quad(quad)
 	false = g.jumpStack.pop()
 	cont = len(Quadruple.quadruple_list)
@@ -289,3 +289,4 @@ def p_finish_array_assignment(p):
 	g.arrayAssignmentCounter = 0
 	g.arrayType = -1
 	g.arrayBase = -1
+

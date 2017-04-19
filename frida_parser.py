@@ -72,7 +72,7 @@ def p_tipo_opt_prim(p):
 	'tipo_opt_prim : expect_var_type primitivo tipo_opt_prim_loop'
 
 def p_tipo_opt_prim_loop(p):
-	'tipo_opt_prim_loop : ID add_var_name tipo_opt_prim_2 tipo_opt_prim_loop_2'
+	'tipo_opt_prim_loop : ID add_var_name tipo_opt_prim_2 add_var tipo_opt_prim_loop_2'
 
 def p_tipo_opt_prim_loop_2(p):
 	'''tipo_opt_prim_loop_2 : COMA tipo_opt_prim_loop
@@ -400,7 +400,7 @@ def p_factor_opt_2(p):
 		| id_factor'''
 
 def p_id_factor(p):
-	'''id_factor : ID check_variable
+	'''id_factor : ID check_variable 
 		| llamadaExp'''
 	if(len(p) == 3):
 		address = SymbolsTable.checkVarAddress(g.funcName, p[1])
@@ -409,6 +409,10 @@ def p_id_factor(p):
 			push_o(str(address), type)
 		else:
 			push_o(p[1], 'var')
+
+def p_id_factor_opt(p):
+	'''id_factor_opt : ID 
+	'''
 
 # llamadaExp
 
