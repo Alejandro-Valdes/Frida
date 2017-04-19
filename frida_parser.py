@@ -138,11 +138,7 @@ def p_ini_prim_v_loop(p):
 # Inicializacion de figuras
 
 def p_ini_fgra(p):
-<<<<<<< HEAD
 	'ini_fgra : ASSIGN fgra_nva fgra_fin'
-=======
-	'ini_fgra : ASSIGN push_operation fgra_nva'
->>>>>>> a0a2d5500676b832307038a0c68efdad06b2fb80
 
 # Inicializacion de arreglos de figuras
 
