@@ -4,9 +4,10 @@ programa voidFunc
 	lienzo{
 		variable entero arreglo[10];
 
-		miEntero = arreglo[1] + 5;
+		miEntero = arreglo[2] + 5;
+
+		imprimir(arreglo[2]);
 
 		miEntero = 10 + (5 * (20 - 5));
 
-		imprimir(miEntero);
 	}

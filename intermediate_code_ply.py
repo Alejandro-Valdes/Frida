@@ -7,7 +7,7 @@ from dimension import *
 
 def p_init_quad(p):
 	'init_quad : empty'
-	quad = QuadrupleItem(GOTO, Operand(''), Operand(''), '')
+	quad = QuadrupleItem(GOTO, '', '', '')
 	Quadruple.add_quad(quad)
 
 def p_push_operation(p):
@@ -73,7 +73,7 @@ def quad_maker():
 
 		virtual_address = TempMemory.getAddress(resultType)
 
-		quad = QuadrupleItem(operand, Operand(left_o), Operand(right_o), virtual_address)
+		quad = QuadrupleItem(operand, left_o, right_o, virtual_address)
 		Quadruple.add_quad(quad)
 
 		g.oStack.append(virtual_address)
@@ -120,7 +120,7 @@ def assign_helper():
 			resultType = getResultType(left_type, operand, right_type)
 
 			if resultType > 0:
-				quad = QuadrupleItem(operand, Operand(res), Operand(''), left_o)
+				quad = QuadrupleItem(operand, res, '', left_o)
 				Quadruple.add_quad(quad)
 			else:
 				print('No puedo asignar ' + str(res) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(left_o) + ' por que es ' + getTypeStr(left_type))
@@ -129,7 +129,7 @@ def assign_helper():
 def read_helper():
 	address = TempMemory.getAddress(getTypeCode(g.nextType))
 	opCode = getOperationCode('read')
-	quad = QuadrupleItem(opCode, Operand(''), Operand(''), address)
+	quad = QuadrupleItem(opCode, '', '', address)
 	Quadruple.add_quad(quad)
 	g.oStack.append(address)
 	g.typeStack.append(getTypeCode(g.nextType))
@@ -138,7 +138,7 @@ def print_helper():
 	res = g.oStack.pop()
 	type = g.typeStack.pop()
 	opCode = getOperationCode('print')
-	quad = QuadrupleItem(opCode, Operand(''), Operand(''),res)
+	quad = QuadrupleItem(opCode, '', '',res)
 	Quadruple.add_quad(quad)
 
 # Inflection points
@@ -152,7 +152,7 @@ def p_if_1(p):
 		sys.exit()
 	else:
 		res = g.oStack.pop()
-		quad = QuadrupleItem(GOTOF, Operand(res), Operand(''), '')
+		quad = QuadrupleItem(GOTOF, res, '', '')
 		Quadruple.add_quad(quad)
 		cont = len(Quadruple.quadruple_list)
 		g.jumpStack.append(cont - 1)
@@ -174,7 +174,7 @@ def p_if_2(p):
 
 def p_if_else_3(p):
 	'if_else_3 : empty'
-	quad = QuadrupleItem(GOTO, Operand(''), Operand(''), '')
+	quad = QuadrupleItem(GOTO, '', '', '')
 	Quadruple.add_quad(quad)
 	false = g.jumpStack.pop()
 	cont = len(Quadruple.quadruple_list)
@@ -196,7 +196,7 @@ def p_while_2(p):
 		sys.exit()
 	else:
 		result = g.oStack.pop()
-		quad = QuadrupleItem(GOTOF, Operand(str(result)), Operand(''), '')
+		quad = QuadrupleItem(GOTOF, str(result), '', '')
 		Quadruple.add_quad(quad)
 
 		cont = len(Quadruple.quadruple_list)
@@ -207,7 +207,7 @@ def p_while_3(p):
 	'while_3 : empty'	
 	end = g.jumpStack.pop()
 	ret = g.jumpStack.pop()
-	quad = QuadrupleItem(GOTO, Operand(''), Operand(''), str(ret))
+	quad = QuadrupleItem(GOTO, '', '', str(ret))
 	Quadruple.add_quad(quad)
 	cont = len(Quadruple.quadruple_list)
 	Quadruple.quadruple_list[end].res = str(cont)
@@ -230,7 +230,7 @@ def p_check_return(p):
 		func_result = getResultType(getTypeCode(ret_type), getOperationCode('return'), act_type)
 
 		if func_result > 0:
-			quad = QuadrupleItem(RET, Operand(''), Operand(''), res)
+			quad = QuadrupleItem(RET, '', '', res)
 			Quadruple.add_quad(quad)
 			g.typeStack.append(func_result)
 		else:
@@ -247,25 +247,25 @@ def p_gen_end_proc(p):
 	else:
 		g.funcHasReturn = False
 
-	quad = QuadrupleItem(ENDPROC, Operand(''), Operand(''), '')
+	quad = QuadrupleItem(ENDPROC, '', '', '')
 	Quadruple.add_quad(quad)
 
 def  p_save_fig(p):
 	'save_fig : empty'
 	fig_name = p[-1]
-	quad = QuadrupleItem(FIG, Operand(str(p[-1])), Operand(''), '')
+	quad = QuadrupleItem(FIG, str(p[-1]), '', '')
 	Quadruple.add_quad(quad)
 
 def p_push_fig_param(p):
 	'push_fig_param : empty'
 	arg = g.oStack.pop()
 	arg_type = g.typeStack.pop()
-	quad = QuadrupleItem(F_PAR, Operand(''), Operand(''), arg)
+	quad = QuadrupleItem(F_PAR, '', '', arg)
 	Quadruple.add_quad(quad)
 
 def p_fgra_fin(p):
 	'fgra_fin : empty'
-	quad = QuadrupleItem(F_PAR, Operand(''), Operand(''), '')
+	quad = QuadrupleItem(F_PAR, '', '', '')
 	Quadruple.add_quad(quad)
 
 # -------- Arrays ----------
@@ -295,7 +295,7 @@ def p_assign_to_array(p):
 			resultType = getResultType(g.arrayType, operand, right_type)
 
 			if resultType > 0:
-				quad = QuadrupleItem(operand, Operand(last_val_mem), Operand(''), int(g.arrayBase) + g.arrayAssignmentCounter) 
+				quad = QuadrupleItem(operand, last_val_mem, '', int(g.arrayBase) + g.arrayAssignmentCounter) 
 				Quadruple.add_quad(quad)
 				g.arrayAssignmentCounter += 1
 			else:
@@ -328,7 +328,7 @@ def p_array_access_prep(p):
 		g.dStack.append((g.actualVarObj.virtual_address, g.dim))
 		
 		if g.processingDimVar:
-			g.operStack.push(getOperationCode('('))
+			g.operStack.append(getOperationCode('('))
 
 		g.processingDimVar += 1
 	else:
@@ -345,7 +345,7 @@ def p_array_access(p):
 		i += 1
 
 	# All our arrays have 0 as inferior limit
-	quad = QuadrupleItem(VERIFY, Operand(g.oStack[-1]), Operand(0), dimension.sup_lim)
+	quad = QuadrupleItem(VERIFY, g.oStack[-1], 0, dimension.sup_lim)
 	Quadruple.add_quad(quad)
 
 	# Multidimensional array logic
@@ -353,7 +353,7 @@ def p_array_access(p):
 		aux = g.oStack.pop()
 		aux_type = g.typeStack.pop()
 		res_address = TempMemory.getAddress(aux_type)
-		quad = QuadrupleItem(getOperationCode('*'), Operand(aux, True), Operand(dimension), res_address)
+		quad = QuadrupleItem(getOperationCode('*'), aux, dimension, res_address)
 		Quadruple.add_quad(quad)
 		push_o(res_address, aux_type)
 
@@ -363,7 +363,7 @@ def p_array_access(p):
 		aux_1 = g.oStack.pop()
 		aux_1_type = g.typeStack.pop()
 		res_address = TempMemory.getAddress(aux_2_type)
-		quad = QuadrupleItem(getOperationCode('+'), Operand(aux_1, True), Operand(aux_2, True), res_address)
+		quad = QuadrupleItem(getOperationCode('+'), aux_1, aux_2, res_address)
 		Quadruple.add_quad(quad)
 		push_o(res_address, aux_1_type)
 
@@ -376,7 +376,7 @@ def p_finish_array_access(p):
 		res_address = TempMemory.getAddress(aux_type)
 
 		# We don't have to calculate the K constant because all our arrays have an inferior limit of 0
-		quad = QuadrupleItem(getOperationCode('+'), Operand(aux, True), Operand(g.actualVarObj.virtual_address), res_address)
+		quad = QuadrupleItem(getOperationCode('+'), aux, g.actualVarObj.virtual_address, res_address)
 		Quadruple.add_quad(quad)
 
 		push_o(res_address, aux_type)
