@@ -46,6 +46,7 @@ GOTOF = 1001
 TRUE = 1002
 FALSE = 1003
 ENDPROC = 1005
+VERIFY = 1006
 
 # Language native functions
 FIG = 2000

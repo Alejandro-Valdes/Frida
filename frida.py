@@ -9,6 +9,6 @@ def readFile(file):
 	file_in.close()
 	parser.parse(data)
 
-readFile("test/fibo.frida")
+readFile("test/test_arrays.frida")
 
 print('\n')

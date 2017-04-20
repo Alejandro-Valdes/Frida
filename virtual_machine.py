@@ -63,15 +63,36 @@ class VirtualMachine():
 					sys.exit()
 
 			elif quad.action == ASSIGN:
+				# No validation as it must be an address
 				res = self.mem.getValue(int(quad.o1.val))
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action > RELSTART and quad.action < RELEND:
-				res = self.relational_operation(quad.action, quad.o1.val, quad.o2.val)
+				if quad.o1.is_address:
+					quad_o1 = self.mem.getValue(int(quad.o1.val))
+				else:
+					quad_o1 = quad.o1.val
+
+				if quad.o2.is_address:
+					quad_o2 = self.mem.getValue(int(quad.o2.val))
+				else:
+					quad_o2 = quad.o2.val
+
+				res = self.relational_operation(quad.action, quad_o1, quad_o2)
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action > MATHSTART and quad.action < MATHEND:
-				res = self.basic_math(quad.action, quad.o1.val, quad.o2.val)
+				if quad.o1.is_address:
+					quad_o1 = self.mem.getValue(int(quad.o1.val))
+				else:
+					quad_o1 = quad.o1.val
+
+				if quad.o2.is_address:
+					quad_o2 = self.mem.getValue(int(quad.o2.val))
+				else:
+					quad_o2 = quad.o2.val
+
+				res = self.basic_math(quad.action, quad_o1, quad_o2)
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action == GOTO:
@@ -83,8 +104,24 @@ class VirtualMachine():
 				else:
 					pass
 
+			elif quad.action == VERIFY:
+				if quad.o1.val >= quad.o2.val and quad.o1.val <= int(quad.res):
+					pass
+				else:
+					print('Error: Indice fuera de limites de arreglo')
+
 			elif quad.action > ANDORSTART and quad.action < ANDOREND:
-				res = self.logic_operation(quad.action, quad.o1.val, quad.o2.val)
+				if quad.o1.is_address:
+					quad_o1 = self.mem.getValue(int(quad.o1.val))
+				else:
+					quad_o1 = quad.o1.val
+
+				if quad.o2.is_address:
+					quad_o2 = self.mem.getValue(int(quad.o2.val))
+				else:
+					quad_o2 = quad.o2.val
+
+				res = self.logic_operation(quad.action, quad_o1, quad_o2)
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action == 'FIG':
@@ -158,6 +195,4 @@ class VirtualMachine():
 
 		print('Error')
 		sys.exit()
-
-
 

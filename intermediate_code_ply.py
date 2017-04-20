@@ -81,9 +81,17 @@ def quad_maker():
 
 	else:
 		print('Error: tipo no coincide')
-		print(left_o + getOperationStr(operand) + right_o)
+		print(str(left_o) + getOperationStr(operand) + str(right_o))
 		print(getTypeStr(left_type) + getOperationStr(operand) + getTypeStr(right_type))
 		sys.exit()
+
+def p_push_operand(p):
+	'push_operand : empty'
+
+	address = SymbolsTable.checkVarAddress(g.funcName, p[-2])
+	if address > 0 and address != None:
+		type = SymbolsTable.checkVarType(g.funcName, p[-2])
+		push_o(str(address), type)
 
 def push_o(p, type):
 	resType = ''
@@ -128,6 +136,7 @@ def read_helper():
 
 def print_helper():
 	res = g.oStack.pop()
+	type = g.typeStack.pop()
 	opCode = getOperationCode('print')
 	quad = QuadrupleItem(opCode, Operand(''), Operand(''),res)
 	Quadruple.add_quad(quad)
@@ -307,4 +316,74 @@ def p_finish_array_assignment(p):
 	g.arrayAssignmentCounter = 0
 	g.arrayType = -1
 	g.arrayBase = -1
+
+def p_array_access_prep(p):
+	'array_access_prep : empty'
+
+	g.oStack.pop()
+	g.typeStack.pop()
+
+	if g.actualVarObj.dimension_list:
+		g.dim = 1
+		g.dStack.append((g.actualVarObj.virtual_address, g.dim))
+		
+		if g.processingDimVar:
+			g.operStack.push(getOperationCode('('))
+
+		g.processingDimVar += 1
+	else:
+		print('Error: Acceso a variable no dimensionada')
+
+
+def p_array_access(p):
+	'array_access : empty'
+
+	dimension = g.actualVarObj.dimension_list.first
+	i = 1
+	while i < g.dim:
+		dimension = dimension.next
+		i += 1
+
+	# All our arrays have 0 as inferior limit
+	quad = QuadrupleItem(VERIFY, Operand(g.oStack[-1]), Operand(0), dimension.sup_lim)
+	Quadruple.add_quad(quad)
+
+	# Multidimensional array logic
+	if dimension.next:
+		aux = g.oStack.pop()
+		aux_type = g.typeStack.pop()
+		res_address = TempMemory.getAddress(aux_type)
+		quad = QuadrupleItem(getOperationCode('*'), Operand(aux, True), Operand(dimension), res_address)
+		Quadruple.add_quad(quad)
+		push_o(res_address, aux_type)
+
+	if g.dim > 1:
+		aux_2 = g.oStack.pop()
+		aux_2_type = g.typeStack.pop()
+		aux_1 = g.oStack.pop()
+		aux_1_type = g.typeStack.pop()
+		res_address = TempMemory.getAddress(aux_2_type)
+		quad = QuadrupleItem(getOperationCode('+'), Operand(aux_1, True), Operand(aux_2, True), res_address)
+		Quadruple.add_quad(quad)
+		push_o(res_address, aux_1_type)
+
+def p_finish_array_access(p):
+	'finish_array_access : empty'
+
+	if g.processingDimVar > 1:
+		aux = g.oStack.pop()
+		aux_type = g.typeStack.pop()
+		res_address = TempMemory.getAddress(aux_type)
+
+		# We don't have to calculate the K constant because all our arrays have an inferior limit of 0
+		quad = QuadrupleItem(getOperationCode('+'), Operand(aux, True), Operand(g.actualVarObj.virtual_address), res_address)
+		Quadruple.add_quad(quad)
+
+		push_o(res_address, aux_type)
+		
+		if g.processingDimVar:
+			g.operStack.pop()
+			g.processingDimVar -= 1
+
+		g.dStack.pop()
 
