@@ -1,13 +1,7 @@
 programa voidFunc
-	variable entero miEntero = 10;	
 
 	lienzo{
-		variable entero arreglo[10];
+		variable entero arreglo[2] = {5,20};
 
-		miEntero = arreglo[2] + 5;
-
-		imprimir(arreglo[2]);
-
-		miEntero = 10 + (5 * (20 - 5));
-
+		imprimir(arreglo[1]);
 	}

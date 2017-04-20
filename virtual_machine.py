@@ -3,6 +3,9 @@ from memory import *
 from semantic_cube import *
 import global_vars as g
 
+def printUndefinedValue():
+	print('Error: Acceso a variable indefinida')
+
 class VirtualMachine():
 	def __init__(self, quad_list):
 		self.quad_list = quad_list
@@ -18,6 +21,10 @@ class VirtualMachine():
 			quad = self.quad_list[ip]
 
 			if quad.action == PRINT:
+				if self.mem.getValue(int(quad.res)) is None:
+					printUndefinedValue()
+					sys.exit()
+
 				if (self.mem.getValue(int(quad.res)) == TRUE):
 					print('verdadero')
 				elif (self.mem.getValue(int(quad.res)) == FALSE):
@@ -72,7 +79,12 @@ class VirtualMachine():
 
 			elif quad.action > MATHSTART and quad.action < MATHEND:
 				res = self.basic_math(quad.action, quad.o1, quad.o2)
-				self.mem.setValue(res, int(quad.res))
+
+				if quad.is_ref:
+					aux = self.mem.getValue(res)
+					self.mem.setValue(aux, int(quad.res))
+				else:
+					self.mem.setValue(res, int(quad.res))
 
 			elif quad.action == GOTO:
 				ip = int(quad.res) - 1
@@ -123,7 +135,7 @@ class VirtualMachine():
 		o2 = self.mem.getValue(int(o2))
 
 		if o1 is None or o2 is None:
-			print('Error: acceso a valor indefinido')
+			printUndefinedValue()
 			sys.exit()
 
 		if action == LTHAN:
@@ -143,7 +155,7 @@ class VirtualMachine():
 
 	def basic_math(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
-		o2 = self.mem.getValue(int(o2))
+		o2 = self.mem.getValue(int(o2))		
 
 		if o1 is None or o2 is None:
 			print('Error: acceso a valor indefinido')
@@ -157,6 +169,7 @@ class VirtualMachine():
 			return o1 * o2
 		elif action == DIV:
 			return o1 / o2
+
 		print('Error')
 		sys.exit()
 

@@ -2,11 +2,12 @@ import sys
 from virtual_machine import VirtualMachine
 
 class QuadrupleItem():
-	def __init__(self, action, o1, o2, res):
+	def __init__(self, action, o1, o2, res, is_ref = False):
 		self.action = action
 		self.o1 = o1
 		self.o2 = o2
 		self.res = res
+		self.is_ref = is_ref
 
 class  Quadruple():
 

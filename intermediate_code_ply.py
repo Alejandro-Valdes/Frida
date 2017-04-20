@@ -327,10 +327,10 @@ def p_array_access_prep(p):
 		g.dim = 1
 		g.dStack.append((g.actualVarObj.virtual_address, g.dim))
 		
-		if g.processingDimVar:
-			g.operStack.append(getOperationCode('('))
+		# Push fake bottom
+		g.operStack.append(getOperationCode('('))
 
-		g.processingDimVar += 1
+		g.processingVar = True
 	else:
 		print('Error: Acceso a variable no dimensionada')
 
@@ -370,20 +370,25 @@ def p_array_access(p):
 def p_finish_array_access(p):
 	'finish_array_access : empty'
 
-	if g.processingDimVar > 1:
+	if g.processingVar:
 		aux = g.oStack.pop()
 		aux_type = g.typeStack.pop()
 		res_address = TempMemory.getAddress(aux_type)
 
+		temp_size = g.actualVarObj.virtual_address
+		type = getTypeCode('entero')
+		address = TempMemory.getAddress(type)
+		TempMemory.setValue(address, temp_size)
+
 		# We don't have to calculate the K constant because all our arrays have an inferior limit of 0
-		quad = QuadrupleItem(getOperationCode('+'), aux, g.actualVarObj.virtual_address, res_address)
+		quad = QuadrupleItem(getOperationCode('+'), aux, address, res_address, True)
 		Quadruple.add_quad(quad)
 
 		push_o(res_address, aux_type)
 		
-		if g.processingDimVar:
-			g.operStack.pop()
-			g.processingDimVar -= 1
-
+		g.operStack.pop()
 		g.dStack.pop()
+
+		g.processingVar = False
+		
 

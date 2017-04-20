@@ -26,25 +26,32 @@ LIM = 1000
 def printMemoryOverflow():
 	print('Error: se acabo la memoria')
 
+def printUndefinedValue():
+	print('Error: acceso a variable indefinida')
+
 class Memory():
 	"""docstring for Memory"""
 	def __init__(self):
 		pass
 
 	def getValue(self, address):
-		if address < 1000:
-			print('Error')
-			sys.exit()
-		elif address >= 1000 and address < 5000:
-			return GlobalMemory.getItemValue(address)
-		elif address >= 5000 and address < 9000:
-			return LocalMemory.getItemValue(address)
-		elif address >= 9000 and address < 13000:
-			return TempMemory.getItemValue(address)
-		elif address >= 13000 and address < 17000:
-			return CteMemory.getItemValue(address)
-		else:
-			print('Error')
+		try:
+			if address < 1000:
+				print('Error')
+				sys.exit()
+			elif address >= 1000 and address < 5000:
+				return GlobalMemory.getItemValue(address)
+			elif address >= 5000 and address < 9000:
+				return LocalMemory.getItemValue(address)
+			elif address >= 9000 and address < 13000:
+				return TempMemory.getItemValue(address)
+			elif address >= 13000 and address < 17000:
+				return CteMemory.getItemValue(address)
+			else:
+				print('Error')
+				sys.exit()
+		except KeyError:
+			printUndefinedValue()
 			sys.exit()
 
 	def setValue(self, value, address):

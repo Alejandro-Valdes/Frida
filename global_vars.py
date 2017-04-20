@@ -17,7 +17,6 @@ def init():
 	global funcHasReturn
 	global currentVarDimensions
 	global processingVar
-	global processingDimVar
 	global arrayAssignmentCounter
 	global arrayBase
 	global arrayType
@@ -42,7 +41,6 @@ def init():
 	funcHasReturn = False
 	currentVarDimensions = None
 	processingVar = False
-	processingDimVar = 0
 	arrayAssignmentCounter = 0
 	arrayBase = -1
 	arrayType = -1
