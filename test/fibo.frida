@@ -5,7 +5,12 @@ programa fibo
 		variable entero limite;
 		variable entero x1 = 0, x2 = 1, temp;
 		variable entero cont = 1;
-		variable cuadrado miCuadrado = nuevo cuadrado(10 + 2 + 3 - 2, 10, 10 * 2, "#E4E4E4");
+		/*
+		variable cuadrado miCuadrado = nuevo cuadrado(200, 100, 100, "#FF0000");
+		variable cuadrado miCuadrado2 = nuevo cuadrado(200, 20, 20, "#00FF00");
+		variable cuadrado miCuadrado3 = nuevo cuadrado(10, 100, 100, "#0000FF");
+		*/
+		variable cuadrado miCuadrado4 = nuevo cuadrado(50, 100, 100, "#FFF");
 
 		imprimir('Hasta que numero calculo:');
 		limite = leer();

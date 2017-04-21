@@ -268,14 +268,10 @@ def p_estatuto(p):
 		| impresion 
 		| accion 
 		| llamada
-		| comentario
 		| retorno'''
 
 def p_retorno(p):
 	'retorno : RETURN logica check_return SEMICOLON'
-
-def p_comentario(p):
-	'comentario : COMMENT'
 
 def p_asignacion(p):
 	'asignacion : ID check_variable push_operand asignacion_opt finish_array_access ASSIGN push_operation asignacion_opt_2 finish_single_array_assignment SEMICOLON'
