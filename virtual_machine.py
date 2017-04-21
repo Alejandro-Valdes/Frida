@@ -20,6 +20,13 @@ class VirtualMachine():
 		while ip < len(self.quad_list):
 			quad = self.quad_list[ip]
 
+			if len(str(quad.o1)) > 0 and str(quad.o1)[0] == '*':
+				quad.o1 = self.mem.getValue(int(quad.o1[1:]))
+			if len(str(quad.o2)) > 0 and str(quad.o2)[0] == '*':
+				quad.o2 = self.mem.getValue(int(quad.o2[1:]))
+			if len(str(quad.res)) > 0 and str(quad.res)[0] == '*':
+				quad.res = self.mem.getValue(int(quad.res[1:]))
+
 			if quad.action == PRINT:
 				if self.mem.getValue(int(quad.res)) is None:
 					printUndefinedValue()
@@ -73,6 +80,7 @@ class VirtualMachine():
 				res = self.mem.getValue(int(quad.o1))
 				self.mem.setValue(res, int(quad.res))
 
+
 			elif quad.action > RELSTART and quad.action < RELEND:
 				res = self.relational_operation(quad.action, quad.o1, quad.o2)
 				self.mem.setValue(res, int(quad.res))
@@ -80,11 +88,7 @@ class VirtualMachine():
 			elif quad.action > MATHSTART and quad.action < MATHEND:
 				res = self.basic_math(quad.action, quad.o1, quad.o2)
 
-				if quad.is_ref:
-					aux = self.mem.getValue(res)
-					self.mem.setValue(aux, int(quad.res))
-				else:
-					self.mem.setValue(res, int(quad.res))
+				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action == GOTO:
 				ip = int(quad.res) - 1

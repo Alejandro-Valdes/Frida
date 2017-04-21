@@ -3,5 +3,7 @@ programa voidFunc
 	lienzo{
 		variable entero arreglo[2] = {5,20};
 
+		arreglo[1] = 100;
+
 		imprimir(arreglo[1]);
 	}

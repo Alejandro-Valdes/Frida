@@ -104,7 +104,6 @@ def push_o(p, type):
 		resType = type
 
 	resType = getTypeCode(resType)
-
 	g.oStack.append(p)
 	g.typeStack.append(resType)
 
@@ -273,8 +272,6 @@ def p_fgra_fin(p):
 def p_init_array(p):
 	'init_array : empty'
 
-	g.varName = p[-6]
-
 	address = SymbolsTable.checkVarAddress(g.funcName, g.varName)
 	type = SymbolsTable.checkVarType(g.funcName, g.varName)
 	push_o(str(address), type)
@@ -381,14 +378,33 @@ def p_finish_array_access(p):
 		TempMemory.setValue(address, temp_size)
 
 		# We don't have to calculate the K constant because all our arrays have an inferior limit of 0
-		quad = QuadrupleItem(getOperationCode('+'), aux, address, res_address, True)
+		quad = QuadrupleItem(getOperationCode('+'), aux, address, res_address)
 		Quadruple.add_quad(quad)
 
-		push_o(res_address, aux_type)
+		push_o('*' + str(res_address), 'entero')
 		
 		g.operStack.pop()
 		g.dStack.pop()
 
 		g.processingVar = False
-		
 
+def p_finish_single_array_assignment(p):
+	'finish_single_array_assignment : empty'
+
+	if(len(g.operStack) > 0):
+		if (g.operStack[-1] == getOperationCode('=')):
+
+			left_o = g.oStack.pop()
+			res = g.oStack.pop()
+			operand = g.operStack.pop()
+
+			right_type = g.typeStack.pop()
+			left_type = g.typeStack.pop()			
+			resultType = getResultType(left_type, operand, right_type)
+
+			if resultType > 0:
+				quad = QuadrupleItem(operand, left_o, '', res)
+				Quadruple.add_quad(quad)
+			else:
+				print('No puedo asignar ' + str(res) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(left_o) + ' por que es ' + getTypeStr(left_type))
+				sys.exit()	

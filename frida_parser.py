@@ -278,16 +278,16 @@ def p_comentario(p):
 	'comentario : COMMENT'
 
 def p_asignacion(p):
-	'asignacion : ID check_variable push_operand asignacion_opt finish_array_access ASSIGN push_operation asignacion_opt_2 SEMICOLON'
+	'asignacion : ID check_variable push_operand asignacion_opt finish_array_access ASSIGN push_operation asignacion_opt_2 finish_single_array_assignment SEMICOLON'
 	
-	address = SymbolsTable.checkVarAddress(g.funcName, p[1])
-	if address > 0 and address != None:
-		type = SymbolsTable.checkVarType(g.funcName, p[1])
-		push_o(str(address), type)
-	else:
-		push_o(p[1], 'var')
+	# address = SymbolsTable.checkVarAddress(g.funcName, p[1])
+	# if address > 0 and address != None:
+	# 	type = SymbolsTable.checkVarType(g.funcName, p[1])
+	# 	push_o(str(address), type)
+	# else:
+	# 	push_o(p[1], 'var')
 
-	assign_helper()
+	# assign_helper()
 
 def p_asignacion_opt(p):
 	'''asignacion_opt : LBRACKET array_access_prep logica array_access RBRACKET
