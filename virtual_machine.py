@@ -158,11 +158,11 @@ class VirtualMachine():
 					self.mem.setValue(temp[address], int(address))
 
 			elif quad.action == PARAM:
-				if int(quad.o1.val) in temp_local_mem:
-					value = temp_local_mem[int(quad.o1.val)]
+				if int(quad.o1) in temp_local_mem:
+					value = temp_local_mem[int(quad.o1)]
 					print (value)
 				else:
-					value = self.mem.getValue(int(quad.o1.val))
+					value = self.mem.getValue(int(quad.o1))
 
 				self.mem.setValue(value, int(paramAddresses[currParam]))
 				currParam += 1
@@ -183,7 +183,7 @@ class VirtualMachine():
 			ip += 1
 
 	def drawShape(self, fig_code, fig_param_stack, res_address):
-		if fig_code.val == CUADRADO:
+		if fig_code == CUADRADO:
 			color = self.mem.getValue(fig_param_stack.pop())
 			pos_y = self.mem.getValue(fig_param_stack.pop())
 			pos_x = self.mem.getValue(fig_param_stack.pop())
