@@ -243,8 +243,8 @@ def p_gen_end_proc(p):
 
 def  p_save_fig(p):
 	'save_fig : empty'
-	fig_name = p[-1]
-	quad = QuadrupleItem(FIG, Operand(str(p[-1])), Operand(''), '')
+	g.fig_name = p[-1]
+	quad = QuadrupleItem(FIG, Operand(getTypeCode(g.fig_name)), Operand(''), '')
 	Quadruple.add_quad(quad)
 
 def p_push_fig_param(p):
@@ -256,8 +256,16 @@ def p_push_fig_param(p):
 
 def p_fgra_fin(p):
 	'fgra_fin : empty'
-	quad = QuadrupleItem(F_FIN, Operand(''), Operand(''), '')
+	address = SymbolsTable.checkVarAddress(g.funcName, g.varName)
+	quad = QuadrupleItem(F_FIN, Operand(''), Operand(''), address)
 	Quadruple.add_quad(quad)
+
+	address = SymbolsTable.checkVarAddress(g.funcName, g.varName)
+	quad = QuadrupleItem(90000, address, Operand(''), address)
+	Quadruple.add_quad(quad)
+	
+
+
 
 # -------- Arrays ----------
 

@@ -1,6 +1,7 @@
 import sys
 from memory import *
 from semantic_cube import *
+from symbol_table import *
 import global_vars as g
 try:
     from Tkinter import *
@@ -14,16 +15,23 @@ class VirtualMachine():
 		self.frida_gui = Tk()
 		self.canvas = Canvas(self.frida_gui, width = 750, height = 600)
 		self.canvas.pack()
+		self.shapes = []
 
 	def run_list(self):
 		print('\nOutput: ')
 		ip = 0
 		fig_name = ''
 		fig_param_stack = []
+		paramAddresses = []
+		currParam = 0
+		ret_ip = 0
+		memory_stack = []
+		ip_exe_stack = []
+		temp_local_mem = {}
+		curr_scope = 'lienzo'
 		
 		while ip < len(self.quad_list):
 			quad = self.quad_list[ip]
-
 			if quad.action == PRINT:
 				if (self.mem.getValue(int(quad.res)) == TRUE):
 					print('verdadero')
@@ -34,7 +42,7 @@ class VirtualMachine():
 
 			elif quad.action == READ:
 				if quad.res < 9000:
-					print('error')
+					print('error Lectura')
 					sys.exit()
 
 				elif quad.res >= 9000 and quad.res < 10000:
@@ -66,7 +74,7 @@ class VirtualMachine():
 					TempMemory.setValue(int(quad.res), sRes)
 
 				else:
-					print('error')
+					print('error lectura')
 					sys.exit()
 
 			elif quad.action == ASSIGN:
@@ -94,25 +102,69 @@ class VirtualMachine():
 				res = self.logic_operation(quad.action, quad.o1.val, quad.o2.val)
 				self.mem.setValue(res, int(quad.res))
 
+			elif quad.action == ERA:
+				paramAddresses = SymbolsTable.get_function_params_addresses(quad.o1)	
+
+				scoped_addresses = SymbolsTable.getScopedMemory(curr_scope)
+
+				for address in scoped_addresses:
+					temp_local_mem[int(address)] = self.mem.getValue(int(address))
+
+				memory_stack.append(dict(temp_local_mem))
+
+			elif quad.action == GOSUB:
+				ip_exe_stack.append(ip)
+				ip = int(quad.res) - 1
+				currParam = 0
+
+				curr_scope = str(quad.o1)
+
+			elif quad.action == ENDPROC:
+				ip = ip_exe_stack.pop()
+				scoped_addresses = SymbolsTable.getScopedMemory(curr_scope)
+
+				for address in scoped_addresses:
+					self.mem.setValue(None, int(address))
+
+				temp = {}
+				temp = memory_stack.pop()
+
+				for address in temp:
+					self.mem.setValue(temp[address], int(address))
+
+			elif quad.action == PARAM:
+				if int(quad.o1.val) in temp_local_mem:
+					value = temp_local_mem[int(quad.o1.val)]
+					print (value)
+				else:
+					value = self.mem.getValue(int(quad.o1.val))
+
+				self.mem.setValue(value, int(paramAddresses[currParam]))
+				currParam += 1
+
 			elif quad.action == FIG:
-				fig_name = str(quad.o1)
+				fig_code = quad.o1
 
 			elif quad.action == F_PAR:
 				fig_param_stack.append(int(quad.res))
 
 			elif quad.action == F_FIN:
-				self.drawShape(fig_name, fig_param_stack)
+				self.drawShape(fig_code, fig_param_stack, quad.res)
+
+			#shape move TODO
+			elif quad.action == 90000:
+				self.mem 
 
 			ip += 1
 
-	def drawShape(self, fig_name, fig_param_stack):
-		if fig_name == 'cuadrado':
+	def drawShape(self, fig_code, fig_param_stack, res_address):
+		if fig_code.val == CUADRADO:
 			color = self.mem.getValue(fig_param_stack.pop())
 			pos_y = self.mem.getValue(fig_param_stack.pop())
 			pos_x = self.mem.getValue(fig_param_stack.pop())
 			sqr_len = self.mem.getValue(fig_param_stack.pop())
-			cuadrado = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
-
+			cuad = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
+			self.mem.setValue(res_address, cuad)
 			
 
 	def relational_operation(self, action, o1, o2):
@@ -131,7 +183,7 @@ class VirtualMachine():
 			return TRUE if o1 <= o2 else FALSE
 		elif action == GETHAN:
 			return TRUE if o1 >= o2 else FALSE
-		print('Error')
+		print('Error relacional')
 		sys.exit()
 
 	def basic_math(self, action, o1, o2):
@@ -146,7 +198,7 @@ class VirtualMachine():
 			return o1 * o2
 		elif action == DIV:
 			return o1 / o2
-		print('Error')
+		print('Error matematicas')
 		sys.exit()
 
 	def logic_operation(self, action, o1, o2):
@@ -161,7 +213,7 @@ class VirtualMachine():
 		elif action == OR:
 			return TRUE if o1 or o2 else FALSE
 
-		print('Error')
+		print('Error logica')
 		sys.exit()
 
 

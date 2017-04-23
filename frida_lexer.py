@@ -119,7 +119,7 @@ t_CTECOLOR = r'\"(rojo|azul|verde|amarillo|rosa)\"'
 t_CTEHEXCOLOR = r'\"\#([0-9a-fA-F]{6} | [0-9a-fA-F]{3})\"'
 
 t_CTEFUNCION = r'\"(([x]|[0-9]+(.[0-9]+)?))+([+\-*/^]([xX]|([0-9]+(.[0-9]+)?)+))+\"'
-t_ignore = '\t'
+t_ignore = ' \t'
 
 #Funciones para tokens que necesitan funcionalidad extra
 
@@ -146,6 +146,7 @@ def t_newline(t):
 #Manejador de errores 
 def t_error(t):
 	print("Caracter ilegal '%s'" % t.value[0])
+	print (t.lexer.lineno)
 	t.lexer.skip(1)
 
 #crea el lexer

@@ -6,9 +6,15 @@ DECIMAL = 3
 CADENA = 4
 
 BOOLARRAY = 11
-ENTEROARRAY = 22
-DECIMALARRAY = 33
-CADENAARRAY = 44
+ENTEROARRAY = 12
+DECIMALARRAY = 13
+CADENAARRAY = 14
+
+PINCEL = 20
+CUADRADO = 21
+RECTANGULO = 22
+CIRCULO = 23
+TRIANGULO = 24
 
 ASSIGN = 50
 
@@ -45,7 +51,12 @@ GOTO = 1000
 GOTOF = 1001
 TRUE = 1002
 FALSE = 1003
+
 ENDPROC = 1005
+ERA = 1006
+RETURN = 1007
+GOSUB = 1008
+PARAM = 1009
 
 # Language native functions
 FIG = 2000
@@ -225,6 +236,16 @@ def getTypeCode(strType):
 		return DECIMAL
 	elif strType == 'cadena':
 		return CADENA
+	elif strType == 'pincel':
+		return PINCEL
+	elif strType == 'cuadrado':
+		return CUADRADO
+	elif strType == 'rectangulo':
+		return RECTANGULO
+	elif strType == 'circulo':
+		return CIRCULO
+	elif strType == 'triangulo':
+		return TRIANGULO
 
 def getTypeStr(codeType):
 	if codeType ==  VOID:
@@ -237,3 +258,13 @@ def getTypeStr(codeType):
 		return 'decimal'
 	elif codeType ==  CADENA:
 		return 'cadena'
+	elif strType == PINCEL:
+		return 'pincel'
+	elif strType == CUADRADO:
+		return 'cuadrado'
+	elif strType == RECTANGULO:
+		return 'rectangulo'
+	elif strType == CIRCULO:
+		return 'circulo'
+	elif strType == TRIANGULO:
+		return 'triangulo'

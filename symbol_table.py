@@ -61,7 +61,7 @@ class SymbolsTable:
 
 	@classmethod
 	def check_param(cls, name, index):
-		if (cls.function_dictionary[name].params) >= 0:
+		if name in cls.function_dictionary:
 			return cls.function_dictionary[name].params[index]
 
 	@classmethod
@@ -80,6 +80,18 @@ class SymbolsTable:
 				print('\n')
 
 	@classmethod
+	def getScopedMemory(cls, scope):
+		scope = str(scope)
+		scoped_mem = []
+		function_dir = cls.function_dictionary
+
+		for var_key in function_dir[scope].vars:
+			scoped_mem.append(str(function_dir[scope].vars[var_key].virtual_address) + ' ')
+
+		return scoped_mem
+
+
+	@classmethod
 	def add_var_to_func(cls, name, type, virtual_address, scope, dimension_list = None):
 		var = Variable(name, type, virtual_address, scope, dimension_list)
 		if scope in cls.function_dictionary:
@@ -94,6 +106,36 @@ class SymbolsTable:
 	def add_function_params(cls, scope, params):
 		if scope in cls.function_dictionary:
 			cls.function_dictionary[scope].params = params
+		else:
+			print("Error: alcance " + scope + " no definido")
+			sys.exit()
+
+	@classmethod
+	def get_function_signature(cls, scope):
+		scope = str(scope)
+		if scope in cls.function_dictionary:
+			return cls.function_dictionary[scope].params
+		else:
+			print("Error: alcance " + scope + " no definido")
+			sys.exit()
+
+	@classmethod
+	def get_function_params_addresses(cls, scope):
+		addresses = []
+		scope = str(scope)
+		index = 0
+
+		if scope in cls.function_dictionary:
+			lenParamas = len(cls.function_dictionary[scope].params)
+
+			for var_key in cls.function_dictionary[scope].vars:
+				addresses.append(cls.function_dictionary[scope].vars[var_key].virtual_address)
+				index += 1
+				if index == lenParamas:
+					break
+
+			return addresses
+
 		else:
 			print("Error: alcance " + scope + " no definido")
 			sys.exit()

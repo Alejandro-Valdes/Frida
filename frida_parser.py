@@ -98,10 +98,10 @@ def p_print_hola(p):
 # Tipo fig
 
 def p_tipo_opt_fig(p):
-	'tipo_opt_fig : add_var_name figura tipo_opt_fig_loop'
+	'tipo_opt_fig : expect_var_type figura tipo_opt_fig_loop'
 
 def p_tipo_opt_fig_loop(p):
-	'tipo_opt_fig_loop : ID add_var tipo_opt_fig_2 tipo_opt_fig_loop_2'
+	'tipo_opt_fig_loop : ID add_var_name tipo_opt_fig_2 add_var tipo_opt_fig_loop_2'
 
 def p_tipo_opt_fig_loop_2(p):
 	'''tipo_opt_fig_loop_2 : COMA tipo_opt_fig_loop
@@ -138,7 +138,7 @@ def p_ini_prim_v_loop(p):
 # Inicializacion de figuras
 
 def p_ini_fgra(p):
-	'ini_fgra : ASSIGN fgra_nva fgra_fin'
+	'ini_fgra : ASSIGN push_operation add_var fgra_nva fgra_fin'
 
 # Inicializacion de arreglos de figuras
 

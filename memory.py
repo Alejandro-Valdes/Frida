@@ -21,6 +21,18 @@ CTEENTERO = 14000
 CTEDECIMAL = 15000
 CTECADENA = 16000
 
+GLOBALPINCEL = 20000
+GLOBALCUADRADO = 21000
+GLOBALRECTANGULO = 22000
+GLOBALCIRCULO = 23000
+GLOBALTRIANGULO = 22000
+
+LOCALPINCEL = 30000
+LOCALCUADRADO = 31000
+LOCALRECTANGULO = 32000
+LOCALCIRCULO = 33000
+LOCALTRIANGULO = 32000
+
 LIM = 1000
 
 def printMemoryOverflow():
@@ -33,34 +45,36 @@ class Memory():
 
 	def getValue(self, address):
 		if address < 1000:
-			print('Error')
+			print('Error mem')
 			sys.exit()
-		elif address >= 1000 and address < 5000:
+		elif (address >= 1000 and address < 5000) or (address >= GLOBALPINCEL and address <= GLOBALTRIANGULO):
 			return GlobalMemory.getItemValue(address)
-		elif address >= 5000 and address < 9000:
+		elif (address >= 5000 and address < 9000) or (address >= GLOBALPINCEL and address <= GLOBALTRIANGULO):
 			return LocalMemory.getItemValue(address)
 		elif address >= 9000 and address < 13000:
 			return TempMemory.getItemValue(address)
 		elif address >= 13000 and address < 17000:
 			return CteMemory.getItemValue(address)
 		else:
-			print('Error')
+			print('Error mem')
 			sys.exit()
 
 	def setValue(self, value, address):
 		if address < 1000:
-			print('Error')
-			sys.exit()
-		elif address >= 1000 and address < 5000:
+			#print('Error set mem')
+			# TODO Set mem fig
+			#sys.exit()
+			pass
+		elif (address >= 1000 and address < 5000) or (address >= GLOBALPINCEL and address <= GLOBALTRIANGULO):
 			GlobalMemory.setValue(address, value)
-		elif address >= 5000 and address < 9000:
+		elif (address >= 5000 and address < 9000) or (address >= GLOBALPINCEL and address <= GLOBALTRIANGULO):
 			LocalMemory.setValue(address, value)
 		elif address >= 9000 and address < 13000:
 			TempMemory.setValue(address, value)
 		elif address >= 13000 and address < 17000:
 			CteMemory.setValue(address, value)
 		else:
-			print('Error')
+			print('Error set mem')
 			sys.exit()
 
 class GlobalMemory():
@@ -70,6 +84,11 @@ class GlobalMemory():
 	enteroCount = 0
 	decimalCount = 0
 	cadenaCount = 0
+	pincelCount = 0
+	cuadradoCount = 0
+	rectanguloCount = 0
+	circuloCount = 0
+	trianguloCount = 0
 
 	__shared_state = {}
 	
@@ -117,6 +136,41 @@ class GlobalMemory():
 				cls.cadenaCount += size
 			else:
 				printMemoryOverflow()
+		elif type == PINCEL:
+			if cls.pincelCount < LIM:
+				address = GLOBALPINCEL + cls.pincelCount
+				cls.globalMem[address] = None
+				cls.pincelCount += size
+			else:
+				printMemoryOverflow()
+		elif type == CUADRADO:
+			if cls.cuadradoCount < LIM:
+				address = GLOBALCUADRADO + cls.cuadradoCount
+				cls.globalMem[address] = None
+				cls.cuadradoCount += size
+			else:
+				printMemoryOverflow()
+		elif type == RECTANGULO:
+			if cls.rectanguloCount < LIM:
+				address = GLOBALRECTANGULO + cls.rectanguloCount
+				cls.globalMem[address] = None
+				cls.rectanguloCount += size
+			else:
+				printMemoryOverflow()
+		elif type == CIRCULO:
+			if cls.circuloCount < LIM:
+				address = GLOBALCIRCULO + cls.circuloCount
+				cls.globalMem[address] = None
+				cls.circuloCount += size
+			else:
+				printMemoryOverflow()
+		elif type == TRIANGULO:
+			if cls.trianguloCount < LIM:
+				address = GLOBALTRIANGULO + cls.trianguloCount
+				cls.globalMem[address] = None
+				cls.trianguloCount += size
+			else:
+				printMemoryOverflow()
 
 		return address
 
@@ -138,6 +192,11 @@ class LocalMemory():
 	enteroCount = 0
 	decimalCount = 0
 	cadenaCount = 0
+	pincelCount = 0
+	cuadradoCount = 0
+	rectanguloCount = 0
+	circuloCount = 0
+	trianguloCount = 0
 
 	__shared_state = {}
 	
@@ -183,6 +242,41 @@ class LocalMemory():
 				address = LOCALCADENA + cls.cadenaCount
 				cls.localMem[address] = None
 				cls.cadenaCount += size
+			else:
+				printMemoryOverflow()
+		elif type == PINCEL:
+			if cls.pincelCount < LIM:
+				address = GLOBALPINCEL + cls.pincelCount
+				cls.localMem[address] = None
+				cls.pincelCount += size
+			else:
+				printMemoryOverflow()
+		elif type == CUADRADO:
+			if cls.cuadradoCount < LIM:
+				address = GLOBALCUADRADO + cls.cuadradoCount
+				cls.localMem[address] = None
+				cls.cuadradoCount += size
+			else:
+				printMemoryOverflow()
+		elif type == RECTANGULO:
+			if cls.rectanguloCount < LIM:
+				address = GLOBALRECTANGULO + cls.rectanguloCount
+				cls.localMem[address] = None
+				cls.rectanguloCount += size
+			else:
+				printMemoryOverflow()
+		elif type == CIRCULO:
+			if cls.circuloCount < LIM:
+				address = GLOBALCIRCULO + cls.circuloCount
+				cls.localMem[address] = None
+				cls.circuloCount += size
+			else:
+				printMemoryOverflow()
+		elif type == TRIANGULO:
+			if cls.trianguloCount < LIM:
+				address = GLOBALTRIANGULO + cls.trianguloCount
+				cls.localMem[address] = None
+				cls.trianguloCount += size
 			else:
 				printMemoryOverflow()
 

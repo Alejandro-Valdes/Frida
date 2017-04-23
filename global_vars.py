@@ -21,6 +21,7 @@ def init():
 	global arrayAssignmentCounter
 	global arrayBase
 	global arrayType
+	global fig_name
 	
 	oStack = []
 	operStack = []
@@ -41,3 +42,4 @@ def init():
 	arrayAssignmentCounter = 0
 	arrayBase = -1
 	arrayType = -1
+	fig_name = ''

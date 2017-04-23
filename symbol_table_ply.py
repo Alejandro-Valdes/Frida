@@ -17,6 +17,7 @@ def p_check_function(p):
 
 def p_saveFuncParam(p):
 	'saveFuncParam : empty'
+	print ('test')
 	SymbolsTable.add_function_params(g.funcName, g.funcParams)
 
 def p_saveFuncName(p):

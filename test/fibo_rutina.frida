@@ -1,23 +1,48 @@
 programa fibo
+	rutina void : tres(entero: test){
+		imprimir('tres');
+		imprimir(test);
+		imprimir('fintres');
+	}
+	
+	rutina void : dos(entero: test){
+		imprimir('dos');
+		imprimir(test);
+		tres(test * 2);
+		imprimir(test);
+		imprimir('findos');
+	}
 
-	rutina entero : fibo(entero: lim){
+	rutina void : uno(entero: test){
+		imprimir('uno');
+		imprimir(test);
+		dos(test * 2);
+		imprimir(test);
+		imprimir('finuno');
+	}
+
+	rutina void : fibo(bool: test2, entero: lim, entero: test){
 		variable entero x1 = 0, x2 = 1, temp;
 		variable entero cont = 1;
 		variable entero res = 0;
 
-		si(lim == 0){
+		si(lim == 0){		
+			imprimir ('if');
 			res = x1;
 		}
 		sino_pero(lim == 1){
+			imprimir ('elif');
 			res = x2;
 		}
 		sino{
+			imprimir ('else');
+
 			mientras(cont < lim){
 
 				res = x1 + x2;
 
 				temp = x2;
-				x2 = x1 + x2;
+				x2 = res;
 				x1 = temp;
 
 				cont = cont + 1;
@@ -27,20 +52,31 @@ programa fibo
 			cont 0 1 2 3 4 5 6 7  8  9  55
 			*/
 		}
-		regresa res;
-	}
-
-	lienzo{
-		variable entero res, limite;
-		
-		imprimir('Hasta que numero calculo:');
-		limite = leer();
-
-		res = fibo(limite);
 
 		imprimir('Result:');
 		imprimir(res);
+	}
+
+	lienzo{
+		variable entero res, limite, repeticiones, cont;
 		
+		imprimir('Cuantas repeticiones:');
+		repeticiones = leer();
+		cont = 0;
+
+		mientras (cont < repeticiones){
+			imprimir('Hasta que numero calculo:');
+			limite = leer();
+			fibo(3 > 2, limite, 20);
+			cont = cont + 1;
+		}
+
+		uno(5);
+
+		imprimir('yeah');
+		imprimir(cont);
+		imprimir(4 > 2);
+
 	}
 
 	
