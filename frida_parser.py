@@ -84,7 +84,7 @@ def p_tipo_opt_prim_2(p):
 		| empty'''
 
 def p_tipo_dimensions(p):
-	'''tipo_dimensions : LBRACKET INT add_dimensioned_var RBRACKET tipo_dimensions
+	'''tipo_dimensions : LBRACKET INT add_dimensioned_var RBRACKET 
 		| empty'''
 
 def p_tipo_opt_prim_3(p):
@@ -274,20 +274,19 @@ def p_retorno(p):
 	'retorno : RETURN logica check_return SEMICOLON'
 
 def p_asignacion(p):
-	'asignacion : ID check_variable asignacion_opt ASSIGN push_operation asignacion_opt_2 SEMICOLON'
+	'asignacion : ID check_variable push_operand asignacion_opt finish_array_access ASSIGN push_operation asignacion_opt_2 finish_single_array_assignment SEMICOLON'
 	
-	address = SymbolsTable.checkVarAddress(g.funcName, p[1])
-	if address > 0 and address != None:
-		type = SymbolsTable.checkVarType(g.funcName, p[1])
-		push_o(str(address), type)
-	else:
-		push_o(p[1], 'var')
+	# address = SymbolsTable.checkVarAddress(g.funcName, p[1])
+	# if address > 0 and address != None:
+	# 	type = SymbolsTable.checkVarType(g.funcName, p[1])
+	# 	push_o(str(address), type)
+	# else:
+	# 	push_o(p[1], 'var')
 
-	assign_helper()
+	# assign_helper()
 
 def p_asignacion_opt(p):
-	'''asignacion_opt : LBRACKET logica RBRACKET
-		| LBRACKET RBRACKET
+	'''asignacion_opt : LBRACKET array_access_prep logica array_access RBRACKET
 		| empty'''
 
 def p_asignacion_opt_2(p):
@@ -399,19 +398,12 @@ def p_factor_opt_2(p):
 		| id_factor'''
 
 def p_id_factor(p):
-	'''id_factor : ID check_variable 
+	'''id_factor : ID check_variable push_operand id_factor_opt finish_array_access
 		| llamadaExp'''
-	if(len(p) == 3):
-		address = SymbolsTable.checkVarAddress(g.funcName, p[1])
-		if address > 0 and address != None:
-			type = SymbolsTable.checkVarType(g.funcName, p[1])
-			push_o(str(address), type)
-		else:
-			push_o(p[1], 'var')
 
 def p_id_factor_opt(p):
-	'''id_factor_opt : ID 
-	'''
+	'''id_factor_opt : LBRACKET array_access_prep logica array_access RBRACKET 
+		| empty'''
 
 # llamadaExp
 
