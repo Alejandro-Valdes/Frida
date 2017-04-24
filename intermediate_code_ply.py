@@ -103,7 +103,8 @@ def push_o(p, type):
 	else:
 		resType = type
 
-	resType = getTypeCode(resType)
+	resType = getTypeCode(resType)	
+	print("%s %s" % (p, resType))
 	g.oStack.append(p)
 	g.typeStack.append(resType)
 
@@ -398,18 +399,19 @@ def p_finish_array_access(p):
 
 		g.processingVar = False
 
-def p_finish_single_array_assignment(p):
-	'finish_single_array_assignment : empty'
+def p_finish_assignment(p):
+	'finish_assignment : empty'
 
 	if(len(g.operStack) > 0):
 		if (g.operStack[-1] == getOperationCode('=')):
-
 			left_o = g.oStack.pop()
 			res = g.oStack.pop()
+
+			print("%s %s" % (left_o, res))
 			operand = g.operStack.pop()
 
 			right_type = g.typeStack.pop()
-			left_type = g.typeStack.pop()			
+			left_type = g.typeStack.pop()
 			resultType = getResultType(left_type, operand, right_type)
 
 			if resultType > 0:
