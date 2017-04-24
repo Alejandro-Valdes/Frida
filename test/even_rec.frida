@@ -1,0 +1,26 @@
+programa even
+	/*Algorithm for finding the k-th even natural number */
+	rutina entero : evenNum(entero: x){
+		variable entero res = 0;
+		si (x == 1){
+        	regresa 0;
+		}
+
+	    sino{
+	         res = evenNum(x - 1) + 2;
+	         regresa res;
+	    }
+	}
+
+	lienzo{
+		variable entero res = 0, x = 10;
+
+		res = evenNum(x);
+
+		imprimir(res);
+
+		imprimir('Prueba');
+
+		imprimir(res == (2*(x-1)));
+
+	}
