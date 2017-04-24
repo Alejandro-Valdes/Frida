@@ -25,7 +25,8 @@ def init():
 	global dStack
 	global actualVarObj
 	global dim
-	
+	global currId
+
 	oStack = []
 	dStack = []
 	operStack = []
@@ -51,3 +52,5 @@ def init():
 
 	actualVarObj = None
 	dim = 0
+
+	currId = ''
