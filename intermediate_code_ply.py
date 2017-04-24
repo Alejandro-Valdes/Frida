@@ -87,17 +87,18 @@ def quad_maker():
 
 def push_o(p, type):
 	resType = ''
+	res = p
 	
 	if type == 'var':
 		resType = SymbolsTable.checkVarType(g.funcName, p)
 	elif type == 'func':
 		resType = SymbolsTable.checkFuncReturnType(p)
+		res = SymbolsTable.checkVarAddress(g.funcName, res)
 	else:
 		resType = type
 
 	resType = getTypeCode(resType)
-
-	g.oStack.append(p)
+	g.oStack.append(res)
 	g.typeStack.append(resType)
 
 def assign_helper():

@@ -21,22 +21,18 @@ programa fibo
 		imprimir('finuno');
 	}
 
-	rutina void : fibo(bool: test2, entero: lim, entero: test){
+	rutina entero : fibo(bool: test2, entero: lim, entero: test){
 		variable entero x1 = 0, x2 = 1, temp;
 		variable entero cont = 1;
 		variable entero res = 0;
 
 		si(lim == 0){		
-			imprimir ('if');
 			res = x1;
 		}
 		sino_pero(lim == 1){
-			imprimir ('elif');
 			res = x2;
 		}
 		sino{
-			imprimir ('else');
-
 			mientras(cont < lim){
 
 				res = x1 + x2;
@@ -53,8 +49,7 @@ programa fibo
 			*/
 		}
 
-		imprimir('Result:');
-		imprimir(res);
+		regresa res;
 	}
 
 	lienzo{
@@ -67,7 +62,12 @@ programa fibo
 		mientras (cont < repeticiones){
 			imprimir('Hasta que numero calculo:');
 			limite = leer();
-			fibo(3 > 2, limite, 20);
+			
+			res = fibo(3 > 2, limite, 20) + 0;
+
+			imprimir('Result:');
+			imprimir(res);
+
 			cont = cont + 1;
 		}
 
