@@ -1,30 +1,30 @@
 class Dimension():
-	def __init__(self, lim_sup, m, next):
+	def __init__(self, sup_lim, m, next):
 		# By our language definition, the superior limit is always one shorter
-		self.lim_sup = lim_sup - 1
+		self.sup_lim = sup_lim - 1
 		self.m = m
 		self.next = next
 
 class DimensionList():
 
-	def __init__(self, lim_sup):
+	def __init__(self, sup_lim):
 		self.r = 1
 		self.dim = 1
 		self.aux = 0
 
-		dimension = Dimension(int(lim_sup), 0, None)
+		dimension = Dimension(int(sup_lim), 0, None)
 
 		self.first = dimension
 		self.last = dimension
 
-		self.r = (dimension.lim_sup + 1) * self.r
+		self.r = (dimension.sup_lim + 1) * self.r
 
-	def add_dimension(self, lim_sup):
-		dimension = Dimension(int(lim_sup), 0, None)
+	def add_dimension(self, sup_lim):
+		dimension = Dimension(int(sup_lim), 0, None)
 		self.last.next = dimension
 		self.last = dimension
 
-		self.r = (dimension.lim_sup + 1) * self.r
+		self.r = (dimension.sup_lim + 1) * self.r
 		self.dim += 1
 
 	def calculate_constants(self):
@@ -32,7 +32,7 @@ class DimensionList():
 		self.total_size = self.r
 
 		while tmp:
-			tmp.m = self.r / (self.first.lim_sup + 1)
+			tmp.m = self.r / (self.first.sup_lim + 1)
 			self.r = tmp.m
 			tmp = tmp.next
 
@@ -44,7 +44,7 @@ class DimensionList():
 			return None
 
 		while aux:
-			stringRep += 'lim: ' + str(aux.lim_sup) + ' m: ' + str(aux.m) + ' | '
+			stringRep += 'lim: ' + str(aux.sup_lim) + ' m: ' + str(aux.m) + ' | '
 			aux = aux.next
 
 		stringRep += 'size: ' + str(self.total_size)

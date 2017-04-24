@@ -1,6 +1,33 @@
 programa voidFunc
-	variable entero miEntero = 10;	
+
+	rutina void : tres(entero: test){
+		imprimir('tres');
+		imprimir(test);
+		imprimir('fintres');
+	}
+	
+	rutina void : dos(entero: test){
+		imprimir('dos');
+		imprimir(test);
+		tres(test * 2);
+		imprimir(test);
+		imprimir('findos');
+	}
+
+	rutina void : uno(entero: test){
+		imprimir('uno');
+		imprimir(test);
+		dos(test * 2);
+		imprimir(test);
+		imprimir('finuno');
+	}
 
 	lienzo{
-		variable entero arreglo[10] = { 10, 5, 20 };
+		variable entero arreglo[2] = {5,20};
+		variable entero x = 32;
+
+		arreglo[1] = 100;
+
+		imprimir(arreglo[1]);
+		uno(arreglo[0] * 2);
 	}

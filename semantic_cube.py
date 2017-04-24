@@ -58,6 +58,8 @@ RET = 1007
 GOSUB = 1008
 PARAM = 1009
 
+VERIFY = 10010
+
 # Language native functions
 FIG = 2000
 F_PAR = 2001
@@ -258,13 +260,13 @@ def getTypeStr(codeType):
 		return 'decimal'
 	elif codeType ==  CADENA:
 		return 'cadena'
-	elif strType == PINCEL:
+	elif codeType == PINCEL:
 		return 'pincel'
-	elif strType == CUADRADO:
+	elif codeType == CUADRADO:
 		return 'cuadrado'
-	elif strType == RECTANGULO:
+	elif codeType == RECTANGULO:
 		return 'rectangulo'
-	elif strType == CIRCULO:
+	elif codeType == CIRCULO:
 		return 'circulo'
-	elif strType == TRIANGULO:
+	elif codeType == TRIANGULO:
 		return 'triangulo'

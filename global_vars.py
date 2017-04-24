@@ -17,14 +17,17 @@ def init():
 	global param_count
 	global funcHasReturn
 	global currentVarDimensions
-	global dimensionedVar
 	global processingVar
 	global arrayAssignmentCounter
 	global arrayBase
 	global arrayType
 	global fig_name
+	global dStack
+	global actualVarObj
+	global dim
 	
 	oStack = []
+	dStack = []
 	operStack = []
 	jumpStack = []
 	typeStack = []
@@ -45,3 +48,6 @@ def init():
 	arrayBase = -1
 	arrayType = -1
 	fig_name = ''
+
+	actualVarObj = None
+	dim = 0

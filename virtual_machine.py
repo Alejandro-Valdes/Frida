@@ -8,6 +8,9 @@ try:
 except ImportError:
     from tkinter import *
 
+def printUndefinedValue():
+	print('Error: Acceso a variable indefinida')
+
 class VirtualMachine():
 	def __init__(self, quad_list):
 		self.quad_list = quad_list
@@ -35,7 +38,19 @@ class VirtualMachine():
 		
 		while ip < len(self.quad_list):
 			quad = self.quad_list[ip]
+
+			if len(str(quad.o1)) > 0 and str(quad.o1)[0] == '*':
+				quad.o1 = self.mem.getValue(int(quad.o1[1:]))
+			if len(str(quad.o2)) > 0 and str(quad.o2)[0] == '*':
+				quad.o2 = self.mem.getValue(int(quad.o2[1:]))
+			if len(str(quad.res)) > 0 and str(quad.res)[0] == '*':
+				quad.res = self.mem.getValue(int(quad.res[1:]))
+
 			if quad.action == PRINT:
+				if self.mem.getValue(int(quad.res)) is None:
+					printUndefinedValue()
+					sys.exit()
+
 				if (self.mem.getValue(int(quad.res)) == TRUE):
 					print('verdadero')
 				elif (self.mem.getValue(int(quad.res)) == FALSE):
@@ -81,28 +96,38 @@ class VirtualMachine():
 					sys.exit()
 
 			elif quad.action == ASSIGN:
-				res = self.mem.getValue(int(quad.o1.val))
+				res = self.mem.getValue(int(quad.o1))
 				self.mem.setValue(res, int(quad.res))
 
+
 			elif quad.action > RELSTART and quad.action < RELEND:
-				res = self.relational_operation(quad.action, quad.o1.val, quad.o2.val)
+				res = self.relational_operation(quad.action, quad.o1, quad.o2)
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action > MATHSTART and quad.action < MATHEND:
-				res = self.basic_math(quad.action, quad.o1.val, quad.o2.val)
+				res = self.basic_math(quad.action, quad.o1, quad.o2)
+
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action == GOTO:
 				ip = int(quad.res) - 1
 
 			elif quad.action == GOTOF:
-				if self.mem.getValue(int(quad.o1.val)) == FALSE:
+				if self.mem.getValue(int(quad.o1)) == FALSE:
 					ip = int(quad.res) - 1
 				else:
 					pass
 
+			elif quad.action == VERIFY:
+				quad_o1 = self.mem.getValue(int(quad.o1))
+
+				if int(quad_o1) >= int(quad.o2) and int(quad_o1) <= int(quad.res):
+					pass
+				else:
+					print('Error: Indice fuera de limites de arreglo')
+
 			elif quad.action > ANDORSTART and quad.action < ANDOREND:
-				res = self.logic_operation(quad.action, quad.o1.val, quad.o2.val)
+				res = self.logic_operation(quad.action, quad.o1, quad.o2)
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action == ERA:
@@ -140,10 +165,12 @@ class VirtualMachine():
 				curr_scope = 'lienzo'
 
 			elif quad.action == PARAM:
-				if int(quad.o1.val) in temp_local_mem:
-					value = temp_local_mem[int(quad.o1.val)]
+
+				if int(quad.o1) in temp_local_mem:
+					value = temp_local_mem[int(quad.o1)]
+
 				else:
-					value = self.mem.getValue(int(quad.o1.val))
+					value = self.mem.getValue(int(quad.o1))
 
 				self.mem.setValue(value, int(paramAddresses[currParam]))
 				currParam += 1
@@ -187,7 +214,7 @@ class VirtualMachine():
 			ip += 1
 
 	def drawShape(self, fig_code, fig_param_stack, res_address):
-		if fig_code.val == CUADRADO:
+		if fig_code == CUADRADO:
 			color = self.mem.getValue(fig_param_stack.pop())
 			pos_y = self.mem.getValue(fig_param_stack.pop())
 			pos_x = self.mem.getValue(fig_param_stack.pop())
@@ -199,6 +226,10 @@ class VirtualMachine():
 	def relational_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
 		o2 = self.mem.getValue(int(o2))
+
+		if o1 is None or o2 is None:
+			printUndefinedValue()
+			sys.exit()
 
 		if action == LTHAN:
 			return TRUE if o1 < o2 else FALSE 
@@ -217,7 +248,11 @@ class VirtualMachine():
 
 	def basic_math(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
-		o2 = self.mem.getValue(int(o2))
+		o2 = self.mem.getValue(int(o2))		
+
+		if o1 is None or o2 is None:
+			print('Error: acceso a valor indefinido')
+			sys.exit()
 
 		if action == SUM:
 			return o1 + o2
@@ -228,11 +263,16 @@ class VirtualMachine():
 		elif action == DIV:
 			return o1 / o2
 		print('Error matematicas')
+
 		sys.exit()
 
 	def logic_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
 		o2 = self.mem.getValue(int(o2))
+
+		if o1 is None or o2 is None:
+			print('Error: acceso a valor indefinido')
+			sys.exit()
 
 		o1 = True if o1 == TRUE else False
 		o2 = True if o2 == TRUE else False
@@ -244,6 +284,4 @@ class VirtualMachine():
 
 		print('Error logica')
 		sys.exit()
-
-
 
