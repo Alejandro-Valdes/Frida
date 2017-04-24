@@ -13,6 +13,7 @@ def p_check_variable(p):
 
 def p_check_function(p):
 	'check_function : empty'
+	g.funcExpName = p[-1]
 	SymbolsTable.checkFunction(p[-1])
 
 def p_saveFuncParam(p):
@@ -100,6 +101,11 @@ def p_add_main_scope(p):
 def p_expect_var_type(p):
 	'expect_var_type : empty'
 	g.varTypeSoon = True
+
+def p_add_func_var_name(p):
+	'add_func_var_name : empty'
+	g.processingVar = True
+	g.varName = g.funcExpName
 
 def p_add_var_name(p):
 	'add_var_name : empty'

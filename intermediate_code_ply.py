@@ -95,17 +95,19 @@ def p_push_operand(p):
 
 def push_o(p, type):
 	resType = ''
+	res = p
 	
 	if type == 'var':
 		resType = SymbolsTable.checkVarType(g.funcName, p)
 	elif type == 'func':
 		resType = SymbolsTable.checkFuncReturnType(p)
+		res = SymbolsTable.checkVarAddress(g.funcName, res)
 	else:
 		resType = type
 
-	resType = getTypeCode(resType)	
-	print("%s %s" % (p, resType))
-	g.oStack.append(p)
+	resType = getTypeCode(resType)
+
+	g.oStack.append(res)
 	g.typeStack.append(resType)
 
 def assign_helper():

@@ -28,8 +28,11 @@ class VirtualMachine():
 		paramAddresses = []
 		currParam = 0
 		ret_ip = 0
+
 		memory_stack = []
 		ip_exe_stack = []
+		memory_to_save = []
+
 		temp_local_mem = {}
 		curr_scope = 'lienzo'
 		
@@ -137,12 +140,15 @@ class VirtualMachine():
 
 				memory_stack.append(dict(temp_local_mem))
 
+
+				memory_to_save.append(SymbolsTable.checkVarAddress(curr_scope, quad.o1))
+
 			elif quad.action == GOSUB:
 				ip_exe_stack.append(ip)
 				ip = int(quad.res) - 1
 				currParam = 0
-
 				curr_scope = str(quad.o1)
+
 
 			elif quad.action == ENDPROC:
 				ip = ip_exe_stack.pop()
@@ -156,16 +162,43 @@ class VirtualMachine():
 
 				for address in temp:
 					self.mem.setValue(temp[address], int(address))
+				curr_scope = 'lienzo'
+
+				memory_to_save.pop()
 
 			elif quad.action == PARAM:
+
 				if int(quad.o1) in temp_local_mem:
 					value = temp_local_mem[int(quad.o1)]
-					print (value)
+
 				else:
 					value = self.mem.getValue(int(quad.o1))
 
 				self.mem.setValue(value, int(paramAddresses[currParam]))
 				currParam += 1
+
+			elif quad.action == RET:
+				resMem = quad.res
+				resValue = self.mem.getValue(int(resMem))
+
+				#EXTRACT TO OWN FUNC ITS THE SAME AS ENDPROC
+				ip = ip_exe_stack.pop()
+				scoped_addresses = SymbolsTable.getScopedMemory(curr_scope)
+
+				for address in scoped_addresses:
+					self.mem.setValue(None, int(address))
+
+				temp = {}
+				temp = memory_stack.pop()
+
+				for address in temp:
+					self.mem.setValue(temp[address], int(address))
+				curr_scope = 'lienzo'
+				#END EXTRACT
+
+				res_address = memory_to_save.pop()
+				self.mem.setValue(resValue, int(res_address))
+
 
 			elif quad.action == FIG:
 				fig_code = quad.o1
