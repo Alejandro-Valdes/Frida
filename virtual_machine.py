@@ -164,6 +164,8 @@ class VirtualMachine():
 					self.mem.setValue(temp[address], int(address))
 				curr_scope = 'lienzo'
 
+				memory_to_save.pop()
+
 			elif quad.action == PARAM:
 
 				if int(quad.o1) in temp_local_mem:
