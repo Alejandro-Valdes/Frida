@@ -9,7 +9,8 @@ from dimension import *
 
 def p_check_variable(p):
 	'check_variable : empty'
-	g.actualVarObj = SymbolsTable.checkVariable(p[-1], g.funcName)
+	g.currId = p[-1]
+	g.actualVarObj = SymbolsTable.checkVariable(g.currId, g.funcName)
 
 def p_check_function(p):
 	'check_function : empty'

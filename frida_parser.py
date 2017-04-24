@@ -323,7 +323,8 @@ def p_impresion(p):
 # LECTURA
 def p_lectura(p):
 	'lectura : READ LPARENTHESIS RPARENTHESIS'
-	g.nextType = SymbolsTable.checkVarType(g.funcName, p[-5])
+	g.nextType = SymbolsTable.checkVarType(g.funcName, g.currId)
+
 	read_helper()
 
 # LLAMADA
