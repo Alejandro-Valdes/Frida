@@ -141,7 +141,7 @@ class VirtualMachine():
 				memory_stack.append(dict(temp_local_mem))
 
 
-				memory_to_save.append(SymbolsTable.checkVarAddress(curr_scope, quad.o1.val))
+				memory_to_save.append(SymbolsTable.checkVarAddress(curr_scope, quad.o1))
 
 			elif quad.action == GOSUB:
 				ip_exe_stack.append(ip)
