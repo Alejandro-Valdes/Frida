@@ -6,50 +6,23 @@ programa fibo
 		variable entero x1 = 0, x2 = 1, temp;
 		variable entero cont = 1;
 		
-		variable cuadrado miCuadrado1 = nuevo cuadrado(200 * 2.1, 100, 100, "#FF0000");
-		variable cuadrado miCuadrado2 = nuevo cuadrado(200.43, 20, 20, "#00FF00");
 		variable cuadrado miCuadrado3 = nuevo cuadrado(30, 400, 100, "#0000FF");
 		variable cuadrado miCuadrado4 = nuevo cuadrado(50, 100, 100, "#FFF");
 
-		imprimir('Hasta que numero calculo:');
-		limite = leer();
+		variable cuadrado miCuad5 = nuevo cuadrado(100 * 2, 10, 10, "#FAE");
+		variable circulo miCirc = nuevo circulo(100, 10, 10, "#AAA");
 
-		si(limite == 0){		
-			res = x1;
-		}
-		sino_pero(limite == 1){
-			res = x2;
-		}
-		sino{
-			mientras(cont < limite){
+		variable rectangulo miRect = nuevo rectangulo(100, 2, 100, 100, "#221312");
 
-				res = x1 + x2;
+		variable rectangulo miRect2 = nuevo rectangulo(600, 100 - 20 , 43, 199, "#2acd12");
 
-				temp = x2;
-				x2 = res;
-				x1 = temp;
+		variable triangulo miT = nuevo triangulo(50 + 200, 300, 240, 440, 500, 180, "#BAE");
 
-				cont = cont + 1;
-			}
-			/*
-			res  0 1 1 2 3 5 8 13 21 34 10
-			cont 0 1 2 3 4 5 6 7  8  9  55
-			*/
-		}
 
-		imprimir('Result:');
-		imprimir(res);
-		imprimir(4 == 4 o 3 == 1);
 
-		si( 4 == 4 o 3 == 1){
-			imprimir('uno');
-
-			si (4 == 4 y falso){
-				imprimir('dos');
-			}
-			sino_pero(4==4 o falso){
-				imprimir('tres');
-			}
+		mientras (x1 < 10){
+			imprimir(x1 * 2);
+			x1 = x1 +1;
 		}
 		
 	}

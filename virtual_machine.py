@@ -16,9 +16,11 @@ class VirtualMachine():
 		self.quad_list = quad_list
 		self.mem = Memory()
 		self.frida_gui = Tk()
+		self.frida_gui.title('Canvas')
 		self.canvas = Canvas(self.frida_gui, width = 750, height = 600)
 		self.canvas.pack()
 		self.shapes = []
+		
 
 	def run_list(self):
 		print('\nOutput: ')
@@ -211,19 +213,46 @@ class VirtualMachine():
 
 			#shape move TODO
 			elif quad.action == 90000:
-				self.mem 
+				pass
 
 			ip += 1
 
+		self.frida_gui.mainloop()
+
 	def drawShape(self, fig_code, fig_param_stack, res_address):
+
+		color = self.mem.getValue(fig_param_stack.pop())
+		pos_y = self.mem.getValue(fig_param_stack.pop())
+		pos_x = self.mem.getValue(fig_param_stack.pop())
+		fig = 0
+
 		if fig_code == CUADRADO:
-			color = self.mem.getValue(fig_param_stack.pop())
-			pos_y = self.mem.getValue(fig_param_stack.pop())
-			pos_x = self.mem.getValue(fig_param_stack.pop())
 			sqr_len = self.mem.getValue(fig_param_stack.pop())
-			cuad = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
-			self.mem.setValue(res_address, cuad)
-			
+			fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
+
+		elif fig_code == RECTANGULO:
+			height = self.mem.getValue(fig_param_stack.pop())
+			width = self.mem.getValue(fig_param_stack.pop())
+			fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + width, pos_y + height, fill = color)
+
+		elif fig_code == CIRCULO:
+			cir_di = self.mem.getValue(fig_param_stack.pop()) * 2
+			fig = self.canvas.create_oval(pos_x, pos_y, pos_x + cir_di, pos_y + cir_di, fill = color)
+
+		elif fig_code == TRIANGULO:
+			p3_y = pos_y
+			p3_x = pos_x
+			p2_y = self.mem.getValue(fig_param_stack.pop())
+			p2_x = self.mem.getValue(fig_param_stack.pop())
+			p1_y = self.mem.getValue(fig_param_stack.pop())
+			p1_x = self.mem.getValue(fig_param_stack.pop())
+			points = [p1_x, p1_y, p2_x, p2_y, p3_x, p3_y]
+			fig = self.canvas.create_polygon(points, fill = color)
+
+
+		self.mem.setValue(res_address, fig)
+
+
 
 	def relational_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
