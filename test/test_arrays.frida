@@ -3,13 +3,21 @@ programa voidFunc
 	rutina void : tres(entero: test){
 		variable rectangulo miRect2 = nuevo rectangulo(600, 100 - 20 , 43, 199, "#2acd12");
 
+
 		imprimir('tres');
 		imprimir(test);
 		imprimir('fintres');
 	}
 	
 	rutina void : dos(entero: test){
-		variable rectangulo miRect2 = nuevo rectangulo(600 - 400, 100 - 20 , 43, 199, "#2fff12");
+		variable rectangulo miRect2 = nuevo rectangulo(300, 400 - 20 , 199, 199, "#fff");
+		variable cadena input = '';
+		input = leer();
+
+		si(input == 'si'){
+			miRect2.mover(2);
+		}
+
 
 		imprimir('dos');
 		imprimir(test);

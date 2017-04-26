@@ -405,7 +405,15 @@ def p_llamadaExp(p):
 
 # accion
 def p_accion(p):
-	'accion : ID POINT accion_opt SEMICOLON'
+	'accion : ID save_curr_fig POINT accion_opt SEMICOLON'
+
+def p_save_curr_fig(p):
+	'save_curr_fig : empty'
+	print('+++++++++++++++++++++++')
+	print (p[-1])
+	print (g.currId)
+	print('+++++++++++++++++++++++')
+
 
 def p_accion_opt(p):
 	'''accion_opt : accion_figura 

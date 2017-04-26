@@ -4,9 +4,9 @@ from semantic_cube import *
 from symbol_table import *
 import global_vars as g
 try:
-    from Tkinter import *
+    import Tkinter as tk
 except ImportError:
-    from tkinter import *
+    import tkinter as tk
 
 def printUndefinedValue():
 	print('Error: Acceso a variable indefinida')
@@ -15,9 +15,9 @@ class VirtualMachine():
 	def __init__(self, quad_list):
 		self.quad_list = quad_list
 		self.mem = Memory()
-		self.frida_gui = Tk()
+		self.frida_gui = tk.Tk()
 		self.frida_gui.title('Canvas')
-		self.canvas = Canvas(self.frida_gui, width = 750, height = 600)
+		self.canvas = tk.Canvas(self.frida_gui, width = 750, height = 600)
 		self.canvas.pack()
 		self.shapes = []
 		
@@ -37,6 +37,8 @@ class VirtualMachine():
 
 		temp_local_mem = {}
 		curr_scope = 'lienzo'
+
+
 		
 		while ip < len(self.quad_list):
 			quad = self.quad_list[ip]
@@ -216,8 +218,11 @@ class VirtualMachine():
 				print('desplazar')
 
 			ip += 1
+			self.frida_gui.update()
 
 		self.frida_gui.mainloop()
+
+		
 
 	def drawShape(self, fig_code, fig_param_stack, res_address):
 
