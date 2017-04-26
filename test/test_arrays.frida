@@ -1,12 +1,16 @@
 programa voidFunc
 
 	rutina void : tres(entero: test){
+		variable rectangulo miRect2 = nuevo rectangulo(600, 100 - 20 , 43, 199, "#2acd12");
+
 		imprimir('tres');
 		imprimir(test);
 		imprimir('fintres');
 	}
 	
 	rutina void : dos(entero: test){
+		variable rectangulo miRect2 = nuevo rectangulo(600 - 400, 100 - 20 , 43, 199, "#2fff12");
+
 		imprimir('dos');
 		imprimir(test);
 		tres(test * 2);
@@ -23,11 +27,12 @@ programa voidFunc
 	}
 
 	lienzo{
-		variable entero arreglo[2] = {5,20};
-		variable entero x = 32;
+		variable entero arreglo[2] = {5, 20};
+		variable entero x = 32 * 2;
+		
 
 		arreglo[1] = 100;
 
 		imprimir(arreglo[1]);
-		uno(arreglo[0] * 2);
+		uno(arreglo[0]);
 	}

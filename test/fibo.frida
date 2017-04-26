@@ -1,6 +1,28 @@
 programa fibo
 	variable entero res = 0;
 
+	rutina void : tres(entero: test){
+		imprimir('tres');
+		imprimir(test);
+		imprimir('fintres');
+	}
+	
+	rutina void : dos(entero: test){
+		imprimir('dos');
+		imprimir(test);
+		tres(test * 2);
+		imprimir(test);
+		imprimir('findos');
+	}
+
+	rutina void : uno(entero: test){
+		imprimir('uno');
+		imprimir(test);
+		dos(test * 2);
+		imprimir(test);
+		imprimir('finuno');
+	}
+
 	lienzo{
 		variable entero limite;
 		variable entero x1 = 0, x2 = 1, temp;
@@ -18,6 +40,14 @@ programa fibo
 
 		variable triangulo miT = nuevo triangulo(50 + 200, 300, 240, 440, 500, 180, "#BAE");
 
+		variable entero arreglo[2] = {5,20};
+		variable entero x = 32;
+
+		arreglo[1] = 100;
+
+		imprimir(arreglo[1]);
+		
+		/*uno(arreglo[0] * 2);*/
 
 
 		mientras (x1 < 10){

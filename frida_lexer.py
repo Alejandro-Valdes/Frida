@@ -65,7 +65,7 @@ reserved = {
 	'nuevo' : 'NUEVO',
 	'void' : 'VOID',
 	'regresa' : 'RETURN',
-	'avanza' : 'MOVEA',
+	'mover' : 'MOVEA',
 	'gira' : 'ROTATE',
 	'crece' : 'GROW',
 	'grosor' : 'THICK',

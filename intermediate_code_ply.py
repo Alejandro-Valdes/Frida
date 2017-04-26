@@ -272,7 +272,7 @@ def p_fgra_fin(p):
 	quad = QuadrupleItem(F_FIN, '', '', address)
 	Quadruple.add_quad(quad)
 
-	address = SymbolsTable.checkVarAddress(g.funcName, g.varName)
+	#TODO 
 	quad = QuadrupleItem(90000, address, '', address)
 
 	Quadruple.add_quad(quad)

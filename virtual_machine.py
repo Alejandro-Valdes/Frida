@@ -213,7 +213,7 @@ class VirtualMachine():
 
 			#shape move TODO
 			elif quad.action == 90000:
-				pass
+				print('desplazar')
 
 			ip += 1
 
@@ -248,10 +248,6 @@ class VirtualMachine():
 			p1_x = self.mem.getValue(fig_param_stack.pop())
 			points = [p1_x, p1_y, p2_x, p2_y, p3_x, p3_y]
 			fig = self.canvas.create_polygon(points, fill = color)
-
-
-		self.mem.setValue(res_address, fig)
-
 
 
 	def relational_operation(self, action, o1, o2):
