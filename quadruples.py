@@ -8,7 +8,7 @@ class QuadrupleItem():
 		self.o2 = o2
 		self.res = res
 
-class  Quadruple():
+class Quadruple():
 
 	quadruple_list = []
 	__shared_state = {}

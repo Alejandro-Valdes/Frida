@@ -3,12 +3,12 @@
 # except ImportError:
 #     from tkinter import *
 import tkinter as tk
+from frida_parser import parser
 
 class FridaGui(tk.Frame):
 	def __init__(self, parent, *args, **kwargs):
 
 		self.parent = parent
-
 		tk.Frame.__init__(self, *args, **kwargs)
 		self.top_frame = tk.Frame(self)
 		self.bottom_frame = tk.Frame(self)
@@ -53,7 +53,7 @@ class FridaGui(tk.Frame):
 
 		filemenu = tk.Menu(self.menubar, tearoff=0)
 		filemenu.add_command(label="New", command=self.NewFile)
-		filemenu.add_command(label="Open", command=self.donothing)
+		filemenu.add_command(label="Open", command=self.readFile)
 		filemenu.add_command(label="Save", command=self.donothing)
 		filemenu.add_command(label="Save as...", command=self.donothing)
 		filemenu.add_command(label="Close", command=self.donothing)
@@ -86,15 +86,18 @@ class FridaGui(tk.Frame):
 		# save_btn.grid(row = 0, column = 0, sticky='WENS', padx=15, pady=10)
 		# open_btn.grid(row = 0, column = 2, sticky='WENS')
 
-
-	def NewFile():
-		text_area.delete("1.0",END)
-
+	def NewFile(self):
+		self.text.delete("1.0",END)
 
 	def donothing():
 	   filewin = tk.Toplevel(self)
 	   button = tk.Button(filewin, text="Do nothing button")
 	   button.pack()
+
+	def readFile(self):
+		input = self.text.get("1.0",tk.END)
+		parser.parse(input)
+		print('hola')
 
 	def _on_change(self, event):
 	    self.linenumbers.redraw()

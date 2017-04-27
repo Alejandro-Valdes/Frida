@@ -1,14 +1,13 @@
 from frida_parser import parser
 import global_vars
+from frida_gui import *
 
-global_vars.init()
+if __name__ == "__main__":
+	global_vars.init()
 
-def readFile(file):
-	file_in = open(file, 'r')
-	data = file_in.read()
-	file_in.close()
-	parser.parse(data)
+	frida_gui = tk.Tk()
+	frida_gui.title('Frida IDE')
 
-readFile("test/test_arrays.frida")
-
-print('\n')
+	FridaGui(frida_gui).pack(side="top", fill="both", expand=True)
+	frida_gui.mainloop()
+	# readFile("test/test_arrays.frida")

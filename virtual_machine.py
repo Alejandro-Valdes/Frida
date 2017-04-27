@@ -3,7 +3,6 @@ from memory import *
 from semantic_cube import *
 from symbol_table import *
 import global_vars as g
-from frida_gui import *
 try:
     import Tkinter as tk
 except ImportError:
@@ -13,20 +12,11 @@ def printUndefinedValue():
 	print('Error: Acceso a variable indefinida')
 
 class VirtualMachine():
-	def __init__(self, quad_list):
+	def __init__(self, quad_list, gui):
 		self.quad_list = quad_list
 		self.mem = Memory()
-
-		self.frida_gui = tk.Tk()
-		self.frida_gui.title('Frida IDE')
-
-		FridaGui(self.frida_gui).pack(side="top", fill="both", expand=True)
-		self.frida_gui.mainloop()
-
-		# self.canvas = tk.Canvas(self.frida_gui, width = 750, height = 600)
-		# self.canvas.pack()
 		self.shapes = []
-		
+		self.gui = gui
 
 	def run_list(self):
 		print('\nOutput: ')
