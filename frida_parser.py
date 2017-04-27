@@ -50,7 +50,6 @@ def p_rutinas(p):
 	'''rutinas : RUTINA FuncTypeNext rutina_opt COLON ID saveFuncName LPARENTHESIS parametros RPARENTHESIS saveFuncParam bloque_rutina gen_end_proc cleanFunc rutinas_loop 
 		| empty'''
 
-
 def p_rutina_opt(p):
 	'''rutina_opt : primitivo
 		| figura
@@ -70,36 +69,47 @@ def p_tipo_opt(p):
 # Tipo Prim
 
 def p_tipo_opt_prim(p):
-	'tipo_opt_prim : add_var_name primitivo tipo_opt_prim_loop'
+	'tipo_opt_prim : expect_var_type primitivo tipo_opt_prim_loop'
 
 def p_tipo_opt_prim_loop(p):
-	'tipo_opt_prim_loop : ID add_var tipo_opt_prim_2 tipo_opt_prim_loop_2'
+	'tipo_opt_prim_loop : ID add_var_name tipo_opt_prim_2 add_var tipo_opt_prim_loop_2'
 
 def p_tipo_opt_prim_loop_2(p):
 	'''tipo_opt_prim_loop_2 : COMA tipo_opt_prim_loop
 		| empty'''
 
 def p_tipo_opt_prim_2(p):
-	'''tipo_opt_prim_2 : ini_prim 
-		| LBRACKET logica RBRACKET tipo_opt_prim_3
+	'''tipo_opt_prim_2 : ini_prim
+		| tipo_dimensions add_var tipo_opt_prim_3
+		| empty'''
+
+def p_tipo_dimensions(p):
+	'''tipo_dimensions : LBRACKET INT add_dimensioned_var RBRACKET 
 		| empty'''
 
 def p_tipo_opt_prim_3(p):
 	'''tipo_opt_prim_3 : ini_prim_v 
 		| empty '''
 
+def p_print_hola(p):
+	'print_hola : empty'
+	print('hola')
+
 # Tipo fig
 
 def p_tipo_opt_fig(p):
-	'tipo_opt_fig : add_var_name figura ID add_var tipo_opt_fig_2 tipo_opt_fig_loop'
+	'tipo_opt_fig : expect_var_type figura tipo_opt_fig_loop'
 
 def p_tipo_opt_fig_loop(p):
-	'''tipo_opt_fig_loop : COMA tipo_opt_fig
+	'tipo_opt_fig_loop : ID add_var_name tipo_opt_fig_2 add_var tipo_opt_fig_loop_2'
+
+def p_tipo_opt_fig_loop_2(p):
+	'''tipo_opt_fig_loop_2 : COMA tipo_opt_fig_loop
 		| empty'''
 
 def p_tipo_opt_fig_2(p):
-	'''tipo_opt_fig_2 : ini_fgra 
-		| LBRACKET logica RBRACKET tipo_opt_fig_3 
+	'''tipo_opt_fig_2 : ini_fgra
+		| LBRACKET INT add_dimensioned_var RBRACKET tipo_opt_fig_3 
 		| empty '''
 
 def p_tipo_opt_fig_3(p):
@@ -109,31 +119,31 @@ def p_tipo_opt_fig_3(p):
 # Inicializacion de valores primitivos
 
 def p_ini_prim(p):
-	'ini_prim : ASSIGN push_operation logica'
+	'ini_prim : ASSIGN push_operation add_var logica'
 
 	address = SymbolsTable.checkVarAddress(g.funcName, p[-2])
 	type = SymbolsTable.checkVarType(g.funcName, p[-2])
 	push_o(str(address), type)
 	assign_helper()
 
-# Inicializacion de arreglos con valores primarios
+# Inicializacion de arreglos con valores primitivos
 
 def p_ini_prim_v(p):
-	'ini_prim_v : ASSIGN LBRACE logica ini_prim_v_loop RBRACE'
+	'ini_prim_v : ASSIGN push_operation init_array LBRACE cte assign_to_array ini_prim_v_loop RBRACE finish_array_assignment'
 
 def p_ini_prim_v_loop(p):
-	'''ini_prim_v_loop : COMA logica ini_prim_v_loop 
+	'''ini_prim_v_loop : COMA cte assign_to_array ini_prim_v_loop 
 		| empty'''
 
 # Inicializacion de figuras
 
 def p_ini_fgra(p):
-	'ini_fgra : ASSIGN fgra_nva'
+	'ini_fgra : ASSIGN push_operation add_var fgra_nva fgra_fin'
 
 # Inicializacion de arreglos de figuras
 
 def p_ini_fgra_v(p):
-	'ini_fgra_v : ASSIGN LBRACE fgra_nva ini_fgras_v_loop RBRACE'
+	'ini_fgra_v : ASSIGN push_operation LBRACE fgra_nva ini_fgras_v_loop RBRACE'
 
 def p_ini_fgras_v_loop(p):
 	'''ini_fgras_v_loop : COMA fgra_nva ini_fgras_v_loop
@@ -144,14 +154,14 @@ def p_fgra_nva(p):
 		| empty'''
 
 def p_fgra_atr(p):
-	'''fgra_atr : PINCEL LPARENTHESIS fgra_atr_end 
-		| CUAD LPARENTHESIS exp COMA fgra_atr_end 
-		| CIRC LPARENTHESIS exp COMA fgra_atr_end
-		| RECT LPARENTHESIS exp COMA exp COMA fgra_atr_end
-		| TRIANG LPARENTHESIS exp COMA exp COMA exp COMA exp COMA fgra_atr_end'''
+	'''fgra_atr : PINCEL save_fig LPARENTHESIS fgra_atr_end 
+		| CUAD save_fig LPARENTHESIS exp push_fig_param COMA fgra_atr_end 
+		| CIRC save_fig LPARENTHESIS exp push_fig_param COMA fgra_atr_end
+		| RECT save_fig LPARENTHESIS exp push_fig_param COMA exp push_fig_param COMA fgra_atr_end
+		| TRIANG save_fig LPARENTHESIS exp push_fig_param COMA exp push_fig_param COMA exp push_fig_param COMA exp push_fig_param COMA fgra_atr_end'''
 
 def p_fgra_atr_end(p):
-	'fgra_atr_end : exp COMA exp COMA color RPARENTHESIS'
+	'fgra_atr_end : exp push_fig_param COMA exp push_fig_param COMA color push_fig_param RPARENTHESIS'
 
 # Data types
 
@@ -222,7 +232,6 @@ def p_tipo_param(p):
 	'''tipo_param : primitivo 
 		| figura''' 
 
-
 # lienzo
 
 def p_lienzo(p):
@@ -259,30 +268,16 @@ def p_estatuto(p):
 		| impresion 
 		| accion 
 		| llamada
-		| comentario
 		| retorno'''
 
 def p_retorno(p):
 	'retorno : RETURN logica check_return SEMICOLON'
 
-def p_comentario(p):
-	'comentario : COMMENT'
-
 def p_asignacion(p):
-	'asignacion : ID check_variable asignacion_opt ASSIGN push_operation asignacion_opt_2 SEMICOLON'
-	
-	address = SymbolsTable.checkVarAddress(g.funcName, p[1])
-	if address > 0 and address != None:
-		type = SymbolsTable.checkVarType(g.funcName, p[1])
-		push_o(str(address), type)
-	else:
-		push_o(p[1], 'var')
-
-	assign_helper()
+	'asignacion : ID check_variable push_operand asignacion_opt finish_array_access ASSIGN push_operation asignacion_opt_2 finish_assignment SEMICOLON'
 
 def p_asignacion_opt(p):
-	'''asignacion_opt : LBRACKET logica RBRACKET
-		| LBRACKET RBRACKET
+	'''asignacion_opt : LBRACKET array_access_prep logica array_access RBRACKET
 		| empty'''
 
 def p_asignacion_opt_2(p):
@@ -319,7 +314,8 @@ def p_impresion(p):
 # LECTURA
 def p_lectura(p):
 	'lectura : READ LPARENTHESIS RPARENTHESIS'
-	g.nextType = SymbolsTable.checkVarType(g.funcName, p[-5])
+	g.nextType = SymbolsTable.checkVarType(g.funcName, g.currId)
+
 	read_helper()
 
 # LLAMADA
@@ -394,25 +390,30 @@ def p_factor_opt_2(p):
 		| id_factor'''
 
 def p_id_factor(p):
-	'''id_factor : ID check_variable
+	'''id_factor : ID check_variable push_operand id_factor_opt finish_array_access
 		| llamadaExp'''
-	if(len(p) == 3):
-		address = SymbolsTable.checkVarAddress(g.funcName, p[1])
-		if address > 0 and address != None:
-			type = SymbolsTable.checkVarType(g.funcName, p[1])
-			push_o(str(address), type)
-		else:
-			push_o(p[1], 'var')
+
+def p_id_factor_opt(p):
+	'''id_factor_opt : LBRACKET array_access_prep logica array_access RBRACKET 
+		| empty'''
 
 # llamadaExp
 
 def p_llamadaExp(p):
-	'llamadaExp : ID check_function LPARENTHESIS mod_call_2 llamada_param RPARENTHESIS mod_call_5 mod_call_6'
+	'llamadaExp : ID check_function add_func_var_name add_var LPARENTHESIS mod_call_2 llamada_param RPARENTHESIS mod_call_5 mod_call_6'
 	push_o(p[1], 'func')
 
 # accion
 def p_accion(p):
-	'accion : ID POINT accion_opt SEMICOLON'
+	'accion : ID save_curr_fig POINT accion_opt SEMICOLON'
+
+def p_save_curr_fig(p):
+	'save_curr_fig : empty'
+	print('+++++++++++++++++++++++')
+	print (p[-1])
+	print (g.currId)
+	print('+++++++++++++++++++++++')
+
 
 def p_accion_opt(p):
 	'''accion_opt : accion_figura 
@@ -455,8 +456,8 @@ def p_accion_pincel_opt_end(p):
 
 # Color
 def p_color(p):
-	'''color : CTECOLOR
-		| CTEHEXCOLOR'''
+	'''color : CTECOLOR push_string
+		| CTEHEXCOLOR push_string'''
 
 # Error rule se tiene que agregar
 # Nos indica el error y el numero de linea donde esta

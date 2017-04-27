@@ -21,10 +21,25 @@ CTEENTERO = 14000
 CTEDECIMAL = 15000
 CTECADENA = 16000
 
+GLOBALPINCEL = 20000
+GLOBALCUADRADO = 21000
+GLOBALRECTANGULO = 22000
+GLOBALCIRCULO = 23000
+GLOBALTRIANGULO = 24000
+
+LOCALPINCEL = 30000
+LOCALCUADRADO = 31000
+LOCALRECTANGULO = 32000
+LOCALCIRCULO = 33000
+LOCALTRIANGULO = 34000
+
 LIM = 1000
 
 def printMemoryOverflow():
-	print 'Error: se acabo la memoria'
+	print('Error: se acabo la memoria')
+
+def printUndefinedValue():
+	print('Error: acceso a variable indefinida')
 
 class Memory():
 	"""docstring for Memory"""
@@ -32,35 +47,44 @@ class Memory():
 		pass
 
 	def getValue(self, address):
-		if address < 1000:
-			print 'Error'
-			sys.exit()
-		elif address >= 1000 and address < 5000:
-			return GlobalMemory.getItemValue(address)
-		elif address >= 5000 and address < 9000:
-			return LocalMemory.getItemValue(address)
-		elif address >= 9000 and address < 13000:
-			return TempMemory.getItemValue(address)
-		elif address >= 13000 and address < 17000:
-			return CteMemory.getItemValue(address)
-		else:
-			print 'Error'
+
+		try:
+			if address < 1000:
+				print('Error Mem ' + str(address))
+				sys.exit()
+			elif address >= 1000 and address < 5000 or (address >= GLOBALPINCEL and address <= GLOBALTRIANGULO):
+				return GlobalMemory.getItemValue(address)
+			elif (address >= 5000 and address < 9000) or (address >= LOCALPINCEL and address <= LOCALTRIANGULO):
+				return LocalMemory.getItemValue(address)
+			elif address >= 9000 and address < 13000:
+				return TempMemory.getItemValue(address)
+			elif address >= 13000 and address < 17000:
+				return CteMemory.getItemValue(address)
+			else:
+				print('Error Mem ' + str(address))
+				print(address >= LOCALPINCEL)
+				print(address <= LOCALTRIANGULO)
+				sys.exit()
+		except KeyError:
+			printUndefinedValue()
 			sys.exit()
 
 	def setValue(self, value, address):
 		if address < 1000:
-			print 'Error'
-			sys.exit()
-		elif address >= 1000 and address < 5000:
+			#print('Error set mem')
+			# TODO Set mem fig
+			#sys.exit()
+			pass
+		elif (address >= 1000 and address < 5000) or (address >= GLOBALPINCEL and address <= GLOBALTRIANGULO):
 			GlobalMemory.setValue(address, value)
-		elif address >= 5000 and address < 9000:
+		elif (address >= 5000 and address < 9000) or (address >= LOCALPINCEL and address <= LOCALTRIANGULO):
 			LocalMemory.setValue(address, value)
 		elif address >= 9000 and address < 13000:
 			TempMemory.setValue(address, value)
 		elif address >= 13000 and address < 17000:
 			CteMemory.setValue(address, value)
 		else:
-			print 'Error'
+			print('Error set mem')
 			sys.exit()
 
 class GlobalMemory():
@@ -70,6 +94,11 @@ class GlobalMemory():
 	enteroCount = 0
 	decimalCount = 0
 	cadenaCount = 0
+	pincelCount = 0
+	cuadradoCount = 0
+	rectanguloCount = 0
+	circuloCount = 0
+	trianguloCount = 0
 
 	__shared_state = {}
 	
@@ -79,41 +108,77 @@ class GlobalMemory():
 
 	@classmethod
 	def printGlobalMem(cls):
-		print cls.globalMem
+		print(cls.globalMem)
 
 	@classmethod
 	def getItemValue(cls, key):
-		return cls.globalMem[key]		
+		return(cls.globalMem[key])		
 
 	@classmethod
-	def getAddress(cls, type):
+	def getAddress(cls, type, size = 1):
 		address = 0
+
 		if type == BOOL:
 			if cls.boolCount < LIM:
 				address = GLOBALBOOL + cls.boolCount
 				cls.globalMem[address] = None
-				cls.boolCount += 1
+				cls.boolCount += size
 			else:
 				printMemoryOverflow()
 		elif type == ENTERO:
 			if cls.enteroCount < LIM:
 				address = GLOBALENTERO + cls.enteroCount
 				cls.globalMem[address] = None
-				cls.enteroCount += 1
+				cls.enteroCount += size
 			else:
 				printMemoryOverflow()
 		elif type == DECIMAL:
 			if cls.decimalCount < LIM:
 				address = GLOBALDECIMAL + cls.decimalCount
 				cls.globalMem[address] = None
-				cls.decimalCount += 1
+				cls.decimalCount += size
 			else:
 				printMemoryOverflow()
 		elif type == CADENA:
 			if cls.cadenaCount < LIM:
 				address = GLOBALCADENA + cls.cadenaCount
 				cls.globalMem[address] = None
-				cls.cadenaCount += 1
+				cls.cadenaCount += size
+			else:
+				printMemoryOverflow()
+		elif type == PINCEL:
+			if cls.pincelCount < LIM:
+				address = GLOBALPINCEL + cls.pincelCount
+				cls.globalMem[address] = None
+				cls.pincelCount += size
+			else:
+				printMemoryOverflow()
+		elif type == CUADRADO:
+			if cls.cuadradoCount < LIM:
+				address = GLOBALCUADRADO + cls.cuadradoCount
+				cls.globalMem[address] = None
+				cls.cuadradoCount += size
+			else:
+				printMemoryOverflow()
+		elif type == RECTANGULO:
+			if cls.rectanguloCount < LIM:
+				address = GLOBALRECTANGULO + cls.rectanguloCount
+				cls.globalMem[address] = None
+				cls.rectanguloCount += size
+			else:
+				printMemoryOverflow()
+		elif type == CIRCULO:
+			if cls.circuloCount < LIM:
+				address = GLOBALCIRCULO + cls.circuloCount
+				cls.globalMem[address] = None
+				cls.circuloCount += size
+			else:
+				printMemoryOverflow()
+		elif type == TRIANGULO:
+			if cls.trianguloCount < LIM:
+				address = GLOBALTRIANGULO + cls.trianguloCount
+				cls.globalMem[address] = None
+				cls.trianguloCount += size
 			else:
 				printMemoryOverflow()
 
@@ -137,6 +202,11 @@ class LocalMemory():
 	enteroCount = 0
 	decimalCount = 0
 	cadenaCount = 0
+	pincelCount = 0
+	cuadradoCount = 0
+	rectanguloCount = 0
+	circuloCount = 0
+	trianguloCount = 0
 
 	__shared_state = {}
 	
@@ -146,41 +216,77 @@ class LocalMemory():
 
 	@classmethod
 	def printLocalMem(cls):
-		print cls.localMem
+		print(cls.localMem)
 
 	@classmethod
 	def getItemValue(cls, key):
-		return cls.localMem[key]		
+		return(cls.localMem[key])		
 
 	@classmethod
-	def getAddress(cls, type):
+	def getAddress(cls, type, size = 1):
 		address = 0
+
 		if type == BOOL:
 			if cls.boolCount < LIM:
 				address = LOCALBOOL + cls.boolCount
 				cls.localMem[address] = None
-				cls.boolCount += 1
+				cls.boolCount += size
 			else:
 				printMemoryOverflow()
 		elif type == ENTERO:
 			if cls.enteroCount < LIM:
 				address = LOCALENTERO + cls.enteroCount
 				cls.localMem[address] = None
-				cls.enteroCount += 1
+				cls.enteroCount += size
 			else:
 				printMemoryOverflow()
 		elif type == DECIMAL:
 			if cls.decimalCount < LIM:
 				address = LOCALDECIMAL + cls.decimalCount
 				cls.localMem[address] = None
-				cls.decimalCount += 1
+				cls.decimalCount += size
 			else:
 				printMemoryOverflow()
 		elif type == CADENA:
 			if cls.cadenaCount < LIM:
 				address = LOCALCADENA + cls.cadenaCount
 				cls.localMem[address] = None
-				cls.cadenaCount += 1
+				cls.cadenaCount += size
+			else:
+				printMemoryOverflow()
+		elif type == PINCEL:
+			if cls.pincelCount < LIM:
+				address = LOCALPINCEL + cls.pincelCount
+				cls.localMem[address] = None
+				cls.pincelCount += size
+			else:
+				printMemoryOverflow()
+		elif type == CUADRADO:
+			if cls.cuadradoCount < LIM:
+				address = LOCALCUADRADO + cls.cuadradoCount
+				cls.localMem[address] = None
+				cls.cuadradoCount += size
+			else:
+				printMemoryOverflow()
+		elif type == RECTANGULO:
+			if cls.rectanguloCount < LIM:
+				address = LOCALRECTANGULO + cls.rectanguloCount
+				cls.localMem[address] = None
+				cls.rectanguloCount += size
+			else:
+				printMemoryOverflow()
+		elif type == CIRCULO:
+			if cls.circuloCount < LIM:
+				address = LOCALCIRCULO + cls.circuloCount
+				cls.localMem[address] = None
+				cls.circuloCount += size
+			else:
+				printMemoryOverflow()
+		elif type == TRIANGULO:
+			if cls.trianguloCount < LIM:
+				address = LOCALTRIANGULO + cls.trianguloCount
+				cls.localMem[address] = None
+				cls.trianguloCount += size
 			else:
 				printMemoryOverflow()
 
@@ -212,41 +318,42 @@ class TempMemory():
 		
 	@classmethod
 	def printTempMem(cls):
-		print cls.tempMem
+		print(cls.tempMem)
 
 	@classmethod
 	def getItemValue(cls, key):
-		return cls.tempMem[key]		
+		return(cls.tempMem[key])		
 
 	@classmethod
-	def getAddress(cls, type):
+	def getAddress(cls, type, size = 1):
 		address = 0
+
 		if type == BOOL:
 			if cls.boolCount < LIM:
 				address = TEMPBOOL + cls.boolCount
 				cls.tempMem[address] = None
-				cls.boolCount += 1
+				cls.boolCount += size
 			else:
 				printMemoryOverflow()
 		elif type == ENTERO:
 			if cls.enteroCount < LIM:
 				address = TEMPENTERO + cls.enteroCount
 				cls.tempMem[address] = None
-				cls.enteroCount += 1
+				cls.enteroCount += size
 			else:
 				printMemoryOverflow()
 		elif type == DECIMAL:
 			if cls.decimalCount < LIM:
 				address = TEMPDECIMAL + cls.decimalCount
 				cls.tempMem[address] = None
-				cls.decimalCount += 1
+				cls.decimalCount += size
 			else:
 				printMemoryOverflow()
 		elif type == CADENA:
 			if cls.cadenaCount < LIM:
 				address = TEMPCADENA + cls.cadenaCount
 				cls.tempMem[address] = None
-				cls.cadenaCount += 1
+				cls.cadenaCount += size
 			else:
 				printMemoryOverflow()
 
@@ -279,42 +386,43 @@ class CteMemory():
 		
 	@classmethod
 	def printCteMem(cls):
-		print cls.cteMem
+		print(cls.cteMem)
 
 	@classmethod
 	def getItemValue(cls, key):
-		return cls.cteMem[key]	
+		return(cls.cteMem[key])	
 
 	@classmethod
-	def getAddress(cls, type, value):
+	def getAddress(cls, type, value, size = 1):
 		address = 0
+
 		if value in cls.cteMemRev:
 			return cls.cteMemRev[value]
 
 		if type == BOOL:
 			if cls.boolCount < LIM:
 				address = CTEBOOL + cls.boolCount
-				cls.boolCount += 1
+				cls.boolCount += size
 			else:
 				printMemoryOverflow()
 		elif type == ENTERO:
 			if cls.enteroCount < LIM:
 				address = CTEENTERO + cls.enteroCount
-				cls.enteroCount += 1
+				cls.enteroCount += size
 				value = int(value)
 			else:
 				printMemoryOverflow()
 		elif type == DECIMAL:
 			if cls.decimalCount < LIM:
 				address = CTEDECIMAL + cls.decimalCount
-				cls.decimalCount += 1
+				cls.decimalCount += size
 				value = float(value)
 			else:
 				printMemoryOverflow()
 		elif type == CADENA:
 			if cls.cadenaCount < LIM:
 				address = CTECADENA + cls.cadenaCount
-				cls.cadenaCount += 1
+				cls.cadenaCount += size
 			else:
 				printMemoryOverflow()
 

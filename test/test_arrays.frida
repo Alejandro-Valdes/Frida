@@ -1,0 +1,40 @@
+programa voidFunc
+
+	rutina void : tres(entero: test){
+		variable rectangulo miRect2 = nuevo rectangulo(600, 100 - 20 , 43, 199, "#2acd12");
+
+
+		imprimir('tres');
+		imprimir(test);
+		imprimir('fintres');
+	}
+	
+	rutina void : dos(entero: test){
+		variable rectangulo miRect2 = nuevo rectangulo(300, 400 - 20 , 199, 199, "#fff");
+		variable cadena input = '';
+		input = leer();
+
+		si(input == 'si'){
+			miRect2.mover(2);
+		}
+
+
+		imprimir('dos');
+		imprimir(test);
+		tres(test * 2);
+		imprimir(test);
+		imprimir('findos');
+	}
+
+	rutina void : uno(entero: test){
+		imprimir('uno');
+		imprimir(test);
+		dos(test * 2);
+		imprimir(test);
+		imprimir('finuno');
+	}
+
+	lienzo{
+		imprimir(1);
+		imprimir(0);
+	}

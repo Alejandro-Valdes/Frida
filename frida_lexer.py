@@ -65,7 +65,7 @@ reserved = {
 	'nuevo' : 'NUEVO',
 	'void' : 'VOID',
 	'regresa' : 'RETURN',
-	'avanza' : 'MOVEA',
+	'mover' : 'MOVEA',
 	'gira' : 'ROTATE',
 	'crece' : 'GROW',
 	'grosor' : 'THICK',
@@ -112,7 +112,7 @@ t_DOUBLE = r'\d+(\.\d+)'
 t_TRUE = r'verdadero'
 t_FALSE = r'falso'
 t_STRING = r'(\'.*\' | \".*\")'
-t_COMMENT = r'\/\*(\*(?!\/)|[^*])*\*\/'
+t_ignore_COMMENT = r'\/\*(\*(?!\/)|[^*])*\*\/'
 
 t_CTECOLOR = r'\"(rojo|azul|verde|amarillo|rosa)\"'
 
@@ -146,6 +146,7 @@ def t_newline(t):
 #Manejador de errores 
 def t_error(t):
 	print("Caracter ilegal '%s'" % t.value[0])
+	print (t.lexer.lineno)
 	t.lexer.skip(1)
 
 #crea el lexer
