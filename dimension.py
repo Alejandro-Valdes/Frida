@@ -1,8 +1,9 @@
 class Dimension():
-	def __init__(self, sup_lim, m, next):
+	def __init__(self, sup_lim, m, k, next):
 		# By our language definition, the superior limit is always one shorter
 		self.sup_lim = sup_lim - 1
 		self.m = m
+		self.k = k
 		self.next = next
 
 class DimensionList():

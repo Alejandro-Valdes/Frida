@@ -51,16 +51,18 @@ class VirtualMachine():
 				quad.res = self.mem.getValue(int(quad.res[1:]))
 
 			if quad.action == PRINT:
-				if self.mem.getValue(int(quad.res)) is None:
+				printable_obj = self.mem.getValue(int(quad.res))
+
+				if printable_obj is None:
 					printUndefinedValue()
 					sys.exit()
 
-				if (self.mem.getValue(int(quad.res)) == TRUE):
+				if (printable_obj == TRUE and type(printable_obj) is bool):
 					print('verdadero')
-				elif (self.mem.getValue(int(quad.res)) == FALSE):
+				elif (printable_obj == FALSE and type(printable_obj) is bool):
 					print('falso')
 				else:
-					print(self.mem.getValue(int(quad.res)))
+					print(printable_obj)
 
 			elif quad.action == READ:
 				if quad.res < 9000:

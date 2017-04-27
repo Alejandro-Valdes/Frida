@@ -35,12 +35,6 @@ programa voidFunc
 	}
 
 	lienzo{
-		variable entero arreglo[2] = {5, 20};
-		variable entero x = 32 * 2;
-		
-
-		arreglo[1] = 100;
-
-		imprimir(arreglo[1]);
-		uno(arreglo[0]);
+		imprimir(1);
+		imprimir(0);
 	}

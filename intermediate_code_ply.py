@@ -277,8 +277,6 @@ def p_fgra_fin(p):
 	Quadruple.add_quad(quad)
 	'''
 
-
-
 # -------- Arrays ----------
 
 def p_init_array(p):
@@ -310,7 +308,6 @@ def p_assign_to_array(p):
 			else:
 				print('No puedo asignar ' + str(last_val_mem) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(g.arrayBase) + ' por que es ' + getTypeStr(g.arrayType))
 				sys.exit()	
-
 
 def p_finish_array_assignment(p):
 	'finish_array_assignment : empty'
@@ -390,6 +387,7 @@ def p_finish_array_access(p):
 		TempMemory.setValue(address, temp_size)
 
 		# We don't have to calculate the K constant because all our arrays have an inferior limit of 0
+
 		quad = QuadrupleItem(getOperationCode('+'), aux, address, res_address)
 		Quadruple.add_quad(quad)
 
