@@ -1,5 +1,6 @@
 import sys
 from virtual_machine import VirtualMachine
+from semantic_cube import *
 
 class QuadrupleItem():
 	def __init__(self, action, o1, o2, res):
@@ -25,7 +26,7 @@ class Quadruple():
 		print('\nQUADRUPLES: ')
 		i = 0
 		for quad in cls.quadruple_list:
-			print(str(i) + '\t' + str(quad.action) + '\t' + str(quad.o1) + '\t' + str(quad.o2) + '\t' + str(quad.res))
+			print(str(i) + '\t' + getOperationStr(quad.action) + '\t' + str(quad.o1) + '\t' + str(quad.o2) + '\t' + str(quad.res))
 			i +=1
 
 

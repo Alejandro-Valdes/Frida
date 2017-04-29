@@ -102,10 +102,14 @@ def p_expect_var_type(p):
 	'expect_var_type : empty'
 	g.varTypeSoon = True
 
-def p_add_func_var_name(p):
-	'add_func_var_name : empty'
-	g.processingVar = True
-	g.varName = g.funcExpName
+def p_add_func_var(p):
+	'add_func_var : empty'
+	g.varName = g.funcName
+	print('----------')
+	print(g.varName)
+	virtual_address = GlobalMemory.getAddress(getTypeCode(SymbolsTable.checkFuncReturnType(g.varName)))
+	SymbolsTable.add_var_to_func(g.varName, g.nextType, virtual_address, 'global')
+
 
 def p_add_var_name(p):
 	'add_var_name : empty'
