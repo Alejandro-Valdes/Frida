@@ -1,0 +1,30 @@
+programa factorial
+
+	/*Algorithm for finding the k-th even natural number */
+
+	rutina entero : fact(entero: x){
+		variable entero res = 0;
+		si (x == 1){
+        	regresa 1;
+		}
+
+	    sino{
+	        regresa fact(x - 1) * x;
+	    }
+
+	}
+	
+
+	lienzo{
+		variable entero res = 0, x = 8, res2 = x;
+
+		res = fact(8);
+
+		imprimir(res);
+
+		mientras (x > 1){
+			res2 = res2 * (x-1);
+			x = x - 1;
+		}
+		imprimir(res2);
+	}

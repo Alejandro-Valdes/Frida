@@ -193,37 +193,57 @@ def getOperationCode(code):
 
 def getOperationStr(code):
 	if(code == ASSIGN):
-		return '=' 
+		return 'ASSIGN' 
 	elif(code == AND):
-		return 'y' 
+		return 'AND' 
 	elif(code == OR):
-		return 'o' 
+		return 'OR' 
 	elif(code == LTHAN):
-		return '<' 
+		return 'LTHAN' 
 	elif(code == GTHAN):
-		return '>' 
+		return 'GTHAN' 
 	elif(code == EQUAL):
-		return '==' 
+		return 'EQUAL' 
 	elif(code == DIFF):
-		return '!=' 
+		return 'DIFF' 
 	elif(code == LETHAN):
-		return '<=' 
+		return 'LETHAN' 
 	elif(code == GETHAN):
-		return '>=' 
+		return 'GETHAN' 
 	elif(code == SUM):
-		return '+' 
+		return 'SUM' 
 	elif(code == SUB):
-		return '-' 
+		return 'SUB' 
 	elif(code == MULT):
-		return '*' 
+		return 'MULT' 
 	elif(code == DIV):
-		return '/' 
+		return 'DIV' 
 	elif(code == PRINT):
-		return 'imprimir' 
+		return 'PRINT' 
 	elif(code == READ):
-		return 'leer' 
+		return 'READ' 
 	elif(code == RET):
-		return 'regresa' 
+		return 'RET'
+	elif(code == GOTO):
+		return 'GOTO'
+	elif(code == GOTOF):
+		return 'GOTOF'
+	elif(code == ENDPROC):
+		return 'ENDPROC'
+	elif(code == ERA):
+		return 'ERA'
+	elif(code == GOSUB):
+		return 'GOSUB'
+	elif(code == PARAM):
+		return 'PARAM'
+	elif(code == VERIFY):
+		return 'VERIFY'
+	elif(code == FIG):
+		return 'FIG'
+	elif(code == F_PAR):
+		return 'F_PAR'
+	elif(code == F_FIN):
+		return 'F_FIN'
 	else:
 		return -1
 

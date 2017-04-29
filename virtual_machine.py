@@ -38,6 +38,7 @@ class VirtualMachine():
 		temp_local_mem = {}
 		curr_scope = 'lienzo'
 
+		start_lienzo_scope = int(self.quad_list[0].res)
 
 		
 		while ip < len(self.quad_list):
@@ -71,8 +72,12 @@ class VirtualMachine():
 
 				elif quad.res >= 9000 and quad.res < 10000:
 					bRes = input()
-					if bRes == TRUE or bRes == FALSE:
-						TempMemory.setValue(int(quad.res), bRes)
+					if bRes == 'verdadero':
+						TempMemory.setValue(int(quad.res), TRUE)
+
+					elif bRes == 'falso':
+						TempMemory.setValue(int(quad.res), FALSE)
+
 					else:
 						print("Eso no es un bool")
 						sys.exit()
@@ -95,7 +100,7 @@ class VirtualMachine():
 
 				elif quad.res >= 12000 and quad.res < 13000:
 					sRes = input()
-					TempMemory.setValue(int(quad.res), sRes)
+					TempMemory.setValue(int(quad.res), str(sRes))
 
 				else:
 					print('error lectura')
@@ -112,14 +117,18 @@ class VirtualMachine():
 
 			elif quad.action > MATHSTART and quad.action < MATHEND:
 				res = self.basic_math(quad.action, quad.o1, quad.o2)
-
 				self.mem.setValue(res, int(quad.res))
 
 			elif quad.action == GOTO:
 				ip = int(quad.res) - 1
 
 			elif quad.action == GOTOF:
-				if self.mem.getValue(int(quad.o1)) == FALSE:
+				bool_res = self.mem.getValue(int(quad.o1))
+				if bool_res is None:
+					print('Error: variable indefinida')
+					sys.exit()
+
+				if bool_res == FALSE:
 					ip = int(quad.res) - 1
 				else:
 					pass
@@ -139,14 +148,14 @@ class VirtualMachine():
 			elif quad.action == ERA:
 				paramAddresses = SymbolsTable.get_function_params_addresses(quad.o1)	
 
+				#get memory that will be saved after the return or endproc	
+
 				scoped_addresses = SymbolsTable.getScopedMemory(curr_scope)
 
 				for address in scoped_addresses:
 					temp_local_mem[int(address)] = self.mem.getValue(int(address))
 
 				memory_stack.append(dict(temp_local_mem))
-
-
 				memory_to_save.append(SymbolsTable.checkVarAddress(curr_scope, quad.o1))
 
 			elif quad.action == GOSUB:
@@ -157,7 +166,10 @@ class VirtualMachine():
 
 
 			elif quad.action == ENDPROC:
+				#EXTRACT TO OWN FUNC ITS THE SAME AS RET
 				ip = ip_exe_stack.pop()
+				if(ip > start_lienzo_scope):
+					curr_scope = 'lienzo'
 				scoped_addresses = SymbolsTable.getScopedMemory(curr_scope)
 
 				for address in scoped_addresses:
@@ -168,14 +180,17 @@ class VirtualMachine():
 
 				for address in temp:
 					self.mem.setValue(temp[address], int(address))
-				curr_scope = 'lienzo'
 
+				#END EXTRACT	
+			
 				memory_to_save.pop()
 
 			elif quad.action == PARAM:
-
 				if int(quad.o1) in temp_local_mem:
 					value = temp_local_mem[int(quad.o1)]
+					if value is None:
+						print (temp_local_mem)
+						print(self.mem.getValue(int(quad.o1)))
 
 				else:
 					value = self.mem.getValue(int(quad.o1))
@@ -189,6 +204,8 @@ class VirtualMachine():
 
 				#EXTRACT TO OWN FUNC ITS THE SAME AS ENDPROC
 				ip = ip_exe_stack.pop()
+				if(ip > start_lienzo_scope):
+					curr_scope = 'lienzo'
 				scoped_addresses = SymbolsTable.getScopedMemory(curr_scope)
 
 				for address in scoped_addresses:
@@ -199,9 +216,10 @@ class VirtualMachine():
 
 				for address in temp:
 					self.mem.setValue(temp[address], int(address))
-				curr_scope = 'lienzo'
-				#END EXTRACT
 
+				#END EXTRACT				
+
+				#save the value of the return
 				res_address = memory_to_save.pop()
 				self.mem.setValue(resValue, int(res_address))
 

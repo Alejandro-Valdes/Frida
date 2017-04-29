@@ -1,60 +1,95 @@
 programa fibo
-	variable entero res = 0;
+	rutina entero : fibo_iteration(entero: lim){
+		variable entero x1 = 0, x2 = 1, temp;
+		variable entero cont = 1;
+		variable entero res = 0;
 
-	rutina void : tres(entero: test){
-		imprimir('tres');
-		imprimir(test);
-		imprimir('fintres');
-	}
-	
-	rutina void : dos(entero: test){
-		imprimir('dos');
-		imprimir(test);
-		tres(test * 2);
-		imprimir(test);
-		imprimir('findos');
+		si(lim == 0){		
+			res = x1;
+		}
+		sino_pero(lim == 1){
+			res = x2;
+		}
+		sino{
+			mientras(cont < lim){
+
+				res = x1 + x2;
+
+				temp = x2;
+				x2 = res;
+				x1 = temp;
+
+				cont = cont + 1;
+			}
+		}
+
+		regresa res;
 	}
 
-	rutina void : uno(entero: test){
-		imprimir('uno');
-		imprimir(test);
-		dos(test * 2);
-		imprimir(test);
-		imprimir('finuno');
+	rutina entero : fibo_rec(entero: x){
+		variable entero x1, x2;
+
+		si(x == 0){
+			regresa 0;
+		}
+		si(x == 1){
+			regresa 1;
+		}
+
+		x1 = fibo_rec(x - 1);
+		x2 = fibo_rec(x - 2);
+
+    	regresa x1 + x2;
+
+	}
+
+	rutina bool : iguales(entero: x1, entero: x2){
+		regresa x1 == x2;
+	}
+
+	rutina cadena : felicitaciones(bool: res){
+
+		si(res){
+			regresa 'felicidades';
+		}
+		sino{
+			regresa 'lo siento';
+		}
 	}
 
 	lienzo{
-		variable entero limite;
-		variable entero x1 = 0, x2 = 1, temp;
-		variable entero cont = 1;
-		
-		variable cuadrado miCuadrado3 = nuevo cuadrado(30, 400, 100, "#0000FF");
-		variable cuadrado miCuadrado4 = nuevo cuadrado(50, 100, 100, "#FFF");
+		variable entero limite, res_it, res_rec;
+		variable cadena mensaje;
+		variable bool res_correcto;
 
-		variable cuadrado miCuad5 = nuevo cuadrado(100 * 2, 10, 10, "#FAE");
-		variable circulo miCirc = nuevo circulo(100, 10, 10, "#AAA");
+		/*
+		res  0 1 1 2 3 5 8 13 21 34 10
+		cont 0 1 2 3 4 5 6 7  8  9  55
+		*/
 
-		variable rectangulo miRect = nuevo rectangulo(100, 2, 100, 100, "#221312");
+		imprimir('Hasta que numero calculo:');
+		limite = leer();
 
-		variable rectangulo miRect2 = nuevo rectangulo(600, 100 - 20 , 43, 199, "#2acd12");
+		res_it = fibo_iteration(limite);
 
-		variable triangulo miT = nuevo triangulo(50 + 200, 300, 240, 440, 500, 180, "#BAE");
+		imprimir('respuesta iterativo = ');
+		imprimir(res_it);
 
-		variable entero arreglo[2] = {5,20};
-		variable entero x = 32;
+		res_rec = fibo_rec(limite);
 
-		arreglo[1] = 100;
+		imprimir('respuesta recursivo = ');
+		imprimir(res_rec);
 
-		imprimir(arreglo[1]);
-		
-		/*uno(arreglo[0] * 2);*/
+		imprimir('¿Correcto?');
+		imprimir(iguales(res_it, res_rec));
 
+		imprimir('Res:');
 
-		mientras (x1 < 10){
-			imprimir(x1 * 2);
-			x1 = x1 +1;
-		}
-		
+		res_correcto = verdadero y verdadero;
+		imprimir(res_correcto);
+
+		mensaje = felicitaciones(falso);
+		imprimir(mensaje);
 	}
 
 	

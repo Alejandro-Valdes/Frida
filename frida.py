@@ -1,14 +1,16 @@
 from frida_parser import parser
 import global_vars
+import sys
 
 global_vars.init()
 
-def readFile(file):
+def main(file):
 	file_in = open(file, 'r')
 	data = file_in.read()
 	file_in.close()
 	parser.parse(data)
 
-readFile("test/test_arrays.frida")
 
-print('\n')
+if __name__ == '__main__':
+	file = "test/" + sys.argv[1]
+	main(file)
