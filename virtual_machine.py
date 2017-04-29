@@ -238,6 +238,38 @@ class VirtualMachine():
 				else:
 					self.drawShape(fig_code, fig_param_stack, quad.res)
 
+			elif quad.action == P_COL:
+				#quad in the form action -> ttl address - ' ' - color address
+				ttl = self.mem.getValue(int(quad.o1))
+				ttl.color(self.mem.getValue(int(quad.res)))
+
+			elif quad.action == P_GO:
+				#quad in the form action -> ttl address - ' ' - move indicator address
+				ttl = self.mem.getValue(int(quad.o1))
+				ttl.forward(self.mem.getValue(int(quad.res)))
+
+			elif quad.action == P_ROT:
+				#quad in the form action -> ttl address - ' ' - degree indicator address
+				ttl = self.mem.getValue(int(quad.o1))
+				degrees = self.mem.getValue(int(quad.res))
+				if(degrees >= 0):
+					ttl.right(degrees)
+				else:
+					degrees = degrees * -1
+					ttl.left(degrees)
+
+			elif quad.action == P_DIS:
+				#quad in the form -> action - x address - y address - ttl address
+				ttl = self.mem.getValue(int(quad.res))
+				x = self.mem.getValue(int(quad.o1))
+				y = self.mem.getValue(int(quad.o2))
+
+				ttl.penup()
+				ttl.setposition(x, y)
+				ttl.pendown()	
+
+				
+
 			#shape move TODO
 			elif quad.action == 90000:
 				print('desplazar')
@@ -258,6 +290,8 @@ class VirtualMachine():
 		ttl.color(color)
 		ttl.speed('fastest')
 		ttl.shape('circle')
+
+		self.mem.setValue(ttl, int(res_address))
 
 
 	def drawShape(self, fig_code, fig_param_stack, res_address):

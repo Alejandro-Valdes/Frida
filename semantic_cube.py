@@ -65,6 +65,11 @@ FIG = 2000
 F_PAR = 2001
 F_FIN = 2002
 
+P_COL = 4000
+P_GO = 4001
+P_ROT = 4002
+P_DIS = 4003
+
 cubeDict = {}
 
 # Assignments
@@ -244,8 +249,14 @@ def getOperationStr(code):
 		return 'F_PAR'
 	elif(code == F_FIN):
 		return 'F_FIN'
-	elif(code == BRUSH):
-		return 'BRUSH'
+	elif(code == P_COL):
+		return 'P_COL'
+	elif(code == P_GO):
+		return 'P_GO'
+	elif(code == P_ROT):
+		return 'P_ROT'
+	elif(code == P_DIS):
+		return 'P_DIS'	
 	else:
 		return -1
 

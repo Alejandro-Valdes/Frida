@@ -13,7 +13,7 @@ from symbol_table import *
 
 # importar reglas para codigo intermedio
 from intermediate_code_ply import *
-
+from pincel_ply import *
 from module_ply import *
 
 # Defino las reglas del lenguaje MyLittleDuck2017
@@ -126,10 +126,10 @@ def p_ini_prim(p):
 # Inicializacion de arreglos con valores primitivos
 
 def p_ini_prim_v(p):
-	'ini_prim_v : ASSIGN push_operation init_array LBRACE cte assign_to_array ini_prim_v_loop RBRACE finish_array_assignment'
+	'ini_prim_v : ASSIGN push_operation init_array LBRACE expresion assign_to_array ini_prim_v_loop RBRACE finish_array_assignment'
 
 def p_ini_prim_v_loop(p):
-	'''ini_prim_v_loop : COMA cte assign_to_array ini_prim_v_loop 
+	'''ini_prim_v_loop : COMA expresion assign_to_array ini_prim_v_loop 
 		| empty'''
 
 # Inicializacion de figuras
@@ -192,9 +192,6 @@ def p_push_string(p):
 def p_push_int(p):
 	'push_int : empty'
 	type = getTypeCode('entero')
-	print('aaaaa')
-	print(p[-1])
-	print('aaaaa')
 
 	address = CteMemory.getAddress(type, p[-1])
 	push_o(str(address), 'entero')
@@ -381,7 +378,7 @@ def p_factor(p):
 	'''factor : LPARENTHESIS push_fake_bottom expresion RPARENTHESIS pop_fake_bottom factor_helper
 		| factor_opt_2 factor_helper'''
 
-#ESTO ESTA MAL BORRAR DESPUES
+#TODO BORRAR ESTO ESTA MAL BORRAR DESPUES
 def p_factor_opt(p):
 	'''factor_opt : PLUS
 		| MINUS
@@ -423,9 +420,10 @@ def p_accion_figura_opt(p):
 
 def p_accion_figura_opt_2(p):
 	'''accion_figura_opt_2 : MOVEA accion_figura_opt_2_end 
-		| ROTATE accion_figura_opt_2_end 
 		| GROW accion_figura_opt_2_end 
 		| THICK accion_figura_opt_2_end'''
+
+	#TODO REMOVE | ROTATE accion_figura_opt_2_end 
 
 def p_accion_figura_opt_2_end(p):
 	'accion_figura_opt_2_end : LPARENTHESIS expresion '
@@ -440,10 +438,13 @@ def p_accion_pincel(p):
 	'accion_pincel : accion_pincel_opt '
 
 def p_accion_pincel_opt(p):
-	'''accion_pincel_opt : COLOR LPARENTHESIS color RPARENTHESIS
-		| DISPLACE LPARENTHESIS expresion COMA expresion RPARENTHESIS
-		| PAINT LPARENTHESIS expresion RPARENTHESIS'''
+	'''accion_pincel_opt : COLOR LPARENTHESIS color RPARENTHESIS pincel_color
+		| DISPLACE LPARENTHESIS expresion COMA expresion RPARENTHESIS pincel_displace
+		| PAINT LPARENTHESIS expresion RPARENTHESIS pincel_paint
+		| ROTATE LPARENTHESIS expresion RPARENTHESIS pincel_rotate'''
+
 		#| GRAPH LPARENTHESIS CTEFUNCION COMA exp TODO CHANGE
+
 
 def p_accion_pincel_opt_end(p):
 	'accion_pincel_opt_end : LPARENTHESIS expresion COMA expresion'
