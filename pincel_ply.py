@@ -7,7 +7,7 @@ from dimension import *
 
 def p_pincel_color(p):
 	'pincel_color : empty'
-	address = SymbolsTable.checkVarAddress( g.funcName, g.actualVarObj.name)
+	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
 	res_type = g.typeStack.pop()
 	color = g.oStack.pop()
 
@@ -21,10 +21,16 @@ def p_pincel_color(p):
 # Move brush forward
 def p_pincel_paint(p):
 	'pincel_paint : empty'
-	address = SymbolsTable.checkVarAddress( g.funcName, g.actualVarObj.name)
+	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
 	res_type = g.typeStack.pop()
 
 	steps = g.oStack.pop()
+
+	print('aaaaa')
+	print(address)
+	print(g.fig_name)
+	print('aaaaa')
+
 	
 	if(res_type != ENTERO and res_type != DECIMAL):
 		print('ERROR: para moverme necesito una numero')
@@ -35,7 +41,7 @@ def p_pincel_paint(p):
 
 def p_pincel_rotate(p):
 	'pincel_rotate : empty'
-	address = SymbolsTable.checkVarAddress( g.funcName, g.actualVarObj.name)
+	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
 	res_type = g.typeStack.pop()
 
 	degrees = g.oStack.pop()
@@ -49,7 +55,7 @@ def p_pincel_rotate(p):
 
 def p_pincel_displace(p):
 	'pincel_displace : empty'
-	address = SymbolsTable.checkVarAddress(g.funcName, g.actualVarObj.name)
+	address = SymbolsTable.checkVarAddress(g.funcName, g.fig_name)
 	res_x = g.typeStack.pop()
 	x = g.oStack.pop()
 

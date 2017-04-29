@@ -404,7 +404,7 @@ def p_llamadaExp(p):
 
 # accion
 def p_accion(p):
-	'accion : ID check_variable POINT accion_opt SEMICOLON'
+	'accion : ID check_fig POINT accion_opt SEMICOLON'
 
 def p_accion_opt(p):
 	'''accion_opt : accion_figura 
@@ -439,9 +439,9 @@ def p_accion_pincel(p):
 
 def p_accion_pincel_opt(p):
 	'''accion_pincel_opt : COLOR LPARENTHESIS color RPARENTHESIS pincel_color
-		| DISPLACE LPARENTHESIS expresion COMA expresion RPARENTHESIS pincel_displace
-		| PAINT LPARENTHESIS expresion RPARENTHESIS pincel_paint
-		| ROTATE LPARENTHESIS expresion RPARENTHESIS pincel_rotate'''
+		| DISPLACE LPARENTHESIS exp COMA exp RPARENTHESIS pincel_displace
+		| PAINT LPARENTHESIS exp RPARENTHESIS pincel_paint
+		| ROTATE LPARENTHESIS exp RPARENTHESIS pincel_rotate'''
 
 		#| GRAPH LPARENTHESIS CTEFUNCION COMA exp TODO CHANGE
 
