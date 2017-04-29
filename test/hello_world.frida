@@ -39,7 +39,7 @@ programa pruebaFrida
 
 		imprimir(dPi-1);
 
-		imprimir(dPi-1 * 211);
+		imprimir(dPi - 1 * 211);
 
 		imprimir( 100.0 / 31 * 2 + 1 - 21 / 21);
 

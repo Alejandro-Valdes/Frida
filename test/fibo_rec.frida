@@ -1,0 +1,30 @@
+programa fibonacci
+
+	/*Algorithm for finding the k-th fibonacci number */
+
+	rutina entero : fibo(entero: x){
+		variable entero x1, x2;
+
+		si(x == 0){
+			regresa 0;
+		}
+		si(x == 1){
+			regresa 1;
+		}
+
+		x1 = fibo(x - 1);
+		x2 = fibo(x - 2);
+
+    	regresa x1 + x2;
+
+	}
+	
+
+	lienzo{
+		variable entero resp;
+		imprimir('Cuantos quieres?');
+		resp = leer();
+		resp = fibo(resp);
+		imprimir(resp);
+	}
+
