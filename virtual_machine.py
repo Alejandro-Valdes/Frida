@@ -69,7 +69,7 @@ class VirtualMachine():
 
 				elif quad.res >= 9000 and quad.res < 10000:
 					bRes = input()
-					if bRes == TRUE or bRes == FALSE:
+					if bRes == 'verdadero' or bRes == 'falso':
 						TempMemory.setValue(int(quad.res), bRes)
 					else:
 						print("Eso no es un bool")
@@ -93,7 +93,7 @@ class VirtualMachine():
 
 				elif quad.res >= 12000 and quad.res < 13000:
 					sRes = input()
-					TempMemory.setValue(int(quad.res), sRes)
+					TempMemory.setValue(int(quad.res), str(sRes))
 
 				else:
 					print('error lectura')
