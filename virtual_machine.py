@@ -8,6 +8,8 @@ try:
 except ImportError:
     import tkinter as tk
 
+import turtle
+
 def printUndefinedValue():
 	print('Error: Acceso a variable indefinida')
 
@@ -229,7 +231,12 @@ class VirtualMachine():
 				fig_param_stack.append(int(quad.res))
 
 			elif quad.action == F_FIN:
-				self.drawShape(fig_code, fig_param_stack, quad.res)
+
+				if fig_code == PINCEL:
+					self.drawBrush(fig_param_stack, quad.res)
+
+				else:
+					self.drawShape(fig_code, fig_param_stack, quad.res)
 
 			#shape move TODO
 			elif quad.action == 90000:
@@ -240,7 +247,18 @@ class VirtualMachine():
 
 		self.frida_gui.mainloop()
 
-		
+	def drawBrush(self, fig_param_stack, res_address):
+
+		color = self.mem.getValue(fig_param_stack.pop())
+
+		# create a turtle object
+		ttl = turtle.RawTurtle(self.canvas)
+
+		# draw equilateral triangle
+		ttl.color(color)
+		ttl.speed('fastest')
+		ttl.shape('circle')
+
 
 	def drawShape(self, fig_code, fig_param_stack, res_address):
 

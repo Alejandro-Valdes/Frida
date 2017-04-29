@@ -88,7 +88,7 @@ programa fibo
 		res_correcto = verdadero y verdadero;
 		imprimir(res_correcto);
 
-		mensaje = felicitaciones(falso);
+		mensaje = felicitaciones(res_correcto);
 		imprimir(mensaje);
 	}
 

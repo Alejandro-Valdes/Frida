@@ -1,0 +1,16 @@
+programa turtle
+
+	/*Drawing with turtle and frida */
+	
+	lienzo{
+		variable pincel frida =  nuevo pincel("#000");
+		variable entero test = 1;
+
+		imprimir(test);
+
+		imprimir(2+-3);
+
+		frida.pinta(30);
+		frida.gira(-2);
+		frida.color("#232");
+	}

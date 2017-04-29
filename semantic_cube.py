@@ -244,6 +244,8 @@ def getOperationStr(code):
 		return 'F_PAR'
 	elif(code == F_FIN):
 		return 'F_FIN'
+	elif(code == BRUSH):
+		return 'BRUSH'
 	else:
 		return -1
 
