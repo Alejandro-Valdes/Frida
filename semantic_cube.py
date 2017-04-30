@@ -71,6 +71,7 @@ P_ROT = 4002
 P_DIS = 4003
 P_THICK = 4004
 P_DEL = 4005
+P_ARC = 4006
 
 F_COL = 5000
 F_GRW = 5001
@@ -283,6 +284,8 @@ def getOperationStr(code):
 		return 'F_MVE'
 	elif(code == F_RMV):
 		return 'F_RMV'
+	elif(code == P_ARC):
+		return 'P_ARC'
 	else:
 		return -1
 

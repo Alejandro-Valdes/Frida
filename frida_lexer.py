@@ -75,7 +75,7 @@ reserved = {
 	'color' : 'COLOR',
 	'desplazar' : 'DISPLACE',
 	'pinta' : 'PAINT',
-	'grafica' : 'GRAPH',
+	'arco' : 'ARC',
 	'verdadero' : 'TRUE',
 	'falso' : 'FALSE'
 }

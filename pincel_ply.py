@@ -82,3 +82,20 @@ def p_pincel_remove(p):
 	
 	quad = QuadrupleItem(P_DEL, '', '', address)
 	Quadruple.add_quad(quad)
+
+def p_pincel_arc(p):
+	'pincel_arc : empty'
+	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
+
+	res_extent = g.typeStack.pop()
+	extent = g.oStack.pop()
+
+	res_radius = g.typeStack.pop()
+	radius = g.oStack.pop()
+
+	if(res_extent != ENTERO and res_extent != DECIMAL and res_radius != ENTERO and res_radius != DECIMAL):
+		print('ERROR: para arco necesito dos numeros, un radio y una longitud')
+		sys.exit()
+
+	quad = QuadrupleItem(P_ARC, radius, extent, address)
+	Quadruple.add_quad(quad)

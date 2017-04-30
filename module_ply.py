@@ -20,7 +20,7 @@ def p_mod_call_3(p):
 	semantic_res = getResultType(getTypeCode(expected_type), PARAM, arg_type);
 
 	if arg_type != getTypeCode(expected_type) and semantic_res == -1 :
-		print(getTypeCode(expected_type))
+		print('Error: funcion ' + g.funcExpName+ ' esperaba ' + expected_type + ' pero me mandaste ' + getTypeStr(arg_type))
 		sys.exit()
 
 	quad = QuadrupleItem(PARAM, arg , '', 'param' + str(g.param_count+1))
