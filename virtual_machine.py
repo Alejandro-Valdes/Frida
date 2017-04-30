@@ -8,15 +8,16 @@ try:
 except ImportError:
     import tkinter as tk
 
+import turtle
+
 def printUndefinedValue():
 	print('Error: Acceso a variable indefinida')
 
 class VirtualMachine():
-	def __init__(self, quad_list, gui):
+	def __init__(self, quad_list):
 		self.quad_list = quad_list
 		self.mem = Memory()
 		self.shapes = []
-		self.gui = gui
 
 	def run_list(self):
 		print('\nOutput: ')
@@ -36,6 +37,15 @@ class VirtualMachine():
 
 		start_lienzo_scope = int(self.quad_list[0].res)
 
+
+		'''
+		DONT REMOVE THIS TURTLE IT SETS THE POS(0,0) AS THE CENTERS AND 
+		IF WE DONT HAVE IT ALL THE TKINTER FIGURES GET REMOVED'''
+		ttl = turtle.RawTurtle(self.canvas)
+		ttl.color('#fff')
+		'''
+		DONT REMOVE ABOVE TURTLE
+		'''
 		
 		while ip < len(self.quad_list):
 			quad = self.quad_list[ip]
@@ -227,7 +237,60 @@ class VirtualMachine():
 				fig_param_stack.append(int(quad.res))
 
 			elif quad.action == F_FIN:
-				self.drawShape(fig_code, fig_param_stack, quad.res)
+
+				if fig_code == PINCEL:
+					self.drawBrush(fig_param_stack, quad.res)
+
+				else:
+					self.drawShape(fig_code, fig_param_stack, quad.res)
+
+			elif quad.action == P_COL:
+				#quad in the form action -> ttl address - ' ' - color address
+				ttl = self.mem.getValue(int(quad.o1))
+				ttl.color(self.mem.getValue(int(quad.res)))
+
+			elif quad.action == P_GO:
+				#quad in the form action -> ttl address - ' ' - move indicator address
+				ttl = self.mem.getValue(int(quad.o1))
+				ttl.forward(self.mem.getValue(int(quad.res)))
+
+			elif quad.action == P_ROT:
+				#quad in the form action -> ttl address - ' ' - degree indicator address
+				ttl = self.mem.getValue(int(quad.o1))
+				degrees = self.mem.getValue(int(quad.res))
+				if(degrees >= 0):
+					ttl.right(degrees)
+				else:
+					degrees = degrees * -1
+					ttl.left(degrees)
+
+			elif quad.action == P_DIS:
+				#quad in the form -> action - x address - y address - ttl address
+				ttl = self.mem.getValue(int(quad.res))
+				x = self.mem.getValue(int(quad.o1))
+				y = self.mem.getValue(int(quad.o2))
+
+				ttl.penup()
+				ttl.setposition(x, y)
+				ttl.pendown()	
+
+			elif quad.action == P_DEL:
+				#quad in the form -> action - '' - '' - ttl address
+				ttl = self.mem.getValue(int(quad.res))
+
+				ttl.ht()
+				self.mem.setValue(None, int(quad.res))
+
+			elif quad.action == P_THICK:
+				#quad in the form action -> ttl address - ' ' - thick indicator address
+				ttl = self.mem.getValue(int(quad.o1))
+				thickness = self.mem.getValue(int(quad.res))
+				if(thickness < 0):
+					print('Error: el grosor no puede ser negativo')
+					sys.exit()
+
+				ttl.width(thickness)
+				
 
 			#shape move TODO
 			elif quad.action == 90000:
@@ -236,9 +299,22 @@ class VirtualMachine():
 			ip += 1
 			self.frida_gui.update()
 
-		self.frida_gui.mainloop()
+		# self.frida_gui.mainloop()
 
-		
+	def drawBrush(self, fig_param_stack, res_address):
+
+		color = self.mem.getValue(fig_param_stack.pop())
+
+		# create a turtle object
+		ttl = turtle.RawTurtle(self.canvas)
+
+		# draw equilateral triangle
+		ttl.color(color)
+		ttl.speed('fastest')
+		ttl.shape('circle')
+
+		self.mem.setValue(ttl, int(res_address))
+
 
 	def drawShape(self, fig_code, fig_param_stack, res_address):
 

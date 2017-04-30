@@ -23,12 +23,10 @@ class Quadruple():
 
 	@classmethod
 	def print_list(cls):
-		print('\nQUADRUPLES: ')
 		i = 0
 		for quad in cls.quadruple_list:
 			print(str(i) + '\t' + getOperationStr(quad.action) + '\t' + str(quad.o1) + '\t' + str(quad.o2) + '\t' + str(quad.res))
 			i +=1
-
 
 	@classmethod
 	def run_list(cls):

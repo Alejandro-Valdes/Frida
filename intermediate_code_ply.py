@@ -107,6 +107,8 @@ def push_o(p, type):
 
 	resType = getTypeCode(resType)
 
+	print("%s %s" % (p, type))
+
 	g.oStack.append(res)
 	g.typeStack.append(resType)
 
@@ -255,6 +257,7 @@ def p_gen_end_proc(p):
 def  p_save_fig(p):
 	'save_fig : empty'
 	g.fig_name = p[-1]
+
 	quad = QuadrupleItem(FIG, getTypeCode(g.fig_name), '', '')
 
 	Quadruple.add_quad(quad)
@@ -383,15 +386,14 @@ def p_finish_array_access(p):
 
 		temp_size = g.actualVarObj.virtual_address
 		type = getTypeCode('entero')
-		address = TempMemory.getAddress(type)
-		TempMemory.setValue(address, temp_size)
+		type_address = TempMemory.getAddress(type)
+		TempMemory.setValue(type_address, temp_size)
 
-		# We don't have to calculate the K constant because all our arrays have an inferior limit of 0
-
-		quad = QuadrupleItem(getOperationCode('+'), aux, address, res_address)
+		# We don't have to calculate the K constant because all our arrays have an inferior limit of 0 and only handle one dimension
+		quad = QuadrupleItem(getOperationCode('+'), aux, type_address, res_address)
 		Quadruple.add_quad(quad)
 
-		push_o('*' + str(res_address), 'entero')
+		push_o('*' + str(res_address), g.actualVarObj.type)
 		
 		g.operStack.pop()
 		g.dStack.pop()
@@ -406,12 +408,14 @@ def p_finish_assignment(p):
 			left_o = g.oStack.pop()
 			res = g.oStack.pop()
 
-			print("%s %s" % (left_o, res))
+			# print("%s %s" % (left_o, res))
 			operand = g.operStack.pop()
 
 			right_type = g.typeStack.pop()
 			left_type = g.typeStack.pop()
 			resultType = getResultType(left_type, operand, right_type)
+
+			print("%s %s" % (right_type, resultType))
 
 			if resultType > 0:
 				quad = QuadrupleItem(operand, left_o, '', res)

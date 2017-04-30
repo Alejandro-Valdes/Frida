@@ -7,6 +7,11 @@ from dimension import *
 # Defino variables globales a usar para la tabla de simbolos
 # REGLAS PARA TABLA DE SIMBOLOS
 
+def p_check_fig(p):
+	'check_fig : empty'
+	g.fig_name = p[-1]
+	g.actualVarObj = SymbolsTable.checkVariable(g.fig_name, g.funcName)
+
 def p_check_variable(p):
 	'check_variable : empty'
 	g.currId = p[-1]

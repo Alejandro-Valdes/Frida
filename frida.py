@@ -13,12 +13,12 @@ def main(file):
 if __name__ == '__main__':
 	file = "test/" + sys.argv[1]
 
-	global_vars.init()
+	# global_vars.init()
 
-	frida_gui = tk.Tk()
-	frida_gui.title('Frida IDE')
+	# frida_gui = tk.Tk()
+	# frida_gui.title('Frida IDE')
 
-	FridaGui(frida_gui).pack(side="top", fill="both", expand=True)
-	frida_gui.mainloop()
+	# FridaGui(frida_gui).pack(side="top", fill="both", expand=True)
+	# frida_gui.mainloop()
 
 	main(file)
