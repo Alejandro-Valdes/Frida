@@ -2,16 +2,17 @@ programa turtle
 
     /*Drawing with turtle and frida */
 
-    rutina void : rama(pincel : frida2, entero : longitud){
+    rutina void : rama(pincel : frida2, entero : longitud, entero: grueso){
+        frida2.grosor(grueso);
         si(longitud > 5){
             frida2.pinta(longitud);
             frida2.gira(20);
 
-            rama(frida2, longitud - 15);
+            rama(frida2, longitud - 15, grueso - 2);
 
             frida2.gira(-40);
 
-            rama(frida2, longitud - 15);
+            rama(frida2, longitud - 15, grueso - 2);
 
             frida2.gira(20);
             frida2.gira(180);
@@ -21,12 +22,12 @@ programa turtle
         }
     }
 
-    rutina void : arbol(pincel : p, entero : giro){
+    rutina void : arbol(pincel : p, entero : giro, entero : grueso){
         si(giro > 0){
             p.gira(45 * giro);
-            rama(p, 75);
+            rama(p, 90, grueso);
 
-            arbol(p, giro - 1);
+            arbol(p, giro - 1, grueso);
         }
     }
 
@@ -34,5 +35,5 @@ programa turtle
         variable circulo mundo = nuevo circulo(50, -50, -50, "#00FF00");
         variable pincel frida = nuevo pincel("#000");
 
-        arbol(frida, 8);
+        arbol(frida, 8, 13);
     }

@@ -13,7 +13,10 @@ from symbol_table import *
 
 # importar reglas para codigo intermedio
 from intermediate_code_ply import *
+
 from pincel_ply import *
+from fig_ply import *
+
 from module_ply import *
 
 # Defino las reglas del lenguaje MyLittleDuck2017
@@ -415,33 +418,14 @@ def p_accion_opt(p):
 
 # accion figura
 def p_accion_figura(p):
-	'accion_figura : accion_figura_opt RPARENTHESIS'
-
-def p_accion_figura_opt(p):
-	'''accion_figura_opt : accion_figura_opt_2 
-		| accion_figura_opt_3'''
-
-def p_accion_figura_opt_2(p):
-	'''accion_figura_opt_2 : MOVEA accion_figura_opt_2_end 
-		| GROW accion_figura_opt_2_end 
-		| THICK accion_figura_opt_2_end'''
-
-	#TODO REMOVE | ROTATE accion_figura_opt_2_end 
-
-def p_accion_figura_opt_2_end(p):
-	'accion_figura_opt_2_end : LPARENTHESIS expresion '
-
-def p_accion_figura_opt_3(p):
-	'''accion_figura_opt_3 : REMOVE LPARENTHESIS 
-		| FILL LPARENTHESIS color'''
+	'''accion_figura : MOVEA LPARENTHESIS exp COMA exp RPARENTHESIS fig_move
+		| GROW LPARENTHESIS exp RPARENTHESIS fig_grow
+		| FILL LPARENTHESIS exp RPARENTHESIS fig_fill
+		| REMOVEFIG LPARENTHESIS RPARENTHESIS fig_remove'''
 
 # Accion pincel
-
 def p_accion_pincel(p):
-	'accion_pincel : accion_pincel_opt '
-
-def p_accion_pincel_opt(p):
-	'''accion_pincel_opt : COLOR LPARENTHESIS exp RPARENTHESIS pincel_color
+	'''accion_pincel : COLOR LPARENTHESIS exp RPARENTHESIS pincel_color
 		| DISPLACE LPARENTHESIS exp COMA exp RPARENTHESIS pincel_displace
 		| PAINT LPARENTHESIS exp RPARENTHESIS pincel_paint
 		| ROTATE LPARENTHESIS exp RPARENTHESIS pincel_rotate
@@ -449,10 +433,6 @@ def p_accion_pincel_opt(p):
 		| REMOVE LPARENTHESIS RPARENTHESIS pincel_remove'''
 
 		#| GRAPH LPARENTHESIS CTEFUNCION COMA exp TODO CHANGE
-
-
-def p_accion_pincel_opt_end(p):
-	'accion_pincel_opt_end : LPARENTHESIS expresion COMA expresion'
 
 # Color
 def p_color(p):

@@ -70,6 +70,7 @@ reserved = {
 	'crece' : 'GROW',
 	'grosor' : 'THICK',
 	'elimina' : 'REMOVE',
+	'borrar' : 'REMOVEFIG',
 	'relleno' : 'FILL', 
 	'color' : 'COLOR',
 	'desplazar' : 'DISPLACE',

@@ -12,6 +12,15 @@ import turtle
 
 def printUndefinedValue():
 	print('Error: Acceso a variable indefinida')
+	sys.exit()
+
+def ttl_error():
+	print('Error: pincel no esta definido o fue eliminado')
+	sys.exit()
+
+def fig_error():
+	print('Error: figura no esta definida o fue borrda')
+	sys.exit()
 
 class VirtualMachine():
 	def __init__(self, quad_list):
@@ -248,18 +257,26 @@ class VirtualMachine():
 				else:
 					self.drawShape(fig_code, fig_param_stack, quad.res)
 
+			#PINCEL
+						
 			elif quad.action == P_COL:
 				#quad in the form action -> ttl address - ' ' - color address
 				ttl = self.mem.getValue(int(quad.o1))
+				if ttl == None:
+					ttl_error()
 				try:
-					ttl.color(self.mem.getValue(int(quad.res)))
+					color = self.mem.getValue(int(quad.res))
+					ttl.color(color)
 				except:
-					print('Error: ese color no me sirve')
+					color = self.mem.getValue(int(quad.res))
+					print('Error: color : ' + color + ' no me sirve')
 					sys.exit()
 
 			elif quad.action == P_GO:
 				#quad in the form action -> ttl address - ' ' - move indicator address
 				ttl = self.mem.getValue(int(quad.o1))
+				if ttl == None:
+					ttl_error()
 				ttl.forward(self.mem.getValue(int(quad.res)))
 
 			elif quad.action == P_ROT:
@@ -275,6 +292,8 @@ class VirtualMachine():
 			elif quad.action == P_DIS:
 				#quad in the form -> action - x address - y address - ttl address
 				ttl = self.mem.getValue(int(quad.res))
+				if ttl == None:
+					ttl_error()
 				x = self.mem.getValue(int(quad.o1))
 				y = self.mem.getValue(int(quad.o2))
 
@@ -285,6 +304,8 @@ class VirtualMachine():
 			elif quad.action == P_DEL:
 				#quad in the form -> action - '' - '' - ttl address
 				ttl = self.mem.getValue(int(quad.res))
+				if ttl == None:
+					ttl_error()
 
 				ttl.ht()
 				self.mem.setValue(None, int(quad.res))
@@ -292,22 +313,75 @@ class VirtualMachine():
 			elif quad.action == P_THICK:
 				#quad in the form action -> ttl address - ' ' - thick indicator address
 				ttl = self.mem.getValue(int(quad.o1))
+				if ttl == None:
+					ttl_error()
 				thickness = self.mem.getValue(int(quad.res))
 				if(thickness < 0):
-					print('Error: el grosor no puede ser negativo')
+					print('Error: grosor ' + str(thickness) + ' no puede ser negativo')
 					sys.exit()
 
 				ttl.width(thickness)
-				
 
-			#shape move TODO
-			elif quad.action == 90000:
-				print('desplazar')
+			# FIGURA
+			elif quad.action == F_COL:
+				#quad in the form action -> fig address - ' ' - color address
+				fig = self.mem.getValue(int(quad.o1))
+				if fig == None:
+					fig_error()
+				col = self.mem.getValue(int(quad.res))
+				try:
+					self.canvas.itemconfig(fig, fill=col)
+				except:
+					print('Error: color ' + col +' no me sirve')
+					sys.exit()
+
+			elif quad.action == F_RMV:
+				#quad in the form -> action - '' - '' - fig address
+				fig = self.mem.getValue(int(quad.res))
+				if fig == None:
+					fig_error()
+
+				self.canvas.delete(fig)
+				self.mem.setValue(None, int(quad.res))
+
+			elif quad.action == F_GRW:
+				#quad in the form -> action - fig address - '' - scale
+				fig = self.mem.getValue(int(quad.o1))
+				scale = self.mem.getValue(int(quad.res))
+
+				if scale < 0:
+					print('Errro: no puedo crecer a una escala menora a cero')
+
+				if fig == None:
+					fig_error()
+
+				coords = self.canvas.coords(fig)
+				new_coords = []
+
+				for coord in coords:
+					new_coords.append(coord * scale)
+
+				if len(new_coords) == 4:
+					self.canvas.coords(fig, new_coords[0], new_coords[1], new_coords[2], new_coords[3])
+
+				if len(new_coords) == 6:
+					self.canvas.coords(fig, new_coords[0], new_coords[1], new_coords[2], new_coords[3], new_coords[4], new_coords[5])
+
+			elif quad.action == F_MVE:
+				#quad in the form -> action - x address - y address - ttl address
+				fig = self.mem.getValue(int(quad.res))
+				if fig == None:
+					fig_error()
+
+				x = self.mem.getValue(int(quad.o1))
+				y = self.mem.getValue(int(quad.o2))
+
+				self.canvas.move(fig, x, y)
 
 			ip += 1
 			self.frida_gui.update()
 
-		# self.frida_gui.mainloop()
+		self.frida_gui.mainloop()
 
 	def drawBrush(self, fig_param_stack, res_address):
 
@@ -318,7 +392,7 @@ class VirtualMachine():
 		try:
 			ttl.color(color)
 		except:
-			print('Error: ese color no me sirve')
+			print('Error: color ' + color + ' no me sirve')
 			sys.exit()
 			
 		ttl.speed('fastest')
@@ -357,6 +431,7 @@ class VirtualMachine():
 			points = [p1_x, p1_y, p2_x, p2_y, p3_x, p3_y]
 			fig = self.canvas.create_polygon(points, fill = color)
 
+		self.mem.setValue(fig, int(res_address))
 
 	def relational_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))

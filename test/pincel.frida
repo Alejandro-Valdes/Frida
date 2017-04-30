@@ -41,6 +41,5 @@ programa turtle
 			lim = lim + 1;
 		}
 
-		/*frida.elimina();*/
-		frida.color('#000000');
+		frida.elimina();
 	}
