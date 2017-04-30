@@ -3,12 +3,21 @@
 # except ImportError:
 #     from tkinter import *
 import tkinter as tk
-from frida_parser import parser
+import quadruples as q
+import symbol_table as st
+from memory import Memory
+import global_vars
 
 class FridaGui(tk.Frame):
-	def __init__(self, parent, *args, **kwargs):
+	def __init__(self, parent, parser, virtual_machine, *args, **kwargs):
+
+		self.console_index = 1.0
 
 		self.parent = parent
+
+		self.parser = parser
+		self.virtual_machine = virtual_machine
+
 		tk.Frame.__init__(self, *args, **kwargs)
 		self.top_frame = tk.Frame(self)
 		self.bottom_frame = tk.Frame(self)
@@ -52,16 +61,16 @@ class FridaGui(tk.Frame):
 		self.parent.config(menu=self.menubar)
 
 		filemenu = tk.Menu(self.menubar, tearoff=0)
-		filemenu.add_command(label="New", command=self.NewFile)
-		filemenu.add_command(label="Open", command=self.readFile)
-		filemenu.add_command(label="Save", command=self.donothing)
-		filemenu.add_command(label="Save as...", command=self.donothing)
-		filemenu.add_command(label="Close", command=self.donothing)
+		filemenu.add_command(label="Nuevo", command=self.NewFile)
+		filemenu.add_command(label="Abrir", command=self.readFile)
+		filemenu.add_command(label="Guardar", command=self.donothing)
+		filemenu.add_command(label="Guardar como...", command=self.donothing)
+		filemenu.add_command(label="Cerrar", command=self.donothing)
 
 		filemenu.add_separator()
 
-		filemenu.add_command(label="Exit", command=self.quit)
-		self.menubar.add_cascade(label="File", menu=filemenu)
+		filemenu.add_command(label="Salir", command=self.quit)
+		self.menubar.add_cascade(label="Archivo", menu=filemenu)
 		editmenu = tk.Menu(self.menubar, tearoff=0)
 		editmenu.add_command(label="Undo", command=self.donothing)
 
@@ -95,9 +104,19 @@ class FridaGui(tk.Frame):
 	   button.pack()
 
 	def readFile(self):
+		global_vars.init()
+		self.reset()
 		input = self.text.get("1.0",tk.END)
-		parser.parse(input)
-		print('hola')
+		self.parser.parse(input)
+		self.virtual_machine.run_list(self, self.canvas, q.Quadruple.quadruple_list)
+
+	def reset(self):
+		self.virtual_machine.mem = Memory()
+		st.SymbolsTable.function_dictionary = {}
+
+	def print(self, string):
+		self.user_entry.insert(str(self.console_index), str(string) + '\n')
+		self.console_index += len(str(string)) + 1
 
 	def _on_change(self, event):
 	    self.linenumbers.redraw()

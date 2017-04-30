@@ -28,7 +28,7 @@ class Quadruple():
 			print(str(i) + '\t' + getOperationStr(quad.action) + '\t' + str(quad.o1) + '\t' + str(quad.o2) + '\t' + str(quad.res))
 			i +=1
 
-	@classmethod
-	def run_list(cls):
-		vm = VirtualMachine(cls.quadruple_list)
-		vm.run_list()
+	# @classmethod
+	# def run_list(cls):
+	# 	vm = VirtualMachine(cls.quadruple_list)
+	# 	vm.run_list()

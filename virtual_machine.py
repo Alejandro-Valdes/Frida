@@ -3,6 +3,7 @@ from memory import *
 from semantic_cube import *
 from symbol_table import *
 import global_vars as g
+from frida_gui import *
 try:
     import Tkinter as tk
 except ImportError:
@@ -14,13 +15,16 @@ def printUndefinedValue():
 	print('Error: Acceso a variable indefinida')
 
 class VirtualMachine():
-	def __init__(self, quad_list):
-		self.quad_list = quad_list
+	def __init__(self):
 		self.mem = Memory()
 		self.shapes = []
 
-	def run_list(self):
-		print('\nOutput: ')
+	def run_list(self, printer, canvas, quad_list):
+		self.printer = printer
+		self.canvas = canvas
+		self.quad_list = quad_list
+
+		printer.print('\nOutput: ')
 		ip = 0
 		fig_name = ''
 		fig_param_stack = []
@@ -65,15 +69,15 @@ class VirtualMachine():
 					sys.exit()
 
 				if (printable_obj == TRUE and type(printable_obj) is bool):
-					print('verdadero')
+					printer.print('verdadero')
 				elif (printable_obj == FALSE and type(printable_obj) is bool):
-					print('falso')
+					printer.print('falso')
 				else:
-					print(printable_obj)
+					printer.print(printable_obj)
 
 			elif quad.action == READ:
 				if quad.res < 9000:
-					print('error Lectura')
+					printer.print('error Lectura')
 					sys.exit()
 
 				elif quad.res >= 9000 and quad.res < 10000:
@@ -85,7 +89,7 @@ class VirtualMachine():
 						TempMemory.setValue(int(quad.res), FALSE)
 
 					else:
-						print("Eso no es un bool")
+						printer.print("Eso no es un bool")
 						sys.exit()
 
 				elif quad.res >= 10000 and quad.res < 11000:
@@ -93,7 +97,7 @@ class VirtualMachine():
 						iRes = input()
 						TempMemory.setValue(int(quad.res), int(iRes))
 					except ValueError:
-						print("Eso no es un entero")
+						printer.print("Eso no es un entero")
 						sys.exit()
 
 				elif quad.res >= 11000 and quad.res < 12000:
@@ -101,7 +105,7 @@ class VirtualMachine():
 						fRes = input()
 						TempMemory.setValue(int(quad.res), float(fRes))
 					except ValueError:
-						print("Eso no es un decimal")
+						printer.print("Eso no es un decimal")
 						sys.exit()
 
 				elif quad.res >= 12000 and quad.res < 13000:
@@ -109,7 +113,7 @@ class VirtualMachine():
 					TempMemory.setValue(int(quad.res), str(sRes))
 
 				else:
-					print('error lectura')
+					printer.print('error lectura')
 					sys.exit()
 
 			elif quad.action == ASSIGN:
@@ -131,7 +135,7 @@ class VirtualMachine():
 			elif quad.action == GOTOF:
 				bool_res = self.mem.getValue(int(quad.o1))
 				if bool_res is None:
-					print('Error: variable indefinida')
+					printer.print('Error: variable indefinida')
 					sys.exit()
 
 				if bool_res == FALSE:
@@ -145,7 +149,7 @@ class VirtualMachine():
 				if int(quad_o1) >= int(quad.o2) and int(quad_o1) <= int(quad.res):
 					pass
 				else:
-					print('Error: Indice fuera de limites de arreglo')
+					printer.print('Error: Indice fuera de limites de arreglo')
 
 			elif quad.action > ANDORSTART and quad.action < ANDOREND:
 				res = self.logic_operation(quad.action, quad.o1, quad.o2)
@@ -196,7 +200,7 @@ class VirtualMachine():
 					value = temp_local_mem[int(quad.o1)]
 					if value is None:
 						print (temp_local_mem)
-						print(self.mem.getValue(int(quad.o1)))
+						printer.print(self.mem.getValue(int(quad.o1)))
 
 				else:
 					value = self.mem.getValue(int(quad.o1))
@@ -286,7 +290,7 @@ class VirtualMachine():
 				ttl = self.mem.getValue(int(quad.o1))
 				thickness = self.mem.getValue(int(quad.res))
 				if(thickness < 0):
-					print('Error: el grosor no puede ser negativo')
+					printer.print('Error: el grosor no puede ser negativo')
 					sys.exit()
 
 				ttl.width(thickness)
@@ -294,10 +298,10 @@ class VirtualMachine():
 
 			#shape move TODO
 			elif quad.action == 90000:
-				print('desplazar')
+				printer.print('desplazar')
 
 			ip += 1
-			self.frida_gui.update()
+			# self.frida_gui.update()
 
 		# self.frida_gui.mainloop()
 

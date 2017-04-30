@@ -54,7 +54,7 @@ def p_pop_fake_bottom(p):
 def p_printQuadList(p):
 	'printQuadList : empty'
 	Quadruple.print_list()
-	Quadruple.run_list()
+	# Quadruple.run_list()
 
 def quad_maker():
 	global i
