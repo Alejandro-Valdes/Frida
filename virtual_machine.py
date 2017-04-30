@@ -20,7 +20,6 @@ class VirtualMachine():
 		self.canvas = tk.Canvas(self.frida_gui, width = 750, height = 600)
 		self.canvas.pack()
 		self.shapes = []
-		
 
 	def run_list(self):
 		print('\nOutput: ')
@@ -238,9 +237,9 @@ class VirtualMachine():
 				print('desplazar')
 
 			ip += 1
-			self.frida_gui.update()
+			# self.frida_gui.update()
 
-		self.frida_gui.mainloop()
+		# self.frida_gui.mainloop()
 
 		
 

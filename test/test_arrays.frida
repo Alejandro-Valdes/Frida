@@ -35,6 +35,10 @@ programa voidFunc
 	}
 
 	lienzo{
-		imprimir(1);
+		variable cadena arr_cad[10];
+
+		arr_cad[0] = 'hola';
+
+		imprimir(arr_cad[0]);
 		imprimir(0);
 	}

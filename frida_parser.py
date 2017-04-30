@@ -17,7 +17,7 @@ from intermediate_code_ply import *
 from module_ply import *
 
 # Defino las reglas del lenguaje MyLittleDuck2017
-# se definenen como funcciones p_*
+# se definen como funciones p_*
 # las reglas se escriben de la forma A : a + b
 # ejemplo si la funcion se define como p_A
 # no es necesario llamar a esa regla con p_A sino con A
