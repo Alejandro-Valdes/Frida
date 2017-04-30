@@ -394,7 +394,7 @@ class VirtualMachine():
 				self.canvas.move(fig, x, y)
 
 			ip += 1
-			# self.frida_gui.update()
+			self.canvas.update()
 
 		#self.frida_gui.mainloop()
 

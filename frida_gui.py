@@ -39,11 +39,21 @@ class FridaGui(tk.Frame):
 		self.text.bind("<<Change>>", self._on_change)
 		self.text.bind("<Configure>", self._on_change)
 
-		self.canvas = tk.Canvas(self.top_frame, width = 750, height = 600, bd = 1, relief = tk.GROOVE)
-		self.canvas.pack(side="right", fill="y")
+		self.scrollable_frame = tk.Frame(self.top_frame)
+		self.scrollable_frame.pack(side="right", fill=tk.BOTH)
 
-		self.user_entry = tk.Text(self.bottom_frame)
-		self.user_entry.pack(fill="x")
+		self.canvas = tk.Canvas(self.scrollable_frame, width=300, height=300, scrollregion=(0,0,500,500), bd = 1)
+		self.canvas.pack(side="right", expand=True, fill=tk.BOTH)
+
+		self.vrt_sb_canvas = tk.Scrollbar(self.scrollable_frame, command=self.canvas.yview)
+		self.hrt_sb_canvas = tk.Scrollbar(self.scrollable_frame, command=self.canvas.xview)
+		self.vrt_sb_canvas.pack(side="right", fill="y")
+
+		self.canvas.config(xscrollcommand=self.hrt_sb_canvas.set, yscrollcommand=self.vrt_sb_canvas.set)
+		# self.hrt_sb_canvas.pack(side="right", fill="x")
+
+		self.console = tk.Text(self.bottom_frame)
+		self.console.pack(fill="x")
 
 		# read_btn = tk.Button(self, state=tk.DISABLED, text='Lee', padx=15)
 		# read_btn.grid(row=3, column=2, sticky='WENS')
@@ -96,7 +106,7 @@ class FridaGui(tk.Frame):
 		# open_btn.grid(row = 0, column = 2, sticky='WENS')
 
 	def NewFile(self):
-		self.text.delete("1.0",END)
+		self.text.delete("1.0",tk.END)
 
 	def donothing():
 	   filewin = tk.Toplevel(self)
@@ -104,18 +114,21 @@ class FridaGui(tk.Frame):
 	   button.pack()
 
 	def readFile(self):
-		global_vars.init()
 		self.reset()
 		input = self.text.get("1.0",tk.END)
 		self.parser.parse(input)
 		self.virtual_machine.run_list(self, self.canvas, q.Quadruple.quadruple_list)
 
 	def reset(self):
+		global_vars.init()
 		self.virtual_machine.mem = Memory()
 		st.SymbolsTable.function_dictionary = {}
+		self.canvas.delete("all")
+		self.console.delete("1.0",tk.END)
+		q.Quadruple.quadruple_list = []
 
 	def print(self, string):
-		self.user_entry.insert(str(self.console_index), str(string) + '\n')
+		self.console.insert(str(self.console_index), str(string) + '\n')
 		self.console_index += len(str(string)) + 1
 
 	def _on_change(self, event):
