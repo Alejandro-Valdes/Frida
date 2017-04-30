@@ -68,6 +68,8 @@ class VirtualMachine():
 					printUndefinedValue()
 					sys.exit()
 
+				print(printable_obj)
+
 				if (printable_obj == TRUE and type(printable_obj) is bool):
 					print('verdadero')
 				elif (printable_obj == FALSE and type(printable_obj) is bool):
@@ -312,7 +314,6 @@ class VirtualMachine():
 		# create a turtle object
 		ttl = turtle.RawTurtle(self.canvas)
 
-		# draw equilateral triangle
 		ttl.color(color)
 		ttl.speed('fastest')
 		ttl.shape('circle')
