@@ -39,4 +39,7 @@ programa turtle
 			col_lim = col_lim + 1;
 			lim = lim + 1;
 		}
+
+		/*frida.elimina();*/
+		frida.color("#000000");
 	}

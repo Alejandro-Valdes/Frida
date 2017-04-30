@@ -70,6 +70,7 @@ P_GO = 4001
 P_ROT = 4002
 P_DIS = 4003
 P_THICK = 4004
+P_DEL = 4005
 
 cubeDict = {}
 
@@ -268,6 +269,8 @@ def getOperationStr(code):
 		return 'P_DIS'	
 	elif(code == P_THICK):
 		return 'P_THICK'	
+	elif(code == P_DEL):
+		return 'P_DEL'
 	else:
 		return -1
 

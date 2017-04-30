@@ -277,6 +277,13 @@ class VirtualMachine():
 				ttl.setposition(x, y)
 				ttl.pendown()	
 
+			elif quad.action == P_DEL:
+				#quad in the form -> action - '' - '' - ttl address
+				ttl = self.mem.getValue(int(quad.res))
+
+				ttl.ht()
+				self.mem.setValue(None, int(quad.res))
+
 			elif quad.action == P_THICK:
 				#quad in the form action -> ttl address - ' ' - thick indicator address
 				ttl = self.mem.getValue(int(quad.o1))

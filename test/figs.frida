@@ -1,51 +1,4 @@
 programa fibo
-	rutina entero : fibo(bool: test2, entero: lim, entero: test){
-		variable entero x1 = 0, x2 = 1, temp;
-		variable entero cont = 1;
-		variable entero res = 0;
-
-		si(lim == 0){		
-			res = x1;
-		}
-		sino_pero(lim == 1){
-			res = x2;
-		}
-		sino{
-			mientras(cont < lim){
-
-				res = x1 + x2;
-
-				temp = x2;
-				x2 = res;
-				x1 = temp;
-
-				cont = cont + 1;
-			}
-			/*
-			res  0 1 1 2 3 5 8 13 21 34 10
-			cont 0 1 2 3 4 5 6 7  8  9  55
-			*/
-		}
-
-		regresa res;
-	}
-
-	rutina entero : fibo(entero: x){
-		variable entero x1, x2;
-
-		si(x == 0){
-			regresa 0;
-		}
-		si(x == 1){
-			regresa 1;
-		}
-
-		x1 = fibo(x - 1);
-		x2 = fibo(x - 2);
-
-    	regresa x1 + x2;
-
-	}
 
 	lienzo{
 		variable entero limite;
@@ -70,14 +23,6 @@ programa fibo
 		arreglo[1] = 100;
 
 		imprimir(arreglo[1]);
-		
-		uno(arreglo[0] * 2);
-
-
-		mientras (x1 < 10){
-			imprimir(x1 * 2);
-			x1 = x1 +1;
-		}
 		
 	}
 

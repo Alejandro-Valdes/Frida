@@ -82,3 +82,10 @@ def p_pincel_thickness(p):
 
 	quad = QuadrupleItem(P_THICK, address, '', thick)
 	Quadruple.add_quad(quad)
+
+def p_pincel_remove(p):
+	'pincel_remove : empty'
+	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
+	
+	quad = QuadrupleItem(P_DEL, '', '', address)
+	Quadruple.add_quad(quad)
