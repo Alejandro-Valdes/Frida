@@ -111,7 +111,8 @@ t_INT = r'-?(\d+)'
 t_DOUBLE = r'-?(\d+(\.\d+))'
 t_TRUE = r'verdadero'
 t_FALSE = r'falso'
-t_STRING = r'(\'.*\' | \".*\")'
+t_STRING = r'("[^".]*")|(\'[^\'.]*\')'
+
 t_ignore_COMMENT = r'\/\*(\*(?!\/)|[^*])*\*\/'
 
 t_CTECOLOR = r'\"(rojo|azul|verde|amarillo|rosa)\"'
