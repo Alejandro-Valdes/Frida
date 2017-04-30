@@ -16,14 +16,14 @@ programa factorial
 	
 
 	lienzo{
-		variable entero res = 0, x = 8, res2 = x;
+		variable entero res = 0, x = 5, res2 = x;
 
-		res = fact(8);
+		res = fact(5);
 
 		imprimir(res);
 
 		mientras (x > 1){
-			res2 = res2 * (x-1);
+			res2 = res2 * (x - 1);
 			x = x - 1;
 		}
 		imprimir(res2);

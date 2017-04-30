@@ -72,6 +72,10 @@ P_DIS = 4003
 P_THICK = 4004
 P_DEL = 4005
 
+F_COL = 5000
+F_GRW = 5001
+F_RMV = 5002
+F_MVE = 5003
 cubeDict = {}
 
 # Assignments
@@ -271,6 +275,14 @@ def getOperationStr(code):
 		return 'P_THICK'	
 	elif(code == P_DEL):
 		return 'P_DEL'
+	elif(code == F_COL):
+		return 'F_COL'
+	elif(code == F_GRW):
+		return 'F_GRW'
+	elif(code == F_MVE):
+		return 'F_MVE'
+	elif(code == F_RMV):
+		return 'F_RMV'
 	else:
 		return -1
 

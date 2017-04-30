@@ -3,15 +3,16 @@ programa turtle
 	/*Drawing with turtle and frida */
 	
 	lienzo{
-		variable pincel frida =  nuevo pincel("#FF0000");
+		variable pincel frida =  nuevo pincel("#ff0000");
 		variable entero lim = 0;
 		variable entero gir = 30;
 		variable entero col_lim = 5;
-		variable decimal arreglo[2] = {1/1.0, 43.2 - 2 * 3};
+		variable cadena colores[3] = {'#ff0000', '#00ff00', '#0000ff'};
 
-		imprimir(arreglo[0]);
-		imprimir(arreglo[1]);
+		imprimir(colores[0] + colores[1]);
+		imprimir(colores[1]);
 		
+		imprimir('test' == 'test');
 		mientras(lim < 180){
 			frida.pinta(100);
 			frida.gira(gir);
@@ -23,13 +24,13 @@ programa turtle
 			frida.gira(2);
 
 			si(col_lim <= 5){
-				frida.color("#FF0000");
+				frida.color(colores[0]);
 			}
 			sino_pero(col_lim  <= 10){
-				frida.color("#00FF00");
+				frida.color(colores[1]);
 			}
 			sino{
-				frida.color("#0000FF");
+				frida.color(colores[2]);
 			}
 
 			si(col_lim == 15){
@@ -40,6 +41,5 @@ programa turtle
 			lim = lim + 1;
 		}
 
-		/*frida.elimina();*/
-		frida.color("#000000");
+		frida.elimina();
 	}

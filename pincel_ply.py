@@ -7,7 +7,7 @@ from dimension import *
 
 def p_pincel_color(p):
 	'pincel_color : empty'
-	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
+	address = SymbolsTable.checkVarAddress(g.funcName, g.fig_name)
 	res_type = g.typeStack.pop()
 	color = g.oStack.pop()
 
@@ -23,14 +23,7 @@ def p_pincel_paint(p):
 	'pincel_paint : empty'
 	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
 	res_type = g.typeStack.pop()
-
 	steps = g.oStack.pop()
-
-	print('aaaaa')
-	print(address)
-	print(g.fig_name)
-	print('aaaaa')
-
 	
 	if(res_type != ENTERO and res_type != DECIMAL):
 		print('ERROR: para moverme necesito una numero')
@@ -56,11 +49,11 @@ def p_pincel_rotate(p):
 def p_pincel_displace(p):
 	'pincel_displace : empty'
 	address = SymbolsTable.checkVarAddress(g.funcName, g.fig_name)
-	res_x = g.typeStack.pop()
-	x = g.oStack.pop()
-
 	res_y = g.typeStack.pop()
 	y = g.oStack.pop()
+
+	res_x = g.typeStack.pop()
+	x = g.oStack.pop()
 	
 	if(res_x != ENTERO or res_y != ENTERO):
 		print('ERROR: para desplazarme necesito una cordenada (x,y) de enteros')

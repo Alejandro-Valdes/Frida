@@ -5,17 +5,17 @@ programa fibo
 		variable entero x1 = 0, x2 = 1, temp;
 		variable entero cont = 1;
 		
-		variable cuadrado miCuadrado3 = nuevo cuadrado(30, 400, 100, "#0000FF");
-		variable cuadrado miCuadrado4 = nuevo cuadrado(50, 100, 100, "#FFF");
+		variable cuadrado miCuadrado3 = nuevo cuadrado(30, -20, -20, "#0000FF");
+		variable cuadrado miCuadrado4 = nuevo cuadrado(50, -100, -100, "#FFF");
 
-		variable cuadrado miCuad5 = nuevo cuadrado(100 * 2, 10, 10, "#FAE");
-		variable circulo miCirc = nuevo circulo(100, 10, 10, "#AAA");
+		variable cuadrado miCuad5 = nuevo cuadrado(100 * 2, -10, -10, "#FAE");
+		variable circulo miCirc = nuevo circulo(100, -10, 10, "#AAA");
 
 		variable rectangulo miRect = nuevo rectangulo(100, 2, 100, 100, "#221312");
 
-		variable rectangulo miRect2 = nuevo rectangulo(600, 100 - 20 , 43, 199, "#2acd12");
+		variable rectangulo miRect2 = nuevo rectangulo(300, 100 - 20 , -43, -199, "#2acd12");
 
-		variable triangulo miT = nuevo triangulo(50 + 200, 300, 240, 440, 500, 180, "#BAE");
+		variable triangulo miT = nuevo triangulo(-100, -100, 140, -140, 200, 180, "#BAE");
 
 		variable entero arreglo[2] = {5,20};
 		variable entero x = 32;
@@ -23,6 +23,36 @@ programa fibo
 		arreglo[1] = 100;
 
 		imprimir(arreglo[1]);
+
+		miT.relleno('#000');
+		miCirc.relleno('#fff');
+
+		miCirc.relleno('#fff');
+		miCirc.crece(0.5);
+		miT.crece(0.5);
+		mientras(verdadero){
+			si(cont == 50){
+				miCirc.crece(2);
+				miT.crece(2);
+				miT.relleno('#f23Df4');
+				miCirc.relleno('#fa4');
+				miCuad5.mover(-100, -100);
+				miRect.mover(-200, 0);
+				miRect2.mover(0, 400);
+			}
+			si(cont == 100){
+				miCirc.crece(0.5);
+				miT.crece(0.5);
+				miT.relleno('#fa4');
+				miCirc.relleno('#f23Df4');
+				miCuad5.mover(100, 100);
+				miRect.mover(200, 0);
+				miRect2.mover(0, -400);
+				cont = 0;
+			}
+			cont = cont + 1;
+		}
+		
 		
 	}
 
