@@ -257,6 +257,7 @@ def p_gen_end_proc(p):
 def  p_save_fig(p):
 	'save_fig : empty'
 	g.fig_name = p[-1]
+
 	quad = QuadrupleItem(FIG, getTypeCode(g.fig_name), '', '')
 
 	Quadruple.add_quad(quad)

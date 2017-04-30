@@ -16,11 +16,11 @@ def p_mod_call_3(p):
 	arg = g.oStack.pop()
 	arg_type = g.typeStack.pop()
 	expected_type = SymbolsTable.check_param(g.funcExpName, g.param_count)
-	print (arg)
-	print (arg_type)
+	
+	semantic_res = getResultType(getTypeCode(expected_type), PARAM, arg_type);
 
-	if arg_type != getTypeCode(expected_type):
-		print('Error: Funcion ' + g.funcExpName + ' esperaba parametro de tipo '+ expected_type + ' pero me diste ' + getTypeStr(arg_type))
+	if arg_type != getTypeCode(expected_type) and semantic_res == -1 :
+		print(getTypeCode(expected_type))
 		sys.exit()
 
 	quad = QuadrupleItem(PARAM, arg , '', 'param' + str(g.param_count+1))
