@@ -1,0 +1,18 @@
+programa turtle
+
+	/*Drawing with turtle and frida */
+
+	rutina void : espiral(pincel : frida, entero : tam, decimal : grueso){
+		si(tam > 0){
+			frida.grosor(grueso);
+			frida.pinta(tam);
+			frida.gira(90);
+			espiral(frida, tam - 5, grueso - 0.1);
+		}
+	}
+
+	lienzo{
+		variable pincel frida =  nuevo pincel("#000000");
+		frida.desplazar(200, -200);
+		espiral(frida, 400, 10);
+	}

@@ -4,11 +4,15 @@ programa turtle
 	
 	lienzo{
 		variable pincel frida =  nuevo pincel("#000000");
+		variable pincel diego =  nuevo pincel("#000000");
+
 		variable entero x = 1;
 
-		mientras(verdadero){
+		mientras(x < 400){
+			diego.pinta(x);
 			frida.pinta(x);
 			frida.gira(91);
+			diego.gira(-91);
 			x = x + 1;
 		}
 

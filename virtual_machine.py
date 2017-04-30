@@ -42,6 +42,15 @@ class VirtualMachine():
 
 		start_lienzo_scope = int(self.quad_list[0].res)
 
+
+		'''
+		DONT REMOVE THIS TURTLE IT SETS THE POS(0,0) AS THE CENTERS AND 
+		IF WE DONT HAVE IT ALL THE TKINTER FIGURES GET REMOVED'''
+		ttl = turtle.RawTurtle(self.canvas)
+		ttl.color('#fff')
+		'''
+		DONT REMOVE ABOVE TURTLE
+		'''
 		
 		while ip < len(self.quad_list):
 			quad = self.quad_list[ip]
@@ -268,6 +277,15 @@ class VirtualMachine():
 				ttl.setposition(x, y)
 				ttl.pendown()	
 
+			elif quad.action == P_THICK:
+				#quad in the form action -> ttl address - ' ' - thick indicator address
+				ttl = self.mem.getValue(int(quad.o1))
+				thickness = self.mem.getValue(int(quad.res))
+				if(thickness < 0):
+					print('Error: el grosor no puede ser negativo')
+					sys.exit()
+
+				ttl.width(thickness)
 				
 
 			#shape move TODO
@@ -275,6 +293,7 @@ class VirtualMachine():
 				print('desplazar')
 
 			ip += 1
+
 			self.frida_gui.update()
 
 		self.frida_gui.mainloop()

@@ -10,11 +10,11 @@ from dimension import *
 def p_check_fig(p):
 	'check_fig : empty'
 	g.fig_name = p[-1]
+	g.actualVarObj = SymbolsTable.checkVariable(g.fig_name, g.funcName)
 
 def p_check_variable(p):
 	'check_variable : empty'
 	g.currId = p[-1]
-
 	g.actualVarObj = SymbolsTable.checkVariable(g.currId, g.funcName)
 
 def p_check_function(p):

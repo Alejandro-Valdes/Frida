@@ -68,3 +68,17 @@ def p_pincel_displace(p):
 
 	quad = QuadrupleItem(P_DIS, x, y, address)
 	Quadruple.add_quad(quad)
+
+def p_pincel_thickness(p):
+	'pincel_thickness : empty'
+	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
+	res_type = g.typeStack.pop()
+
+	thick = g.oStack.pop()
+	
+	if(res_type != ENTERO and res_type != DECIMAL):
+		print('ERROR: para crecer necesito una numero')
+		sys.exit()
+
+	quad = QuadrupleItem(P_THICK, address, '', thick)
+	Quadruple.add_quad(quad)

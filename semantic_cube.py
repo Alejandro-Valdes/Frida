@@ -69,6 +69,7 @@ P_COL = 4000
 P_GO = 4001
 P_ROT = 4002
 P_DIS = 4003
+P_THICK = 4004
 
 cubeDict = {}
 
@@ -148,11 +149,14 @@ cubeDict[(DECIMAL, DIV, ENTERO)] = DECIMAL
 cubeDict[(ENTERO, DIV, DECIMAL)] = DECIMAL
 cubeDict[(DECIMAL, DIV, DECIMAL)] = DECIMAL
 
+# Retorno
 cubeDict[(ENTERO, RET, ENTERO)] = ENTERO
 cubeDict[(DECIMAL, RET, ENTERO)] = DECIMAL
 cubeDict[(DECIMAL, RET, DECIMAL)] = DECIMAL
 cubeDict[(BOOL, RET, BOOL)] = BOOL
 cubeDict[(CADENA, RET, CADENA)] = CADENA
+
+
 
 def getResultType(left,operation,right):
 	if ((left,operation,right) in cubeDict):
@@ -257,6 +261,8 @@ def getOperationStr(code):
 		return 'P_ROT'
 	elif(code == P_DIS):
 		return 'P_DIS'	
+	elif(code == P_THICK):
+		return 'P_THICK'	
 	else:
 		return -1
 
