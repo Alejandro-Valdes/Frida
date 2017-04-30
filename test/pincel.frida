@@ -13,6 +13,7 @@ programa turtle
 		imprimir(colores[1]);
 		
 		imprimir('test' == 'test');
+		
 		mientras(lim < 180){
 			frida.pinta(100);
 			frida.gira(gir);
@@ -40,6 +41,28 @@ programa turtle
 			col_lim = col_lim + 1;
 			lim = lim + 1;
 		}
+		
 
-		frida.elimina();
+		frida.desplazar(-100, -100);
+
+		frida.gira(90);
+		frida.arco(100, 180);
+		frida.gira(90);
+		frida.arco(100, 180);
+		frida.gira(90);
+		frida.arco(100, 180);
+		frida.gira(90);
+		frida.arco(100, 180);
+
+		frida.desplazar(-120, -120);
+
+		frida.gira(90);
+		frida.arco(120, 180);
+		frida.gira(90);
+		frida.arco(120, 180);
+		frida.gira(90);
+		frida.arco(120, 180);
+		frida.gira(90);
+		frida.arco(120, 180);
+		
 	}

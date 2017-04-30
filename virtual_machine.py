@@ -315,12 +315,27 @@ class VirtualMachine():
 				ttl = self.mem.getValue(int(quad.o1))
 				if ttl == None:
 					ttl_error()
+
 				thickness = self.mem.getValue(int(quad.res))
+
 				if(thickness < 0):
 					print('Error: grosor ' + str(thickness) + ' no puede ser negativo')
 					sys.exit()
 
 				ttl.width(thickness)
+
+			elif quad.action == P_ARC:
+				#quad in the form -> action - x address - y address - ttl address
+				ttl = self.mem.getValue(int(quad.res))
+				if ttl == None:
+					ttl_error()
+
+				print('test')
+
+				radius = self.mem.getValue(int(quad.o1))
+				extent = self.mem.getValue(int(quad.o2))
+
+				ttl.circle(radius, extent)
 
 			# FIGURA
 			elif quad.action == F_COL:
@@ -381,7 +396,7 @@ class VirtualMachine():
 			ip += 1
 			self.frida_gui.update()
 
-		self.frida_gui.mainloop()
+		#self.frida_gui.mainloop()
 
 	def drawBrush(self, fig_param_stack, res_address):
 

@@ -13,6 +13,6 @@ programa turtle
 
 	lienzo{
 		variable pincel frida =  nuevo pincel("#000000");
-		frida.desplazar(200, -200);
+		frida.desplazar(-200, 200);
 		espiral(frida, 400, 10);
 	}

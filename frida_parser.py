@@ -430,9 +430,8 @@ def p_accion_pincel(p):
 		| PAINT LPARENTHESIS exp RPARENTHESIS pincel_paint
 		| ROTATE LPARENTHESIS exp RPARENTHESIS pincel_rotate
 		| THICK LPARENTHESIS exp RPARENTHESIS pincel_thickness
-		| REMOVE LPARENTHESIS RPARENTHESIS pincel_remove'''
-
-		#| GRAPH LPARENTHESIS CTEFUNCION COMA exp TODO CHANGE
+		| REMOVE LPARENTHESIS RPARENTHESIS pincel_remove
+		| ARC LPARENTHESIS exp COMA exp RPARENTHESIS pincel_arc'''
 
 # Color
 def p_color(p):
