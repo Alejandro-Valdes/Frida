@@ -186,7 +186,7 @@ def p_cte(p):
 def p_push_string(p):
 	'push_string : empty'
 	type = getTypeCode('cadena')
-	address = CteMemory.getAddress(type, p[-1][1:-1])
+	address = CteMemory.getAddress(type, p[-1])
 	push_o(str(address), 'cadena')
 
 def p_push_int(p):
