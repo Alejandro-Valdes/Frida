@@ -441,7 +441,7 @@ def p_accion_pincel(p):
 	'accion_pincel : accion_pincel_opt '
 
 def p_accion_pincel_opt(p):
-	'''accion_pincel_opt : COLOR LPARENTHESIS color RPARENTHESIS pincel_color
+	'''accion_pincel_opt : COLOR LPARENTHESIS exp RPARENTHESIS pincel_color
 		| DISPLACE LPARENTHESIS exp COMA exp RPARENTHESIS pincel_displace
 		| PAINT LPARENTHESIS exp RPARENTHESIS pincel_paint
 		| ROTATE LPARENTHESIS exp RPARENTHESIS pincel_rotate

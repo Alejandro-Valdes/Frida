@@ -251,7 +251,11 @@ class VirtualMachine():
 			elif quad.action == P_COL:
 				#quad in the form action -> ttl address - ' ' - color address
 				ttl = self.mem.getValue(int(quad.o1))
-				ttl.color(self.mem.getValue(int(quad.res)))
+				try:
+					ttl.color(self.mem.getValue(int(quad.res)))
+				except:
+					print('Error: ese color no me sirve')
+					sys.exit()
 
 			elif quad.action == P_GO:
 				#quad in the form action -> ttl address - ' ' - move indicator address
@@ -311,8 +315,12 @@ class VirtualMachine():
 
 		# create a turtle object
 		ttl = turtle.RawTurtle(self.canvas)
-
-		ttl.color(color)
+		try:
+			ttl.color(color)
+		except:
+			print('Error: ese color no me sirve')
+			sys.exit()
+			
 		ttl.speed('fastest')
 		ttl.shape('circle')
 
