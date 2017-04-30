@@ -68,8 +68,6 @@ class VirtualMachine():
 					printUndefinedValue()
 					sys.exit()
 
-				print(printable_obj)
-
 				if (printable_obj == TRUE and type(printable_obj) is bool):
 					print('verdadero')
 				elif (printable_obj == FALSE and type(printable_obj) is bool):

@@ -9,10 +9,10 @@ programa turtle
 		variable entero col_lim = 5;
 		variable decimal arreglo[2] = {1/1.0, 43.2 - 2 * 3};
 
-		imprimir(arreglo[0]);
-		imprimir(arreglo[1]);
+		imprimir(arreglo[0] + arreglo[1]);
+		imprimir(arreglo[1] * 20 / 10);
 		
-		imprimir('test' == "test");
+		imprimir('test' == 'test');
 		mientras(lim < 180){
 			frida.pinta(100);
 			frida.gira(gir);
