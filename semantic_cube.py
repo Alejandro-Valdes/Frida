@@ -156,6 +156,11 @@ cubeDict[(DECIMAL, RET, DECIMAL)] = DECIMAL
 cubeDict[(BOOL, RET, BOOL)] = BOOL
 cubeDict[(CADENA, RET, CADENA)] = CADENA
 
+# Function
+cubeDict[(DECIMAL, PARAM, ENTERO)] = DECIMAL
+cubeDict[(DECIMAL, PARAM, DECIMAL)] = DECIMAL
+
+
 
 
 def getResultType(left,operation,right):
