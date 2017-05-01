@@ -1,7 +1,7 @@
 programa pruebaFrida 
 	variable entero iTest = 3, iVTest;
 	variable bool fFalso;
-	variable entero dArrayTest[3 * 1] = { 1, 5, 10 };
+	variable entero dArrayTest[3] = { 1, 5, 10 };
 
 	rutina decimal : suma(entero : x1, entero : x2){
 		iVTest = 5 + 3;

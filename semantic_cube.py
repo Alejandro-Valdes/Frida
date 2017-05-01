@@ -167,8 +167,6 @@ cubeDict[(DECIMAL, PARAM, ENTERO)] = DECIMAL
 cubeDict[(DECIMAL, PARAM, DECIMAL)] = DECIMAL
 
 
-
-
 def getResultType(left,operation,right):
 	if ((left,operation,right) in cubeDict):
 		return cubeDict[left,operation,right];

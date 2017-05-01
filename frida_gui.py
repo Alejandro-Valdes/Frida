@@ -7,6 +7,8 @@ import quadruples as q
 import symbol_table as st
 from memory import Memory
 import global_vars
+import os
+import threading
 
 class FridaGui(tk.Frame):
 	def __init__(self, parent, parser, virtual_machine, *args, **kwargs):
@@ -95,6 +97,8 @@ class FridaGui(tk.Frame):
 		self.console.bind("<Return>", self.process_input)
 		self.prompt = ">>> "
 
+		self.threads = list()
+
 		# self.mainloop()
 
 		# frida_lbl = Label(self, text = '-FRIDA-')
@@ -113,11 +117,13 @@ class FridaGui(tk.Frame):
 	def readFile(self):
 		self.reset()
 		input = self.text.get("1.0",tk.END)
+
 		try:
 			self.parser.parse(input)
-			self.virtual_machine.run_list(self, self.canvas, q.Quadruple.quadruple_list)
+			t = threading.Thread(target=self.virtual_machine.run_list, args=(self, self.canvas, q.Quadruple.quadruple_list))
+			self.threads.append(t)
+			t.start()
 		except Exception as e: 
-			print(e)
 			self.print(e)
 			pass
 
@@ -154,17 +160,17 @@ class FridaGui(tk.Frame):
 	    self.receiving_input = True
 
 	def process_input(self, event=None):
+
 	    # if there is an event, it happened before the class binding,
 	    # thus before the newline actually got inserted; we'll
 	    # do that here, then skip the class binding.
 	    self.console.insert("end", "\n")
 	    self.input = self.console.get("end-of-prompt", "end-1c")
-	    self.console.insert("end", "output of the command '%s'...!" % command)
 	    self.console.see("end")
-	    self.insert_prompt()
 
 	    # this prevents the class binding from firing, since we 
 	    # inserted the newline in this method
+
 	    self.receiving_input = False
 
 	    return "break"

@@ -223,7 +223,7 @@ def p_check_return(p):
 		res = g.oStack.pop()
 		act_type = g.typeStack.pop()
 
-		func_result = getResultType(getTypeCode(ret_type), getOperationCode('sys.exit()'), act_type)
+		func_result = getResultType(getTypeCode(ret_type), getOperationCode('return'), act_type)
 
 		if func_result > 0:
 			quad = QuadrupleItem(RET, '', '', res)
@@ -396,7 +396,6 @@ def p_finish_assignment(p):
 			left_o = g.oStack.pop()
 			res = g.oStack.pop()
 
-			# g.error_msg = "%s %s" % (left_o, res))
 			operand = g.operStack.pop()
 
 			right_type = g.typeStack.pop()

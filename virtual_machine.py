@@ -77,9 +77,9 @@ class VirtualMachine():
 					printUndefinedValue()
 					return
 
-				if (printable_obj == TRUE and type(printable_obj) is bool):
+				if (printable_obj == TRUE):
 					caller.print('verdadero')
-				elif (printable_obj == FALSE and type(printable_obj) is bool):
+				elif (printable_obj == FALSE):
 					caller.print('falso')
 				else:
 					caller.print(printable_obj)

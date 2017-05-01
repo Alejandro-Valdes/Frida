@@ -1,3 +1,5 @@
+import memory as m
+
 class Dimension():
 	def __init__(self, sup_lim, m, next):
 		# By our language definition, the superior limit is always one shorter
