@@ -9,6 +9,7 @@ from memory import Memory
 import global_vars
 import os
 import threading
+from tkinter.filedialog import askopenfilename, asksaveasfile
 
 class FridaGui(tk.Frame):
 	def __init__(self, parent, parser, virtual_machine, *args, **kwargs):
@@ -21,6 +22,8 @@ class FridaGui(tk.Frame):
 		self.virtual_machine = virtual_machine
 
 		self.receiving_input = True
+
+		self.filename = ''
 
 		tk.Frame.__init__(self, *args, **kwargs)
 		self.top_frame = tk.Frame(self)
@@ -46,32 +49,18 @@ class FridaGui(tk.Frame):
 		self.canvas = tk.Canvas(self.top_frame, width=700, height=600, scrollregion=(0,0,500,500), bd = 1)
 		self.canvas.pack(side="right", expand=True, fill=tk.BOTH)
 
-		# self.hrt_sb_canvas.pack(side="right", fill="x")
-
 		self.console = tk.Text(self.bottom_frame)
 		self.console.pack(fill="x")
-
-		# read_btn = tk.Button(self, state=tk.DISABLED, text='Lee', padx=15)
-		# read_btn.grid(row=3, column=2, sticky='WENS')
-
-		# run_btn = tk.Button(self, text = 'Frida Pinta')
-		# run_btn.grid(row = 2, column=2, sticky='WENS')
-
-		# output_lbl = tk.Label(self, text = 'Output:')
-		# output_lbl.grid(row = 3, column = 4, sticky = 'WNS')
-
-		# output_area = tk.Text(self, width = 20, height= 6, bd = 1, relief = tk.GROOVE, state = tk.DISABLED)
-		# output_area.grid(row=5, column = 4, sticky = 'WENS', pady=(0,20), padx=(0,5))
 		
 		self.menubar = tk.Menu(self.parent)
 		self.parent.config(menu=self.menubar)
 
 		filemenu = tk.Menu(self.menubar, tearoff=0)
-		filemenu.add_command(label="Nuevo", command=self.NewFile)
-		filemenu.add_command(label="Abrir", command=self.readFile)
-		filemenu.add_command(label="Guardar", command=self.donothing)
-		filemenu.add_command(label="Guardar como...", command=self.donothing)
-		filemenu.add_command(label="Cerrar", command=self.donothing)
+		filemenu.add_command(label="Nuevo", command=self.new_file)
+		filemenu.add_command(label="Abrir", command=self.open_file)
+		filemenu.add_command(label="Ejecutar", command=self.compile_run)
+		filemenu.add_command(label="Guardar", command=self.file_save)
+		filemenu.add_command(label="Guardar como...", command=self.file_save_as)
 
 		filemenu.add_separator()
 
@@ -99,22 +88,53 @@ class FridaGui(tk.Frame):
 
 		self.threads = list()
 
-		# self.mainloop()
-
-		# frida_lbl = Label(self, text = '-FRIDA-')
-		# frida_lbl.grid(row = 0, column=1, sticky='WENS')
-		# save_btn.grid(row = 0, column = 0, sticky='WENS', padx=15, pady=10)
-		# open_btn.grid(row = 0, column = 2, sticky='WENS')
-
-	def NewFile(self):
+	def new_file(self):
+		self.filename = ''
 		self.text.delete("1.0",tk.END)
+
+	def open_file(self):
+		ftypes = [('Frida files', '*.frida'), ('All files', '*')]
+		dlg = tk.filedialog.Open(self, filetypes = ftypes)
+		fl = dlg.show()
+
+		if fl != '':
+			text = self.readFile(fl)
+			self.text.insert(tk.END, text)
+
+	def file_save_as():
+		f = tk.filedialog.asksaveasfile(mode='w', defaultextension=".frida")
+		if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
+			return
+
+		text2save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
+		self.filename = f.name # Set current filename
+		f.write(text2save)
+		f.close() # `()` was missing.
+
+	def file_save():
+		if self.filename != '':
+			f = tk.filedialog.asksaveasfile(mode='w', defaultextension=".frida")
+		else:
+			f = open(self.filename, 'w')
+
+		if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
+		    return
+		text2save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
+		f.write(text2save)
+		f.close() # `()` was missing.
+
+	def readFile(self, filename):
+
+	    f = open(filename, "r")
+	    text = f.read()
+	    return text
 
 	def donothing():
 	   filewin = tk.Toplevel(self)
 	   button = tk.Button(filewin, text="Do nothing button")
 	   button.pack()
 
-	def readFile(self):
+	def compile_run(self):
 		self.reset()
 		input = self.text.get("1.0",tk.END)
 
@@ -174,6 +194,13 @@ class FridaGui(tk.Frame):
 	    self.receiving_input = False
 
 	    return "break"
+
+	def dialog(self, action, question):
+	    result = tkMessageBox.askquestion(action, question, icon='warning')
+	    if result == 'yes':
+	        return True
+	    else:
+	       	return False
 
 class CustomText(tk.Text):
     def __init__(self, *args, **kwargs):
