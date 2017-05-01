@@ -405,7 +405,7 @@ def p_id_factor_opt(p):
 # llamadaExp
 
 def p_llamadaExp(p):
-	'llamadaExp : ID check_function LPARENTHESIS mod_call_2 llamada_param RPARENTHESIS mod_call_5 mod_call_6'
+	'llamadaExp : ID check_function LPARENTHESIS push_fake_bottom mod_call_2 llamada_param RPARENTHESIS pop_fake_bottom mod_call_5 mod_call_6'
 	push_o(p[1], 'func')
 
 # accion

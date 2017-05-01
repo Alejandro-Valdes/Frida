@@ -9,7 +9,7 @@ programa factorial
 		}
 
 	    sino{
-	        regresa fact(x - 1) * x;
+	        regresa x * fact(x - 1);
 	    }
 
 	}
