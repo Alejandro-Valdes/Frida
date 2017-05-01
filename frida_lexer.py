@@ -32,8 +32,6 @@ tokens = [
    	'DOUBLE',
    	'STRING',
    	'COMMENT',
-   	'CTECOLOR',
-   	'CTEHEXCOLOR',
    	'CTEFUNCION',
    	'ID'
 ]
@@ -115,10 +113,6 @@ t_FALSE = r'falso'
 t_STRING = r'("[^".]*")|(\'[^\'.]*\')'
 
 t_ignore_COMMENT = r'\/\*(\*(?!\/)|[^*])*\*\/'
-
-t_CTECOLOR = r'\"(rojo|azul|verde|amarillo|rosa)\"'
-
-t_CTEHEXCOLOR = r'\"\#([0-9a-fA-F]{6} | [0-9a-fA-F]{3})\"'
 
 t_CTEFUNCION = r'\"(([x]|[0-9]+(.[0-9]+)?))+([+\-*/^]([xX]|([0-9]+(.[0-9]+)?)+))+\"'
 t_ignore = ' \t'

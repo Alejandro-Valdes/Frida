@@ -365,7 +365,7 @@ class VirtualMachine():
 				scale = self.mem.getValue(int(quad.res))
 
 				if scale < 0:
-					print('Errro: no puedo crecer a una escala menora a cero')
+					print('Error: no puedo crecer a una escala menora a cero')
 
 				if fig == None:
 					fig_error()
@@ -423,30 +423,36 @@ class VirtualMachine():
 		pos_x = self.mem.getValue(fig_param_stack.pop())
 		fig = 0
 
-		if fig_code == CUADRADO:
-			sqr_len = self.mem.getValue(fig_param_stack.pop())
-			fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
+		try:
 
-		elif fig_code == RECTANGULO:
-			height = self.mem.getValue(fig_param_stack.pop())
-			width = self.mem.getValue(fig_param_stack.pop())
-			fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + width, pos_y + height, fill = color)
+			if fig_code == CUADRADO:
+				sqr_len = self.mem.getValue(fig_param_stack.pop())
+				fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
 
-		elif fig_code == CIRCULO:
-			cir_di = self.mem.getValue(fig_param_stack.pop()) * 2
-			fig = self.canvas.create_oval(pos_x, pos_y, pos_x + cir_di, pos_y + cir_di, fill = color)
+			elif fig_code == RECTANGULO:
+				height = self.mem.getValue(fig_param_stack.pop())
+				width = self.mem.getValue(fig_param_stack.pop())
+				fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + width, pos_y + height, fill = color)
 
-		elif fig_code == TRIANGULO:
-			p3_y = pos_y
-			p3_x = pos_x
-			p2_y = self.mem.getValue(fig_param_stack.pop())
-			p2_x = self.mem.getValue(fig_param_stack.pop())
-			p1_y = self.mem.getValue(fig_param_stack.pop())
-			p1_x = self.mem.getValue(fig_param_stack.pop())
-			points = [p1_x, p1_y, p2_x, p2_y, p3_x, p3_y]
-			fig = self.canvas.create_polygon(points, fill = color)
+			elif fig_code == CIRCULO:
+				cir_di = self.mem.getValue(fig_param_stack.pop()) * 2
+				fig = self.canvas.create_oval(pos_x, pos_y, pos_x + cir_di, pos_y + cir_di, fill = color)
 
-		self.mem.setValue(fig, int(res_address))
+			elif fig_code == TRIANGULO:
+				p3_y = pos_y
+				p3_x = pos_x
+				p2_y = self.mem.getValue(fig_param_stack.pop())
+				p2_x = self.mem.getValue(fig_param_stack.pop())
+				p1_y = self.mem.getValue(fig_param_stack.pop())
+				p1_x = self.mem.getValue(fig_param_stack.pop())
+				points = [p1_x, p1_y, p2_x, p2_y, p3_x, p3_y]
+				fig = self.canvas.create_polygon(points, fill = color)
+
+			self.mem.setValue(fig, int(res_address))
+
+		except:
+			print('Error: color ' + color + ' no me sirve')
+			sys.exit()
 
 	def relational_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
@@ -488,7 +494,6 @@ class VirtualMachine():
 		elif action == DIV:
 			return o1 / o2
 		print('Error matematicas')
-
 		sys.exit()
 
 	def logic_operation(self, action, o1, o2):
