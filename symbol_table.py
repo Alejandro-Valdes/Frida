@@ -27,8 +27,7 @@ class Function:
 		'''
 
 		if var.name in self.vars:
-			print("Error: variable " + var.name + " ya se definio dentro del alcance de la funcion")
-			sys.exit()
+			raise Exception("Error: variable " + var.name + " ya se definio dentro del alcance de la funcion")
 
 		else:
 			self.vars[var.name] = var
@@ -50,8 +49,8 @@ class SymbolsTable:
 	def add_function(cls, function):
 
 		if function.name in cls.function_dictionary:
-			print("Error: funcion " + function.name + " ya se definio")
-			sys.exit()
+			raise Exception("Error: funcion " + function.name + " ya se definio")
+
 		else:
 			cls.function_dictionary[function.name] = function
 
@@ -99,16 +98,14 @@ class SymbolsTable:
 
 			return var
 		else:
-			print("Error: alcance " + scope + " no definido")
-			sys.exit()
+			raise Exception("Error: alcance " + scope + " no definido")
 
 	@classmethod
 	def add_function_params(cls, scope, params):
 		if scope in cls.function_dictionary:
 			cls.function_dictionary[scope].params = params
 		else:
-			print("Error: alcance " + scope + " no definido")
-			sys.exit()
+			raise Exception("Error: alcance " + scope + " no definido")
 
 	@classmethod
 	def get_function_signature(cls, scope):
@@ -116,8 +113,7 @@ class SymbolsTable:
 		if scope in cls.function_dictionary:
 			return cls.function_dictionary[scope].params
 		else:
-			print("Error: alcance " + scope + " no definido")
-			sys.exit()
+			raise Exception("Error: alcance " + scope + " no definido")
 
 	@classmethod
 	def get_function_params_addresses(cls, scope):
@@ -137,8 +133,7 @@ class SymbolsTable:
 			return addresses
 
 		else:
-			print("Error: alcance " + scope + " no definido")
-			sys.exit()
+			raise Exception("Error: alcance " + scope + " no definido")
 
 	@classmethod
 	def checkVariable(cls, var, func):
@@ -147,14 +142,12 @@ class SymbolsTable:
 		elif(var in cls.function_dictionary['global'].vars):
 			return cls.function_dictionary['global'].vars[var]
 		else:
-			print('Error: ' + var + ' no esta definida dentro del alcance de la funcion ni como varible global')
-			sys.exit()
+			raise Exception('Error: ' + var + ' no esta definida dentro del alcance de la funcion ni como varible global')
 
 	@classmethod
 	def checkFunction(cls, func):
 		if(func not in cls.function_dictionary):
-			print('Error: funcion ' + func + ' no esta definida')
-			sys.exit()
+			raise Exception('Error: funcion ' + func + ' no esta definida')
 
 	@classmethod
 	def checkVarType(cls, func, var):

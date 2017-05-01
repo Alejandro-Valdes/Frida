@@ -20,8 +20,7 @@ def p_mod_call_3(p):
 	semantic_res = getResultType(getTypeCode(expected_type), PARAM, arg_type);
 
 	if arg_type != getTypeCode(expected_type) and semantic_res == -1 :
-		print('Error: funcion ' + g.funcExpName+ ' esperaba ' + expected_type + ' pero me mandaste ' + getTypeStr(arg_type))
-		sys.exit()
+		raise Exception('Error: funcion ' + g.funcExpName+ ' esperaba ' + expected_type + ' pero me mandaste ' + getTypeStr(arg_type))
 
 	quad = QuadrupleItem(PARAM, arg , '', 'param' + str(g.param_count+1))
 
@@ -32,8 +31,7 @@ def p_mod_call_4(p):
 	g.param_count += 1
 
 	if g.param_count + 1 > SymbolsTable.params_size(g.funcExpName):
-		print('Error: Le mandaste parametros de mas a la funcion ' + g.funcExpName)
-		sys.exit()
+		raise Exception('Error: Le mandaste parametros de mas a la funcion ' + g.funcExpName)
 
 def p_mod_call_5(p):
 	'mod_call_5 : empty'
@@ -45,8 +43,7 @@ def p_mod_call_5(p):
 		pass
 
 	elif act_param_size < expected_param_size:
-		print('Error: Le mandaste muy poquitos parametros a la funcion ' + g.funcExpName)
-		sys.exit()
+		raise Exception('Error: Le mandaste parametros de mas a la funcion ' + g.funcExpName)
 
 def p_mod_call_6(p):
 	'mod_call_6 : empty'
@@ -61,8 +58,7 @@ def p_mod_call_empty(p):
 	'mod_call_empty : empty'
 	expected_param_size = SymbolsTable.params_size(g.funcExpName)
 	if expected_param_size > 0:
-		print('Error: No le mandaste nada a la funcion ' + g.funcExpName)
-		sys.exit()
+		raise Exception('Error: No le mandaste nada a la funcion ' + g.funcExpName)
 
 
 

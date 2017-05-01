@@ -14,9 +14,9 @@ if __name__ == '__main__':
 
 	virtual_machine = VirtualMachine()
 
-	frida_gui = tk.Tk()
-	frida_gui.title('Frida IDE')
+	root = tk.Tk()
+	root.title('Frida IDE')
 
-	FridaGui(frida_gui, parser, virtual_machine).pack(side="top", fill="both", expand=True)
-	frida_gui.mainloop()
+	FridaGui(root, parser, virtual_machine).pack(side="top", fill="both", expand=True)
+	root.mainloop()
 	# main(file)

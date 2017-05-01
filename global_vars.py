@@ -26,6 +26,7 @@ def init():
 	global actualVarObj
 	global dim
 	global currId
+	global error_msg
 
 	oStack = []
 	dStack = []
@@ -54,3 +55,5 @@ def init():
 	dim = 0
 
 	currId = ''
+
+	error_msg = ''

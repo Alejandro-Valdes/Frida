@@ -15,8 +15,7 @@ def p_fig_move(p):
 	x = g.oStack.pop()
 	
 	if(res_x != ENTERO or res_y != ENTERO):
-		print('ERROR: para moverme necesito una cordenada (x,y) de enteros')
-		sys.exit()
+		raise Exception('ERROR: para moverme necesito una cordenada (x,y) de enteros')
 
 	quad = QuadrupleItem(F_MVE, x, y, address)
 	Quadruple.add_quad(quad)
@@ -28,8 +27,7 @@ def p_fig_grow(p):
 	scale = g.oStack.pop()
 
 	if(res_type != ENTERO and res_type != DECIMAL):
-		print('ERROR: para crecer necesito una numero')
-		sys.exit()
+		raise Exception('ERROR: para crecer necesito un numero')
 
 	quad = QuadrupleItem(F_GRW, address, '', scale)
 	Quadruple.add_quad(quad)
@@ -41,8 +39,7 @@ def p_fig_fill(p):
 	color = g.oStack.pop()
 
 	if(res_type != CADENA):
-		print('ERROR: para cambiar el color necesito una cadena')
-		sys.exit()
+		raise Exception('ERROR: para cambiar el color necesito una cadena')
 
 	quad = QuadrupleItem(F_COL, address, '', color)
 	Quadruple.add_quad(quad)

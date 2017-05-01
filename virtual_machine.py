@@ -13,27 +13,27 @@ import turtle
 
 def printUndefinedValue():
 	print('Error: Acceso a variable indefinida')
-	sys.exit()
+	return
 
 def ttl_error():
 	print('Error: pincel no esta definido o fue eliminado')
-	sys.exit()
+	return
 
 def fig_error():
 	print('Error: figura no esta definida o fue borrda')
-	sys.exit()
+	return
 
 class VirtualMachine():
 	def __init__(self):
 		self.mem = Memory()
 		self.shapes = []
 
-	def run_list(self, printer, canvas, quad_list):
-		self.printer = printer
+	def run_list(self, caller, canvas, quad_list):
+		self.caller = caller
 		self.canvas = canvas
 		self.quad_list = quad_list
 
-		printer.print('\nOutput: ')
+		caller.print('Output: ')
 		ip = 0
 		fig_name = ''
 		fig_param_stack = []
@@ -75,22 +75,28 @@ class VirtualMachine():
 
 				if printable_obj is None:
 					printUndefinedValue()
-					sys.exit()
+					return
 
 				if (printable_obj == TRUE and type(printable_obj) is bool):
-					printer.print('verdadero')
+					caller.print('verdadero')
 				elif (printable_obj == FALSE and type(printable_obj) is bool):
-					printer.print('falso')
+					caller.print('falso')
 				else:
-					printer.print(printable_obj)
+					caller.print(printable_obj)
 
 			elif quad.action == READ:
 				if quad.res < 9000:
-					printer.print('error Lectura')
-					sys.exit()
+					caller.print('error Lectura')
+					return
 
 				elif quad.res >= 9000 and quad.res < 10000:
-					bRes = input()
+					self.caller.insert_prompt()
+
+					while self.caller.receiving_input:
+						pass
+
+					bRes = self.caller.input
+
 					if bRes == 'verdadero':
 						TempMemory.setValue(int(quad.res), TRUE)
 
@@ -98,32 +104,49 @@ class VirtualMachine():
 						TempMemory.setValue(int(quad.res), FALSE)
 
 					else:
-						printer.print("Eso no es un bool")
-						sys.exit()
+						caller.print("Eso no es un bool")
+						return
 
 				elif quad.res >= 10000 and quad.res < 11000:
 					try:
-						iRes = input()
+						self.caller.insert_prompt()
+
+						while self.caller.receiving_input:
+							pass
+
+						iRes = self.caller.input
+
 						TempMemory.setValue(int(quad.res), int(iRes))
 					except ValueError:
-						printer.print("Eso no es un entero")
-						sys.exit()
+						caller.print("Eso no es un entero")
+						return
 
 				elif quad.res >= 11000 and quad.res < 12000:
 					try:
-						fRes = input()
+						self.caller.insert_prompt()
+
+						while self.caller.receiving_input:
+							pass
+
+						fRes = self.caller.input
+
 						TempMemory.setValue(int(quad.res), float(fRes))
 					except ValueError:
-						printer.print("Eso no es un decimal")
-						sys.exit()
+						caller.print("Eso no es un decimal")
+						return
 
 				elif quad.res >= 12000 and quad.res < 13000:
-					sRes = input()
+					self.caller.insert_prompt()
+
+					while self.caller.receiving_input:
+						pass
+
+					sRes = self.caller.input
 					TempMemory.setValue(int(quad.res), str(sRes))
 
 				else:
-					printer.print('error lectura')
-					sys.exit()
+					caller.print('error lectura')
+					return
 
 			elif quad.action == ASSIGN:
 				res = self.mem.getValue(int(quad.o1))
@@ -144,8 +167,8 @@ class VirtualMachine():
 			elif quad.action == GOTOF:
 				bool_res = self.mem.getValue(int(quad.o1))
 				if bool_res is None:
-					printer.print('Error: variable indefinida')
-					sys.exit()
+					caller.print('Error: variable indefinida')
+					return
 
 				if bool_res == FALSE:
 					ip = int(quad.res) - 1
@@ -158,7 +181,7 @@ class VirtualMachine():
 				if int(quad_o1) >= int(quad.o2) and int(quad_o1) <= int(quad.res):
 					pass
 				else:
-					printer.print('Error: Indice fuera de limites de arreglo')
+					caller.print('Error: Indice fuera de limites de arreglo')
 
 			elif quad.action > ANDORSTART and quad.action < ANDOREND:
 				res = self.logic_operation(quad.action, quad.o1, quad.o2)
@@ -209,7 +232,7 @@ class VirtualMachine():
 					value = temp_local_mem[int(quad.o1)]
 					if value is None:
 						print (temp_local_mem)
-						printer.print(self.mem.getValue(int(quad.o1)))
+						caller.print(self.mem.getValue(int(quad.o1)))
 
 				else:
 					value = self.mem.getValue(int(quad.o1))
@@ -270,7 +293,7 @@ class VirtualMachine():
 				except:
 					color = self.mem.getValue(int(quad.res))
 					print('Error: color : ' + color + ' no me sirve')
-					sys.exit()
+					return
 
 			elif quad.action == P_GO:
 				#quad in the form action -> ttl address - ' ' - move indicator address
@@ -320,7 +343,7 @@ class VirtualMachine():
 
 				if(thickness < 0):
 					print('Error: grosor ' + str(thickness) + ' no puede ser negativo')
-					sys.exit()
+					return
 
 				ttl.width(thickness)
 
@@ -348,7 +371,7 @@ class VirtualMachine():
 					self.canvas.itemconfig(fig, fill=col)
 				except:
 					print('Error: color ' + col +' no me sirve')
-					sys.exit()
+					return
 
 			elif quad.action == F_RMV:
 				#quad in the form -> action - '' - '' - fig address
@@ -408,7 +431,7 @@ class VirtualMachine():
 			ttl.color(color)
 		except:
 			print('Error: color ' + color + ' no me sirve')
-			sys.exit()
+			return
 			
 		ttl.speed('fastest')
 		ttl.shape('circle')
@@ -454,7 +477,7 @@ class VirtualMachine():
 
 		if o1 is None or o2 is None:
 			printUndefinedValue()
-			sys.exit()
+			return
 
 		if action == LTHAN:
 			return TRUE if o1 < o2 else FALSE 
@@ -469,7 +492,7 @@ class VirtualMachine():
 		elif action == GETHAN:
 			return TRUE if o1 >= o2 else FALSE
 		print('Error relacional')
-		sys.exit()
+		return
 
 	def basic_math(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
@@ -477,7 +500,7 @@ class VirtualMachine():
 
 		if o1 is None or o2 is None:
 			print('Error: acceso a valor indefinido')
-			sys.exit()
+			return
 
 		if action == SUM:
 			return o1 + o2
@@ -489,7 +512,7 @@ class VirtualMachine():
 			return o1 / o2
 		print('Error matematicas')
 
-		sys.exit()
+		return
 
 	def logic_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
@@ -497,7 +520,7 @@ class VirtualMachine():
 
 		if o1 is None or o2 is None:
 			print('Error: acceso a valor indefinido')
-			sys.exit()
+			return
 
 		o1 = True if o1 == TRUE else False
 		o2 = True if o2 == TRUE else False
@@ -508,5 +531,5 @@ class VirtualMachine():
 			return TRUE if o1 or o2 else FALSE
 
 		print('Error logica')
-		sys.exit()
+		return
 

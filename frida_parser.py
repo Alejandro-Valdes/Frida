@@ -443,10 +443,9 @@ def p_color(p):
 # gracias al contador del lexer
 def p_error(p):
 	if(p):
-		print("Error: sintaxis '" + str(p.value) + "' en linea: " + str(p.lineno))
+		raise Exception("Error: sintaxis '" + str(p.value) + "' en linea: " + str(p.lineno))
 	else:
-		print("Error: sintaxis al final del archivo")
-	sys.exit()
+		raise Exception("Error: sintaxis al final del archivo")
 
 # Crea el parser dandole el estado inicial
 parser = yacc.yacc(start='programa')

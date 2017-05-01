@@ -18,6 +18,8 @@ class FridaGui(tk.Frame):
 		self.parser = parser
 		self.virtual_machine = virtual_machine
 
+		self.receiving_input = True
+
 		tk.Frame.__init__(self, *args, **kwargs)
 		self.top_frame = tk.Frame(self)
 		self.bottom_frame = tk.Frame(self)
@@ -39,17 +41,9 @@ class FridaGui(tk.Frame):
 		self.text.bind("<<Change>>", self._on_change)
 		self.text.bind("<Configure>", self._on_change)
 
-		self.scrollable_frame = tk.Frame(self.top_frame)
-		self.scrollable_frame.pack(side="right", fill=tk.BOTH)
-
-		self.canvas = tk.Canvas(self.scrollable_frame, width=300, height=300, scrollregion=(0,0,500,500), bd = 1)
+		self.canvas = tk.Canvas(self.top_frame, width=700, height=600, scrollregion=(0,0,500,500), bd = 1)
 		self.canvas.pack(side="right", expand=True, fill=tk.BOTH)
 
-		self.vrt_sb_canvas = tk.Scrollbar(self.scrollable_frame, command=self.canvas.yview)
-		self.hrt_sb_canvas = tk.Scrollbar(self.scrollable_frame, command=self.canvas.xview)
-		self.vrt_sb_canvas.pack(side="right", fill="y")
-
-		self.canvas.config(xscrollcommand=self.hrt_sb_canvas.set, yscrollcommand=self.vrt_sb_canvas.set)
 		# self.hrt_sb_canvas.pack(side="right", fill="x")
 
 		self.console = tk.Text(self.bottom_frame)
@@ -98,6 +92,9 @@ class FridaGui(tk.Frame):
 		helpmenu.add_command(label="About...", command=self.donothing)
 		self.menubar.add_cascade(label="Help", menu=helpmenu)
 
+		self.console.bind("<Return>", self.process_input)
+		self.prompt = ">>> "
+
 		# self.mainloop()
 
 		# frida_lbl = Label(self, text = '-FRIDA-')
@@ -116,8 +113,13 @@ class FridaGui(tk.Frame):
 	def readFile(self):
 		self.reset()
 		input = self.text.get("1.0",tk.END)
-		self.parser.parse(input)
-		self.virtual_machine.run_list(self, self.canvas, q.Quadruple.quadruple_list)
+		try:
+			self.parser.parse(input)
+			self.virtual_machine.run_list(self, self.canvas, q.Quadruple.quadruple_list)
+		except Exception as e: 
+			print(e)
+			self.print(e)
+			pass
 
 	def reset(self):
 		global_vars.init()
@@ -133,6 +135,39 @@ class FridaGui(tk.Frame):
 
 	def _on_change(self, event):
 	    self.linenumbers.redraw()
+
+	def insert_prompt(self):
+	    # make sure the last line ends with a newline; remember that
+	    # tkinter guarantees a trailing newline, so we get the
+	    # character before this trailing newline ('end-1c' gets the
+	    # trailing newline, 'end-2c' gets the char before that)
+	    c = self.console.get("end-2c")
+	    if c != "\n":
+	        self.console.insert("end", "\n")
+	    self.console.insert("end", self.prompt, ("prompt",))
+
+	    # this mark lets us find the end of the prompt, and thus
+	    # the beggining of the user input
+	    self.console.mark_set("end-of-prompt", "end-1c")
+	    self.console.mark_gravity("end-of-prompt", "left")
+
+	    self.receiving_input = True
+
+	def process_input(self, event=None):
+	    # if there is an event, it happened before the class binding,
+	    # thus before the newline actually got inserted; we'll
+	    # do that here, then skip the class binding.
+	    self.console.insert("end", "\n")
+	    self.input = self.console.get("end-of-prompt", "end-1c")
+	    self.console.insert("end", "output of the command '%s'...!" % command)
+	    self.console.see("end")
+	    self.insert_prompt()
+
+	    # this prevents the class binding from firing, since we 
+	    # inserted the newline in this method
+	    self.receiving_input = False
+
+	    return "break"
 
 class CustomText(tk.Text):
     def __init__(self, *args, **kwargs):
