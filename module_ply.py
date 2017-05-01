@@ -8,6 +8,9 @@ def p_mod_call_2(p):
 	name = g.funcExpName
 	quad = QuadrupleItem(ERA, name, '' ,'')
 
+	if(len(g.funcExpNameStack) > 0):
+		g.funcExpName = g.funcExpNameStack.pop()
+
 	Quadruple.add_quad(quad)
 	g.param_count = 0
 
@@ -55,6 +58,8 @@ def p_mod_call_6(p):
 	quad = QuadrupleItem(GOSUB, g.funcExpName, '' , str(quadPointer))
 
 	Quadruple.add_quad(quad)
+
+	
 
 
 def p_mod_call_empty(p):
