@@ -8,6 +8,8 @@ from dimension import *
 def p_init_quad(p):
 	'init_quad : empty'
 	quad = QuadrupleItem(GOTO, '', '', '')
+	cont = len(Quadruple.quadruple_list)
+	g.jumpStack.append(cont)
 	Quadruple.add_quad(quad)
 
 def p_push_operation(p):
@@ -292,7 +294,7 @@ def p_assign_to_array(p):
 
 			last_val_mem = g.oStack.pop()
 			right_type = g.typeStack.pop()
-			
+
 			operand = getOperationCode('=')
 			resultType = getResultType(g.arrayType, operand, right_type)
 

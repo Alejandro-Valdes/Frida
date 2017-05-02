@@ -27,7 +27,7 @@ from module_ply import *
 
 # Programa
 def p_programa(p):
-	'programa : PROGRAMA ID init_quad add_global_scope vars_opt rutinas lienzo printFuncTable printQuadList'
+	'programa : PROGRAMA ID add_global_scope vars_opt init_quad rutinas lienzo printFuncTable printQuadList'
 
 def p_vars_opt(p):
 	'''vars_opt : vars 

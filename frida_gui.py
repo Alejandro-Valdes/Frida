@@ -15,6 +15,8 @@ from tkinter.filedialog import askopenfilename, asksaveasfile
 class FridaGui(tk.Frame):
 	def __init__(self, parent, parser, *args, **kwargs):
 
+		self.lock = threading.Lock()
+
 		self.console_index = 1.0
 
 		self.parent = parent
@@ -122,7 +124,7 @@ class FridaGui(tk.Frame):
 		f.close() # `()` was missing.
 
 	def file_save(self):
-		if self.filename != '':
+		if self.filename == '':
 			f = tk.filedialog.asksaveasfile(mode='w', defaultextension=".frida")
 		else:
 			f = open(self.filename, 'w')
@@ -191,6 +193,7 @@ class FridaGui(tk.Frame):
 	    self.console.mark_gravity("end-of-prompt", "left")
 
 	    self.receiving_input = True
+	    self.lock.acquire()
 
 	def process_input(self, event=None):
 		if self.receiving_input:
@@ -206,6 +209,7 @@ class FridaGui(tk.Frame):
 			# inserted the newline in this method
 
 			self.receiving_input = False
+			self.lock.release()
 
 		return "break"
 

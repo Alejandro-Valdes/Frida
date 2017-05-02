@@ -1,0 +1,31 @@
+programa find
+	variable entero arreglo[10] = { 1, 2, 10, 15, 85, 65, 78, 96, 30, 7};
+
+	rutina entero : find(entero: x) {
+		variable entero i = 0;
+
+		mientras(i < 10) {
+			si (arreglo[i] == x) {
+				regresa i;
+			}
+			i = i + 1;
+		}
+
+		regresa -1;
+	}
+
+	lienzo {
+		variable entero n, aux;
+		imprimir('Que numero quieres buscar?');
+		n = leer();
+
+		aux = find(n);
+
+		si(aux > -1) {
+			imprimir(aux);
+		}
+		sino {
+			imprimir('No se encontro el numero que buscabas');
+		}
+	}
+

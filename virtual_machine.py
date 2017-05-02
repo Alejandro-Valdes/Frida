@@ -89,8 +89,7 @@ class VirtualMachine():
 				elif quad_res >= 9000 and quad_res < 10000:
 					self.caller.insert_prompt()
 
-					while self.caller.receiving_input:
-						pass
+					self.caller.lock.acquire()
 
 					bRes = self.caller.input
 
@@ -108,8 +107,7 @@ class VirtualMachine():
 					try:
 						self.caller.insert_prompt()
 
-						while self.caller.receiving_input:
-							pass
+						self.caller.lock.acquire()
 
 						iRes = self.caller.input
 
@@ -122,8 +120,7 @@ class VirtualMachine():
 					try:
 						self.caller.insert_prompt()
 
-						while self.caller.receiving_input:
-							pass
+						self.caller.lock.acquire()
 
 						fRes = self.caller.input
 
@@ -135,8 +132,7 @@ class VirtualMachine():
 				elif quad_res >= 12000 and quad_res < 13000:
 					self.caller.insert_prompt()
 
-					while self.caller.receiving_input:
-						pass
+					self.caller.lock.acquire()
 
 					sRes = self.caller.input
 					TempMemory.setValue(int(quad_res), str(sRes))
@@ -164,7 +160,7 @@ class VirtualMachine():
 				bool_res = self.mem.getValue(int(quad_o1))
 				if bool_res is None:
 					self.caller.print('Error: variable indefinida')
-					self.caller.print(int(quad_o1))
+					self.caller.print("%s %s" % (int(quad_o1), ip))
 					self.caller.running = False
 
 				if bool_res == FALSE:
@@ -530,7 +526,6 @@ class VirtualMachine():
 	def relational_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
 		o2 = self.mem.getValue(int(o2))
-
 
 		if o1 is None or o2 is None:
 			printUndefinedValue()
