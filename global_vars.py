@@ -28,6 +28,7 @@ def init():
 	global actualVarObj
 	global dim
 	global currId
+	global error_msg
 
 	global colorDict
 
@@ -63,3 +64,4 @@ def init():
 	currId = ''
 
 	colorDict = {'rojo' : 'red', 'azul' : 'blue', 'amarillo' : 'yellow', 'rosa' : 'pink', 'morado' : 'purple', 'verde' : 'green'}
+	error_msg = ''

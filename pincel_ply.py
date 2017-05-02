@@ -13,7 +13,7 @@ def p_pincel_color(p):
 
 	if(res_type != CADENA):
 		print('ERROR: para cambiar el color necesito una cadena')
-		sys.exit()
+		return
 
 	quad = QuadrupleItem(P_COL, address, '', color)
 	Quadruple.add_quad(quad)
@@ -27,7 +27,7 @@ def p_pincel_paint(p):
 	
 	if(res_type != ENTERO and res_type != DECIMAL):
 		print('ERROR: para moverme necesito una numero')
-		sys.exit()
+		return
 
 	quad = QuadrupleItem(P_GO, address, '', steps)
 	Quadruple.add_quad(quad)
@@ -41,7 +41,7 @@ def p_pincel_rotate(p):
 	
 	if(res_type != ENTERO and res_type != DECIMAL):
 		print('ERROR: para girar necesito una numero')
-		sys.exit()
+		return
 
 	quad = QuadrupleItem(P_ROT, address, '', degrees)
 	Quadruple.add_quad(quad)
@@ -57,7 +57,7 @@ def p_pincel_displace(p):
 	
 	if(res_x != ENTERO or res_y != ENTERO):
 		print('ERROR: para desplazarme necesito una cordenada (x,y) de enteros')
-		sys.exit()
+		return
 
 	quad = QuadrupleItem(P_DIS, x, y, address)
 	Quadruple.add_quad(quad)
@@ -71,7 +71,7 @@ def p_pincel_thickness(p):
 	
 	if(res_type != ENTERO and res_type != DECIMAL):
 		print('ERROR: para crecer necesito una numero')
-		sys.exit()
+		return
 
 	quad = QuadrupleItem(P_THICK, address, '', thick)
 	Quadruple.add_quad(quad)
@@ -95,7 +95,7 @@ def p_pincel_arc(p):
 
 	if(res_extent != ENTERO and res_extent != DECIMAL and res_radius != ENTERO and res_radius != DECIMAL):
 		print('ERROR: para arco necesito dos numeros, un radio y una longitud')
-		sys.exit()
+		return
 
 	quad = QuadrupleItem(P_ARC, radius, extent, address)
 	Quadruple.add_quad(quad)

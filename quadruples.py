@@ -9,7 +9,7 @@ class QuadrupleItem():
 		self.o2 = o2
 		self.res = res
 
-class  Quadruple():
+class Quadruple():
 
 	quadruple_list = []
 	__shared_state = {}
@@ -28,7 +28,8 @@ class  Quadruple():
 			print(str(i) + '\t' + getOperationStr(quad.action) + '\t' + str(quad.o1) + '\t' + str(quad.o2) + '\t' + str(quad.res))
 			i +=1
 
-	@classmethod
-	def run_list(cls):
-		vm = VirtualMachine(cls.quadruple_list)
-		vm.run_list()
+	# Previous way of running file compilation and execution
+	# @classmethod
+	# def run_list(cls):
+	# 	vm = VirtualMachine(cls.quadruple_list)
+	# 	vm.run_list()

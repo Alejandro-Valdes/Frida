@@ -1,8 +1,7 @@
 from frida_parser import parser
-import global_vars
+from virtual_machine import *
+from frida_gui import *
 import sys
-
-global_vars.init()
 
 def main(file):
 	file_in = open(file, 'r')
@@ -10,7 +9,14 @@ def main(file):
 	file_in.close()
 	parser.parse(data)
 
-
 if __name__ == '__main__':
-	file = "test/" + sys.argv[1]
-	main(file)
+	# file = "test/" + sys.argv[1]
+
+	virtual_machine = VirtualMachine()
+
+	root = tk.Tk()
+	root.title('Frida IDE')
+
+	FridaGui(root, parser, virtual_machine).pack(side="top", fill="both", expand=True)
+	root.mainloop()
+	# main(file)

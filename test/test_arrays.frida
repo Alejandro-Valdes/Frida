@@ -3,7 +3,6 @@ programa voidFunc
 	rutina void : tres(entero: test){
 		variable rectangulo miRect2 = nuevo rectangulo(600, 100 - 20 , 43, 199, "#2acd12");
 
-
 		imprimir('tres');
 		imprimir(test);
 		imprimir('fintres');
@@ -17,7 +16,6 @@ programa voidFunc
 		si(input == 'si'){
 			miRect2.mover(2);
 		}
-
 
 		imprimir('dos');
 		imprimir(test);

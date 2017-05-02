@@ -51,7 +51,7 @@ class Memory():
 		try:
 			if address < 1000:
 				print('Error Mem ' + str(address))
-				sys.exit()
+				return
 			elif address >= 1000 and address < 5000 or (address >= GLOBALPINCEL and address <= GLOBALTRIANGULO):
 				return GlobalMemory.getItemValue(address)
 			elif (address >= 5000 and address < 9000) or (address >= LOCALPINCEL and address <= LOCALTRIANGULO):
@@ -64,16 +64,16 @@ class Memory():
 				print('Error Mem ' + str(address))
 				print(address >= LOCALPINCEL)
 				print(address <= LOCALTRIANGULO)
-				sys.exit()
+				return
 		except KeyError:
 			printUndefinedValue()
-			sys.exit()
+			return
 
 	def setValue(self, value, address):
 		if address < 1000:
 			#print('Error set mem')
 			# TODO Set mem fig
-			#sys.exit()
+			#return
 			pass
 		elif (address >= 1000 and address < 5000) or (address >= GLOBALPINCEL and address <= GLOBALTRIANGULO):
 			GlobalMemory.setValue(address, value)
@@ -85,7 +85,7 @@ class Memory():
 			CteMemory.setValue(address, value)
 		else:
 			print('Error set mem')
-			sys.exit()
+			return
 
 class GlobalMemory():
 

@@ -54,7 +54,7 @@ def p_pop_fake_bottom(p):
 def p_printQuadList(p):
 	'printQuadList : empty'
 	Quadruple.print_list()
-	Quadruple.run_list()
+	# Quadruple.run_list()
 
 def quad_maker():
 	global i
@@ -80,10 +80,7 @@ def quad_maker():
 		g.typeStack.append(resultType)
 
 	else:
-		print('Error: tipo no coincide')
-		print(str(left_o) + getOperationStr(operand) + str(right_o))
-		print(getTypeStr(left_type) + getOperationStr(operand) + getTypeStr(right_type))
-		sys.exit()
+		raise Exception('Error: tipo no coincide\n' + str(left_o) + getOperationStr(operand) + str(right_o) + '\n' + getTypeStr(left_type) + getOperationStr(operand) + getTypeStr(right_type))
 
 def p_push_operand(p):
 	'push_operand : empty'
@@ -107,8 +104,6 @@ def push_o(p, type):
 
 	resType = getTypeCode(resType)
 
-	print("%s %s" % (p, type))
-
 	g.oStack.append(res)
 	g.typeStack.append(resType)
 
@@ -127,8 +122,7 @@ def assign_helper():
 				quad = QuadrupleItem(operand, res, '', left_o)
 				Quadruple.add_quad(quad)
 			else:
-				print('No puedo asignar ' + str(res) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(left_o) + ' por que es ' + getTypeStr(left_type))
-				sys.exit()	
+				raise Exception('No puedo asignar ' + str(res) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(left_o) + ' por que es ' + getTypeStr(left_type))
 
 def read_helper():
 	address = TempMemory.getAddress(getTypeCode(g.nextType))
@@ -151,9 +145,8 @@ def p_if_1(p):
 	exp_type = g.typeStack.pop()
 
 	if (exp_type != getTypeCode('bool')):
-		print('Error: tipo no coincide')
-		print('Esperaba bool pero me diste un ' + getTypeStr(exp_type))
-		sys.exit()
+		raise Exception('Error: tipo no coincide\n' + 'Esperaba bool pero me diste un ' + getTypeStr(exp_type))
+
 	else:
 		res = g.oStack.pop()
 		quad = QuadrupleItem(GOTOF, res, '', '')
@@ -195,9 +188,8 @@ def p_while_2(p):
 	exp_type = g.typeStack.pop()
 
 	if exp_type != getTypeCode('bool'):
-		print('Error: tipo no coincide')
-		print('Esperaba bool pero me diste un ' + getTypeStr(exp_type))
-		sys.exit()
+		raise Exception('Error: tipo no coincide\n' + 'Esperaba bool pero me diste un ' + getTypeStr(exp_type))
+
 	else:
 		result = g.oStack.pop()
 		quad = QuadrupleItem(GOTOF, str(result), '', '')
@@ -221,8 +213,8 @@ def p_check_return(p):
 	ret_type = SymbolsTable.checkFuncReturnType(g.funcName)
 
 	if ret_type == 'void':
-		print('Error: funcion ' + g.funcName + ' de tipo void no puede tener estatuto de retorno')
-		sys.exit()
+		raise Exception('Error: funcion ' + g.funcName + ' de tipo void no puede tener estatuto de retorno')
+
 	else:
 		g.funcHasReturn = True
 
@@ -238,16 +230,15 @@ def p_check_return(p):
 			Quadruple.add_quad(quad)
 			g.typeStack.append(func_result)
 		else:
-			print('Error: funcion ' + g.funcName + ' de tipo '+ g.funcType +' no puede regresar valor de tipo ' + getTypeStr(act_type))
-			sys.exit()
+			raise Exception('Error: funcion ' + g.funcName + ' de tipo '+ g.funcType +' no puede regresar valor de tipo ' + getTypeStr(act_type))
 
 def p_gen_end_proc(p):
 	'gen_end_proc : empty'
 
 	ret_type = SymbolsTable.checkFuncReturnType(g.funcName)
 	if ret_type != 'void' and g.funcHasReturn == False:
-		print('Error: funcion ' + g.funcName + ' de tipo ' + g.funcType + ' no tiene estatuto de retorno')
-		sys.exit()
+		raise Exception('Error: funcion ' + g.funcName + ' de tipo ' + g.funcType + ' no tiene estatuto de retorno')
+
 	else:
 		g.funcHasReturn = False
 
@@ -309,8 +300,7 @@ def p_assign_to_array(p):
 				Quadruple.add_quad(quad)
 				g.arrayAssignmentCounter += 1
 			else:
-				print('No puedo asignar ' + str(last_val_mem) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(g.arrayBase) + ' por que es ' + getTypeStr(g.arrayType))
-				sys.exit()	
+				raise Exception('No puedo asignar ' + str(last_val_mem) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(g.arrayBase) + ' por que es ' + getTypeStr(g.arrayType))
 
 def p_finish_array_assignment(p):
 	'finish_array_assignment : empty'
@@ -318,8 +308,7 @@ def p_finish_array_assignment(p):
 	var = SymbolsTable.checkVariable(g.varName, g.funcName)
 
 	if g.arrayAssignmentCounter != var.dimension_list.total_size:
-		print('Error: Tamanio de asignacion no coincide con tamano de variable: ' + var.name)
-		sys.exit()
+		raise Exception('Error: Tamanio de asignacion no coincide con tamano de variable: ' + var.name)
 
 	g.operStack.pop()
 	g.arrayAssignmentCounter = 0
@@ -341,8 +330,7 @@ def p_array_access_prep(p):
 
 		g.processingVar = True
 	else:
-		print('Error: Acceso a variable no dimensionada')
-
+		raise Exception('Error: Acceso a variable no dimensionada')
 
 def p_array_access(p):
 	'array_access : empty'
@@ -408,18 +396,14 @@ def p_finish_assignment(p):
 			left_o = g.oStack.pop()
 			res = g.oStack.pop()
 
-			# print("%s %s" % (left_o, res))
 			operand = g.operStack.pop()
 
 			right_type = g.typeStack.pop()
 			left_type = g.typeStack.pop()
 			resultType = getResultType(left_type, operand, right_type)
 
-			print("%s %s" % (right_type, resultType))
-
 			if resultType > 0:
 				quad = QuadrupleItem(operand, left_o, '', res)
 				Quadruple.add_quad(quad)
 			else:
-				print('No puedo asignar ' + str(res) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(left_o) + ' por que es ' + getTypeStr(left_type))
-				sys.exit()	
+				raise Exception('No puedo asignar ' + str(res) + ' del tipo ' + getTypeStr(right_type) + ' a la variable ' + str(left_o) + ' por que es ' + getTypeStr(left_type))	
