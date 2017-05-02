@@ -290,8 +290,7 @@ class VirtualMachine():
 				try:
 					color = self.mem.getValue(int(quad.res))
 					ttl.color(color)
-				except:
-					color = self.mem.getValue(int(quad.res))
+				except Exception:
 					raise Exception('Error: color : ' + color + ' no me sirve')
 					return
 

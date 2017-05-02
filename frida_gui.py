@@ -47,7 +47,7 @@ class FridaGui(tk.Frame):
 		self.text.bind("<<Change>>", self._on_change)
 		self.text.bind("<Configure>", self._on_change)
 
-		self.canvas = tk.Canvas(self.top_frame, width=700, height=600, scrollregion=(0,0,500,500), bd = 1)
+		self.canvas = tk.Canvas(self.top_frame, width=700, height=600, bd = 1)
 		self.canvas.pack(side="right", expand=True, fill=tk.BOTH)
 
 		self.console = tk.Text(self.bottom_frame)
@@ -65,7 +65,7 @@ class FridaGui(tk.Frame):
 
 		filemenu.add_separator()
 
-		filemenu.add_command(label="Salir", command=self.quit)
+		filemenu.add_command(label="Salir", command=self.quit_ask)
 		self.menubar.add_cascade(label="Archivo", menu=filemenu)
 
 		helpmenu = tk.Menu(self.menubar, tearoff=0)
@@ -84,26 +84,30 @@ class FridaGui(tk.Frame):
 	# 	if tk.SEL_FIRST == '': 
 
 	def new_file(self):
-		if self.filename:
-			# self.content_loss_dialog()
-			pass
-		else:
-			self.text.delete("1.0",tk.END)
+		if not self.filename and self.text.compare("end-1c", "!=", "1.0"):
+			self.content_loss_dialog()
+		self.text.delete("1.0",tk.END)
 		self.filename = ''
 
-	# def content_loss_dialog():
+	def content_loss_dialog(self):
+		user_response = tk.messagebox.askyesno(title='Alerta', message='Tu trabajo actual será sobrescrito ¿Deseas guardar tus cambios en un nuevo archivo?', icon=tk.messagebox.WARNING)
 
+		if user_response:
+			self.files_save_as()
+		else: 
+			pass
 
 	def open_file(self):
+		if not self.filename and self.text.compare("end-1c", "!=", "1.0"):
+			self.content_loss_dialog()
 		self.text.delete("1.0",tk.END)
+		file_types = [('Frida files', '*.frida'), ('All files', '*')]
+		dialog = tk.filedialog.Open(self, filetypes = file_types)
+		file = dialog.show()
+		self.filename = file
 
-		ftypes = [('Frida files', '*.frida'), ('All files', '*')]
-		dlg = tk.filedialog.Open(self, filetypes = ftypes)
-		fl = dlg.show()
-		self.filename = fl
-
-		if fl != '':
-			text = self.read_file(fl)
+		if file != '':
+			text = self.read_file(file)
 			self.text.insert(tk.END, text)
 
 	def file_save_as(self):
@@ -111,7 +115,7 @@ class FridaGui(tk.Frame):
 		if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
 			return
 
-		text2save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
+		text_save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
 		self.filename = f.name # Set current filename
 		f.write(text2save)
 		f.close() # `()` was missing.
@@ -201,12 +205,10 @@ class FridaGui(tk.Frame):
 
 		return "break"
 
-	def dialog(self, action, question):
-	    result = tkMessageBox.askquestion(action, question, icon='warning')
-	    if result == 'yes':
-	        return True
-	    else:
-	       	return False
+	def quit_ask(self):
+		if not self.filename and self.text.compare("end-1c", "!=", "1.0"):
+			self.content_loss_dialog()
+		self.quit()
 
 class CustomText(tk.Text):
     def __init__(self, *args, **kwargs):
