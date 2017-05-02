@@ -291,8 +291,9 @@ def p_assign_to_array(p):
 		if (g.operStack[-1] == getOperationCode('=')):
 
 			last_val_mem = g.oStack.pop()
-			operand = getOperationCode('=')
 			right_type = g.typeStack.pop()
+			
+			operand = getOperationCode('=')
 			resultType = getResultType(g.arrayType, operand, right_type)
 
 			if resultType > 0:
@@ -318,61 +319,63 @@ def p_finish_array_assignment(p):
 def p_array_access_prep(p):
 	'array_access_prep : empty'
 
-	g.oStack.pop()
-	g.typeStack.pop()
+	if g.actualVarObj.dimension_list != None:
 
-	if g.actualVarObj.dimension_list:
-		g.dim = 1
-		g.dStack.append((g.actualVarObj.virtual_address, g.dim))
+		g.oStack.pop()
+		g.typeStack.pop()
+
+		g.dStack.append((g.actualVarObj, 1))
 		
 		# Push fake bottom
 		g.operStack.append(getOperationCode('('))
 
-		g.processingVar = True
-	else:
-		raise Exception('Error: Acceso a variable no dimensionada')
-
 def p_array_access(p):
 	'array_access : empty'
 
-	dimension = g.actualVarObj.dimension_list.first
-	i = 1
-	while i < g.dim:
-		dimension = dimension.next
-		i += 1
+	# print(g.dStack[-1][0].name)
 
-	# All our arrays have 0 as inferior limit
-	quad = QuadrupleItem(VERIFY, g.oStack[-1], 0, dimension.sup_lim)
-	Quadruple.add_quad(quad)
+	if len(g.dStack) > 0:
 
-	# Multidimensional array logic
-	if dimension.next:
-		aux = g.oStack.pop()
-		aux_type = g.typeStack.pop()
-		res_address = TempMemory.getAddress(aux_type)
-		quad = QuadrupleItem(getOperationCode('*'), aux, dimension, res_address)
+		dimension = g.dStack[-1][0].dimension_list.first
+		i = 1
+		while i < g.dStack[-1][1]:
+			dimension = dimension.next
+			i += 1
+
+		# All our arrays have 0 as inferior limit
+		quad = QuadrupleItem(VERIFY, g.oStack[-1], 0, dimension.sup_lim)
 		Quadruple.add_quad(quad)
-		push_o(res_address, aux_type)
 
-	if g.dim > 1:
-		aux_2 = g.oStack.pop()
-		aux_2_type = g.typeStack.pop()
-		aux_1 = g.oStack.pop()
-		aux_1_type = g.typeStack.pop()
-		res_address = TempMemory.getAddress(aux_2_type)
-		quad = QuadrupleItem(getOperationCode('+'), aux_1, aux_2, res_address)
-		Quadruple.add_quad(quad)
-		push_o(res_address, aux_1_type)
+		# Multidimensional array logic
+		if dimension.next:
+			aux = g.oStack.pop()
+			aux_type = g.typeStack.pop()
+			res_address = TempMemory.getAddress(aux_type)
+			quad = QuadrupleItem(getOperationCode('*'), aux, dimension, res_address)
+			Quadruple.add_quad(quad)
+			push_o(res_address, aux_type)
+
+		if g.dStack[-1][1] > 1:
+			aux_2 = g.oStack.pop()
+			aux_2_type = g.typeStack.pop()
+			aux_1 = g.oStack.pop()
+			aux_1_type = g.typeStack.pop()
+			res_address = TempMemory.getAddress(aux_2_type)
+			quad = QuadrupleItem(getOperationCode('+'), aux_1, aux_2, res_address)
+			Quadruple.add_quad(quad)
+			push_o(res_address, aux_1_type)
+	else:
+		raise Exception('Error: Acceso a variable no dimensionada.')
 
 def p_finish_array_access(p):
 	'finish_array_access : empty'
 
-	if g.processingVar:
+	if len(g.dStack) > 0:
 		aux = g.oStack.pop()
 		aux_type = g.typeStack.pop()
 		res_address = TempMemory.getAddress(aux_type)
 
-		temp_size = g.actualVarObj.virtual_address
+		temp_size = g.dStack[-1][0].virtual_address
 		type = getTypeCode('entero')
 		type_address = TempMemory.getAddress(type)
 		TempMemory.setValue(type_address, temp_size)
@@ -381,12 +384,10 @@ def p_finish_array_access(p):
 		quad = QuadrupleItem(getOperationCode('+'), aux, type_address, res_address)
 		Quadruple.add_quad(quad)
 
-		push_o('*' + str(res_address), g.actualVarObj.type)
+		push_o('*' + str(res_address), g.dStack[-1][0].type)
 		
 		g.operStack.pop()
 		g.dStack.pop()
-
-		g.processingVar = False
 
 def p_finish_assignment(p):
 	'finish_assignment : empty'

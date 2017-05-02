@@ -11,18 +11,6 @@ except ImportError:
 
 import turtle
 
-def printUndefinedValue():
-	raise Exception('Error: Acceso a variable indefinida')
-	return
-
-def ttl_error():
-	raise Exception('Error: pincel no esta definido o fue eliminado')
-	return
-
-def fig_error():
-	raise Exception('Error: figura no esta definida o fue borrda')
-	return
-
 class VirtualMachine():
 	def __init__(self):
 		self.mem = Memory()
@@ -33,7 +21,7 @@ class VirtualMachine():
 		self.canvas = canvas
 		self.quad_list = quad_list
 
-		caller.print('Output: ')
+		self.caller.print('Output: ')
 		ip = 0
 		fig_name = ''
 		fig_param_stack = []
@@ -60,39 +48,45 @@ class VirtualMachine():
 		DONT REMOVE ABOVE TURTLE
 		'''
 		
-		while ip < len(self.quad_list):
-			if not caller.running:
-				raise Exception('Program terminated')
+		while ip < len(self.quad_list) and self.caller.running:
 
 			quad = self.quad_list[ip]
 
 			if len(str(quad.o1)) > 0 and str(quad.o1)[0] == '*':
-				quad.o1 = self.mem.getValue(int(quad.o1[1:]))
+				quad_o1 = self.mem.getValue(int(quad.o1[1:]))
+			else:
+				quad_o1 = quad.o1
+
 			if len(str(quad.o2)) > 0 and str(quad.o2)[0] == '*':
-				quad.o2 = self.mem.getValue(int(quad.o2[1:]))
+				quad_o2 = self.mem.getValue(int(quad.o2[1:]))
+			else:
+				quad_o2 = quad.o2
+
 			if len(str(quad.res)) > 0 and str(quad.res)[0] == '*':
-				quad.res = self.mem.getValue(int(quad.res[1:]))
+				quad_res = self.mem.getValue(int(quad.res[1:]))
+			else: 
+				quad_res = quad.res
 
 			if quad.action == PRINT:
-				printable_obj = self.mem.getValue(int(quad.res))
+				printable_obj = self.mem.getValue(int(quad_res))
 
 				if printable_obj is None:
 					printUndefinedValue()
-					return
+					self.caller.running = False
 
 				if (printable_obj == TRUE):
-					caller.print('verdadero')
+					self.caller.print('verdadero')
 				elif (printable_obj == FALSE):
-					caller.print('falso')
+					self.caller.print('falso')
 				else:
-					caller.print(printable_obj)
+					self.caller.print(printable_obj)
 
 			elif quad.action == READ:
-				if quad.res < 9000:
-					caller.print('error Lectura')
-					return
+				if quad_res < 9000:
+					self.caller.print('error Lectura')
+					self.caller.running = False
 
-				elif quad.res >= 9000 and quad.res < 10000:
+				elif quad_res >= 9000 and quad_res < 10000:
 					self.caller.insert_prompt()
 
 					while self.caller.receiving_input:
@@ -101,16 +95,16 @@ class VirtualMachine():
 					bRes = self.caller.input
 
 					if bRes == 'verdadero':
-						TempMemory.setValue(int(quad.res), TRUE)
+						TempMemory.setValue(int(quad_res), TRUE)
 
 					elif bRes == 'falso':
-						TempMemory.setValue(int(quad.res), FALSE)
+						TempMemory.setValue(int(quad_res), FALSE)
 
 					else:
-						caller.print("Eso no es un bool")
+						self.caller.print("Eso no es un bool")
 						return
 
-				elif quad.res >= 10000 and quad.res < 11000:
+				elif quad_res >= 10000 and quad_res < 11000:
 					try:
 						self.caller.insert_prompt()
 
@@ -119,12 +113,12 @@ class VirtualMachine():
 
 						iRes = self.caller.input
 
-						TempMemory.setValue(int(quad.res), int(iRes))
+						TempMemory.setValue(int(quad_res), int(iRes))
 					except ValueError:
-						caller.print("Eso no es un entero")
-						return
+						self.caller.print("Eso no es un entero")
+						self.caller.running = False
 
-				elif quad.res >= 11000 and quad.res < 12000:
+				elif quad_res >= 11000 and quad_res < 12000:
 					try:
 						self.caller.insert_prompt()
 
@@ -133,65 +127,66 @@ class VirtualMachine():
 
 						fRes = self.caller.input
 
-						TempMemory.setValue(int(quad.res), float(fRes))
+						TempMemory.setValue(int(quad_res), float(fRes))
 					except ValueError:
-						caller.print("Eso no es un decimal")
-						return
+						self.caller.print("Eso no es un decimal")
+						self.caller.running = False
 
-				elif quad.res >= 12000 and quad.res < 13000:
+				elif quad_res >= 12000 and quad_res < 13000:
 					self.caller.insert_prompt()
 
 					while self.caller.receiving_input:
 						pass
 
 					sRes = self.caller.input
-					TempMemory.setValue(int(quad.res), str(sRes))
+					TempMemory.setValue(int(quad_res), str(sRes))
 
 				else:
-					caller.print('error lectura')
-					return
+					self.caller.print('error lectura')
+					self.caller.running = False
 
 			elif quad.action == ASSIGN:
-				res = self.mem.getValue(int(quad.o1))
-				self.mem.setValue(res, int(quad.res))
-
+				res = self.mem.getValue(int(quad_o1))
+				self.mem.setValue(res, int(quad_res))
 
 			elif quad.action > RELSTART and quad.action < RELEND:
-				res = self.relational_operation(quad.action, quad.o1, quad.o2)
-				self.mem.setValue(res, int(quad.res))
+				res = self.relational_operation(quad.action, quad_o1, quad_o2)
+				self.mem.setValue(res, int(quad_res))
 
 			elif quad.action > MATHSTART and quad.action < MATHEND:
-				res = self.basic_math(quad.action, quad.o1, quad.o2)
-				self.mem.setValue(res, int(quad.res))
+				res = self.basic_math(quad.action, quad_o1, quad_o2)
+				self.mem.setValue(res, int(quad_res))
 
 			elif quad.action == GOTO:
-				ip = int(quad.res) - 1
+				ip = int(quad_res) - 1
 
 			elif quad.action == GOTOF:
-				bool_res = self.mem.getValue(int(quad.o1))
+				bool_res = self.mem.getValue(int(quad_o1))
 				if bool_res is None:
-					caller.print('Error: variable indefinida')
-					return
+					self.caller.print('Error: variable indefinida')
+					self.caller.print(int(quad_o1))
+					self.caller.running = False
 
 				if bool_res == FALSE:
-					ip = int(quad.res) - 1
+					ip = int(quad_res) - 1
 				else:
 					pass
 
 			elif quad.action == VERIFY:
-				quad_o1 = self.mem.getValue(int(quad.o1))
+				quad_o1 = self.mem.getValue(int(quad_o1))
 
-				if int(quad_o1) >= int(quad.o2) and int(quad_o1) <= int(quad.res):
+				if int(quad_o1) >= int(quad_o2) and int(quad_o1) <= int(quad_res):
 					pass
 				else:
-					caller.print('Error: Indice fuera de limites de arreglo')
+					self.caller.print('Error: Indice fuera de limites de arreglo')
+					self.caller.running = False
 
 			elif quad.action > ANDORSTART and quad.action < ANDOREND:
-				res = self.logic_operation(quad.action, quad.o1, quad.o2)
-				self.mem.setValue(res, int(quad.res))
+				res = self.logic_operation(quad.action, quad_o1, quad_o2)
+				self.mem.setValue(res, int(quad_res))
 
 			elif quad.action == ERA:
-				paramAddresses = SymbolsTable.get_function_params_addresses(quad.o1)	
+				paramAddresses = SymbolsTable.get_function_params_addresses(quad_o1)	
 
 				#get memory that will be saved after the return or endproc	
 
@@ -201,13 +196,13 @@ class VirtualMachine():
 					temp_local_mem[int(address)] = self.mem.getValue(int(address))
 
 				memory_stack.append(dict(temp_local_mem))
-				memory_to_save.append(SymbolsTable.checkVarAddress(curr_scope, quad.o1))
+				memory_to_save.append(SymbolsTable.checkVarAddress(curr_scope, quad_o1))
 
 			elif quad.action == GOSUB:
 				ip_exe_stack.append(ip)
-				ip = int(quad.res) - 1
+				ip = int(quad_res) - 1
 				currParam = 0
-				curr_scope = str(quad.o1)
+				curr_scope = str(quad_o1)
 
 
 			elif quad.action == ENDPROC:
@@ -231,20 +226,20 @@ class VirtualMachine():
 				memory_to_save.pop()
 
 			elif quad.action == PARAM:
-				if int(quad.o1) in temp_local_mem:
-					value = temp_local_mem[int(quad.o1)]
+				if int(quad_o1) in temp_local_mem:
+					value = temp_local_mem[int(quad_o1)]
 					if value is None:
 						print (temp_local_mem)
-						caller.print(self.mem.getValue(int(quad.o1)))
+						self.caller.print(self.mem.getValue(int(quad_o1)))
 
 				else:
-					value = self.mem.getValue(int(quad.o1))
+					value = self.mem.getValue(int(quad_o1))
 
 				self.mem.setValue(value, int(paramAddresses[currParam]))
 				currParam += 1
 
 			elif quad.action == RET:
-				resMem = quad.res
+				resMem = quad_res
 				resValue = self.mem.getValue(int(resMem))
 
 				#EXTRACT TO OWN FUNC ITS THE SAME AS ENDPROC
@@ -270,47 +265,47 @@ class VirtualMachine():
 
 
 			elif quad.action == FIG:
-				fig_code = quad.o1
+				fig_code = quad_o1
 
 			elif quad.action == F_PAR:
-				fig_param_stack.append(int(quad.res))
+				fig_param_stack.append(int(quad_res))
 
 			elif quad.action == F_FIN:
 
 				if fig_code == PINCEL:
-					self.drawBrush(fig_param_stack, quad.res)
+					self.drawBrush(fig_param_stack, quad_res)
 
 				else:
-					self.drawShape(fig_code, fig_param_stack, quad.res)
+					self.drawShape(fig_code, fig_param_stack, quad_res)
 
 			#PINCEL
 						
 			elif quad.action == P_COL:
 				#quad in the form action -> ttl address - ' ' - color address
-				ttl = self.mem.getValue(int(quad.o1))
+				ttl = self.mem.getValue(int(quad_o1))
 				if ttl == None:
 					ttl_error()
 				try:
-					color = self.mem.getValue(int(quad.res))
+					color = self.mem.getValue(int(quad_res))
 					color = g.colorDict[color]
 					ttl.color(color)
 				except Exception:
-					color = self.mem.getValue(int(quad.res))
+					color = self.mem.getValue(int(quad_res))
 
-					raise Exception('Error: color : ' + color + ' no me sirve')
-					return
+					self.caller.print('Error: color : ' + color + ' no me sirve')
+					self.caller.running = False
 
 			elif quad.action == P_GO:
 				#quad in the form action -> ttl address - ' ' - move indicator address
-				ttl = self.mem.getValue(int(quad.o1))
+				ttl = self.mem.getValue(int(quad_o1))
 				if ttl == None:
 					ttl_error()
-				ttl.forward(self.mem.getValue(int(quad.res)))
+				ttl.forward(self.mem.getValue(int(quad_res)))
 
 			elif quad.action == P_ROT:
 				#quad in the form action -> ttl address - ' ' - degree indicator address
-				ttl = self.mem.getValue(int(quad.o1))
-				degrees = self.mem.getValue(int(quad.res))
+				ttl = self.mem.getValue(int(quad_o1))
+				degrees = self.mem.getValue(int(quad_res))
 				if(degrees >= 0):
 					ttl.right(degrees)
 				else:
@@ -319,11 +314,11 @@ class VirtualMachine():
 
 			elif quad.action == P_DIS:
 				#quad in the form -> action - x address - y address - ttl address
-				ttl = self.mem.getValue(int(quad.res))
+				ttl = self.mem.getValue(int(quad_res))
 				if ttl == None:
 					ttl_error()
-				x = self.mem.getValue(int(quad.o1))
-				y = self.mem.getValue(int(quad.o2))
+				x = self.mem.getValue(int(quad_o1))
+				y = self.mem.getValue(int(quad_o2))
 
 				ttl.penup()
 				ttl.setposition(x, y)
@@ -331,47 +326,47 @@ class VirtualMachine():
 
 			elif quad.action == P_DEL:
 				#quad in the form -> action - '' - '' - ttl address
-				ttl = self.mem.getValue(int(quad.res))
+				ttl = self.mem.getValue(int(quad_res))
 				if ttl == None:
 					ttl_error()
 
 				ttl.ht()
-				self.mem.setValue(None, int(quad.res))
+				self.mem.setValue(None, int(quad_res))
 
 			elif quad.action == P_THICK:
 				#quad in the form action -> ttl address - ' ' - thick indicator address
-				ttl = self.mem.getValue(int(quad.o1))
+				ttl = self.mem.getValue(int(quad_o1))
 				if ttl == None:
 					ttl_error()
 
-				thickness = self.mem.getValue(int(quad.res))
+				thickness = self.mem.getValue(int(quad_res))
 
 				if(thickness < 0):
-					raise Exception('Error: grosor ' + str(thickness) + ' no puede ser negativo')
-					return
+					self.caller.print('Error: grosor ' + str(thickness) + ' no puede ser negativo')
+					self.caller.running = False
 
 				ttl.width(thickness)
 
 			elif quad.action == P_ARC:
 				#quad in the form -> action - x address - y address - ttl address
-				ttl = self.mem.getValue(int(quad.res))
+				ttl = self.mem.getValue(int(quad_res))
 				if ttl == None:
 					ttl_error()
 
-				raise Exception('test')
+				self.caller.print('test')
 
-				radius = self.mem.getValue(int(quad.o1))
-				extent = self.mem.getValue(int(quad.o2))
+				radius = self.mem.getValue(int(quad_o1))
+				extent = self.mem.getValue(int(quad_o2))
 
 				ttl.circle(radius, extent)
 
 			# FIGURA
 			elif quad.action == F_COL:
 				#quad in the form action -> fig address - ' ' - color address
-				fig = self.mem.getValue(int(quad.o1))
+				fig = self.mem.getValue(int(quad_o1))
 				if fig == None:
 					fig_error()
-				col = self.mem.getValue(int(quad.res))
+				col = self.mem.getValue(int(quad_res))
 				try:
 					self.canvas.itemconfig(fig, fill=col)
 				except:
@@ -380,26 +375,27 @@ class VirtualMachine():
 						self.canvas.itemconfig(fig, fill=color)
 					except KeyError:
 						print(g.colorDict[col])
-						color = self.mem.getValue(int(quad.res))
-						raise Exception('Error: color ' + col +' no me sirve')
-						return
+						color = self.mem.getValue(int(quad_res))
+						self.caller.print('Error: color ' + col +' no me sirve')
+						self.caller.running = False
 
 			elif quad.action == F_RMV:
 				#quad in the form -> action - '' - '' - fig address
-				fig = self.mem.getValue(int(quad.res))
+				fig = self.mem.getValue(int(quad_res))
 				if fig == None:
 					fig_error()
 
 				self.canvas.delete(fig)
-				self.mem.setValue(None, int(quad.res))
+				self.mem.setValue(None, int(quad_res))
 
 			elif quad.action == F_GRW:
 				#quad in the form -> action - fig address - '' - scale
-				fig = self.mem.getValue(int(quad.o1))
-				scale = self.mem.getValue(int(quad.res))
+				fig = self.mem.getValue(int(quad_o1))
+				scale = self.mem.getValue(int(quad_res))
 
 				if scale < 0:
-					raise Exception('Error: no puedo crecer a una escala menora a cero')
+					self.caller.print('Error: no puedo crecer a una escala menor a cero')
+					self.caller.running = False
 
 				if fig == None:
 					fig_error()
@@ -418,12 +414,12 @@ class VirtualMachine():
 
 			elif quad.action == F_MVE:
 				#quad in the form -> action - x address - y address - ttl address
-				fig = self.mem.getValue(int(quad.res))
+				fig = self.mem.getValue(int(quad_res))
 				if fig == None:
 					fig_error()
 
-				x = self.mem.getValue(int(quad.o1))
-				y = self.mem.getValue(int(quad.o2))
+				x = self.mem.getValue(int(quad_o1))
+				y = self.mem.getValue(int(quad_o2))
 
 				self.canvas.move(fig, x, y)
 
@@ -446,7 +442,8 @@ class VirtualMachine():
 				color = g.colorDict[color]
 				ttl.color(color)
 			except KeyError:
-				raise Exception('Error: color ' + color + ' no me sirve')
+				self.caller.print('Error: color ' + color + ' no me sirve')
+				self.caller.running = False
 				return
 			
 		ttl.speed('fastest')
@@ -474,7 +471,8 @@ class VirtualMachine():
 						fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
 					except:
 						print('Error: color ' + color + ' no me sirve')
-						sys.exit()
+						self.caller.running = False
+						return
 
 			elif fig_code == RECTANGULO:
 				height = self.mem.getValue(fig_param_stack.pop())
@@ -487,7 +485,8 @@ class VirtualMachine():
 						fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + width, pos_y + height, fill = color)
 					except:
 						print('Error: color ' + color + ' no me sirve')
-						sys.exit()
+						self.caller.running = False
+						return
 
 			elif fig_code == CIRCULO:
 				cir_di = self.mem.getValue(fig_param_stack.pop()) * 2
@@ -499,7 +498,8 @@ class VirtualMachine():
 						fig = self.canvas.create_oval(pos_x, pos_y, pos_x + cir_di, pos_y + cir_di, fill = color)
 					except:
 						print('Error: color ' + color + ' no me sirve')
-						sys.exit()
+						self.caller.running = False
+						return
 
 			elif fig_code == TRIANGULO:
 				p3_y = pos_y
@@ -516,18 +516,21 @@ class VirtualMachine():
 						color = g.colorDict[color]
 						fig = self.canvas.create_polygon(points, fill = color)
 					except:
-						print('Error: color ' + color + ' no me sirve')
-						sys.exit()
+						self.caller.print('Error: color ' + color + ' no me sirve')
+						self.caller.running = False
+						return
 
 			self.mem.setValue(fig, int(res_address))
 
 		except:
-			raise Exception('Error: color ' + color + ' no me sirve')
-			sys.exit()
+			self.caller.print('Error: color ' + color + ' no me sirve')
+			self.caller.running = False
+			return
 
 	def relational_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
 		o2 = self.mem.getValue(int(o2))
+
 
 		if o1 is None or o2 is None:
 			printUndefinedValue()
@@ -545,15 +548,16 @@ class VirtualMachine():
 			return TRUE if o1 <= o2 else FALSE
 		elif action == GETHAN:
 			return TRUE if o1 >= o2 else FALSE
-		raise Exception('Error relacional')
-		return
+		self.caller.print('Error relacional')
+		self.caller.running = False
 
 	def basic_math(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
-		o2 = self.mem.getValue(int(o2))		
+		o2 = self.mem.getValue(int(o2))	
 
 		if o1 is None or o2 is None:
-			raise Exception('Error: acceso a valor indefinido')
+			self.caller.print('Error: acceso a valor indefinido')
+			self.caller.running = False
 			return
 
 		if action == SUM:
@@ -564,17 +568,20 @@ class VirtualMachine():
 			return o1 * o2
 		elif action == DIV:
 			if o2 == 0:
-				raise Exception('Error: Division entre 0')
+				self.caller.print('Error: Division entre 0')
+				self.caller.running = False
+				return
 			return o1 / o2
-		raise Exception('Error matematico')
-		return
+		self.caller.print('Error matematico')
+		self.caller.running = False
 
 	def logic_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
 		o2 = self.mem.getValue(int(o2))
 
 		if o1 is None or o2 is None:
-			raise Exception('Error: acceso a valor indefinido')
+			self.caller.print('Error: acceso a valor indefinido')
+			self.caller.running = False
 			return
 
 		o1 = True if o1 == TRUE else False
@@ -585,6 +592,21 @@ class VirtualMachine():
 		elif action == OR:
 			return TRUE if o1 or o2 else FALSE
 
-		raise Exception('Error logica')
+		self.caller.print('Error logica')
+		self.caller.running = False
 		return
 
+	def printUndefinedValue(self):
+		self.caller.print('Error: Acceso a variable indefinida')
+		self.caller.running = False
+		return
+
+	def ttl_error(self):
+		self.caller.print('Error: pincel no esta definido o fue eliminado')
+		self.caller.running = False
+		return
+
+	def fig_error(self):
+		self.caller.print('Error: figura no esta definida o fue borrda')
+		self.caller.running = False
+		return

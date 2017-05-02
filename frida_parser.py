@@ -278,10 +278,10 @@ def p_retorno(p):
 	'retorno : RETURN logica check_return SEMICOLON'
 
 def p_asignacion(p):
-	'asignacion : ID check_variable push_operand asignacion_opt finish_array_access ASSIGN push_operation asignacion_opt_2 finish_assignment SEMICOLON'
+	'asignacion : ID check_variable push_operand array_access_prep asignacion_opt ASSIGN push_operation asignacion_opt_2 finish_assignment SEMICOLON'
 
 def p_asignacion_opt(p):
-	'''asignacion_opt : LBRACKET array_access_prep logica array_access RBRACKET
+	'''asignacion_opt : LBRACKET logica array_access RBRACKET finish_array_access
 		| empty'''
 
 def p_asignacion_opt_2(p):
@@ -395,11 +395,11 @@ def p_factor_opt_2(p):
 		| id_factor'''
 
 def p_id_factor(p):
-	'''id_factor : ID check_variable push_operand id_factor_opt finish_array_access
+	'''id_factor : ID check_variable push_operand id_factor_opt 
 		| llamadaExp'''
 
 def p_id_factor_opt(p):
-	'''id_factor_opt : LBRACKET array_access_prep logica array_access RBRACKET 
+	'''id_factor_opt : LBRACKET array_access_prep logica array_access RBRACKET finish_array_access
 		| empty'''
 
 # llamadaExp

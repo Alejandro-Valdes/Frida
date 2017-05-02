@@ -9,17 +9,17 @@ from memory import Memory
 import global_vars
 import os
 import threading
+import virtual_machine as vm
 from tkinter.filedialog import askopenfilename, asksaveasfile
 
 class FridaGui(tk.Frame):
-	def __init__(self, parent, parser, virtual_machine, *args, **kwargs):
+	def __init__(self, parent, parser, *args, **kwargs):
 
 		self.console_index = 1.0
 
 		self.parent = parent
 
 		self.parser = parser
-		self.virtual_machine = virtual_machine
 
 		self.receiving_input = True
 
@@ -94,7 +94,7 @@ class FridaGui(tk.Frame):
 		user_response = tk.messagebox.askyesno(title='Alerta', message='Tu trabajo actual será sobrescrito ¿Deseas guardar tus cambios en un nuevo archivo?', icon=tk.messagebox.WARNING)
 
 		if user_response:
-			self.files_save_as()
+			self.file_save_as()
 		else: 
 			pass
 
@@ -118,7 +118,7 @@ class FridaGui(tk.Frame):
 
 		text_save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
 		self.filename = f.name # Set current filename
-		f.write(text2save)
+		f.write(text_save)
 		f.close() # `()` was missing.
 
 	def file_save(self):
@@ -129,8 +129,8 @@ class FridaGui(tk.Frame):
 
 		if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
 		    return
-		text2save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
-		f.write(text2save)
+		text_save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
+		f.write(text_save)
 		f.close() # `()` was missing.
 
 	def read_file(self, filename):
@@ -145,6 +145,8 @@ class FridaGui(tk.Frame):
 	   button.pack()
 
 	def compile_run(self):
+		self.virtual_machine = vm.VirtualMachine()
+
 		self.reset()
 		input = self.text.get(1.0,tk.END)
 		self.running = True

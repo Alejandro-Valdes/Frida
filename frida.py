@@ -1,5 +1,4 @@
 from frida_parser import parser
-from virtual_machine import *
 from frida_gui import *
 import sys
 
@@ -12,13 +11,11 @@ def main(file):
 if __name__ == '__main__':
 	# file = "test/" + sys.argv[1]
 
-	virtual_machine = VirtualMachine()
-
 	root = tk.Tk()
 	root.title('Frida IDE')
 
 	root.state('zoomed')
 
-	FridaGui(root, parser, virtual_machine).pack(side="top", fill="both", expand=True)
+	FridaGui(root, parser).pack(side="top", fill="both", expand=True)
 	root.mainloop()
 	# main(file)
