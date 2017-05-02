@@ -30,6 +30,8 @@ def init():
 	global currId
 	global error_msg
 
+	global colorDict
+
 	oStack = []
 	dStack = []
 	operStack = []
@@ -61,4 +63,5 @@ def init():
 
 	currId = ''
 
+	colorDict = {'rojo' : 'red', 'azul' : 'blue', 'amarillo' : 'yellow', 'rosa' : 'pink', 'morado' : 'purple', 'verde' : 'green'}
 	error_msg = ''

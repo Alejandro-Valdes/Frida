@@ -3,11 +3,11 @@ programa turtle
 	/*Drawing with turtle and frida */
 	
 	lienzo{
-		variable pincel frida =  nuevo pincel("#ff0000");
+		variable pincel frida =  nuevo pincel("pink");
 		variable entero lim = 0;
 		variable entero gir = 30;
 		variable entero col_lim = 5;
-		variable cadena colores[3] = {'#ff0000', '#00ff00', '#0000ff'};
+		variable cadena colores[3] = {'red', 'blue', 'green'};
 
 		imprimir(colores[0] + colores[1]);
 		imprimir(colores[1]);

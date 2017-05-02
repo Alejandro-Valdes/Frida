@@ -60,6 +60,7 @@ class FridaGui(tk.Frame):
 		filemenu.add_command(label="Nuevo", command=self.new_file)
 		filemenu.add_command(label="Abrir", command=self.open_file)
 		filemenu.add_command(label="Ejecutar", command=self.compile_run)
+		filemenu.add_command(label="Detener", command=self.stop_task)
 		filemenu.add_command(label="Guardar", command=self.file_save)
 		filemenu.add_command(label="Guardar como...", command=self.file_save_as)
 
@@ -146,6 +147,7 @@ class FridaGui(tk.Frame):
 	def compile_run(self):
 		self.reset()
 		input = self.text.get(1.0,tk.END)
+		self.running = True
 
 		try:
 			self.parser.parse(input)
@@ -209,6 +211,9 @@ class FridaGui(tk.Frame):
 		if not self.filename and self.text.compare("end-1c", "!=", "1.0"):
 			self.content_loss_dialog()
 		self.quit()
+
+	def stop_task(self):
+		self.running = False
 
 class CustomText(tk.Text):
     def __init__(self, *args, **kwargs):
