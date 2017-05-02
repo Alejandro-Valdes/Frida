@@ -17,6 +17,8 @@ if __name__ == '__main__':
 	root = tk.Tk()
 	root.title('Frida IDE')
 
+	root.state('zoomed')
+
 	FridaGui(root, parser, virtual_machine).pack(side="top", fill="both", expand=True)
 	root.mainloop()
 	# main(file)
