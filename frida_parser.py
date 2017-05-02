@@ -154,14 +154,14 @@ def p_fgra_nva(p):
 		| empty'''
 
 def p_fgra_atr(p):
-	'''fgra_atr : PINCEL save_fig LPARENTHESIS color push_fig_param RPARENTHESIS 
+	'''fgra_atr : PINCEL save_fig LPARENTHESIS exp push_fig_param RPARENTHESIS 
 		| CUAD save_fig LPARENTHESIS exp push_fig_param COMA fgra_atr_end 
 		| CIRC save_fig LPARENTHESIS exp push_fig_param COMA fgra_atr_end
 		| RECT save_fig LPARENTHESIS exp push_fig_param COMA exp push_fig_param COMA fgra_atr_end
 		| TRIANG save_fig LPARENTHESIS exp push_fig_param COMA exp push_fig_param COMA exp push_fig_param COMA exp push_fig_param COMA fgra_atr_end'''
 
 def p_fgra_atr_end(p):
-	'fgra_atr_end : exp push_fig_param COMA exp push_fig_param COMA color push_fig_param RPARENTHESIS'
+	'fgra_atr_end : exp push_fig_param COMA exp push_fig_param COMA exp push_fig_param RPARENTHESIS'
 
 # Data types
 
@@ -405,7 +405,7 @@ def p_id_factor_opt(p):
 # llamadaExp
 
 def p_llamadaExp(p):
-	'llamadaExp : ID check_function LPARENTHESIS mod_call_2 llamada_param RPARENTHESIS mod_call_5 mod_call_6'
+	'llamadaExp : ID check_function LPARENTHESIS push_fake_bottom mod_call_2 llamada_param RPARENTHESIS pop_fake_bottom mod_call_5 mod_call_6'
 	push_o(p[1], 'func')
 
 # accion
@@ -434,9 +434,9 @@ def p_accion_pincel(p):
 		| ARC LPARENTHESIS exp COMA exp RPARENTHESIS pincel_arc'''
 
 # Color
-def p_color(p):
-	'''color : CTECOLOR push_string
-		| CTEHEXCOLOR push_string'''
+#def p_color(p):
+#	'''color : CTECOLOR push_string
+#		| CTEHEXCOLOR push_string'''
 
 # Error rule se tiene que agregar
 # Nos indica el error y el numero de linea donde esta

@@ -12,15 +12,15 @@ except ImportError:
 import turtle
 
 def printUndefinedValue():
-	print('Error: Acceso a variable indefinida')
+	raise Exception('Error: Acceso a variable indefinida')
 	return
 
 def ttl_error():
-	print('Error: pincel no esta definido o fue eliminado')
+	raise Exception('Error: pincel no esta definido o fue eliminado')
 	return
 
 def fig_error():
-	print('Error: figura no esta definida o fue borrda')
+	raise Exception('Error: figura no esta definida o fue borrda')
 	return
 
 class VirtualMachine():
@@ -292,7 +292,7 @@ class VirtualMachine():
 					ttl.color(color)
 				except:
 					color = self.mem.getValue(int(quad.res))
-					print('Error: color : ' + color + ' no me sirve')
+					raise Exception('Error: color : ' + color + ' no me sirve')
 					return
 
 			elif quad.action == P_GO:
@@ -342,7 +342,7 @@ class VirtualMachine():
 				thickness = self.mem.getValue(int(quad.res))
 
 				if(thickness < 0):
-					print('Error: grosor ' + str(thickness) + ' no puede ser negativo')
+					raise Exception('Error: grosor ' + str(thickness) + ' no puede ser negativo')
 					return
 
 				ttl.width(thickness)
@@ -353,7 +353,7 @@ class VirtualMachine():
 				if ttl == None:
 					ttl_error()
 
-				print('test')
+				raise Exception('test')
 
 				radius = self.mem.getValue(int(quad.o1))
 				extent = self.mem.getValue(int(quad.o2))
@@ -370,7 +370,7 @@ class VirtualMachine():
 				try:
 					self.canvas.itemconfig(fig, fill=col)
 				except:
-					print('Error: color ' + col +' no me sirve')
+					raise Exception('Error: color ' + col +' no me sirve')
 					return
 
 			elif quad.action == F_RMV:
@@ -388,7 +388,7 @@ class VirtualMachine():
 				scale = self.mem.getValue(int(quad.res))
 
 				if scale < 0:
-					print('Errro: no puedo crecer a una escala menora a cero')
+					raise Exception('Error: no puedo crecer a una escala menora a cero')
 
 				if fig == None:
 					fig_error()
@@ -430,7 +430,7 @@ class VirtualMachine():
 		try:
 			ttl.color(color)
 		except:
-			print('Error: color ' + color + ' no me sirve')
+			raise Exception('Error: color ' + color + ' no me sirve')
 			return
 			
 		ttl.speed('fastest')
@@ -446,30 +446,36 @@ class VirtualMachine():
 		pos_x = self.mem.getValue(fig_param_stack.pop())
 		fig = 0
 
-		if fig_code == CUADRADO:
-			sqr_len = self.mem.getValue(fig_param_stack.pop())
-			fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
+		try:
 
-		elif fig_code == RECTANGULO:
-			height = self.mem.getValue(fig_param_stack.pop())
-			width = self.mem.getValue(fig_param_stack.pop())
-			fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + width, pos_y + height, fill = color)
+			if fig_code == CUADRADO:
+				sqr_len = self.mem.getValue(fig_param_stack.pop())
+				fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
 
-		elif fig_code == CIRCULO:
-			cir_di = self.mem.getValue(fig_param_stack.pop()) * 2
-			fig = self.canvas.create_oval(pos_x, pos_y, pos_x + cir_di, pos_y + cir_di, fill = color)
+			elif fig_code == RECTANGULO:
+				height = self.mem.getValue(fig_param_stack.pop())
+				width = self.mem.getValue(fig_param_stack.pop())
+				fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + width, pos_y + height, fill = color)
 
-		elif fig_code == TRIANGULO:
-			p3_y = pos_y
-			p3_x = pos_x
-			p2_y = self.mem.getValue(fig_param_stack.pop())
-			p2_x = self.mem.getValue(fig_param_stack.pop())
-			p1_y = self.mem.getValue(fig_param_stack.pop())
-			p1_x = self.mem.getValue(fig_param_stack.pop())
-			points = [p1_x, p1_y, p2_x, p2_y, p3_x, p3_y]
-			fig = self.canvas.create_polygon(points, fill = color)
+			elif fig_code == CIRCULO:
+				cir_di = self.mem.getValue(fig_param_stack.pop()) * 2
+				fig = self.canvas.create_oval(pos_x, pos_y, pos_x + cir_di, pos_y + cir_di, fill = color)
 
-		self.mem.setValue(fig, int(res_address))
+			elif fig_code == TRIANGULO:
+				p3_y = pos_y
+				p3_x = pos_x
+				p2_y = self.mem.getValue(fig_param_stack.pop())
+				p2_x = self.mem.getValue(fig_param_stack.pop())
+				p1_y = self.mem.getValue(fig_param_stack.pop())
+				p1_x = self.mem.getValue(fig_param_stack.pop())
+				points = [p1_x, p1_y, p2_x, p2_y, p3_x, p3_y]
+				fig = self.canvas.create_polygon(points, fill = color)
+
+			self.mem.setValue(fig, int(res_address))
+
+		except:
+			raise Exception('Error: color ' + color + ' no me sirve')
+			sys.exit()
 
 	def relational_operation(self, action, o1, o2):
 		o1 = self.mem.getValue(int(o1))
@@ -491,7 +497,7 @@ class VirtualMachine():
 			return TRUE if o1 <= o2 else FALSE
 		elif action == GETHAN:
 			return TRUE if o1 >= o2 else FALSE
-		print('Error relacional')
+		raise Exception('Error relacional')
 		return
 
 	def basic_math(self, action, o1, o2):
@@ -499,7 +505,7 @@ class VirtualMachine():
 		o2 = self.mem.getValue(int(o2))		
 
 		if o1 is None or o2 is None:
-			print('Error: acceso a valor indefinido')
+			raise Exception('Error: acceso a valor indefinido')
 			return
 
 		if action == SUM:
@@ -509,9 +515,10 @@ class VirtualMachine():
 		elif action == MULT:
 			return o1 * o2
 		elif action == DIV:
+			if o2 == 0:
+				raise Exception('Error: Division entre 0')
 			return o1 / o2
-		print('Error matematicas')
-
+		raise Exception('Error matematico')
 		return
 
 	def logic_operation(self, action, o1, o2):
@@ -519,7 +526,7 @@ class VirtualMachine():
 		o2 = self.mem.getValue(int(o2))
 
 		if o1 is None or o2 is None:
-			print('Error: acceso a valor indefinido')
+			raise Exception('Error: acceso a valor indefinido')
 			return
 
 		o1 = True if o1 == TRUE else False
@@ -530,6 +537,6 @@ class VirtualMachine():
 		elif action == OR:
 			return TRUE if o1 or o2 else FALSE
 
-		print('Error logica')
+		raise Exception('Error logica')
 		return
 

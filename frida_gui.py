@@ -90,9 +90,10 @@ class FridaGui(tk.Frame):
 
 	def new_file(self):
 		self.filename = ''
-		self.text.delete("1.0",tk.END)
+		self.text.delete(1.0,tk.END)
 
 	def open_file(self):
+		self.text.delete(1.0,tk.END)
 		ftypes = [('Frida files', '*.frida'), ('All files', '*')]
 		dlg = tk.filedialog.Open(self, filetypes = ftypes)
 		fl = dlg.show()
@@ -136,7 +137,7 @@ class FridaGui(tk.Frame):
 
 	def compile_run(self):
 		self.reset()
-		input = self.text.get("1.0",tk.END)
+		input = self.text.get(1.0,tk.END)
 
 		try:
 			self.parser.parse(input)
@@ -152,7 +153,7 @@ class FridaGui(tk.Frame):
 		self.virtual_machine.mem = Memory()
 		st.SymbolsTable.function_dictionary = {}
 		self.canvas.delete("all")
-		self.console.delete("1.0",tk.END)
+		self.console.delete(1.0,tk.END)
 		q.Quadruple.quadruple_list = []
 
 	def print(self, string):

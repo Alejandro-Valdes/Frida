@@ -5,6 +5,8 @@ def init():
 	global funcType
 	global funcName
 	global funcExpName
+	global funcExpNameStack
+
 	global funcTypeSoon
 	global paramTypeSoon
 	global varTypeSoon
@@ -38,7 +40,10 @@ def init():
 	funcType = None
 	nextType = None
 	funcName = None
+
 	funcExpName = None
+	funcExpNameStack = []
+	
 	funcTypeSoon = False
 	paramTypeSoon = False
 	varTypeSoon = False

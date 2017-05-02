@@ -20,6 +20,8 @@ def p_check_variable(p):
 def p_check_function(p):
 	'check_function : empty'
 	g.funcExpName = p[-1]
+	g.funcExpNameStack.append(g.funcExpName)
+	print(g.funcExpName)
 	SymbolsTable.checkFunction(p[-1])
 
 def p_saveFuncParam(p):

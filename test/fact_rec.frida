@@ -9,22 +9,32 @@ programa factorial
 		}
 
 	    sino{
-	        regresa fact(x - 1) * x;
+	        regresa x * fact(x - 1);
 	    }
 
 	}
+
+	rutina entero : doble(entero : x){
+		regresa x * 2;
+	}
 	
+	rutina entero : resta(entero : x){
+		regresa x - 1;
+	}
 
 	lienzo{
 		variable entero res = 0, x = 5, res2 = x;
 
 		res = fact(5);
 
-		imprimir(res);
+		imprimir(fact(5));
+
+		imprimir(fact(resta(doble(x))));
 
 		mientras (x > 1){
 			res2 = res2 * (x - 1);
 			x = x - 1;
 		}
 		imprimir(res2);
+
 	}

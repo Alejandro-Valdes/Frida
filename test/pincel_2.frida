@@ -4,9 +4,12 @@ programa turtle
 	
 	lienzo{
 		variable pincel frida =  nuevo pincel("#000000");
-		variable pincel diego =  nuevo pincel("#000000");
+		variable pincel diego =  nuevo pincel('#000000');
 
 		variable entero x = 1;
+
+		diego.color('#BE4878');
+		frida.color("#BE4878");
 
 		mientras(x < 400){
 			diego.pinta(x);
