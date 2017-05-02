@@ -29,6 +29,8 @@ def init():
 	global dim
 	global currId
 
+	global colorDict
+
 	oStack = []
 	dStack = []
 	operStack = []
@@ -59,3 +61,5 @@ def init():
 	dim = 0
 
 	currId = ''
+
+	colorDict = {'rojo' : 'red', 'azul' : 'blue', 'amarillo' : 'yellow', 'rosa' : 'pink', 'morado' : 'purple', 'verde' : 'green'}

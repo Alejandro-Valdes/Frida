@@ -268,9 +268,14 @@ class VirtualMachine():
 					color = self.mem.getValue(int(quad.res))
 					ttl.color(color)
 				except:
-					color = self.mem.getValue(int(quad.res))
-					print('Error: color : ' + color + ' no me sirve')
-					sys.exit()
+					try:
+						color = self.mem.getValue(int(quad.res))
+						color = g.colorDict[color]
+						ttl.color(color)
+					except:
+						color = self.mem.getValue(int(quad.res))
+						print('Error: color : ' + color + ' no me sirve')
+						sys.exit()
 
 			elif quad.action == P_GO:
 				#quad in the form action -> ttl address - ' ' - move indicator address
@@ -347,8 +352,15 @@ class VirtualMachine():
 				try:
 					self.canvas.itemconfig(fig, fill=col)
 				except:
-					print('Error: color ' + col +' no me sirve')
-					sys.exit()
+					try:
+						color = g.colorDict[col]
+						self.canvas.itemconfig(fig, fill=color)
+					except KeyError:
+						print(g.colorDict[col])
+						color = self.mem.getValue(int(quad.res))
+						print('Error: color : ' + col + ' no me sirve')
+						sys.exit()
+		
 
 			elif quad.action == F_RMV:
 				#quad in the form -> action - '' - '' - fig address
@@ -404,11 +416,16 @@ class VirtualMachine():
 
 		# create a turtle object
 		ttl = turtle.RawTurtle(self.canvas)
+		
 		try:
 			ttl.color(color)
 		except:
-			print('Error: color ' + color + ' no me sirve')
-			sys.exit()
+			try:
+				color = g.colorDict[color]
+				ttl.color(color)
+			except KeyError:
+				print('Error: color : ' + color + ' no me sirve')
+				sys.exit()
 			
 		ttl.speed('fastest')
 		ttl.shape('circle')
@@ -427,16 +444,40 @@ class VirtualMachine():
 
 			if fig_code == CUADRADO:
 				sqr_len = self.mem.getValue(fig_param_stack.pop())
-				fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
+				try:
+					fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
+				except:
+					try:
+						color = g.colorDict[color]
+						fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + sqr_len, pos_y + sqr_len, fill = color)
+					except:
+						print('Error: color ' + color + ' no me sirve')
+						sys.exit()
 
 			elif fig_code == RECTANGULO:
 				height = self.mem.getValue(fig_param_stack.pop())
 				width = self.mem.getValue(fig_param_stack.pop())
-				fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + width, pos_y + height, fill = color)
+				try:
+					fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + width, pos_y + height, fill = color)
+				except:
+					try:
+						color = g.colorDict[color]
+						fig = self.canvas.create_rectangle(pos_x, pos_y, pos_x + width, pos_y + height, fill = color)
+					except:
+						print('Error: color ' + color + ' no me sirve')
+						sys.exit()
 
 			elif fig_code == CIRCULO:
 				cir_di = self.mem.getValue(fig_param_stack.pop()) * 2
-				fig = self.canvas.create_oval(pos_x, pos_y, pos_x + cir_di, pos_y + cir_di, fill = color)
+				try:
+					fig = self.canvas.create_oval(pos_x, pos_y, pos_x + cir_di, pos_y + cir_di, fill = color)
+				except:
+					try:
+						color = g.colorDict[color]
+						fig = self.canvas.create_oval(pos_x, pos_y, pos_x + cir_di, pos_y + cir_di, fill = color)
+					except:
+						print('Error: color ' + color + ' no me sirve')
+						sys.exit()
 
 			elif fig_code == TRIANGULO:
 				p3_y = pos_y
@@ -446,7 +487,15 @@ class VirtualMachine():
 				p1_y = self.mem.getValue(fig_param_stack.pop())
 				p1_x = self.mem.getValue(fig_param_stack.pop())
 				points = [p1_x, p1_y, p2_x, p2_y, p3_x, p3_y]
-				fig = self.canvas.create_polygon(points, fill = color)
+				try:
+					fig = self.canvas.create_polygon(points, fill = color)
+				except:
+					try:
+						color = g.colorDict[color]
+						fig = self.canvas.create_polygon(points, fill = color)
+					except:
+						print('Error: color ' + color + ' no me sirve')
+						sys.exit()
 
 			self.mem.setValue(fig, int(res_address))
 
