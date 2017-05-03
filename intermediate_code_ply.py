@@ -75,15 +75,27 @@ def p_factor_helper(p):
 
 def p_push_fake_bottom(p):
 	'push_fake_bottom : empty'
+
+	"""Regla auxiliar que revisa si el operando que está 
+	al tope de la pila es AND o OR. Si es alguno de ellos, 
+	crea un cuádruplo con este operando.
+	"""
+
 	opCode = getOperationCode(p[-1])
 	g.operStack.append(opCode)
 	
 def p_pop_fake_bottom(p):
 	'pop_fake_bottom : empty'
+
+	"""Regla que hace pop de fondo falso de stack de operadores"""
+
 	g.operStack.pop()
 
 def p_printQuadList(p):
 	'printQuadList : empty'
+
+	"""Regla simple que llama a la función que imprime la lista de cuádruplos"""
+
 	Quadruple.print_list()
 	# Quadruple.run_list()
 

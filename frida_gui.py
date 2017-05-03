@@ -252,7 +252,7 @@ class FridaGui(tk.Frame):
 		self.receiving_input = True # levanta una bandera que garantizará que process_input lea input 
 		self.lock.acquire() # obtiene lock y para el thread de la máquina virtual para ahorrar recursos
 
-	def process_input(self):
+	def process_input(self, event=None):
 		"""Solución basada en esta respuesta de stack overflow: http://stackoverflow.com/a/17840173
 		
 		Función que procesa input si y solo si se encuentra levantada la bandera 'receiving_input'
