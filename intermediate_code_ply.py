@@ -7,6 +7,9 @@ from dimension import *
 
 def p_init_quad(p):
 	'init_quad : empty'
+
+	"""Regla para generar cuádruplo de entrada al lienzo"""
+
 	quad = QuadrupleItem(GOTO, '', '', '')
 	cont = len(Quadruple.quadruple_list)
 	g.jumpStack.append(cont)
@@ -14,17 +17,32 @@ def p_init_quad(p):
 
 def p_push_operation(p):
 	'push_operation : empty'
+
+	"""Regla que pushea operandos a su pila"""
+
 	opCode = getOperationCode(p[-1])
 	g.operStack.append(opCode)
 
 def p_logica_helper(p):
 	'logica_helper : empty'
+
+	"""Regla auxiliar que revisa si el operando que está 
+	al tope de la pila es AND o OR. Si es alguno de ellos, 
+	crea un cuádruplo con este operando.
+	"""
+
 	if( len(g.operStack) > 0 ):
 		if (g.operStack[-1] == getOperationCode('y') or g.operStack[-1] == getOperationCode('o')):
 			quad_maker()
 
 def p_expresion_helper(p):
 	'expresion_helper : empty'
+
+	"""Regla auxiliar que revisa si el operando que está 
+	al tope de la pila es una operación relacional. Si es alguno de ellos, 
+	crea un cuádruplo con este operando.
+	"""
+
 	if( len(g.operStack) > 0 ):
 		if (g.operStack[-1] == getOperationCode('>') or g.operStack[-1] == getOperationCode('<') 
 			or g.operStack[-1] == getOperationCode('>=') or g.operStack[-1] == getOperationCode('<=')
@@ -34,12 +52,23 @@ def p_expresion_helper(p):
 def p_exp_helper(p):
 	'exp_helper : empty'
 
+	"""Regla auxiliar que revisa si el operando que está 
+	al tope de la pila es suma o resta. Si lo es, 
+	crea un cuádruplo con este operando.
+	"""
+
 	if( len(g.operStack) > 0 ):
 		if (g.operStack[-1] == getOperationCode('+') or g.operStack[-1] == getOperationCode('-')):
 			quad_maker()
 
 def p_factor_helper(p):
 	'factor_helper : empty'
+
+	"""Regla auxiliar que revisa si el operando que está 
+	al tope de la pila es multiplicación o división. Si es alguno de ellos, 
+	crea un cuádruplo con este operando.
+	"""
+
 	if( len(g.operStack) > 0):
 		if (g.operStack[-1] == getOperationCode('*') or g.operStack[-1] == getOperationCode('/')):
 			quad_maker()

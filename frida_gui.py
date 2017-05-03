@@ -13,9 +13,23 @@ import virtual_machine as vm
 from tkinter.filedialog import askopenfilename, asksaveasfile
 
 class FridaGui(tk.Frame):
-	def __init__(self, parent, parser, *args, **kwargs):
+	"""Clase FridaGui -> tkinter.Frame
+	
+	Clase que utiliza la máquina virtual, parser y memoria del lenguaje Frida en conjunto 
+	con un editor de texto para facilitar el desarrollo de software en este lenguaje.
 
-		self.lock = threading.Lock()
+	La utilización del manejador de geometrías Pack, módulo nativo de TKinter, ayudó en gran parte
+	en el desarrollo de esta interfaz al mantener una geometría simple pero limpia.
+	"""
+	def __init__(self, parent, parser, *args, **kwargs):
+		"""Inicializador default de clase FridaGui
+
+		args:
+			parent -- instancia de tk.Frame de la cual hereda esta clase
+			parser -- objeto parser definido para el lenguaje Frida
+		"""
+
+		self.lock = threading.Lock() # Lock que previene una condición de carrera entre esta clase y la máquina virtual
 
 		self.console_index = 1.0
 
@@ -25,12 +39,12 @@ class FridaGui(tk.Frame):
 
 		self.receiving_input = True
 
-		self.filename = ''
-		self.identations = 0
+		self.filename = '' # Nombre del archivo actual
+		self.identations = 0 
 
-		tk.Frame.__init__(self, *args, **kwargs)
-		self.top_frame = tk.Frame(self)
-		self.bottom_frame = tk.Frame(self)
+		tk.Frame.__init__(self, *args, **kwargs) # Inicialización de frame principal de GUI
+		self.top_frame = tk.Frame(self) # Definición de frame superior
+		self.bottom_frame = tk.Frame(self) # Definición de frame inferior
 
 		self.top_frame.pack(fill="x")
 		self.bottom_frame.pack(fill="x")
@@ -39,25 +53,27 @@ class FridaGui(tk.Frame):
 		self.vsb = tk.Scrollbar(self.top_frame, command=self.text.yview)
 		self.text.configure(yscrollcommand=self.vsb.set)
 		self.text.tag_configure("bigfont", font=("Helvetica", "24", "bold"))
-		self.linenumbers = TextLineNumbers(self.top_frame, width=30)
-		self.linenumbers.attach(self.text)
 
+		self.linenumbers = TextLineNumbers(self.top_frame, width=30) # Barra lateral que muestra número de línea para el cuadro de texto
+		self.linenumbers.attach(self.text)
 		self.linenumbers.pack(side="left", fill="y")
+
 		self.text.pack(side="left", fill="both", expand=True)
 		self.vsb.pack(side="left", fill="y")
 
 		self.text.bind("<<Change>>", self._on_change)
 		self.text.bind("<Configure>", self._on_change)
 
-		self.canvas = tk.Canvas(self.top_frame, width=700, height=600, bd = 1)
+		self.canvas = tk.Canvas(self.top_frame, width=700, height=600, bd = 1) # Canvas donde se dibujaran los elementos gráficos del lenguaje
 		self.canvas.pack(side="right", expand=True, fill=tk.BOTH)
 
-		self.console = tk.Text(self.bottom_frame)
+		self.console = tk.Text(self.bottom_frame) # Consola en donde se hace output de errores y, también, por la cual se recibe input
 		self.console.pack(fill="x")
 		
 		self.menubar = tk.Menu(self.parent)
 		self.parent.config(menu=self.menubar)
 
+		# Funciones básicas
 		filemenu = tk.Menu(self.menubar, tearoff=0)
 		filemenu.add_command(label="Nuevo", command=self.new_file)
 		filemenu.add_command(label="Abrir", command=self.open_file)
@@ -87,12 +103,14 @@ class FridaGui(tk.Frame):
 	# 	if tk.SEL_FIRST == '': 
 
 	def new_file(self):
+		"""Función que limpia el cuadro de texto y el archivo cargado para comenzar con un nuevo archivo"""
 		if not self.filename and self.text.compare("end-1c", "!=", "1.0"):
 			self.content_loss_dialog()
 		self.text.delete("1.0",tk.END)
 		self.filename = ''
 
 	def content_loss_dialog(self):
+		"""Función que muestra un diálogo para prevenir la pérdida del trabajo actual si es que éste no está guardado"""
 		user_response = tk.messagebox.askyesno(title='Alerta', message='Tu trabajo actual será sobrescrito ¿Deseas guardar tus cambios en un nuevo archivo?', icon=tk.messagebox.WARNING)
 
 		if user_response:
@@ -101,6 +119,7 @@ class FridaGui(tk.Frame):
 			pass
 
 	def open_file(self):
+		"""Función que muestra un diálogo de selección de archivo para poder editar en el editor de texto"""
 		if not self.filename and self.text.compare("end-1c", "!=", "1.0"):
 			self.content_loss_dialog()
 		self.text.delete("1.0",tk.END)
@@ -113,49 +132,77 @@ class FridaGui(tk.Frame):
 			text = self.read_file(file)
 			self.text.insert(tk.END, text)
 
+	# Las funciones file_save_as y file_save fueron basadas en código encontrado en stack overflow: http://stackoverflow.com/a/19476284
+	
 	def file_save_as(self):
+		"""Abre un diálogo para guardar el contenido que se encuentra en el editor, 
+		dentro de un archivo especificado por el usuario
+
+		Función basada en código encontrado en stack overflow: http://stackoverflow.com/a/19476284
+		"""
 		f = tk.filedialog.asksaveasfile(mode='w', defaultextension=".frida")
-		if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
+		if f is None: # asksaveasfile regresa `None` si el diálogo se cierra con "cancel".
 			return
 
-		text_save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
-		self.filename = f.name # Set current filename
+		text_save = str(self.text.get(1.0, tk.END))
+		self.filename = f.name # settea el nombre de archivo actual
 		f.write(text_save)
-		f.close() # `()` was missing.
+		f.close() 
 
 	def file_save(self):
+		"""Abre un diálogo para guardar el contenido que se encuentra en el editor, 
+		dentro de un archivo especificado por el usuario. En caso de que el archivo 
+		ya haya sido guardado anteriormente, esta función sobreescribirá el contenido del archivo.
+
+		Función basada en código encontrado en stack overflow: http://stackoverflow.com/a/19476284
+		"""
 		if self.filename == '':
 			f = tk.filedialog.asksaveasfile(mode='w', defaultextension=".frida")
 		else:
 			f = open(self.filename, 'w')
 
-		if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
+		if f is None: # asksaveasfile regresa `None` si diálogo se cierra con "cancel".
 		    return
-		text_save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
+		text_save = str(self.text.get(1.0, tk.END)) 
 		f.write(text_save)
-		f.close() # `()` was missing.
+		f.close() 
 
 	def read_file(self, filename):
+		"""Función que lee el contenido de un archivo con base en el nombre de éste
+		
+		args: 
+			filename -- nombre del archivo que será leído
 
-	    f = open(filename, "r")
-	    text = f.read()
-	    return text
+		return:
+			text -- string con los contenidos del archivo
+		"""
+		f = open(filename, "r")
+		text = f.read()
+		return text
 
 	def donothing():
-	   filewin = tk.Toplevel(self)
-	   button = tk.Button(filewin, text="Do nothing button")
-	   button.pack()
+		"""Función de prueba que permite continuar con el programa 
+		cuando se presionan botones que están bindeados a esta función
+		"""
+		filewin = tk.Toplevel(self)
+		button = tk.Button(filewin, text="Do nothing button")
+		button.pack()
 
 	def compile_run(self):
+		"""Función que ejecuta el contenido que se encuentra dentro del editor de texto"""
 		self.virtual_machine = vm.VirtualMachine()
 
 		self.reset()
-		input = self.text.get(1.0,tk.END)
+		input = self.text.get(1.0,tk.END) # Recupera el contenido del editor de texto
 		self.running = True
 
+		# A través de este try-catch esperamos cualquier tipo de error proveniente 
+		# de la máquina virtual y, supuestamente, del parser.
 		try:
+			# Dentro de este bloque se crea un thread que manejará la máquina virtual y permitirá
+			# el uso de la consola desde GUI durante la ejecución
 			self.parser.parse(input)
-			t = threading.Thread(target=self.virtual_machine.run_list, args=(self, self.canvas, q.Quadruple.quadruple_list))
+			t = threading.Thread(target=self.virtual_machine.run_list, args=(self, self.canvas, q.Quadruple.quadruple_list)) 
 			self.threads.append(t)
 			t.start()
 		except Exception as e: 
@@ -163,6 +210,9 @@ class FridaGui(tk.Frame):
 			pass
 
 	def reset(self):
+		"""Función que resetea los valores viejos de ejecuciones 
+		pasadas que fueron guardados en recursos compartidos
+		"""
 		global_vars.init()
 		self.virtual_machine.mem = Memory()
 		st.SymbolsTable.function_dictionary = {}
@@ -171,6 +221,11 @@ class FridaGui(tk.Frame):
 		q.Quadruple.quadruple_list = []
 
 	def print(self, string):
+		"""Función para imprimir en consola de GUI
+		
+		args:
+			string -- valor a imprimir
+		"""
 		self.console.insert(str(self.console_index), str(string) + '\n')
 		self.console_index += len(str(string)) + 1
 
@@ -178,101 +233,130 @@ class FridaGui(tk.Frame):
 	    self.linenumbers.redraw()
 
 	def insert_prompt(self):
-	    # make sure the last line ends with a newline; remember that
-	    # tkinter guarantees a trailing newline, so we get the
-	    # character before this trailing newline ('end-1c' gets the
-	    # trailing newline, 'end-2c' gets the char before that)
-	    c = self.console.get("end-2c")
-	    if c != "\n":
-	        self.console.insert("end", "\n")
-	    self.console.insert("end", self.prompt, ("prompt",))
+		"""Solución basada en esta respuesta de stack overflow: http://stackoverflow.com/a/17840173
+		
+		Nos aseguramos que la última línea termine con '\n';
+		tkinter garantiza un salto de línea, así que tomamos el caracter
+		antes de este salto (end-2c)
+		"""
+		c = self.console.get("end-2c")
+		if c != "\n":
+			self.console.insert("end", "\n")
+		self.console.insert("end", self.prompt, ("prompt",))
 
-	    # this mark lets us find the end of the prompt, and thus
-	    # the beggining of the user input
-	    self.console.mark_set("end-of-prompt", "end-1c")
-	    self.console.mark_gravity("end-of-prompt", "left")
+		# esta marca nos permite encontrar el final del prompt, y
+		# por lo tanto el comienzo del input de usuario
+		self.console.mark_set("end-of-prompt", "end-1c")
+		self.console.mark_gravity("end-of-prompt", "left")
 
-	    self.receiving_input = True
-	    self.lock.acquire()
+		self.receiving_input = True # levanta una bandera que garantizará que process_input lea input 
+		self.lock.acquire() # obtiene lock y para el thread de la máquina virtual para ahorrar recursos
 
-	def process_input(self, event=None):
+	def process_input(self):
+		"""Solución basada en esta respuesta de stack overflow: http://stackoverflow.com/a/17840173
+		
+		Función que procesa input si y solo si se encuentra levantada la bandera 'receiving_input'
+		"""
+
 		if self.receiving_input:
 
-			# if there is an event, it happened before the class binding,
-			# thus before the newline actually got inserted; we'll
-			# do that here, then skip the class binding.
+			# Inserta un salto de línea y esto overridea el comportamiento defáult de tkinter
 			self.console.insert("end", "\n")
 			self.input = self.console.get("end-of-prompt", "end-1c")
 			self.console.see("end")
 
-			# this prevents the class binding from firing, since we 
-			# inserted the newline in this method
-
 			self.receiving_input = False
-			self.lock.release()
+			self.lock.release() # Suelta el lock para que la máquina virtual continúe su procesamiento
 
 		return "break"
 
 	def quit_ask(self):
+		"""Función que muestra el diálogo para guardar el contenido no guardado antes de salir del IDE"""
 		if not self.filename and self.text.compare("end-1c", "!=", "1.0"):
 			self.content_loss_dialog()
 		self.quit()
 
 	def stop_task(self):
+		"""Función que detiene la ejecución de la máquina virtual"""
 		self.running = False
 
 class CustomText(tk.Text):
-    def __init__(self, *args, **kwargs):
-        tk.Text.__init__(self, *args, **kwargs)
+	"""Clase CustomText -> tkinter.Text
 
-        self.tk.eval('''
-            proc widget_proxy {widget widget_command args} {
+	Clase con listeners escritos en Tcl (Tkinter está escrito sobre el lenguaje/librería Tcl/Tk) 
+	para llamar la acción <<Change>> y con ello ejecutar un cambio en TextLineNumbers.
+	Utilizado para el mejoramiento de la interfaz del IDE
 
-                # call the real tk widget command with the real args
-                set result [uplevel [linsert $args 0 $widget_command]]
+	Código obtenido de stack overflow: http://stackoverflow.com/a/16375233
+	"""
+	def __init__(self, *args, **kwargs):
+		"""Inicializador default"""
+		tk.Text.__init__(self, *args, **kwargs)
 
-                # generate the event for certain types of commands
-                if {([lindex $args 0] in {insert replace delete}) ||
-                    ([lrange $args 0 2] == {mark set insert}) || 
-                    ([lrange $args 0 1] == {xview moveto}) ||
-                    ([lrange $args 0 1] == {xview scroll}) ||
-                    ([lrange $args 0 1] == {yview moveto}) ||
-                    ([lrange $args 0 1] == {yview scroll})} {
+		# Creación de función listener en Tcl
+		self.tk.eval('''
+			proc widget_proxy {widget widget_command args} {
 
-                    event generate  $widget <<Change>> -when tail
-                }
+				# call the real tk widget command with the real args
+				set result [uplevel [linsert $args 0 $widget_command]]
 
-                # return the result from the real widget command
-                return $result
-            }
-            ''')
-        self.tk.eval('''
-            rename {widget} _{widget}
-            interp alias {{}} ::{widget} {{}} widget_proxy {widget} _{widget}
-        '''.format(widget=str(self)))
+				# generate the event for certain types of commands
+				if {([lindex $args 0] in {insert replace delete}) ||
+					([lrange $args 0 2] == {mark set insert}) || 
+					([lrange $args 0 1] == {xview moveto}) ||
+					([lrange $args 0 1] == {xview scroll}) ||
+					([lrange $args 0 1] == {yview moveto}) ||
+					([lrange $args 0 1] == {yview scroll})} {
+
+					event generate  $widget <<Change>> -when tail
+				}
+
+				# return the result from the real widget command
+				return $result
+			}
+			''')
+		self.tk.eval('''
+			rename {widget} _{widget}
+			interp alias {{}} ::{widget} {{}} widget_proxy {widget} _{widget}
+		'''.format(widget=str(self)))
 
 class TextLineNumbers(tk.Canvas):
-    def __init__(self, *args, **kwargs):
-        tk.Canvas.__init__(self, *args, **kwargs)
-        self.textwidget = None
+	"""Clase TextLineNumbers
 
-    def attach(self, text_widget):
-        self.textwidget = text_widget
+	Canvas con un widget de texto que cambia cada vez que se 
 
-    def redraw(self, *args):
-        '''redraw line numbers'''
-        self.delete("all")
+	Código obtenido de stack overflow: http://stackoverflow.com/a/16375233
+	"""
+	def __init__(self, *args, **kwargs):
+		"""Inicializador por default
+		
+		Crea una instancia de Canvas, padre de esta clase
+		"""
+		tk.Canvas.__init__(self, *args, **kwargs)
+		self.textwidget = None
 
-        i = self.textwidget.index("@0,0")
-        while True :
-            dline= self.textwidget.dlineinfo(i)
-            if dline is None: break
-            y = dline[1]
-            linenum = str(i).split(".")[0]
-            self.create_text(2,y,anchor="nw", text=linenum)
-            i = self.textwidget.index("%s+1line" % i)
+	def attach(self, text_widget):
+		"""Función utilizada para manejar un text widget desde esta clase
+	
+		args: 
+			text_widget -- objeto de text que tendrá la clase TextLineNumbers adjunta 
+		"""
+		self.textwidget = text_widget
+
+	def redraw(self, *args):
+		"""Función que redibuja las líneas cada vez que se llama a este método"""
+		self.delete("all")
+
+		i = self.textwidget.index("@0,0")
+		while True :
+			dline= self.textwidget.dlineinfo(i)
+			if dline is None: break # si no hay una nueva línea, no es necesario dibujar
+			y = dline[1]
+			linenum = str(i).split(".")[0]
+			self.create_text(2,y,anchor="nw", text=linenum) # insertar número a canvas
+			i = self.textwidget.index("%s+1line" % i)
 	
 if __name__ == "__main__":
-    root = tk.Tk()
-    FridaGui(root).pack(side="top", fill="both", expand=True)
-    root.mainloop()
+	root = tk.Tk()
+	FridaGui(root).pack(side="top", fill="both", expand=True)
+	root.mainloop()

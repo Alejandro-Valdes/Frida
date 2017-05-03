@@ -1,3 +1,4 @@
+# Variables globales compartidas por los módulos del lenguaje Frida
 
 def init():
 	global funcParams

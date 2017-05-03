@@ -160,7 +160,6 @@ class VirtualMachine():
 				bool_res = self.mem.getValue(int(quad_o1))
 				if bool_res is None:
 					self.caller.print('Error: variable indefinida')
-					self.caller.print("%s %s" % (int(quad_o1), ip))
 					self.caller.running = False
 
 				if bool_res == FALSE:
@@ -225,8 +224,8 @@ class VirtualMachine():
 				if int(quad_o1) in temp_local_mem:
 					value = temp_local_mem[int(quad_o1)]
 					if value is None:
-						print (temp_local_mem)
-						self.caller.print(self.mem.getValue(int(quad_o1)))
+						self.printUndefinedValue()
+						return
 
 				else:
 					value = self.mem.getValue(int(quad_o1))

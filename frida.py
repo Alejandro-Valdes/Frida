@@ -2,6 +2,8 @@ from frida_parser import parser
 from frida_gui import *
 import sys
 
+# Script principal de la aplicación que ejecuta la GUI con el parser
+
 def main(file):
 	file_in = open(file, 'r')
 	data = file_in.read()
@@ -9,6 +11,7 @@ def main(file):
 	parser.parse(data)
 
 if __name__ == '__main__':
+	# Método anterior de compilación/ejecución
 	# file = "test/" + sys.argv[1]
 
 	root = tk.Tk()
