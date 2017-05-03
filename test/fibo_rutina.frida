@@ -71,6 +71,7 @@ programa fibo
 			cont = cont + 1;
 		}
 
+		uno(10);
 	}
 
 	

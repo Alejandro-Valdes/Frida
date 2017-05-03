@@ -364,8 +364,6 @@ class VirtualMachine():
 				if ttl == None:
 					ttl_error()
 
-				self.caller.print('test')
-
 				radius = self.mem.getValue(int(quad_o1))
 				extent = self.mem.getValue(int(quad_o2))
 
