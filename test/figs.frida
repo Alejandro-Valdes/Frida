@@ -31,7 +31,7 @@ programa fibo
 		miCirc.crece(0.5);
 		miT.crece(0.5);
 		mientras(verdadero){
-			si(cont == 50){
+			si(cont == 1000){
 				miCirc.crece(2);
 				miT.crece(2);
 				miT.relleno("azul");
@@ -40,7 +40,7 @@ programa fibo
 				miRect.mover(-200, 0);
 				miRect2.mover(0, 400);
 			}
-			si(cont == 100){
+			si(cont == 2000){
 				miCirc.crece(0.5);
 				miT.crece(0.5);
 				miT.relleno('rojo');

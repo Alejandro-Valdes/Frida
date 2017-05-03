@@ -97,17 +97,18 @@ class VirtualMachine():
 				else:
 					self.caller.print(printable_obj)
 
-			elif quad.action == READ:
+			elif quad.action == READ:				
 				if quad_res < 9000:
 					self.caller.print('error Lectura')
 					self.caller.running = False
+
 
 				elif quad_res >= 9000 and quad_res < 10000:
 					self.caller.insert_prompt()
 
 					self.caller.lock.acquire()
 
-					bRes = self.caller.input
+					bRes = self.caller.input.strip()
 
 					if bRes == 'verdadero':
 						TempMemory.setValue(int(quad_res), TRUE)
@@ -156,6 +157,8 @@ class VirtualMachine():
 				else:
 					self.caller.print('error lectura')
 					self.caller.running = False
+
+				self.caller.lock.release()
 
 			elif quad.action == ASSIGN:
 				res = self.mem.getValue(int(quad_o1))
@@ -434,6 +437,8 @@ class VirtualMachine():
 
 			ip += 1
 			self.canvas.update()
+
+			# self.caller.print(ip)
 
 		#self.frida_gui.mainloop()
 

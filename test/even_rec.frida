@@ -33,7 +33,7 @@ programa even
 
 		imprimir('Prueba');
 
-		imprimir(res == (2*(x-1)));
+		imprimir(res == (2 * (x - 1)));
 
 		hi();
 

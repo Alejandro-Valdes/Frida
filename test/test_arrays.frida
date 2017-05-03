@@ -14,7 +14,7 @@ programa voidFunc
 		input = leer();
 
 		si(input == 'si'){
-			miRect2.mover(2);
+			miRect2.mover(2, 2);
 		}
 
 		imprimir('dos');
