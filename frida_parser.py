@@ -129,10 +129,10 @@ def p_ini_prim(p):
 # Inicializacion de arreglos con valores primitivos
 
 def p_ini_prim_v(p):
-	'ini_prim_v : ASSIGN push_operation init_array LBRACE expresion assign_to_array ini_prim_v_loop RBRACE finish_array_assignment'
+	'ini_prim_v : ASSIGN push_operation init_array LBRACE logica assign_to_array ini_prim_v_loop RBRACE finish_array_assignment'
 
 def p_ini_prim_v_loop(p):
-	'''ini_prim_v_loop : COMA expresion assign_to_array ini_prim_v_loop 
+	'''ini_prim_v_loop : COMA logica assign_to_array ini_prim_v_loop 
 		| empty'''
 
 # Inicializacion de figuras

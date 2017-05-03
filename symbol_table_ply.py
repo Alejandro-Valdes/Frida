@@ -9,16 +9,31 @@ from dimension import *
 
 def p_check_fig(p):
 	'check_fig : empty'
+
+	"""Regla que revisa si se encuentra definida una variable 
+	de tipo figura con el id dado por p[-1]
+	"""
+
 	g.fig_name = p[-1]
 	g.actualVarObj = SymbolsTable.checkVariable(g.fig_name, g.funcName)
 
 def p_check_variable(p):
 	'check_variable : empty'
+
+	"""Regla que revisa si se encuentra definida una variable 
+	 con el id dado por p[-1]
+	"""
+
 	g.currId = p[-1]
 	g.actualVarObj = SymbolsTable.checkVariable(g.currId, g.funcName)
 
 def p_check_function(p):
 	'check_function : empty'
+
+	"""Regla que revisa si se encuentra definida una variable
+	con el id dado por p[-1]
+	"""
+
 	g.funcExpName = p[-1]
 	g.funcExpNameStack.append(g.funcExpName)
 	print(g.funcExpName)
@@ -26,16 +41,27 @@ def p_check_function(p):
 
 def p_saveFuncParam(p):
 	'saveFuncParam : empty'
+	
+	"""Regla que guarda los parámetros de la función actual"""
+
 	SymbolsTable.add_function_params(g.funcName, g.funcParams)
 
 def p_saveFuncName(p):
 	'saveFuncName : empty'
+
+	"""Regla que crea una función con el id p[-1] y la añade 
+	a la tabla de símbolos"""
+
 	g.funcName = p[-1]
 	function = Function(g.funcName, g.nextType, None, None, None)
 	SymbolsTable.add_function(function)
 
 def p_cleanFunc(p):
 	'cleanFunc : empty'
+
+	"""Regla auxiliar para la limpieza del scope actual y la 
+	impresión de la memoria"""
+
 	LocalMemory.clearCount()
 	TempMemory.clearCount()
 	print('impresion')
@@ -51,10 +77,16 @@ def p_cleanFunc(p):
 
 def p_FuncTypeNext(p):
 	'FuncTypeNext : empty'
+
+	"""Regla auxiliar que levanta una bandera para indicar 
+	que se está esperando el tipo de una función"""
+
 	g.funcTypeSoon = True
 
 def  p_saveType(p):
 	'saveType : empty'
+
+	"""Regla que guarda el tipo de la función, parámetro o variable"""
 
 	if g.funcTypeSoon:
 		g.nextType = p[-1]
@@ -71,6 +103,10 @@ def  p_saveType(p):
 
 def p_paramID(p):
 	'paramID : empty'
+
+	"""Regla que añade una variable con nombre p[-1] como parámetro al scope 
+	de la función actual"""
+
 	g.varName = p[-1]
 
 	if g.funcName == 'global':
@@ -82,14 +118,24 @@ def p_paramID(p):
 
 def p_paramTypeNext(p):
 	'paramTypeNext : empty'
+
+	"""Regla auxiliar que levanta una bandera para indicar 
+	que se está esperando el tipo de un parámetro"""
+
 	g.paramTypeSoon = True
 
 def p_printFuncTable(p):
 	'printFuncTable : empty'
+
+	"""Regla auxiliar que llama a la impresión de la tabla de 
+	símbolos"""
+
 	SymbolsTable.printFunctionTable()
 
 def p_add_global_scope(p):
 	'add_global_scope : empty'
+
+	"""Regla que añade scope global a la tabla de símbolos"""
 
 	g.funcName = 'global'
 	function = Function(g.funcName, 'void', [], None, None)
@@ -97,6 +143,8 @@ def p_add_global_scope(p):
 
 def p_add_main_scope(p):
 	'add_main_scope : empty'
+
+	"""Regla que añade main scope a la tabla de símbolos"""
 
 	g.funcName = p[-1]
 	function = Function(p[-1], 'void', [], None, None)
@@ -108,10 +156,18 @@ def p_add_main_scope(p):
 
 def p_expect_var_type(p):
 	'expect_var_type : empty'
+
+	"""Regla auxiliar que levanta una bandera para indicar 
+	que se está esperando el tipo de una variable"""
+
 	g.varTypeSoon = True
 
 def p_add_func_var(p):
 	'add_func_var : empty'
+
+	"""Regla auxiliar que levanta una bandera para indicar 
+	que se está esperando el tipo de un parámetro"""
+
 	g.varName = g.funcName
 	print('----------')
 	print(g.varName)
@@ -121,11 +177,18 @@ def p_add_func_var(p):
 
 def p_add_var_name(p):
 	'add_var_name : empty'
+
+	"""Regla auxiliar que añade el nombre de la variable
+	 como variable global"""
+
 	g.processingVar = True
 	g.varName = p[-1]
 
 def p_add_var(p):
 	'add_var : empty'
+
+	"""Regla que guarda una variable, ya sea normal o 
+	dimensionada, en la tabla de símbolos"""
 
 	if g.processingVar:
 		if g.currentVarDimensions == None:
@@ -154,6 +217,9 @@ def p_add_var(p):
 def p_add_dimensioned_var(p):
 	'add_dimensioned_var : empty'
 
+	"""Regla que añade una lista de dimensiones a variable global con su primera 
+	dimensión inicializada en p[-1]"""
+
 	if g.currentVarDimensions == None:
 		g.currentVarDimensions = DimensionList(p[-1])
 	else: 
@@ -161,6 +227,8 @@ def p_add_dimensioned_var(p):
 
 def p_add_quad_count(p):
 	'add_quad_count : empty'
+
+	"""Regla que añade el número de instrucción a la función actual"""
 
 	actual_quad_count = len(Quadruple.quadruple_list)
 	SymbolsTable.addQuadCountToFunc(g.funcName, actual_quad_count)

@@ -7,6 +7,11 @@ from dimension import *
 
 def p_pincel_color(p):
 	'pincel_color : empty'
+
+	"""Valida que último operando sea cadena y agrega cuádruplo
+	para cambiar el color del pincel.
+	"""
+
 	address = SymbolsTable.checkVarAddress(g.funcName, g.fig_name)
 	res_type = g.typeStack.pop()
 	color = g.oStack.pop()
@@ -21,6 +26,11 @@ def p_pincel_color(p):
 # Move brush forward
 def p_pincel_paint(p):
 	'pincel_paint : empty'
+
+	"""Crea cuádruplo que mueve pincel un número de pasos
+	determinado por la última expresión en la pila de operandos
+	"""
+
 	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
 	res_type = g.typeStack.pop()
 	steps = g.oStack.pop()
@@ -34,6 +44,11 @@ def p_pincel_paint(p):
 
 def p_pincel_rotate(p):
 	'pincel_rotate : empty'
+
+	"""Crea cuádruplo para rotar el pincel un número de grados 
+	determinado por la última expresión en la pila de operandos
+	"""
+
 	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
 	res_type = g.typeStack.pop()
 
@@ -48,6 +63,11 @@ def p_pincel_rotate(p):
 
 def p_pincel_displace(p):
 	'pincel_displace : empty'
+
+	"""Crea cuádruplo para desplaza el pincel un número de pasos 
+	determinado por la última expresión en la pila de operandos
+	"""
+
 	address = SymbolsTable.checkVarAddress(g.funcName, g.fig_name)
 	res_y = g.typeStack.pop()
 	y = g.oStack.pop()
@@ -64,6 +84,11 @@ def p_pincel_displace(p):
 
 def p_pincel_thickness(p):
 	'pincel_thickness : empty'
+
+	"""Crea cuádruplo para cambiar el grosor del pincel 
+	a razón del top de la pila de operandos.
+	"""
+
 	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
 	res_type = g.typeStack.pop()
 
@@ -78,6 +103,10 @@ def p_pincel_thickness(p):
 
 def p_pincel_remove(p):
 	'pincel_remove : empty'
+
+	"""Crea cuádruplo para borrar un pincel
+	"""
+
 	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
 	
 	quad = QuadrupleItem(P_DEL, '', '', address)
@@ -85,6 +114,11 @@ def p_pincel_remove(p):
 
 def p_pincel_arc(p):
 	'pincel_arc : empty'
+
+	"""Crea cuádruplo para dibujar un arco con tamaño determinado 
+	por el último valor en la pila de operandos y radio determinado 
+	por el penúltimo valor en la pilda de operandos."""
+
 	address = SymbolsTable.checkVarAddress( g.funcName, g.fig_name)
 
 	res_extent = g.typeStack.pop()

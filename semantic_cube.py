@@ -1,4 +1,4 @@
-
+# Constantes que representan cada tipo
 VOID = 0
 BOOL = 1
 ENTERO = 2
@@ -60,7 +60,7 @@ PARAM = 1009
 
 VERIFY = 10010
 
-# Language native functions
+# Funciones nativas del lenguaje
 FIG = 2000
 F_PAR = 2001
 F_FIN = 2002
@@ -168,12 +168,27 @@ cubeDict[(DECIMAL, PARAM, DECIMAL)] = DECIMAL
 
 
 def getResultType(left,operation,right):
+	"""Regresa el tipo del resultado de la operación entre los operandos,
+	en caso de que no exista regresa -1
+
+	args:
+		left -- tipo operando izquierdo
+		operation -- operación aplicada
+		right -- tipo operando derecho
+	"""
+
 	if ((left,operation,right) in cubeDict):
 		return cubeDict[left,operation,right];
 	else:
 		return -1;
 
 def getOperationCode(code):
+	"""Regresa el código de la operación, en caso de que no exista regresa -1
+
+	args:
+		code -- char operación de la cual se regresa el código
+	"""
+
 	if(code == '='):
 		return ASSIGN
 	elif(code == 'y'):
@@ -210,6 +225,12 @@ def getOperationCode(code):
 		return -1
 
 def getOperationStr(code):
+	"""Regresa el nombre de la operación 
+
+	args:
+		code -- int 
+	"""
+
 	if(code == ASSIGN):
 		return 'ASSIGN' 
 	elif(code == AND):
@@ -288,6 +309,12 @@ def getOperationStr(code):
 		return -1
 
 def getTypeCode(strType):
+	"""Regresa el código del tipo
+
+	args: 
+		strType -- string 
+	"""
+
 	if strType == 'void':
 		return VOID
 	elif strType == 'bool':
@@ -310,6 +337,12 @@ def getTypeCode(strType):
 		return TRIANGULO
 
 def getTypeStr(codeType):
+	"""Regresa el string asociado al codeType
+
+	args: 
+		codeType -- int
+	"""
+
 	if codeType ==  VOID:
 		return 'void'
 	elif codeType ==  BOOL:

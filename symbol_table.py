@@ -1,6 +1,11 @@
 import sys
 
 class Variable:
+	"""Clase Variable
+
+	Contiene todos los atributos que se necesitan para identificar una variable
+	dentro de la tabla de símbolos
+	"""
 
 	def __init__(self, name, type, virtual_address, scope, dimension_list):
 		self.name = name
@@ -9,6 +14,11 @@ class Variable:
 		self.dimension_list = dimension_list
 
 class Function:
+	"""Clase Function
+
+	Contiene todos los atributos que se necesitan para identificar una función 
+	dentro de la tabla de símbolos
+	"""
 
 	def __init__(self, name, returnType, params, vars, quad_cont):
 		self.name = name
@@ -18,10 +28,7 @@ class Function:
 		self.quad_cont = quad_cont
 
 	def add_var(self, var):
-		'''
-			add_var
-
-			Adds a variable to the function scope
+		''' Agrega una variable al scope de esta scope
 
 			Arguments: var variable object
 		'''
@@ -34,11 +41,15 @@ class Function:
 
 
 class SymbolsTable:
-	'''docstring for SymbolsTable'''
+	'''Class SymbolsTable
+	
+	Objeto que contiene diccionario y métodos para manejar variables
+	y funciones dentro de un ambiente de compilación y ejecución
+	'''
 
 	main_scope = Function('lienzo', 'void', None, None, None)
 
-	function_dictionary = {}
+	function_dictionary = {} # Tabla de símbolos
 
 	__shared_state = {}
 
@@ -47,6 +58,11 @@ class SymbolsTable:
 
 	@classmethod
 	def add_function(cls, function):
+		"""Agrega un scope a la tabla de símbolos
+		
+		args: 
+			function -- Function object
+		"""
 
 		if function.name in cls.function_dictionary:
 			raise Exception("Error: funcion " + function.name + " ya se definio")
@@ -56,15 +72,29 @@ class SymbolsTable:
 
 	@classmethod
 	def params_size(cls, name):
+		"""Regresa el número de parámetros que recibe la función name
+
+		args:
+			name -- string nombre de función
+		"""
+
 		return len(cls.function_dictionary[name].params)
 
 	@classmethod
 	def check_param(cls, name, index):
+		"""Regresa el parámetro con índice index de la función name
+
+		args: 
+			name -- string
+			index -- int
+		"""
+
 		if name in cls.function_dictionary:
 			return cls.function_dictionary[name].params[index]
 
 	@classmethod
 	def printFunctionTable(cls):
+		"""Función auxiliar para imprimir la tabla de símbolos en consola"""
 		print('\n')
 		function_dir = cls.function_dictionary
 		for key in function_dir:
@@ -80,6 +110,11 @@ class SymbolsTable:
 
 	@classmethod
 	def getScopedMemory(cls, scope):
+		"""Regresa la memoria de cierto scope 
+
+		args: 
+			scope -- string
+		"""
 		scope = str(scope)
 		scoped_mem = []
 		function_dir = cls.function_dictionary
@@ -92,6 +127,16 @@ class SymbolsTable:
 
 	@classmethod
 	def add_var_to_func(cls, name, type, virtual_address, scope, dimension_list = None):
+		"""Agrega una variable a un scope
+		
+		args: 
+			name -- string : nombre de variable
+			type -- int : tipo de variable
+			virtual_address -- int : dirección virtual de variable
+			scope -- string : nombre de scope
+			dimension_list -- DimensionList 
+		"""
+
 		var = Variable(name, type, virtual_address, scope, dimension_list)
 		if scope in cls.function_dictionary:
 			cls.function_dictionary[scope].add_var(var)
@@ -102,6 +147,12 @@ class SymbolsTable:
 
 	@classmethod
 	def add_function_params(cls, scope, params):
+		"""Agrega parámetros a la función scope
+		
+		args:
+			scope -- string : nombre de función
+			params -- list : lista de parámetros
+		"""
 		if scope in cls.function_dictionary:
 			cls.function_dictionary[scope].params = params
 		else:
@@ -109,6 +160,12 @@ class SymbolsTable:
 
 	@classmethod
 	def get_function_signature(cls, scope):
+		"""Regresa la lista de parámetros de una función
+
+		args: 
+			scope -- string : nombre scope
+		"""
+
 		scope = str(scope)
 		if scope in cls.function_dictionary:
 			return cls.function_dictionary[scope].params
@@ -117,6 +174,12 @@ class SymbolsTable:
 
 	@classmethod
 	def get_function_params_addresses(cls, scope):
+		"""Regresa una lista con todas las variables de una función
+		que fueron pasadas como parámetros de la misma
+
+		args: 
+			scope -- string : nombre scope
+		"""
 		addresses = []
 		scope = str(scope)
 		index = 0
@@ -137,6 +200,13 @@ class SymbolsTable:
 
 	@classmethod
 	def checkVariable(cls, var, func):
+		"""Regresa la variable var que se encuentra dentro de la función func
+		o en un scope global
+
+		args: 
+			var -- string : nombre variable
+			func -- string : nombre función
+		"""
 		if(var in cls.function_dictionary[func].vars):
 			return cls.function_dictionary[func].vars[var]
 		elif(var in cls.function_dictionary['global'].vars):
@@ -146,11 +216,22 @@ class SymbolsTable:
 
 	@classmethod
 	def checkFunction(cls, func):
+		"""Checa si la función existe en la tabla de símbolos
+
+		args:
+			func -- string : nombre función
+		"""
 		if(func not in cls.function_dictionary):
 			raise Exception('Error: funcion ' + func + ' no esta definida')
 
 	@classmethod
 	def checkVarType(cls, func, var):
+		"""Regresa tipo de variable de var dentro de la función func
+		
+		args:
+			func -- string : nombre función
+			var -- string : nombre variable
+		"""
 		if(var in cls.function_dictionary[func].vars):
 			return cls.function_dictionary[func].vars[var].type
 		elif(var in cls.function_dictionary['global'].vars):
@@ -160,6 +241,12 @@ class SymbolsTable:
 
 	@classmethod
 	def checkVarAddress(cls, func, var):
+		"""Regresa la dirección virtual de var dentro de la función func
+		
+		args:
+			func -- string : nombre función
+			var -- string : nombre variable
+		"""
 		if(var in cls.function_dictionary[func].vars):
 			return cls.function_dictionary[func].vars[var].virtual_address
 		elif(var in cls.function_dictionary['global'].vars):
@@ -169,6 +256,11 @@ class SymbolsTable:
 
 	@classmethod
 	def checkFuncReturnType(cls, func):
+		"""Regresa el tipo de retorno de la función func
+		
+		args:
+			func -- string : nombre función
+		"""
 		if(cls.function_dictionary[func]):
 			return cls.function_dictionary[func].returnType
 		else:
@@ -176,6 +268,12 @@ class SymbolsTable:
 
 	@classmethod
 	def addQuadCountToFunc(cls, func, quad_cont):
+		"""Agrega el número de instrucción en el cual empieza la función func
+		
+		args:
+			func -- string : nombre función
+			quad_cont -- int : número instrucción
+		"""
 		if (cls.function_dictionary[func]):
 			cls.function_dictionary[func].quad_cont = quad_cont
 		else:
@@ -183,26 +281,12 @@ class SymbolsTable:
 
 	@classmethod
 	def getFuncPI(cls, func):
+		"""Regresa el número de instrucción en el cual empieza la función func
+		
+		args:
+			func -- string : nombre función
+		"""
 		if cls.function_dictionary[func]:
 			return cls.function_dictionary[func].quad_cont
 		else:
 			returnType -1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

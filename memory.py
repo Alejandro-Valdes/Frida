@@ -1,6 +1,8 @@
 import sys
 from semantic_cube import *
 
+# Constantes de memoria
+
 GLOBALBOOL = 1000
 GLOBALENTERO = 2000
 GLOBALDECIMAL = 3000
@@ -35,22 +37,35 @@ LOCALTRIANGULO = 34000
 
 LIM = 1000
 
-def printMemoryOverflow():
-	print('Error: se acabo la memoria')
+def printMemoryOverflow(self):
+	"""Función auxiliar para la impresión de un memory overflow"""
+	raise Exception('Error: se acabo la memoria')
 
-def printUndefinedValue():
-	print('Error: acceso a variable indefinida')
+def printUndefinedValue(self):
+	"""Función auxiliar para la impresión de un error por variable indefinida"""
+	raise Exception('Error: acceso a variable indefinida')
 
 class Memory():
-	"""docstring for Memory"""
+	"""Clase Memory
+	
+	Mantiene las funciones de más alto nivel de la memoria, 
+	haciendo uso de diferentes objetos de memoria que guardan las variables.
+	Básicamente, funciona como fachada hacia las demás memorias.
+	"""
 	def __init__(self):
+		"""Inicializador default"""
 		pass
 
 	def getValue(self, address):
+		"""Regresa valor asociado con la dirección enviada como parámetro
+
+		args: 
+			address -- dirección a acceder
+		"""
 
 		try:
 			if address < 1000:
-				print('Error Mem ' + str(address))
+				raise Exception('Error Mem ' + str(address))
 				return
 			elif address >= 1000 and address < 5000 or (address >= GLOBALPINCEL and address <= GLOBALTRIANGULO):
 				return GlobalMemory.getItemValue(address)
@@ -61,20 +76,25 @@ class Memory():
 			elif address >= 13000 and address < 17000:
 				return CteMemory.getItemValue(address)
 			else:
-				print('Error Mem ' + str(address))
-				print(address >= LOCALPINCEL)
-				print(address <= LOCALTRIANGULO)
+				raise Exception('Error Mem ' + str(address))
+				raise Exception(address >= LOCALPINCEL)
+				raise Exception(address <= LOCALTRIANGULO)
 				return
 		except KeyError:
 			printUndefinedValue()
 			return
 
 	def setValue(self, value, address):
+		"""Hace set de un valor en la memoria, 
+		regresa excepción si no es posible guardarlo
+
+		args: 
+			value -- valor a guardar
+			address -- dirección de guardado
+		"""
+
 		if address < 1000:
-			#print('Error set mem')
-			# TODO Set mem fig
-			#return
-			pass
+			raise Exception('Error set mem')
 		elif (address >= 1000 and address < 5000) or (address >= GLOBALPINCEL and address <= GLOBALTRIANGULO):
 			GlobalMemory.setValue(address, value)
 		elif (address >= 5000 and address < 9000) or (address >= LOCALPINCEL and address <= LOCALTRIANGULO):
@@ -84,12 +104,18 @@ class Memory():
 		elif address >= 13000 and address < 17000:
 			CteMemory.setValue(address, value)
 		else:
-			print('Error set mem')
+			raise Exception('Error set mem')
 			return
 
 class GlobalMemory():
+	"""Clase GlobalMemory
 
-	globalMem = {}
+	Mantiene las variables de scope global
+	"""
+
+	globalMem = {} # Diccionario de variables (simula memoria)
+
+	# Contadores de memoria para cada tipo de dato
 	boolCount = 0
 	enteroCount = 0
 	decimalCount = 0
@@ -103,19 +129,35 @@ class GlobalMemory():
 	__shared_state = {}
 	
 	def __init__(self):
+		"""Inicializador default"""
 		self.__dict__ = self.__shared_state
 		
 
 	@classmethod
 	def printGlobalMem(cls):
+		"""Función auxiliar para la impresión de la memoria en consola"""
 		print(cls.globalMem)
 
 	@classmethod
 	def getItemValue(cls, key):
+		"""Regresa valor asociado a la key enviada como parámetro
+		
+		args:
+			key -- llave a acceder en la memoria
+		"""
+
 		return(cls.globalMem[key])		
 
 	@classmethod
 	def getAddress(cls, type, size = 1):
+		"""Regresa dirección basado en el tipo de variable, y
+		aloca espacio basándose en el tamaño dado.
+
+		args: 
+			type -- tipo de variable
+			size -- tamaño a alocar en memoria
+		"""
+
 		address = 0
 
 		if type == BOOL:
@@ -186,18 +228,32 @@ class GlobalMemory():
 
 	@classmethod
 	def setValue(cls, address, value):
+		"""Hace set de un valor en la dirección enviada
+		
+		args:
+			address -- dirección donde será alocada la variable
+			value -- valor de la variable
+		"""
+
 		cls.globalMem[address] = value
 
 	@classmethod
 	def clearCount(self):
+		"""Reset de contadores de cada tipo en memoria"""
 		self.boolCount = 0
 		self.enteroCount = 0
 		self.decimalCount = 0
 		self.cadenaCount = 0
 			
 class LocalMemory():
+	"""Clase GlobalMemory
 
-	localMem = {}
+	Mantiene las variables de scope local
+	"""
+
+	localMem = {} # Diccionario de variables (simula memoria)
+
+	# Contadores de memoria para cada tipo de dato
 	boolCount = 0
 	enteroCount = 0
 	decimalCount = 0
@@ -211,19 +267,36 @@ class LocalMemory():
 	__shared_state = {}
 	
 	def __init__(self):
+		"""Inicializador default"""
 		self.__dict__ = self.__shared_state
 		
 
 	@classmethod
 	def printLocalMem(cls):
+		"""Función auxiliar para la impresión de la memoria en consola"""
+
 		print(cls.localMem)
 
 	@classmethod
 	def getItemValue(cls, key):
+		"""Regresa valor asociado a la key enviada como parámetro
+		
+		args:
+			key -- llave a acceder en la memoria
+		"""
+
 		return(cls.localMem[key])		
 
 	@classmethod
 	def getAddress(cls, type, size = 1):
+		"""Regresa dirección basado en el tipo de variable, y
+		aloca espacio basándose en el tamaño dado.
+
+		args: 
+			type -- tipo de variable
+			size -- tamaño a alocar en memoria
+		"""
+
 		address = 0
 
 		if type == BOOL:
@@ -294,18 +367,33 @@ class LocalMemory():
 
 	@classmethod
 	def setValue(cls, address, value):
+		"""Hace set de un valor en la dirección enviada
+		
+		args:
+			address -- dirección donde será alocada la variable
+			value -- valor de la variable
+		"""
+
 		cls.localMem[address] = value
 
 	@classmethod
 	def clearCount(self):
+		"""Reset de contadores de cada tipo en memoria"""
+
 		self.boolCount = 0
 		self.enteroCount = 0
 		self.decimalCount = 0
 		self.cadenaCount = 0
 
 class TempMemory():
-	
-	tempMem = {}
+	"""Clase TempMemory
+
+	Mantiene las variables temporales	
+	"""
+
+	tempMem = {} # Diccionario de variables (simula memoria)
+
+	# Contadores de memoria para cada tipo de dato
 	boolCount = 0
 	enteroCount = 0
 	decimalCount = 0
@@ -314,18 +402,35 @@ class TempMemory():
 	__shared_state = {}
 	
 	def __init__(self):
+		"""Inicializador default"""
+
 		self.__dict__ = self.__shared_state
 		
 	@classmethod
 	def printTempMem(cls):
+		"""Función auxiliar para la impresión de la memoria en consola"""
+
 		print(cls.tempMem)
 
 	@classmethod
 	def getItemValue(cls, key):
+		"""Regresa valor asociado a la key enviada como parámetro
+		
+		args:
+			key -- llave a acceder en la memoria
+		"""
 		return(cls.tempMem[key])		
 
 	@classmethod
 	def getAddress(cls, type, size = 1):
+		"""Regresa dirección basado en el tipo de variable, y
+		aloca espacio basándose en el tamaño dado.
+
+		args: 
+			type -- tipo de variable
+			size -- tamaño a alocar en memoria
+		"""
+
 		address = 0
 
 		if type == BOOL:
@@ -361,19 +466,34 @@ class TempMemory():
 
 	@classmethod
 	def setValue(cls, address, value):
+		"""Hace set de un valor en la dirección enviada
+		
+		args:
+			address -- dirección donde será alocada la variable
+			value -- valor de la variable
+		"""
+
 		cls.tempMem[address] = value
 
 	@classmethod
 	def clearCount(self):
+		"""Reset de contadores de cada tipo en memoria"""
+
 		self.boolCount = 0
 		self.enteroCount = 0
 		self.decimalCount = 0
 		self.cadenaCount = 0
 
 class CteMemory():
+	"""Clase CteMemory
+
+	Mantiene las variables constantes
+	"""
 	
-	cteMem = {}
+	cteMem = {} # Diccionario de variables 
 	cteMemRev = {}
+
+	# Contadores de memoria para cada tipo de dato
 	boolCount = 0
 	enteroCount = 0
 	decimalCount = 0
@@ -382,18 +502,36 @@ class CteMemory():
 	__shared_state = {}
 	
 	def __init__(self):
+		"""Inicializador default"""
+
 		self.__dict__ = self.__shared_state
 		
 	@classmethod
 	def printCteMem(cls):
+		"""Función auxiliar para la impresión de la memoria en consola"""
+
 		print(cls.cteMem)
 
 	@classmethod
 	def getItemValue(cls, key):
+		"""Regresa valor asociado a la key enviada como parámetro
+		
+		args:
+			key -- llave a acceder en la memoria
+		"""
+
 		return(cls.cteMem[key])	
 
 	@classmethod
 	def getAddress(cls, type, value, size = 1):
+		"""Regresa dirección basado en el tipo de variable, y
+		aloca espacio basándose en el tamaño dado.
+
+		args: 
+			type -- tipo de variable
+			size -- tamaño a alocar en memoria
+		"""
+
 		address = 0
 
 		if value in cls.cteMemRev:
@@ -432,10 +570,19 @@ class CteMemory():
 
 	@classmethod
 	def setValue(cls, address, value):
+		"""Hace set de un valor en la dirección enviada
+		
+		args:
+			address -- dirección donde será alocada la variable
+			value -- valor de la variable
+		"""
+
 		cls.cteMem[address] = value
 
 	@classmethod
 	def clearCount(self):
+		"""Reset de contadores de cada tipo en memoria"""
+		
 		self.boolCount = 0
 		self.enteroCount = 0
 		self.decimalCount = 0

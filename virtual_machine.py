@@ -12,11 +12,26 @@ except ImportError:
 import turtle
 
 class VirtualMachine():
+	"""Clase VirtualMachine
+
+	Objeto que ejecuta los cuádruplos generados por el parser de Frida
+	"""
+
 	def __init__(self):
+		"""Inicializador default"""
 		self.mem = Memory()
 		self.shapes = []
 
 	def run_list(self, caller, canvas, quad_list):
+		"""Función principal, encargada de ejecutar la lista de cuádruplos 
+		y de inicializar las variables pertinentes para ello.
+
+		args:
+			caller -- FridaGui 
+			canvas -- tk.Canvas
+			quad_list -- list(Quadruple)
+		"""
+
 		self.caller = caller
 		self.canvas = canvas
 		self.quad_list = quad_list
@@ -48,6 +63,7 @@ class VirtualMachine():
 		DONT REMOVE ABOVE TURTLE
 		'''
 		
+		# Main loop
 		while ip < len(self.quad_list) and self.caller.running:
 
 			quad = self.quad_list[ip]
@@ -424,6 +440,12 @@ class VirtualMachine():
 		#self.frida_gui.mainloop()
 
 	def drawBrush(self, fig_param_stack, res_address):
+		"""Crea un pincel sobre el canvas actual 
+
+		args:
+			fig_param_stack -- list(params) : lista de parámetros de inicialización
+			res_address -- int : dirección donde guardar pincel
+		"""
 
 		color = self.mem.getValue(fig_param_stack.pop())
 
@@ -448,6 +470,13 @@ class VirtualMachine():
 
 
 	def drawShape(self, fig_code, fig_param_stack, res_address):
+		"""Crea una figura sobre el canvas basándose en el fig_code con los parámetros en fig_param_stack
+
+		args:
+			fig_code -- int : código de figura elegida
+			fig_param_stack -- list(params) : lista de parámetros de inicialización
+			res_address -- int : dirección donde guardar figura
+		"""
 
 		color = self.mem.getValue(fig_param_stack.pop())
 		pos_y = self.mem.getValue(fig_param_stack.pop())
@@ -523,6 +552,14 @@ class VirtualMachine():
 			return
 
 	def relational_operation(self, action, o1, o2):
+		"""Regresa el resultado la operación relacional {action} sobre los operandos {o1} y {o2}
+		
+		args: 
+			action -- int : código de operador
+			o1 -- int : dirección o1
+			o2 -- int : dirección o2
+		"""
+
 		o1 = self.mem.getValue(int(o1))
 		o2 = self.mem.getValue(int(o2))
 
@@ -546,6 +583,14 @@ class VirtualMachine():
 		self.caller.running = False
 
 	def basic_math(self, action, o1, o2):
+		"""Regresa el resultado de la operación matemática {action} sobre los operandos {o1} y {o2}
+		
+		args: 
+			action -- int : código de operador
+			o1 -- int : dirección o1
+			o2 -- int : dirección o2
+		"""
+
 		o1 = self.mem.getValue(int(o1))
 		o2 = self.mem.getValue(int(o2))	
 
@@ -570,6 +615,14 @@ class VirtualMachine():
 		self.caller.running = False
 
 	def logic_operation(self, action, o1, o2):
+		"""Regresa el resultado de la operación lógica {action} sobre los operandos {o1} y {o2}
+		
+		args: 
+			action -- int : código de operador
+			o1 -- int : dirección o1
+			o2 -- int : dirección o2
+		"""
+
 		o1 = self.mem.getValue(int(o1))
 		o2 = self.mem.getValue(int(o2))
 
@@ -591,16 +644,22 @@ class VirtualMachine():
 		return
 
 	def printUndefinedValue(self):
+		"""Función auxiliar que imprime un error de acceso a variable indefinida y detiene la ejecución del programa"""
+
 		self.caller.print('Error: Acceso a variable indefinida')
 		self.caller.running = False
 		return
 
 	def ttl_error(self):
+		"""Función auxiliar que imprime un error de acceso a variable de turtle indefinida y detiene la ejecución del programa"""
+
 		self.caller.print('Error: pincel no esta definido o fue eliminado')
 		self.caller.running = False
 		return
 
 	def fig_error(self):
+		"""Función auxiliar que imprime un error de acceso a variable figura indefinida y detiene la ejecución del programa"""
+
 		self.caller.print('Error: figura no esta definida o fue borrda')
 		self.caller.running = False
 		return

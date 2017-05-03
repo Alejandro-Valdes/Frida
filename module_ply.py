@@ -5,6 +5,11 @@ import global_vars as g
 
 def p_mod_call_2(p):
 	'mod_call_2 : empty'
+
+	"""Regla que ejecuta el segundo punto neurálgico de una llamada a módulo.
+	-- Crea un cuádruplo de tipo ERA con el nombre del módulo
+	"""
+
 	name = g.funcExpName
 	quad = QuadrupleItem(ERA, name, '' ,'')
 
@@ -16,6 +21,12 @@ def p_mod_call_2(p):
 
 def p_mod_call_3(p):
 	'mod_call_3 : empty'
+
+	"""Regla que ejecuta el tercer punto neurálgico de una llamada a módulo.
+	-- Hace pop de la pila de operandos y revisa si el tipo es igual al parámetro del módulo.
+	-- Crea el cuádruplo PARAM con el operando como argumento mas un indicador de número de parámetro.
+	"""
+
 	arg = g.oStack.pop()
 	arg_type = g.typeStack.pop()
 	expected_type = SymbolsTable.check_param(g.funcExpName, g.param_count)
@@ -31,6 +42,11 @@ def p_mod_call_3(p):
 
 def p_mod_call_4(p):
 	'mod_call_4 : empty'
+
+	"""Regla que ejecuta el cuarto punto neurálgico de una llamda a módulo.
+	-- Incrementa el contador de parámetros y valida que este sea menor 
+	o igual a la firma de la función"""
+
 	g.param_count += 1
 
 	if g.param_count + 1 > SymbolsTable.params_size(g.funcExpName):
@@ -38,6 +54,11 @@ def p_mod_call_4(p):
 
 def p_mod_call_5(p):
 	'mod_call_5 : empty'
+
+	"""Regla que ejecuta el quinto punto neurálgico de una llamada a módulo.
+	-- Compara si el número de parámetros actual es igual al de la función, si no
+	se tira error
+	"""
 
 	act_param_size = g.param_count + 1
 	expected_param_size = SymbolsTable.params_size(g.funcExpName)
@@ -51,6 +72,11 @@ def p_mod_call_5(p):
 def p_mod_call_6(p):
 	'mod_call_6 : empty'
 
+	"""Regla que ejecuta el sexto punto neurálgico de una llamada a módulo.
+	-- Crea un cuádruplo GOSUB con el nombre de la función y 
+	un apuntador a la instrucción en donde empieza la función
+	"""
+
 	quadPointer = SymbolsTable.getFuncPI(g.funcExpName)
 	quad = QuadrupleItem(GOSUB, g.funcExpName, '' , str(quadPointer))
 
@@ -61,6 +87,12 @@ def p_mod_call_6(p):
 
 def p_mod_call_empty(p):
 	'mod_call_empty : empty'
+
+	"""Regla que se ejecuta cuando el módulo no tiene parámetros.
+	Se valida que en verdad el módulo no requiera ningún parámetro, 
+	si no tira error
+	"""
+
 	expected_param_size = SymbolsTable.params_size(g.funcExpName)
 	if expected_param_size > 0:
 		raise Exception('Error: No le mandaste nada a la funcion ' + g.funcExpName)
