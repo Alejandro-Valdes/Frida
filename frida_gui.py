@@ -9,21 +9,24 @@ from memory import Memory
 import global_vars
 import os
 import threading
+import virtual_machine as vm
 from tkinter.filedialog import askopenfilename, asksaveasfile
 
 class FridaGui(tk.Frame):
-	def __init__(self, parent, parser, virtual_machine, *args, **kwargs):
+	def __init__(self, parent, parser, *args, **kwargs):
+
+		self.lock = threading.Lock()
 
 		self.console_index = 1.0
 
 		self.parent = parent
 
 		self.parser = parser
-		self.virtual_machine = virtual_machine
 
 		self.receiving_input = True
 
 		self.filename = ''
+		self.identations = 0
 
 		tk.Frame.__init__(self, *args, **kwargs)
 		self.top_frame = tk.Frame(self)
@@ -46,7 +49,7 @@ class FridaGui(tk.Frame):
 		self.text.bind("<<Change>>", self._on_change)
 		self.text.bind("<Configure>", self._on_change)
 
-		self.canvas = tk.Canvas(self.top_frame, width=700, height=600, scrollregion=(0,0,500,500), bd = 1)
+		self.canvas = tk.Canvas(self.top_frame, width=700, height=600, bd = 1)
 		self.canvas.pack(side="right", expand=True, fill=tk.BOTH)
 
 		self.console = tk.Text(self.bottom_frame)
@@ -59,72 +62,80 @@ class FridaGui(tk.Frame):
 		filemenu.add_command(label="Nuevo", command=self.new_file)
 		filemenu.add_command(label="Abrir", command=self.open_file)
 		filemenu.add_command(label="Ejecutar", command=self.compile_run)
+		filemenu.add_command(label="Detener", command=self.stop_task)
 		filemenu.add_command(label="Guardar", command=self.file_save)
 		filemenu.add_command(label="Guardar como...", command=self.file_save_as)
 
 		filemenu.add_separator()
 
-		filemenu.add_command(label="Salir", command=self.quit)
+		filemenu.add_command(label="Salir", command=self.quit_ask)
 		self.menubar.add_cascade(label="Archivo", menu=filemenu)
-		editmenu = tk.Menu(self.menubar, tearoff=0)
-		editmenu.add_command(label="Undo", command=self.donothing)
 
-		editmenu.add_separator()
-
-		editmenu.add_command(label="Cut", command=self.donothing)
-		editmenu.add_command(label="Copy", command=self.donothing)
-		editmenu.add_command(label="Paste", command=self.donothing)
-		editmenu.add_command(label="Delete", command=self.donothing)
-		editmenu.add_command(label="Select All", command=self.donothing)
-
-		self.menubar.add_cascade(label="Edit", menu=editmenu)
 		helpmenu = tk.Menu(self.menubar, tearoff=0)
-		helpmenu.add_command(label="Help Index", command=self.donothing)
 		helpmenu.add_command(label="About...", command=self.donothing)
 		self.menubar.add_cascade(label="Help", menu=helpmenu)
 
 		self.console.bind("<Return>", self.process_input)
+		# self.text.bind("<Return>", self.insert_idents)
+		# self.text.bind("<Tab>", self.update_idents)
+		# self.text.bind("<Backspace>", self.update_idents)
 		self.prompt = ">>> "
 
 		self.threads = list()
 
+	# def update_idents(self):
+	# 	if tk.SEL_FIRST == '': 
+
 	def new_file(self):
+		if not self.filename and self.text.compare("end-1c", "!=", "1.0"):
+			self.content_loss_dialog()
+		self.text.delete("1.0",tk.END)
 		self.filename = ''
-		self.text.delete(1.0,tk.END)
+
+	def content_loss_dialog(self):
+		user_response = tk.messagebox.askyesno(title='Alerta', message='Tu trabajo actual será sobrescrito ¿Deseas guardar tus cambios en un nuevo archivo?', icon=tk.messagebox.WARNING)
+
+		if user_response:
+			self.file_save_as()
+		else: 
+			pass
 
 	def open_file(self):
-		self.text.delete(1.0,tk.END)
-		ftypes = [('Frida files', '*.frida'), ('All files', '*')]
-		dlg = tk.filedialog.Open(self, filetypes = ftypes)
-		fl = dlg.show()
+		if not self.filename and self.text.compare("end-1c", "!=", "1.0"):
+			self.content_loss_dialog()
+		self.text.delete("1.0",tk.END)
+		file_types = [('Frida files', '*.frida'), ('All files', '*')]
+		dialog = tk.filedialog.Open(self, filetypes = file_types)
+		file = dialog.show()
+		self.filename = file
 
-		if fl != '':
-			text = self.readFile(fl)
+		if file != '':
+			text = self.read_file(file)
 			self.text.insert(tk.END, text)
 
-	def file_save_as():
+	def file_save_as(self):
 		f = tk.filedialog.asksaveasfile(mode='w', defaultextension=".frida")
 		if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
 			return
 
-		text2save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
+		text_save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
 		self.filename = f.name # Set current filename
-		f.write(text2save)
+		f.write(text_save)
 		f.close() # `()` was missing.
 
-	def file_save():
-		if self.filename != '':
+	def file_save(self):
+		if self.filename == '':
 			f = tk.filedialog.asksaveasfile(mode='w', defaultextension=".frida")
 		else:
 			f = open(self.filename, 'w')
 
 		if f is None: # asksaveasfile return `None` if dialog closed with "cancel".
 		    return
-		text2save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
-		f.write(text2save)
+		text_save = str(self.text.get(1.0, tk.END)) # starts from `1.0`, not `0.0`
+		f.write(text_save)
 		f.close() # `()` was missing.
 
-	def readFile(self, filename):
+	def read_file(self, filename):
 
 	    f = open(filename, "r")
 	    text = f.read()
@@ -136,8 +147,11 @@ class FridaGui(tk.Frame):
 	   button.pack()
 
 	def compile_run(self):
+		self.virtual_machine = vm.VirtualMachine()
+
 		self.reset()
 		input = self.text.get(1.0,tk.END)
+		self.running = True
 
 		try:
 			self.parser.parse(input)
@@ -179,29 +193,33 @@ class FridaGui(tk.Frame):
 	    self.console.mark_gravity("end-of-prompt", "left")
 
 	    self.receiving_input = True
+	    self.lock.acquire()
 
 	def process_input(self, event=None):
+		if self.receiving_input:
 
-	    # if there is an event, it happened before the class binding,
-	    # thus before the newline actually got inserted; we'll
-	    # do that here, then skip the class binding.
-	    self.console.insert("end", "\n")
-	    self.input = self.console.get("end-of-prompt", "end-1c")
-	    self.console.see("end")
+			# if there is an event, it happened before the class binding,
+			# thus before the newline actually got inserted; we'll
+			# do that here, then skip the class binding.
+			self.console.insert("end", "\n")
+			self.input = self.console.get("end-of-prompt", "end-1c")
+			self.console.see("end")
 
-	    # this prevents the class binding from firing, since we 
-	    # inserted the newline in this method
+			# this prevents the class binding from firing, since we 
+			# inserted the newline in this method
 
-	    self.receiving_input = False
+			self.receiving_input = False
+			self.lock.release()
 
-	    return "break"
+		return "break"
 
-	def dialog(self, action, question):
-	    result = tkMessageBox.askquestion(action, question, icon='warning')
-	    if result == 'yes':
-	        return True
-	    else:
-	       	return False
+	def quit_ask(self):
+		if not self.filename and self.text.compare("end-1c", "!=", "1.0"):
+			self.content_loss_dialog()
+		self.quit()
+
+	def stop_task(self):
+		self.running = False
 
 class CustomText(tk.Text):
     def __init__(self, *args, **kwargs):

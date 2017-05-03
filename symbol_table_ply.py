@@ -103,7 +103,8 @@ def p_add_main_scope(p):
 	SymbolsTable.add_function(function)
 
 	mainPI = len(Quadruple.quadruple_list)
-	Quadruple.quadruple_list[0].res = str(mainPI) 
+	goto = g.jumpStack.pop()
+	Quadruple.quadruple_list[goto].res = str(mainPI) 
 
 def p_expect_var_type(p):
 	'expect_var_type : empty'

@@ -1,0 +1,27 @@
+programa bubble_sort
+	lienzo {
+		variable entero arreglo[10] = { 1, 1, 5, 10, 9, 6, 3, 4, 1, 2 };
+		variable entero n = 10, i = 1, tmp;
+		variable bool swap = verdadero;
+
+		mientras(swap) {
+			swap = falso;
+			i = 1;
+			mientras(i < n) {
+				si(arreglo[i - 1] > arreglo[i]) {
+					tmp = arreglo[i - 1];
+					arreglo[i - 1] = arreglo[i];
+					arreglo[i] = tmp;
+					swap = verdadero;
+				}			
+				i = i + 1;
+			}
+		}
+
+		i = 0;
+		mientras(i < n) {
+			imprimir(arreglo[i]);
+			i = i + 1;
+		}
+	}
+
